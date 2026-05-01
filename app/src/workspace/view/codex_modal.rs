@@ -89,7 +89,7 @@ impl CodexModal {
         // Magenta/pink color for the badge
         let magenta: ColorU = theme.terminal_colors().normal.magenta.into();
         Container::new(
-            Text::new("New", appearance.ui_font_family(), 12.)
+            Text::new("新", appearance.ui_font_family(), 12.)
                 .with_color(magenta)
                 .finish(),
         )
@@ -109,7 +109,7 @@ impl CodexModal {
 
         // Title
         let title = FormattedTextElement::from_str(
-            "Use Codex models in Warp",
+            "在 Warp 中使用 Codex 模型",
             appearance.ui_font_family(),
             24.,
         )

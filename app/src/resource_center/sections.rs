@@ -17,31 +17,31 @@ pub fn sections(ctx: &mut ViewContext<ResourceCenterMainView>) -> Vec<Section> {
         section_name: FeatureSection::GettingStarted,
         items: vec![
             FeatureItem::new(
-                "Create your first block",
+                "创建第一个代码块",
                 "Run a command to see your command and output grouped.",
                 Tip::Hint(TipHint::CreateBlock),
                 ctx,
             ),
             FeatureItem::new(
-                "Navigate blocks",
+                "浏览代码块",
                 "Click to select a block and navigate with arrow keys.",
                 Tip::Hint(TipHint::BlockSelect),
                 ctx,
             ),
             FeatureItem::new(
-                "Take an action on block",
+                "对代码块执行操作",
                 "Right click on a block to copy/paste, share, more.",
                 Tip::Hint(TipHint::BlockAction),
                 ctx,
             ),
             FeatureItem::new(
-                "Open command palette",
+                "打开命令面板",
                 "Access all of Warp via the keyboard.",
                 Tip::Action(TipAction::CommandPalette),
                 ctx,
             ),
             FeatureItem::new(
-                "Set your theme",
+                "设置主题",
                 "Make Warp your own by choosing a theme.",
                 Tip::Action(TipAction::ThemePicker),
                 ctx,
@@ -60,22 +60,22 @@ pub fn sections(ctx: &mut ViewContext<ResourceCenterMainView>) -> Vec<Section> {
         section_name: FeatureSection::AdvancedSetup,
         items: vec![
             ContentItem {
-                title: "Use your custom prompt",
+                title: "使用自定义提示符",
                 description: "Set up Warp to honor your PS1 setting",
                 url: "https://docs.warp.dev/terminal/appearance/prompt",
-                button_label: "View documentation",
+                button_label: "查看文档",
             },
             ContentItem {
-                title: "Integrate Warp with your IDE",
+                title: "将 Warp 与 IDE 集成",
                 description: "Configure Warp to launch from your most used development tools",
                 url: "https://docs.warp.dev/terminal/integrations-and-plugins",
-                button_label: "View documentation",
+                button_label: "查看文档",
             },
             ContentItem {
                 title: "How Warp uses Warp",
                 description: "Learn how Warp's engineering team uses their favorite features",
                 url: "https://www.warp.dev/blog/how-warp-uses-warp",
-                button_label: "Read article",
+                button_label: "阅读文章",
             },
         ],
     };
@@ -112,7 +112,7 @@ fn maximize_warp_items(ctx: &mut ViewContext<ResourceCenterMainView>) -> Vec<Fea
 
     if ContextFlag::LaunchConfigurations.is_enabled() {
         maximize_warp_items.push(FeatureItem::new(
-            "Launch configuration",
+            "启动配置",
             "Save your current configuration of windows, tabs, and panes.",
             Tip::Action(TipAction::SaveNewLaunchConfig),
             ctx,

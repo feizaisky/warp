@@ -97,8 +97,8 @@ impl WarpifyBannerState {
 
     pub fn title(&self) -> &str {
         match &self.mode {
-            WarpificationMode::Ssh { .. } => "Warpify SSH session",
-            WarpificationMode::Subshell { .. } => "Warpify subshell",
+            WarpificationMode::Ssh { .. } => "SSH 会话 Warp 增强",
+            WarpificationMode::Subshell { .. } => "子 Shell Warp 增强",
         }
     }
 
@@ -160,7 +160,7 @@ pub fn render_warpification_banner(
                 ButtonVariant::Text,
                 state.dont_ask_button_mouse_state.clone(),
             )
-            .with_text_label("Do not show again".to_owned())
+            .with_text_label("不再显示".to_owned())
             .build()
             .on_click(move |ctx, _, _| {
                 ctx.dispatch_typed_action(TerminalAction::DismissWarpifyBanner(

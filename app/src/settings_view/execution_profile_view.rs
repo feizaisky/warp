@@ -53,7 +53,7 @@ impl ExecutionProfileView {
         });
 
         let edit_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Edit", SecondaryTheme)
+            ActionButton::new("编辑", SecondaryTheme)
                 .with_icon(Icon::Pencil)
                 .with_size(ButtonSize::Small)
                 .on_click(|ctx| {
@@ -117,14 +117,14 @@ impl View for ExecutionProfileView {
             .as_ref()
             .and_then(|id| llm_preferences.get_llm_info(id))
             .map(|info| info.display_name.clone())
-            .unwrap_or_else(|| "Auto".to_string());
+            .unwrap_or_else(|| "自动".to_string());
 
         let computer_use_model = profile
             .computer_use_model
             .as_ref()
             .and_then(|id| llm_preferences.get_llm_info(id))
             .map(|info| info.display_name.clone())
-            .unwrap_or_else(|| "Auto".to_string());
+            .unwrap_or_else(|| "自动".to_string());
 
         Container::new(
             Flex::column()
@@ -150,7 +150,7 @@ impl View for ExecutionProfileView {
                     let mut model_flex = Flex::column();
                     model_flex.add_child(
                         Container::new(
-                            Text::new("MODELS", appearance.ui_font_family(), 10.)
+                            Text::new("模型", appearance.ui_font_family(), 10.)
                                 .with_color(appearance.theme().disabled_ui_text_color().into())
                                 .finish(),
                         )
@@ -196,7 +196,7 @@ impl View for ExecutionProfileView {
                         let mut permissions_column = Flex::column()
                             .with_child(
                                 Container::new(
-                                    Text::new("PERMISSIONS", appearance.ui_font_family(), 10.)
+                                    Text::new("权限", appearance.ui_font_family(), 10.)
                                         .with_color(
                                             appearance.theme().disabled_ui_text_color().into(),
                                         )
@@ -415,7 +415,7 @@ where
     let items_vec: Vec<String> = items.into_iter().map(|item| item.to_string()).collect();
     if items_vec.is_empty() {
         return Container::new(
-            Text::new("None", appearance.ui_font_family(), 12.)
+            Text::new("无", appearance.ui_font_family(), 12.)
                 .with_color(appearance.theme().disabled_ui_text_color().into())
                 .finish(),
         )
@@ -686,9 +686,9 @@ fn render_action_permission_line_with_icon(
     is_ai_enabled: bool,
 ) -> Box<dyn Element> {
     let permission_text = match permission {
-        ActionPermission::AgentDecides => "Agent decides",
-        ActionPermission::AlwaysAllow => "Always allow",
-        ActionPermission::AlwaysAsk => "Always ask",
+        ActionPermission::AgentDecides => "由智能体决定",
+        ActionPermission::AlwaysAllow => "始终允许",
+        ActionPermission::AlwaysAsk => "始终询问",
         ActionPermission::Unknown => "Unknown",
     };
     render_permission_line_with_icon(icon, label, permission_text, appearance, is_ai_enabled)
@@ -702,9 +702,9 @@ fn render_write_to_pty_permission_line_with_icon(
     is_ai_enabled: bool,
 ) -> Box<dyn Element> {
     let permission_text = match permission {
-        WriteToPtyPermission::AlwaysAllow => "Always allow",
-        WriteToPtyPermission::AlwaysAsk => "Always ask",
-        WriteToPtyPermission::AskOnFirstWrite => "Ask on first write",
+        WriteToPtyPermission::AlwaysAllow => "始终允许",
+        WriteToPtyPermission::AlwaysAsk => "始终询问",
+        WriteToPtyPermission::AskOnFirstWrite => "首次写入时询问",
         WriteToPtyPermission::Unknown => "Unknown",
     };
     render_permission_line_with_icon(icon, label, permission_text, appearance, is_ai_enabled)
@@ -720,8 +720,8 @@ fn render_computer_use_permission_line_with_icon(
     let permission_text = match permission {
         crate::ai::execution_profiles::ComputerUsePermission::Never
         | crate::ai::execution_profiles::ComputerUsePermission::Unknown => "Never",
-        crate::ai::execution_profiles::ComputerUsePermission::AlwaysAsk => "Always ask",
-        crate::ai::execution_profiles::ComputerUsePermission::AlwaysAllow => "Always allow",
+        crate::ai::execution_profiles::ComputerUsePermission::AlwaysAsk => "始终询问",
+        crate::ai::execution_profiles::ComputerUsePermission::AlwaysAllow => "始终允许",
     };
     render_permission_line_with_icon(icon, label, permission_text, appearance, is_ai_enabled)
 }
@@ -734,11 +734,11 @@ fn render_ask_user_question_permission_line_with_icon(
     is_ai_enabled: bool,
 ) -> Box<dyn Element> {
     let permission_text = match permission {
-        AskUserQuestionPermission::Never => "Never ask",
+        AskUserQuestionPermission::Never => "从不询问",
         AskUserQuestionPermission::AskExceptInAutoApprove | AskUserQuestionPermission::Unknown => {
             "Ask unless auto-approve"
         }
-        AskUserQuestionPermission::AlwaysAsk => "Always ask",
+        AskUserQuestionPermission::AlwaysAsk => "始终询问",
     };
     render_permission_line_with_icon(icon, label, permission_text, appearance, is_ai_enabled)
 }

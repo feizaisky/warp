@@ -394,7 +394,7 @@ impl ResourceCenterMainView {
                 .with_text_and_icon_label(
                     TextAndIcon::new(
                         TextAndIconAlignment::IconFirst,
-                        "Invite a friend to Warp",
+                        "邀请好友使用 Warp",
                         Icon::new(SEND_SVG_PATH, appearance.theme().accent()),
                         MainAxisSize::Max,
                         MainAxisAlignment::Center,
@@ -433,7 +433,7 @@ impl ResourceCenterMainView {
 
                     appearance
                         .ui_builder()
-                        .wrappable_text("Mark all as read", false)
+                        .wrappable_text("全部标记为已读", false)
                         .with_style(style)
                         .build()
                         .finish()

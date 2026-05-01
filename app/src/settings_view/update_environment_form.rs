@@ -387,7 +387,7 @@ impl UpdateEnvironmentForm {
             form.update_editor_text_colors(ctx);
         });
         // Create editors
-        let name_editor = Self::create_single_line_editor("Environment name", ctx);
+        let name_editor = Self::create_single_line_editor("环境名称", ctx);
         let description_editor = Self::create_description_editor(ctx);
         let docker_image_editor =
             Self::create_single_line_editor("e.g. python:3.11, node:20-alpine", ctx);
@@ -704,7 +704,7 @@ impl UpdateEnvironmentForm {
         // Update button text based on mode when header is hidden
         if !show_header {
             let button_text = match &self.mode {
-                EnvironmentFormMode::Create => "Create environment",
+                EnvironmentFormMode::Create => "创建环境",
                 EnvironmentFormMode::Edit { .. } => "Save environment",
             };
             self.submit_button.update(ctx, |button, ctx| {
@@ -1532,7 +1532,7 @@ impl UpdateEnvironmentForm {
                         theme.active_ui_text_color()
                     };
 
-                    Text::new_inline("Share with team", font_family, font_size)
+                    Text::new_inline("与团队共享", font_family, font_size)
                         .with_color(color.into())
                         .finish()
                 },
@@ -1569,7 +1569,7 @@ impl UpdateEnvironmentForm {
 
         Some(render_warning_box(
             WarningBoxConfig::new(
-                "Personal environments cannot be used with external integrations or team API keys. For the best experience, use shared environments.",
+                "个人环境不支持外部集成或团队 API 密钥，建议使用共享环境以获得最佳体验。",
             )
             .with_width(DROPDOWN_MAX_WIDTH),
             appearance,
@@ -1614,8 +1614,8 @@ impl UpdateEnvironmentForm {
 
     fn render_header(&self, appearance: &Appearance, app: &AppContext) -> Box<dyn Element> {
         let (title, button_handle) = match &self.mode {
-            EnvironmentFormMode::Create => ("Create environment", &self.submit_button),
-            EnvironmentFormMode::Edit { .. } => ("Edit environment", &self.submit_button),
+            EnvironmentFormMode::Create => ("创建环境", &self.submit_button),
+            EnvironmentFormMode::Edit { .. } => ("编辑环境", &self.submit_button),
         };
 
         let submit_actions = || self.render_submit_actions(appearance, app, button_handle);
@@ -1741,7 +1741,7 @@ impl UpdateEnvironmentForm {
             .with_spacing(FORM_LABEL_SPACING);
 
         field.add_child(Self::render_form_label(
-            "Setup command(s)",
+            "设置命令",
             false,
             appearance,
         ));
@@ -1996,7 +1996,7 @@ impl UpdateEnvironmentForm {
                         )
                         .with_child(
                             Text::new(
-                                "Auth with GitHub",
+                                "通过 GitHub 授权",
                                 appearance.ui_font_family(),
                                 appearance.ui_font_size(),
                             )
@@ -2389,7 +2389,7 @@ impl UpdateEnvironmentForm {
                         theme.accent()
                     };
                     Text::new(
-                        "Configure access on GitHub",
+                        "在 GitHub 上配置访问权限",
                         appearance.ui_font_family(),
                         appearance.ui_font_size() * 0.85,
                     )
@@ -2961,7 +2961,7 @@ impl UpdateEnvironmentForm {
 
         // Label (without suggest button)
         field.add_child(Self::render_form_label(
-            "Docker image reference",
+            "Docker 镜像引用",
             true,
             appearance,
         ));
@@ -3060,7 +3060,7 @@ impl UpdateEnvironmentForm {
         let button_text = if is_loading {
             "Generating…"
         } else {
-            "Suggest image"
+            "推荐镜像"
         };
 
         let tooltip_text = "Warp will suggest a Docker image based on your selected repositories.";
@@ -3216,7 +3216,7 @@ impl UpdateEnvironmentForm {
     ) -> Box<dyn Element> {
         let action = UpdateEnvironmentFormAction::LaunchAgentForSelectedRepos;
         let button = WarningBoxButtonConfig::new(
-            "Launch agent",
+            "启动智能体",
             self.suggest_image_launch_agent_button_mouse_state.clone(),
             move |ctx| {
                 ctx.dispatch_typed_action(action.clone());

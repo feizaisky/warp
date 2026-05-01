@@ -205,10 +205,9 @@ impl FreeTierLimitHitModal {
                             Container::new({
                                 let credits_text = if let Some(plan) = Self::get_build_plan_details(app) {
                                     let limit = plan.request_limit.unwrap_or(1500);
-                                    format!("{} Credits per month", limit.separate_with_commas())
+                                    format!("{} 每月点数", limit.separate_with_commas())
                                 } else {
-                                    "Extended Credits per month".to_string()
-                                };
+                                    "每月扩展点数".to_string()                                };
                                 Self::render_checklist_item_dynamic(credits_text, appearance, theme)
                             })
                             .with_margin_bottom(8.)
@@ -230,7 +229,7 @@ impl FreeTierLimitHitModal {
                                 let formatted_text = FormattedText::new([FormattedTextLine::Line(vec![
                                     FormattedTextFragment::plain_text("Access to "),
                                     FormattedTextFragment::hyperlink(
-                                        "Reload Credits".to_string(),
+                                        "充值点数".to_string(),
                                         "https://docs.warp.dev/support-and-community/plans-and-billing/add-on-credits".to_string(),
                                     ),
                                 ])]);
@@ -273,7 +272,7 @@ impl FreeTierLimitHitModal {
                             Container::new({
                                 let formatted_text = FormattedText::new([FormattedTextLine::Line(vec![
                                     FormattedTextFragment::hyperlink(
-                                        "Extended cloud agents access".to_string(),
+                                        "扩展云端智能体访问".to_string(),
                                         "https://www.warp.dev/oz".to_string(),
                                     ),
                                 ])]);
@@ -327,7 +326,7 @@ impl FreeTierLimitHitModal {
                                 width: Some(296.),
                                 ..Default::default()
                             })
-                            .with_centered_text_label("Upgrade plan".to_string())
+                            .with_centered_text_label("升级套餐".to_string())
                             .build()
                             .with_cursor(Cursor::PointingHand)
                             .on_click(move |ctx, _, _| {

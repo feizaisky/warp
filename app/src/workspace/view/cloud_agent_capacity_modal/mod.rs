@@ -127,7 +127,7 @@ impl CloudAgentCapacityModal {
         let neutral_bg = blended_colors::neutral_1(theme);
         let (title_text, mut explanation_text) = match self.variant {
             CloudAgentCapacityModalVariant::ConcurrentLimit => (
-                "Concurrent cloud agent limit reached",
+                "已达到并发云端智能体上限",
                 "This cloud run is queued because your team has reached the maximum number of concurrent cloud agents. It will start automatically when another cloud run finishes.".to_string(),
             ),
             CloudAgentCapacityModalVariant::OutOfCredits => (
@@ -213,16 +213,14 @@ impl CloudAgentCapacityModal {
             // Credits text from plan pricing
             let credits_text = if let Some(limit) = plan_pricing.and_then(|plan| plan.request_limit)
             {
-                format!("{} AI credits per month", limit.separate_with_commas())
+                format!("{} 每月 AI 点数", limit.separate_with_commas())
             } else {
-                "Extended AI credits per month".to_string()
+                "每月扩展 AI 点数".to_string()
             };
-
-            // Benefits list based on plan type
             let mut benefits = vec![
                 format!("{} the number of concurrent cloud agents", agent_multiplier),
                 credits_text,
-                "Bring your own API key".to_string(),
+                "使用自己的 API 密钥".to_string(),
             ];
             for extra in extra_benefits {
                 benefits.push(extra.to_string());
@@ -277,9 +275,9 @@ impl CloudAgentCapacityModal {
         let content = content.finish();
         let cta_button = if show_cta {
             let cta_button_label = if can_upgrade {
-                "Upgrade plan"
+                "升级套餐"
             } else {
-                "Open billing"
+                "打开账单"
             };
             Some(
                 appearance

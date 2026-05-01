@@ -100,7 +100,7 @@ pub struct AgentAssistedEnvironmentModal {
 impl AgentAssistedEnvironmentModal {
     pub fn new(ctx: &mut ViewContext<Self>) -> Self {
         let add_repo_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Add repo", SecondaryTheme)
+            ActionButton::new("添加仓库", SecondaryTheme)
                 .with_size(ButtonSize::Small)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(
@@ -110,13 +110,13 @@ impl AgentAssistedEnvironmentModal {
         });
 
         let cancel_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Cancel", SecondaryTheme).on_click(|ctx| {
+            ActionButton::new("取消", SecondaryTheme).on_click(|ctx| {
                 ctx.dispatch_typed_action(AgentAssistedEnvironmentModalAction::Cancel);
             })
         });
 
         let create_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Create environment", PrimaryTheme).on_click(|ctx| {
+            ActionButton::new("创建环境", PrimaryTheme).on_click(|ctx| {
                 ctx.dispatch_typed_action(AgentAssistedEnvironmentModalAction::Confirm);
             })
         });
@@ -332,12 +332,12 @@ impl AgentAssistedEnvironmentModal {
             .with_cross_axis_alignment(CrossAxisAlignment::Stretch)
             .with_spacing(8.);
 
-        col.add_child(self.render_section_title("Selected repos", appearance));
+        col.add_child(self.render_section_title("已选仓库", appearance));
 
         if self.selected_repo_paths.is_empty() {
             col.add_child(
                 Text::new(
-                    "No repos selected yet",
+                    "尚未选择仓库",
                     appearance.ui_font_family(),
                     appearance.ui_font_size() * 0.95,
                 )
@@ -413,7 +413,7 @@ impl AgentAssistedEnvironmentModal {
             .with_child(
                 Expanded::new(
                     1.,
-                    self.render_section_title("Available indexed repos", appearance),
+                    self.render_section_title("可用的已索引仓库", appearance),
                 )
                 .finish(),
             )
@@ -639,7 +639,7 @@ impl AgentAssistedEnvironmentModal {
             .finish();
 
         let dialog = Dialog::new(
-            "Select repos for your environment".to_string(),
+            "为您的环境选择仓库".to_string(),
             Some(description),
             dialog_styles(appearance),
         )

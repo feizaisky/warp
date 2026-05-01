@@ -52,7 +52,7 @@ use crate::{
 use super::theme;
 
 // All units in px
-const THEME_CHOOSER_TITLE: &str = "Themes";
+const THEME_CHOOSER_TITLE: &str = "主题";
 const CLOSE_BUTTON_MARGIN_RIGHT: f32 = 6.;
 const TITLE_FONT_SIZE: f32 = 16.;
 const TITLE_MARGIN: f32 = 12.;

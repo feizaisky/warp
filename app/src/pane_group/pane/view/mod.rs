@@ -41,7 +41,7 @@ pub fn init(app: &mut AppContext) {
 
     app.register_editable_bindings([EditableBinding::new(
         "pane:share_pane_contents",
-        "Share pane",
+        "共享窗格 (Share pane)",
         PaneAction::ShareContents,
     )
     .with_custom_action(CustomAction::SharePaneContents)

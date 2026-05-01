@@ -107,7 +107,7 @@ impl View for RewindConfirmationDialog {
         let rewind_button_label = Flex::row()
             .with_cross_axis_alignment(CrossAxisAlignment::Center)
             .with_child(
-                Text::new_inline("Rewind", appearance.ui_font_family(), 14.)
+                Text::new_inline("回退", appearance.ui_font_family(), 14.)
                     .with_color(text_color)
                     .finish(),
             )
@@ -161,7 +161,7 @@ impl View for RewindConfirmationDialog {
                 } else {
                     cancel_text_color
                 };
-                Text::new_inline("Cancel", appearance.ui_font_family(), 14.)
+                Text::new_inline("取消", appearance.ui_font_family(), 14.)
                     .with_color(color.into_solid())
                     .finish()
             })
@@ -199,9 +199,9 @@ impl View for RewindConfirmationDialog {
 
         let dialog = Container::new(
             Dialog::new(
-                "Rewind".into(),
+                "回退".into(),
                 Some(
-                    "Are you sure you want to rewind? This will restore your code and conversation to before this point, and cancel any commands the agent is currently running. A copy of the original conversation will be saved in your conversation history."
+                    "确定要回退吗？这将把您的代码和对话恢复到此点之前的状态，并取消智能体当前正在运行的所有命令。原始对话的副本将保存在您的对话历史中。"
                         .into(),
                 ),
                 UiComponentStyles {

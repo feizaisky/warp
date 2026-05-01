@@ -36,12 +36,12 @@ const BUTTON_BORDER_RADIUS: f32 = 4.;
 const BORDER_WIDTH: f32 = 1.;
 
 const MODAL_SUBHEADER: &str =
-    "Automatically generate a theme based on extracted colors from an image (.png, .jpg).";
-const IMAGE_PICKER_BUTTON_PRE_SELECT_TEXT: &str = "Select an image";
-const IMAGE_PICKER_BUTTON_SELECTING_TEXT: &str = "Selecting image...";
-const IMAGE_PICKER_BUTTON_POST_SELECT_TEXT: &str = "Select a new image";
-const CANCEL_BUTTON_TEXT: &str = "Cancel";
-const CREATE_BUTTON_TEXT: &str = "Create theme";
+    "根据图片（.png、.jpg）提取的颜色自动生成主题。";
+const IMAGE_PICKER_BUTTON_PRE_SELECT_TEXT: &str = "选择图片";
+const IMAGE_PICKER_BUTTON_SELECTING_TEXT: &str = "选择图片中...";
+const IMAGE_PICKER_BUTTON_POST_SELECT_TEXT: &str = "选择新图片";
+const CANCEL_BUTTON_TEXT: &str = "取消";
+const CREATE_BUTTON_TEXT: &str = "创建主题";
 
 #[derive(Default)]
 struct MouseStateHandles {
@@ -211,8 +211,7 @@ impl ThemeCreatorBody {
             #[cfg(not(feature = "local_fs"))]
             log::warn!("Tried to save theme without a local filesystem.");
             if errored {
-                self.send_error_toast("Something went wrong".to_string(), ctx);
-            }
+                self.send_error_toast("Something went wrong".to_string(), ctx);            }
         }
     }
 
@@ -445,7 +444,7 @@ impl View for ThemeCreatorBody {
         if let Some(theme_options) = &self.theme_options {
             flex.add_child(
                 Container::new(
-                    Text::new_inline("Theme name", appearance.ui_font_family(), 14.)
+                    Text::new_inline("主题名称", appearance.ui_font_family(), 14.)
                         .with_color(appearance.theme().active_ui_text_color().into())
                         .finish(),
                 )
@@ -474,7 +473,7 @@ impl View for ThemeCreatorBody {
 
             flex.add_child(
                 Container::new(
-                    Text::new_inline("Background color", appearance.ui_font_family(), 14.)
+                    Text::new_inline("背景色", appearance.ui_font_family(), 14.)
                         .with_color(appearance.theme().active_ui_text_color().into())
                         .finish(),
                 )

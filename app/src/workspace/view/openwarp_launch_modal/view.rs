@@ -44,7 +44,7 @@ struct FeatureItem {
 const FEATURE_ITEMS: &[FeatureItem] = &[
     FeatureItem {
         icon: Icon::HeartHand,
-        title: "Contribute",
+        title: "贡献",
         description: "Warp's client code is now open source. Get started by using the /feedback skill to open an issue, and follow the contribution guidelines here.",
         inline_link: Some(InlineLink {
             text: "here",
@@ -53,7 +53,7 @@ const FEATURE_ITEMS: &[FeatureItem] = &[
     },
     FeatureItem {
         icon: Icon::Oz,
-        title: "Open Automated Development",
+        title: "开放自动化开发 (Open Automated Development)",
         description: "The Warp repo is managed by an agent-first workflow powered by Oz, our cloud agent orchestration platform.",
         inline_link: Some(InlineLink {
             text: "Oz",
@@ -142,7 +142,7 @@ impl OpenWarpLaunchModal {
         });
 
         let cta_button = ctx.add_view(|_ctx| {
-            ActionButton::new("Visit the repo", CtaButtonTheme)
+            ActionButton::new("访问仓库", CtaButtonTheme)
                 .with_full_width(true)
                 .on_click(|ctx| ctx.dispatch_typed_action(OpenWarpLaunchModalAction::VisitRepo))
         });
@@ -191,7 +191,7 @@ impl OpenWarpLaunchModal {
 
     fn render_badge(appearance: &Appearance) -> Box<dyn Element> {
         Container::new(
-            Text::new_inline("New".to_string(), appearance.ui_font_family(), 14.)
+            Text::new_inline("新".to_string(), appearance.ui_font_family(), 14.)
                 .with_color(PhenomenonStyle::modal_badge_text())
                 .finish(),
         )

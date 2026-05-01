@@ -77,7 +77,7 @@ const EMAIL_EDITOR_WIDTH: f32 = 100.;
 
 const SHARING_DIALOG_WIDTH: f32 = 425.;
 
-const NO_ACCESS_LABEL: &str = "No access";
+const NO_ACCESS_LABEL: &str = "无权限";
 
 #[derive(Default)]
 struct UiStateHandles {
@@ -248,7 +248,7 @@ impl SharingDialog {
             email_editor: ctx.add_typed_action_view(|ctx| {
                 let mut view = WordBlockEditorView::new(
                     ctx,
-                    "Emails",
+                    "邮箱",
                     13.,
                     vec![' ', ','],
                     EMAIL_CHIP_WIDTH,
@@ -985,7 +985,7 @@ impl SharingDialog {
                 if !is_team_guest || !is_session {
                     items.push(MenuItem::Separator);
                     items.push(
-                        MenuItemFields::new("Remove")
+                        MenuItemFields::new("移除")
                             .with_on_select_action(SharingDialogAction::RemoveGuest)
                             .with_disabled(inherited_access)
                             .into_item(),
@@ -1422,7 +1422,7 @@ impl SharingDialog {
                 ButtonVariant::Accent,
                 self.ui_state_handles.invite_button.clone(),
             )
-            .with_centered_text_label("Invite".into())
+            .with_centered_text_label("邀请".into())
             .with_style(UiComponentStyles {
                 // Adjust the height to match the email editor's padding.
                 height: Some(style::ACL_ITEM_HEIGHT + 6.),
@@ -1760,7 +1760,7 @@ impl SharingDialog {
     fn render_access_header(&self, appearance: &Appearance) -> Box<dyn Element> {
         appearance
             .ui_builder()
-            .span("Who has access")
+            .span("有权限的人")
             .with_style(UiComponentStyles {
                 font_color: Some(style::label_text(appearance)),
                 font_size: Some(style::PRIMARY_TEXT_SIZE),
@@ -1998,13 +1998,13 @@ impl SharingDialog {
         let is_ai_conversation = matches!(self.target, Some(ShareableObject::AIConversation(_)));
 
         let mut items = vec![
-            MenuItemFields::new("Only people invited")
+            MenuItemFields::new("仅受邀人员")
                 .with_on_select_action(SharingDialogAction::SetLinkPermissions(None))
                 .with_icon(Icon::Lock)
                 .with_disabled(inherited_access)
                 .into_item(),
             MenuItem::Separator,
-            MenuItemFields::new("Anyone with the link")
+            MenuItemFields::new("持链接的任何人")
                 .with_no_interaction_on_hover()
                 .with_icon(Icon::Globe)
                 .into_item(),
@@ -2179,13 +2179,13 @@ impl SharingDialog {
         let inherited_access = self.team_sharing_state.inheritance.is_some();
         let current_access_level = self.team_sharing_state.access_level;
         let items = [
-            MenuItemFields::new("Only invited teammates")
+            MenuItemFields::new("仅受邀团队成员")
                 .with_on_select_action(SharingDialogAction::SetTeamPermissions(None))
                 .with_icon(Icon::Lock)
                 .with_disabled(inherited_access)
                 .into_item(),
             MenuItem::Separator,
-            MenuItemFields::new("Teammates with the link")
+            MenuItemFields::new("持链接的团队成员")
                 .with_no_interaction_on_hover()
                 .with_icon(Icon::Users)
                 .into_item(),
@@ -2424,7 +2424,7 @@ impl SharingDialog {
             .with_text_and_icon_label(
                 TextAndIcon::new(
                     TextAndIconAlignment::IconFirst,
-                    "Copy link",
+                    "复制链接",
                     Icon::Link.to_warpui_icon(copy_button_foreground),
                     MainAxisSize::Min,
                     MainAxisAlignment::SpaceBetween,

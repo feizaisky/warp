@@ -356,7 +356,7 @@ impl KeybindingsView {
                         .build()
                         .finish(),
                 )
-                .with_child(self.render_text("To toggle this panel".into(), None, appearance))
+                .with_child(self.render_text("切换此面板".into(), None, appearance))
                 .with_cross_axis_alignment(CrossAxisAlignment::Center)
                 .finish();
 
@@ -371,7 +371,7 @@ impl KeybindingsView {
             appearance
                 .ui_builder()
                 .link(
-                    "here.".into(),
+                    "此处。".into(),
                     None,
                     Some(Box::new(|ctx| {
                         ctx.dispatch_typed_action(WorkspaceAction::ConfigureKeybindingSettings {
@@ -394,7 +394,7 @@ impl KeybindingsView {
         Container::new(
             column
                 .with_child(self.render_text(
-                    "Go to settings > keyboard shortcuts to configure custom keybindings".into(),
+                    "前往设置 > 键盘快捷键配置自定义快捷键".into(),
                     None,
                     appearance,
                 ))
@@ -422,11 +422,11 @@ impl KeybindingsView {
             Flex::column().with_cross_axis_alignment(CrossAxisAlignment::Stretch);
 
         let title = match section {
-            KeybindingSection::Essentials => "Essentials",
-            KeybindingSection::Blocks => "Blocks",
-            KeybindingSection::InputEditor => "Input Editor",
-            KeybindingSection::Terminal => "Terminal",
-            KeybindingSection::Fundamentals => "Fundamentals",
+            KeybindingSection::Essentials => "基础",
+            KeybindingSection::Blocks => "代码块",
+            KeybindingSection::InputEditor => "输入编辑器",
+            KeybindingSection::Terminal => "终端",
+            KeybindingSection::Fundamentals => "基础操作",
         };
 
         let mut section_header = self.render_text(

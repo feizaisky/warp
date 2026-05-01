@@ -39,9 +39,9 @@ impl FeatureSection {
     pub fn section_name_string(&self) -> &'static str {
         match self {
             FeatureSection::WhatsNew => "What's New?",
-            FeatureSection::GettingStarted => "Getting Started",
-            FeatureSection::MaximizeWarp => "Maximize Warp",
-            FeatureSection::AdvancedSetup => "Advanced Setup",
+            FeatureSection::GettingStarted => "快速入门",
+            FeatureSection::MaximizeWarp => "深度使用 Warp (Maximize Warp)",
+            FeatureSection::AdvancedSetup => "高级配置",
         }
     }
 }

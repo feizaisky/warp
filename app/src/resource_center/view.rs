@@ -49,9 +49,9 @@ pub enum ResourceCenterFooterItem {
 impl ResourceCenterFooterItem {
     pub fn ui_label(&self) -> &'static str {
         match self {
-            ResourceCenterFooterItem::Docs => "Docs",
+            ResourceCenterFooterItem::Docs => "文档",
             ResourceCenterFooterItem::Slack => "Slack",
-            ResourceCenterFooterItem::Feedback => "Feedback",
+            ResourceCenterFooterItem::Feedback => "反馈",
         }
     }
 
@@ -331,12 +331,12 @@ impl ResourceCenterView {
         let current_page = self.page_views.get(self.current_view_index).map(|x| x.page);
 
         let header_text = match current_page {
-            Some(ResourceCenterPage::Keybindings) => "Keyboard Shortcuts".to_string(),
+            Some(ResourceCenterPage::Keybindings) => "键盘快捷键".to_string(),
             _ => {
                 if FeatureFlag::AvatarInTabBar.is_enabled() {
                     String::new()
                 } else {
-                    "Warp Essentials".to_string()
+                    "Warp 精华".to_string()
                 }
             }
         };

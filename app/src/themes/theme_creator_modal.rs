@@ -16,7 +16,7 @@ use warpui::ViewHandle;
 use warpui::{AppContext, SingletonEntity as _};
 use warpui::{Element, Entity, TypedActionView, View, ViewContext};
 
-const THEME_CREATOR_MODAL_HEADER: &str = "Create new theme from image";
+const THEME_CREATOR_MODAL_HEADER: &str = "从图片创建新主题";
 
 pub struct ThemeCreatorModal {
     theme_creator_modal: ViewHandle<Modal<ThemeCreatorBody>>,
