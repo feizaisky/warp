@@ -101,7 +101,7 @@ impl FreeUserNoAiSlide {
     fn render_header(&self, appearance: &Appearance) -> Box<dyn Element> {
         appearance
             .ui_builder()
-            .paragraph("Let's get started.")
+            .paragraph("开始吧。")
             .with_style(UiComponentStyles {
                 font_size: Some(36.),
                 font_weight: Some(Weight::Medium),
@@ -300,7 +300,7 @@ impl FreeUserNoAiSlide {
         let back_button = self.back_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Back".into()),
+                content: button::Content::Label("返回".into()),
                 theme: &button::themes::Naked,
                 options: button::Options {
                     on_click: Some(Box::new(|ctx, _app, _pos| {
@@ -316,7 +316,7 @@ impl FreeUserNoAiSlide {
             self.next_button.render(
                 appearance,
                 button::Params {
-                    content: button::Content::Label("Get Warping".into()),
+                    content: button::Content::Label("开始 Warp 之旅".into()),
                     theme: &button::themes::Primary,
                     options: button::Options {
                         keystroke: Some(enter),
@@ -331,7 +331,7 @@ impl FreeUserNoAiSlide {
             self.subscribe_nav_button.render(
                 appearance,
                 button::Params {
-                    content: button::Content::Label("Subscribe".into()),
+                    content: button::Content::Label("订阅".into()),
                     theme: &button::themes::Primary,
                     options: button::Options {
                         on_click: Some(Box::new(|ctx, _app, _pos| {
@@ -345,7 +345,7 @@ impl FreeUserNoAiSlide {
             self.next_button.render(
                 appearance,
                 button::Params {
-                    content: button::Content::Label("Next".into()),
+                    content: button::Content::Label("下一步".into()),
                     theme: &button::themes::Primary,
                     options: button::Options {
                         disabled: true,

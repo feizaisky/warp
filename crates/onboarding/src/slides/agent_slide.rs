@@ -323,7 +323,7 @@ impl AgentSlide {
     fn render_header(&self, appearance: &Appearance) -> Box<dyn Element> {
         let title = appearance
             .ui_builder()
-            .paragraph("Customize your Warp Agent")
+            .paragraph("自定义 Warp 智能体")
             .with_style(UiComponentStyles {
                 font_size: Some(36.),
                 font_weight: Some(Weight::Medium),
@@ -975,7 +975,7 @@ impl AgentSlide {
         let back_button = self.back_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Back".into()),
+                content: button::Content::Label("返回".into()),
                 theme: &button::themes::Naked,
                 options: button::Options {
                     on_click: Some(Box::new(|ctx, _app, _pos| {
@@ -990,7 +990,7 @@ impl AgentSlide {
         let next_button = self.next_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Next".into()),
+                content: button::Content::Label("下一步".into()),
                 theme: &button::themes::Primary,
                 options: button::Options {
                     keystroke: Some(enter),
@@ -1076,7 +1076,7 @@ impl AgentSlide {
         let upgrade_button = self.upgrade_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Upgrade".into()),
+                content: button::Content::Label("升级".into()),
                 theme: &UpgradeButtonTheme,
                 options: button::Options {
                     size: button::Size::Small,
@@ -1205,7 +1205,7 @@ impl AgentSlide {
             .with_child(
                 Container::new(
                     ui_builder
-                        .span("If your browser hasn't launched, ")
+                        .span("如果浏览器没有自动启动，")
                         .with_style(text_styles)
                         .build()
                         .finish(),
@@ -1270,7 +1270,7 @@ impl AgentSlide {
         .finish();
 
         let text = ui_builder
-            .span("Plan successfully activated. All premium models are available.")
+            .span("套餐已成功激活，所有高级模型均可使用。")
             .with_style(UiComponentStyles {
                 font_color: Some(text_color),
                 font_size: Some(FONT_SIZE),

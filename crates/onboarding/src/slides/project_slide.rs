@@ -123,7 +123,7 @@ impl ProjectSlide {
     fn render_header(&self, appearance: &Appearance) -> Box<dyn Element> {
         let title = appearance
             .ui_builder()
-            .paragraph("Open a project")
+            .paragraph("打开项目")
             .with_style(UiComponentStyles {
                 font_size: Some(36.),
                 font_weight: Some(Weight::Medium),
@@ -134,7 +134,7 @@ impl ProjectSlide {
 
         let subtitle = appearance
             .ui_builder()
-            .paragraph("Set up a project to optimize it for coding in Warp.")
+            .paragraph("配置一个项目，让 Warp 为编码体验做最佳优化。")
             .with_style(UiComponentStyles {
                 font_size: Some(20.),
                 font_weight: Some(Weight::Normal),
@@ -212,7 +212,7 @@ impl ProjectSlide {
                 let folder_text = Container::new(
                     appearance
                         .ui_builder()
-                        .paragraph("Open local folder")
+                        .paragraph("打开本地文件夹")
                         .with_style(UiComponentStyles {
                             font_color: Some(text_color),
                             ..Default::default()
@@ -279,7 +279,7 @@ impl ProjectSlide {
         let back_button = self.back_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Back".into()),
+                content: button::Content::Label("返回".into()),
                 theme: &button::themes::Naked,
                 options: button::Options {
                     on_click: Some(Box::new(|ctx, _app, _pos| {
