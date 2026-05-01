@@ -116,7 +116,7 @@ impl CloudSetupGuideView {
         );
 
         let visit_oz_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Visit Oz", SecondaryTheme)
+            ActionButton::new("访问 Oz (Visit Oz)", SecondaryTheme)
                 .on_click(|ctx| ctx.dispatch_typed_action(CloudSetupGuideAction::VisitOz))
         });
 
@@ -144,7 +144,7 @@ impl CloudSetupGuideView {
         let mut header_container = Flex::column().with_spacing(8.);
 
         let title = Text::new(
-            "Getting started with Oz cloud agents",
+            "开始使用 Oz 云端 Agent (Getting started with Oz cloud agents)",
             appearance.ui_font_family(),
             title_font_size,
         )
@@ -154,7 +154,7 @@ impl CloudSetupGuideView {
         header_container.add_child(title);
 
         let subtitle = Text::new(
-            "Start Oz cloud agents directly in Warp from an integration (Linear, Slack), with an event (GitHub, built-in schedule), or programmatically with the Oz SDK or CLI.",
+            "可通过集成（Linear、Slack）、事件（GitHub、内置计划）或以编程方式（Oz SDK 或 CLI）在 Warp 中直接启动 Oz 云端 Agent。",
             appearance.ui_font_family(),
             subtitle_font_size,
         )
@@ -166,7 +166,7 @@ impl CloudSetupGuideView {
         let docs_line = Flex::row()
             .with_child(
                 Text::new_inline(
-                    "Check out the ",
+                    "查看",
                     appearance.ui_font_family(),
                     subtitle_font_size,
                 )
@@ -177,7 +177,7 @@ impl CloudSetupGuideView {
                 appearance
                     .ui_builder()
                     .link(
-                        "Oz documentation".to_string(),
+                        "Oz 文档 (Oz documentation)".to_string(),
                         None,
                         Some(Box::new(|ctx| {
                             ctx.dispatch_typed_action(CloudSetupGuideAction::OpenDocs {
@@ -195,7 +195,7 @@ impl CloudSetupGuideView {
             )
             .with_child(
                 Text::new_inline(
-                    " to learn more.",
+                    "以了解更多。",
                     appearance.ui_font_family(),
                     subtitle_font_size,
                 )
@@ -213,7 +213,7 @@ impl CloudSetupGuideView {
         let font_size = 16.;
 
         let text = Text::new_inline(
-            "Quick start: Visit oz.warp.dev for a UI-based setup experience.",
+            "快速开始：访问 oz.warp.dev 以获取基于 UI 的设置体验。",
             appearance.ui_font_family(),
             font_size,
         )
@@ -247,7 +247,7 @@ impl CloudSetupGuideView {
         let font_size = 16.;
 
         Text::new(
-            "Manual setup: Create a Slack or Linear integration with the Oz CLI",
+            "手动设置：使用 Oz CLI 创建 Slack 或 Linear 集成",
             appearance.ui_font_family(),
             font_size,
         )
@@ -430,7 +430,7 @@ impl CloudSetupGuideView {
             .with_child(Self::render_step_number(1, appearance))
             .with_child(
                 Text::new(
-                    "Create an environment",
+                    "创建环境 (Create an environment)",
                     appearance.ui_font_family(),
                     step_title_font_size,
                 )
@@ -442,7 +442,7 @@ impl CloudSetupGuideView {
 
         let description = Container::new(
             Text::new(
-                "First, set up an environment to create an integration.",
+                "首先，设置一个环境以创建集成。",
                 appearance.ui_font_family(),
                 step_desc_font_size,
             )
@@ -453,8 +453,8 @@ impl CloudSetupGuideView {
         .finish();
 
         let sub_description = Container::new(Self::render_description_with_link(
-            "Use Warp's environment setup command to have an agent help you through it. ",
-            "Visit docs",
+            "使用 Warp 的环境设置命令，让 Agent 协助您完成。",
+            "查看文档 (Visit docs)",
             self.env_docs_link_mouse_state.clone(),
             SetupGuideDocs::Environment,
             appearance,
@@ -473,7 +473,7 @@ impl CloudSetupGuideView {
 
         let or_text = Container::new(
             Text::new(
-                "Or, supply your own existing docker image.",
+                "或者，提供您现有的 Docker 镜像。",
                 appearance.ui_font_family(),
                 step_desc_font_size,
             )
@@ -515,7 +515,7 @@ impl CloudSetupGuideView {
             .with_child(Self::render_step_number(2, appearance))
             .with_child(
                 Text::new(
-                    "Create an integration",
+                    "创建集成 (Create an integration)",
                     appearance.ui_font_family(),
                     step_title_font_size,
                 )
@@ -526,8 +526,8 @@ impl CloudSetupGuideView {
             .finish();
 
         let sub_description = Container::new(Self::render_description_with_link(
-            "Integrate Slack or Linear to assign Warp's Agent tasks with @Warp. ",
-            "Visit docs",
+            "集成 Slack 或 Linear，使用 @Warp 将任务分配给 Warp Agent。",
+            "查看文档 (Visit docs)",
             self.integration_docs_link_mouse_state.clone(),
             SetupGuideDocs::Integration,
             appearance,

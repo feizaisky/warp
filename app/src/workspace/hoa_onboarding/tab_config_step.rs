@@ -56,7 +56,7 @@ where
 {
     let callout_bg = callout_background_fill(appearance).into_solid();
     let title = Text::new(
-        "Create your first tab config",
+        "\u{521b}\u{5efa}\u{60a8}\u{7684}\u{7b2c}\u{4e00}\u{4e2a}\u{6807}\u{7b7e}\u{9875}\u{914d}\u{7f6e}",
         appearance.ui_font_family(),
         16.,
     )
@@ -65,7 +65,7 @@ where
     .finish();
 
     let description = Text::new(
-        "Set up a reusable starting point for your tabs. Pick a repo, choose a session type, and optionally attach a worktree. Use it whenever you want to open a tab with this setup.",
+        "\u{4e3a}\u{60a8}\u{7684}\u{6807}\u{7b7e}\u{9875}\u{8bbe}\u{7f6e}\u{53ef}\u{590d}\u{7528}\u{7684}\u{8d77}\u{59cb}\u{70b9}\u{3002}\u{9009}\u{62e9}\u{4e00}\u{4e2a}\u{4ed3}\u{5e93}\u{3001}\u{9009}\u{62e9}\u{4f1a}\u{8bdd}\u{7c7b}\u{578b}\u{5e76}\u{53ef}\u{9009}\u{6302}\u{8f7d}\u{5de5}\u{4f5c}\u{6811}\u{3002}\u{5f53}\u{60a8}\u{60f3}\u{4ee5}\u{6b64}\u{914d}\u{7f6e}\u{6253}\u{5f00}\u{6807}\u{7b7e}\u{9875}\u{65f6}\u{968f}\u{65f6}\u{53ef}\u{7528}\u{3002}",
         appearance.ui_font_family(),
         14.,
     )

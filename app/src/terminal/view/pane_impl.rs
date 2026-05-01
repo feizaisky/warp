@@ -1109,6 +1109,6 @@ fn default_agent_conversation_title(is_ambient_agent: bool) -> String {
     if is_ambient_agent {
         "New cloud agent".to_owned()
     } else {
-        "New agent conversation".to_owned()
+        "\u{65b0}\u{5efa}\u{667a}\u{80fd}\u{4f53}\u{5bf9}\u{8bdd}".to_owned()
     }
 }

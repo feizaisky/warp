@@ -28,23 +28,23 @@ struct FeatureItem {
 const FEATURE_ITEMS: &[FeatureItem] = &[
     FeatureItem {
         icon: Icon::LayoutAlt01,
-        title: "Vertical tabs",
-        description: "Rich tab titles and metadata like git branch, worktree, and PR. Fully customizable.",
+        title: "\u{5782}\u{76f4}\u{6807}\u{7b7e}\u{9875}",
+        description: "\u{4e30}\u{5bcc}\u{7684}\u{6807}\u{7b7e}\u{9875}\u{6807}\u{9898}\u{4e0e}\u{5143}\u{6570}\u{636e}，\u{5305}\u{62ec} git \u{5206}\u{652f}\u{3001}\u{5de5}\u{4f5c}\u{6811}\u{548c} PR，\u{5b8c}\u{5168}\u{53ef}\u{81ea}\u{5b9a}\u{4e49}\u{3002}",
     },
     FeatureItem {
         icon: Icon::Sliders,
-        title: "Tab configs",
-        description: "Tab-level schema to set your directory, startup commands, theme, and worktree with one click",
+        title: "\u{6807}\u{7b7e}\u{9875}\u{914d}\u{7f6e}",
+        description: "\u{6807}\u{7b7e}\u{9875}\u{7ea7}\u{914d}\u{7f6e}\u{65b9}\u{6848}，\u{4e00}\u{952e}\u{8bbe}\u{7f6e}\u{76ee}\u{5f55}\u{3001}\u{542f}\u{52a8}\u{547d}\u{4ee4}\u{3001}\u{4e3b}\u{9898}\u{548c}\u{5de5}\u{4f5c}\u{6811}",
     },
     FeatureItem {
         icon: Icon::Inbox,
-        title: "Agent inbox",
-        description: "Notifications when any agent needs your attention, also accessible in a central inbox",
+        title: "\u{667a}\u{80fd}\u{4f53}\u{6536}\u{4ef6}\u{7b71}",
+        description: "\u{5f53}\u{4efb}\u{610f}\u{667a}\u{80fd}\u{4f53}\u{9700}\u{8981}\u{60a8}\u{5173}\u{6ce8}\u{65f6}\u{53d1}\u{9001}\u{901a}\u{77e5}，\u{4e5f}\u{53ef}\u{5728}\u{7edf}\u{4e00}\u{6536}\u{4ef6}\u{7b71}\u{4e2d}\u{67e5}\u{770b}",
     },
     FeatureItem {
         icon: Icon::MessageCheckSquare,
-        title: "Native code review",
-        description: "Send inline comments from Warp's code review directly to Claude Code, Codex, or OpenCode",
+        title: "\u{539f}\u{751f}\u{4ee3}\u{7801}\u{5ba1}\u{67e5}",
+        description: "\u{5c06} Warp \u{4ee3}\u{7801}\u{5ba1}\u{67e5}\u{4e2d}\u{7684}\u{5185}\u{8054}\u{8bc4}\u{8bba}\u{76f4}\u{63a5}\u{53d1}\u{9001}\u{81f3} Claude Code\u{3001}Codex \u{6216} OpenCode",
     },
 ];
 
@@ -86,7 +86,7 @@ pub fn render_welcome_banner(
 
     // "New" badge
     let badge = Container::new(
-        Text::new_inline("New".to_string(), appearance.ui_font_family(), 14.)
+        Text::new_inline("\u{65b0}".to_string(), appearance.ui_font_family(), 14.)
             .with_color(PhenomenonStyle::modal_badge_text())
             .finish(),
     )
@@ -98,7 +98,7 @@ pub fn render_welcome_banner(
 
     // Title
     let title = Text::new(
-        "Introducing universal agent support: level up any coding agent with Warp",
+        "\u{5168}\u{9762}\u{652f}\u{6301}\u{901a}\u{7528}\u{667a}\u{80fd}\u{4f53}：\u{7528} Warp \u{63d0}\u{5347}\u{4efb}\u{610f}\u{7f16}\u{7a0b}\u{667a}\u{80fd}\u{4f53}\u{7684}\u{80fd}\u{529b}",
         appearance.ui_font_family(),
         20.,
     )

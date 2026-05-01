@@ -16985,7 +16985,7 @@ impl Workspace {
                         Shrinkable::new(
                             1.,
                             Text::new_inline(
-                                "Search sessions, agents, files...",
+                                "\u{641c}\u{7d22}\u{4f1a}\u{8bdd}\u{3001}\u{667a}\u{80fd}\u{4f53}\u{3001}\u{6587}\u{4ef6}...",
                                 appearance.ui_font_family(),
                                 14.,
                             )

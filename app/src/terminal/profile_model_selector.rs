@@ -258,7 +258,7 @@ impl ProfileModelSelector {
                 ),
                 is_blurred: false,
             })
-            .with_tooltip("Choose an AI execution profile")
+            .with_tooltip("选择 AI 执行配置文件 (Choose an AI execution profile)")
             .with_size(ButtonSize::UDIButton)
             .with_icon(Icon::Psychology)
         });
@@ -286,14 +286,14 @@ impl ProfileModelSelector {
                 ),
                 is_blurred: false,
             })
-            .with_tooltip("Choose an agent model")
+            .with_tooltip("选择 Agent 模型 (Choose an agent model)")
             .with_size(ButtonSize::UDIButton)
         });
 
         let profile_compact_button = ctx.add_typed_action_view(|_| {
             ActionButton::new("", PromptIconButtonTheme::new(false))
                 .with_icon(Icon::Psychology)
-                .with_tooltip("Choose an AI execution profile")
+                .with_tooltip("选择 AI 执行配置文件 (Choose an AI execution profile)")
                 .with_size(ButtonSize::UDIButton)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(ProfileModelSelectorAction::ToggleProfileMenu);
@@ -303,7 +303,7 @@ impl ProfileModelSelector {
         let model_compact_button = ctx.add_typed_action_view(|_| {
             ActionButton::new("", PromptIconButtonTheme::new(false))
                 .with_icon(Icon::Neurology)
-                .with_tooltip("Choose an agent model")
+                .with_tooltip("选择 Agent 模型 (Choose an agent model)")
                 .with_size(ButtonSize::UDIButton)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(ProfileModelSelectorAction::ToggleModelMenu);
@@ -352,7 +352,7 @@ impl ProfileModelSelector {
                     }
                     label
                 } else {
-                    "New models available".to_string()
+                    "有新模型可用 (New models available)".to_string()
                 }
             })))
         });
@@ -506,8 +506,8 @@ impl ProfileModelSelector {
         );
 
         let manage_api_key_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Manage", SecondaryTheme)
-                .with_tooltip("Manage API keys")
+            ActionButton::new("管理 (Manage)", SecondaryTheme)
+                .with_tooltip("管理 API 密钥 (Manage API keys)")
                 .with_size(ButtonSize::XSmall)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(WorkspaceAction::ShowSettingsPageWithSearch {
@@ -720,7 +720,7 @@ impl ProfileModelSelector {
         let appearance = Appearance::as_ref(ctx);
         let mut menu_items = vec![
             MenuItem::Header {
-                fields: MenuItemFields::new("Profiles").with_override_text_color(
+                fields: MenuItemFields::new("配置文件 (Profiles)").with_override_text_color(
                     appearance
                         .theme()
                         .sub_text_color(appearance.theme().background())
@@ -751,7 +751,7 @@ impl ProfileModelSelector {
 
         menu_items.push(MenuItem::Separator);
         menu_items.push(MenuItem::Item(
-            MenuItemFields::new("Manage profiles")
+            MenuItemFields::new("管理配置文件 (Manage profiles)")
                 .with_icon(Icon::Gear)
                 .with_on_select_action(ProfileModelSelectorAction::ManageProfiles),
         ));
@@ -1333,7 +1333,7 @@ impl ProfileModelSelector {
                     )))
                     .finish();
 
-                let tooltip_text = "Choose an AI execution profile".to_owned();
+                let tooltip_text = "选择 AI 执行配置文件 (Choose an AI execution profile)".to_owned();
 
                 let tooltip = appearance.ui_builder().tool_tip(tooltip_text);
                 let mut stack = Stack::new();
@@ -1475,9 +1475,9 @@ impl ProfileModelSelector {
                     .finish();
 
                 let tooltip_text = if !has_edit_access {
-                    "Request edit access to change model".to_owned()
+                    "请求编辑权限以更改模型 (Request edit access to change model)".to_owned()
                 } else {
-                    "Choose an agent model".to_owned()
+                    "选择 Agent 模型 (Choose an agent model)".to_owned()
                 };
 
                 let tooltip = appearance.ui_builder().tool_tip(tooltip_text);
@@ -1638,7 +1638,7 @@ impl ProfileModelSelector {
             Flex::row()
                 .with_main_axis_size(MainAxisSize::Max)
                 .with_cross_axis_alignment(CrossAxisAlignment::Center)
-                .with_child(self.render_model_spec_value_label("Cost".to_string(), app))
+                .with_child(self.render_model_spec_value_label("费用 (Cost)".to_string(), app))
                 .with_child(
                     Expanded::new(
                         1.,
@@ -1649,7 +1649,7 @@ impl ProfileModelSelector {
                             .with_child(
                                 Container::new(
                                     Text::new(
-                                        "Billed to API".to_string(),
+                                        "按 API 计费 (Billed to API)".to_string(),
                                         appearance.ui_font_family(),
                                         14.,
                                     )
@@ -1679,18 +1679,18 @@ impl ProfileModelSelector {
     ) -> Box<dyn Element> {
         let mut spec_values = vec![
             self.render_model_spec_value(
-                "Intelligence".to_string(),
+                "智能水平 (Intelligence)".to_string(),
                 spec.quality,
                 bg_bar_color,
                 app,
             ),
-            self.render_model_spec_value("Speed".to_string(), spec.speed, bg_bar_color, app),
+            self.render_model_spec_value("速度 (Speed)".to_string(), spec.speed, bg_bar_color, app),
         ];
         if is_using_api_key {
             spec_values.push(self.render_model_spec_api_key(app));
         } else {
             spec_values.push(self.render_model_spec_value(
-                "Cost".to_string(),
+                "费用 (Cost)".to_string(),
                 spec.cost,
                 bg_bar_color,
                 app,
@@ -1709,7 +1709,7 @@ impl ProfileModelSelector {
         let appearance = Appearance::as_ref(app);
         let theme = appearance.theme();
         let header = self.render_model_spec_header(
-            "Model Specs".to_string(),
+            "模型规格 (Model Specs)".to_string(),
             "Warp’s benchmarks for how well a model performs in our harness, the rate at which it consumes credits, and task speed.".to_string(),
             app,
         );
@@ -1749,11 +1749,11 @@ impl ProfileModelSelector {
 
         let (title, description) = match kind {
             ModelSpecSidecarKind::Auto => (
-                "Auto mode",
+                "自动模式 (Auto mode)",
                 "Auto will select the best model for the task. Cost-efficiency optimizes for cost, Responsiveness optimizes for response speed.",
             ),
             ModelSpecSidecarKind::Reasoning => (
-                "Reasoning level",
+                "推理级别 (Reasoning level)",
                 "Increased reasoning levels consume more credits and have higher latency, but higher performance for complicated tasks.",
             ),
         };

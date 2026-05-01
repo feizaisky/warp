@@ -66,7 +66,7 @@ impl ConversationSearchItem {
         Flex::row()
             .with_child(
                 Text::new_inline(
-                    "New conversation",
+                    "新建对话",
                     appearance.ui_font_family(),
                     appearance.monospace_font_size(),
                 )
@@ -421,7 +421,7 @@ impl SearchItem for ConversationSearchItem {
             ConversationAction::Fork { title, .. } => {
                 format!("Fork current conversation ({title})")
             }
-            ConversationAction::New => "New conversation".to_string(),
+            ConversationAction::New => "新建对话".to_string(),
         }
     }
 

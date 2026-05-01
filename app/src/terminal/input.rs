@@ -417,7 +417,7 @@ const AGENT_MODE_AI_DISABLED_AUTODETECTION_DISABLED_HINT_TEXT: &str = "Run comma
 
 // Rotating hint text options for new Agent Mode conversations
 const AGENT_MODE_HINT_OPTIONS: &[&str] = &[
-    "Warp anything e.g. Deploy my React app to Vercel and set up environment variables",
+    "用 Warp 做任何事，例如：将我的 React 应用部署到 Vercel 并配置环境变量",
     "Warp anything e.g. Help me debug why my Python tests are failing in CI",
     "Warp anything e.g. Set up a new microservice with Docker and create the deployment pipeline",
     "Warp anything e.g. Find and fix the memory leak in my Node.js application",
@@ -1895,7 +1895,7 @@ pub fn init(app: &mut AppContext) {
         .with_custom_action(CustomAction::AISearch),
         EditableBinding::new(
             START_NEW_CONVERSATION_KEYBINDING_NAME,
-            "New agent conversation",
+            "新建智能体对话",
             InputAction::StartNewAgentConversation,
         )
         .with_enabled(|| !FeatureFlag::AgentView.is_enabled())
