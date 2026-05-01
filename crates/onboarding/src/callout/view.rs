@@ -58,9 +58,9 @@ fn get_universal_input_callout_options(
 ) -> Option<CalloutOptions> {
     match state {
         UniversalInputCalloutState::MeetInput => Some(CalloutOptions {
-            title: "Meet the Warp input",
+            title: "认识 Warp 输入框",
             text: format!(
-                "Your terminal input accepts both terminal commands and agent prompts and automatically detects which you're using. Use {} to lock the input to Agent mode (natural language) or Terminal mode (commands).",
+                "终端输入框同时接受终端命令和智能体提示词，并会自动判断你正在使用哪一种。使用 {} 可将输入框锁定为智能体模式（自然语言）或终端模式（命令）。",
                 keybindings.toggle_input_mode
             ),
             step: StepStatus::new(0, 2),
@@ -73,8 +73,8 @@ fn get_universal_input_callout_options(
             checkbox: None,
         }),
         UniversalInputCalloutState::TalkToAgent => Some(CalloutOptions {
-            title: "Talk to the agent",
-            text: "You can type in natural language to engage the agent. Submit the query below to start: What tests exist in this repo, how are they structured, and what do they cover?".to_string(),
+            title: "和智能体对话",
+            text: "你可以用自然语言与智能体交互。提交下面的查询试试：本仓库有哪些测试，结构是什么，覆盖了什么？".to_string(),
             step: StepStatus::new(1, 2),
             left_button: if has_project {
                 Some(ButtonOptions {
@@ -86,7 +86,7 @@ fn get_universal_input_callout_options(
                 None
             },
             right_button: ButtonOptions {
-                text: if has_project { "Submit" } else { "Finish" },
+                text: if has_project { "提交" } else { "完成" },
                 action: OnboardingCalloutViewAction::NextClicked,
                 keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
             },
@@ -112,9 +112,9 @@ fn get_agent_modality_callout_options(
     match state {
         AgentModalityCalloutState::MeetTerminalInput => {
             let title: &'static str  = if has_project || intention == OnboardingIntention::Terminal {
-                "Meet your terminal input"
+                "认识你的终端输入框"
             } else {
-                "Meet your updated terminal input"
+                "认识更新后的终端输入框"
             };
             Some(CalloutOptions {
                 title,
@@ -139,15 +139,15 @@ fn get_agent_modality_callout_options(
             if initial_natural_language_detection_enabled {
                 // NL detection was already enabled - show simpler "overrides" callout without checkbox
                 Some(CalloutOptions {
-                    title: "Natural language overrides",
+                    title: "覆盖自然语言识别",
                     text: format!(
-                        "You can always override any auto-detection using {}.",
+                        "你可以随时使用 {} 覆盖任何自动判断结果。",
                         keybindings.toggle_input_mode
                     ),
                     step: StepStatus::new(1, total_steps),
                     left_button: None,
                     right_button: ButtonOptions {
-                        text: if is_final_step { "Finish" } else { "Next" },
+                        text: if is_final_step { "完成" } else { "下一步" },
                         action: OnboardingCalloutViewAction::NextClicked,
                         keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
                     },
@@ -156,28 +156,28 @@ fn get_agent_modality_callout_options(
             } else {
                 // NL detection was disabled - show full explanation with checkbox to enable
                 Some(CalloutOptions {
-                    title: "Natural language support",
+                    title: "自然语言支持",
                     text: format!(
-                        "Natural language input is off by default. If enabled, you can type requests in plain English and Warp will autodetect queries for the agent. You can always override them using {}.",
+                        "自然语言输入默认关闭。开启后，你可以用中文/英文自然描述问题，Warp 会自动判断哪些是给智能体的提问。你也可以随时使用 {} 进行覆盖。",
                         keybindings.toggle_input_mode
                     ),
                     step: StepStatus::new(1, total_steps),
                     left_button: None,
                     right_button: ButtonOptions {
-                        text: if is_final_step { "Finish" } else { "Next" },
+                        text: if is_final_step { "完成" } else { "下一步" },
                         action: OnboardingCalloutViewAction::NextClicked,
                         keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
                     },
                     checkbox: Some(CheckboxOptions {
-                        label: "Enable Natural Language Detection",
+                        label: "启用自然语言识别",
                         checked: natural_language_detection_enabled,
                     }),
                 })
             }
         }
         AgentModalityCalloutState::IntroducingAgentExperience => Some(CalloutOptions {
-            title: "Introducing Warp's new agent experience",
-            text: "Agent conversations are now their own scoped view outside of your terminal. Simply hit ESC to return to the terminal at any point.".to_string(),
+            title: "认识 Warp 全新的智能体体验",
+            text: "智能体对话现在拥有独立于终端的视图。任何时候按 ESC 即可返回终端。".to_string(),
             step: StepStatus::new(2, total_steps),
             left_button: None,
             right_button: ButtonOptions {
@@ -190,16 +190,16 @@ fn get_agent_modality_callout_options(
         AgentModalityCalloutState::UpdatedAgentInput => {
             if has_project {
                 Some(CalloutOptions {
-                    title: "Updated agent input",
-                    text: "Your agent input will detect natural language as well as commands by default. Use ! to lock the input in bash mode to write commands.\n\nSubmit the query below to have the agent initialize this project, or ⊗ to clear the input and start your own!".to_string(),
+                    title: "更新后的智能体输入框",
+                    text: "智能体输入框默认会同时识别自然语言和命令。使用 ! 可将输入框锁定为 bash 模式以输入命令。\n\n提交下面的查询让智能体初始化此项目，或按 ⊗ 清空输入并开始你自己的提问！".to_string(),
                     step: StepStatus::new(3, total_steps),
                     left_button: Some(ButtonOptions {
-                        text: "Skip initialization",
+                        text: "跳过初始化",
                         action: OnboardingCalloutViewAction::SkipClicked,
                         keystroke: Some(Keystroke::parse("delete").unwrap_or_default()),
                     }),
                     right_button: ButtonOptions {
-                        text: "Initialize",
+                        text: "初始化",
                         action: OnboardingCalloutViewAction::NextClicked,
                         keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
                     },
@@ -207,16 +207,16 @@ fn get_agent_modality_callout_options(
                 })
             } else {
                 Some(CalloutOptions {
-                    title: "Updated agent input",
-                    text: "Your agent input will detect natural language as well as commands by default. Use ! to lock the input in bash mode to write commands.".to_string(),
+                    title: "更新后的智能体输入框",
+                    text: "智能体输入框默认会同时识别自然语言和命令。使用 ! 可将输入框锁定为 bash 模式以输入命令。".to_string(),
                     step: StepStatus::new(3, total_steps),
                     left_button: Some(ButtonOptions {
-                        text: "Back to terminal",
+                        text: "返回终端",
                         action: OnboardingCalloutViewAction::BackToTerminalClicked,
                         keystroke: Some(Keystroke::parse("escape").unwrap_or_default()),
                     }),
                     right_button: ButtonOptions {
-                        text: "Finish",
+                        text: "完成",
                         action: OnboardingCalloutViewAction::NextClicked,
                         keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
                     },

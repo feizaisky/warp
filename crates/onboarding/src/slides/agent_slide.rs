@@ -333,7 +333,7 @@ impl AgentSlide {
             .finish();
 
         let subtitle = FormattedTextElement::from_str(
-            "Select your in-app agent's defaults.",
+            "选择应用内智能体的默认设置。",
             appearance.ui_font_family(),
             16.,
         )
@@ -428,7 +428,7 @@ impl AgentSlide {
         settings: &AgentDevelopmentSettings,
         app: &AppContext,
     ) -> Box<dyn Element> {
-        let header = self.render_section_header("Default model", appearance);
+        let header = self.render_section_header("默认模型", appearance);
 
         let expanded = self.is_model_list_expanded;
         let chip = self.render_collapsed_model_chip(appearance, settings, app, expanded);
@@ -754,9 +754,9 @@ impl AgentSlide {
             };
 
             let trailing: Box<dyn Element> = if is_default {
-                make_pill("Recommended")
+                make_pill("推荐")
             } else if requires_upgrade {
-                make_pill("Premium")
+                make_pill("高级")
             } else {
                 Empty::new().finish()
             };
@@ -810,7 +810,7 @@ impl AgentSlide {
     }
 
     fn render_autonomy_workspace_enforced(&self, appearance: &Appearance) -> Box<dyn Element> {
-        let header = self.render_section_header("Autonomy", appearance);
+        let header = self.render_section_header("自主权", appearance);
 
         let theme = appearance.theme();
         let background_for_text = theme.background().into_solid();
@@ -829,7 +829,7 @@ impl AgentSlide {
             .finish();
 
         let subtitle_el = Text::new(
-            "Autonomy settings are configured as part of your team workspace.",
+            "自主权设置由所属团队工作区统一配置。",
             ui_font_family,
             12.0,
         )
@@ -865,7 +865,7 @@ impl AgentSlide {
         appearance: &Appearance,
         settings: &AgentDevelopmentSettings,
     ) -> Box<dyn Element> {
-        let header = self.render_section_header("Autonomy", appearance);
+        let header = self.render_section_header("自主权", appearance);
 
         // The rows now take the full column width (vs. the previous three-across layout),
         // so they no longer need the extra height that came from cramped subtitle wrapping.
@@ -881,19 +881,19 @@ impl AgentSlide {
             (
                 AgentAutonomy::Full,
                 "Full",
-                "Runs commands, writes code, and reads files without asking.",
+                "自动执行命令、写代码、读取文件，无需询问。",
                 self.autonomy_full_mouse_state.clone(),
             ),
             (
                 AgentAutonomy::Partial,
                 "Partial",
-                "Can plan, read files, and execute low-risk commands. Asks before making any changes or executing sensitive commands.",
+                "可以制定计划、读取文件、执行低风险命令；进行任何修改或敏感操作前会先征求确认。",
                 self.autonomy_partial_mouse_state.clone(),
             ),
             (
                 AgentAutonomy::None,
                 "None",
-                "Takes no actions without your approval.",
+                "未经你的批准不会执行任何操作。",
                 self.autonomy_none_mouse_state.clone(),
             ),
         ];
@@ -955,7 +955,7 @@ impl AgentSlide {
             .on_click(|ctx, _, _| ctx.dispatch_typed_action(AgentSlideAction::ToggleDisableOz))
             .finish();
 
-        let label = Text::new("Disable Warp Agent", appearance.ui_font_family(), 14.0)
+        let label = Text::new("禁用 Warp 智能体", appearance.ui_font_family(), 14.0)
             .with_color(internal_colors::text_sub(theme, background_for_text))
             .with_style(Properties {
                 weight: Weight::Normal,
@@ -1040,7 +1040,7 @@ impl AgentSlide {
 
         // Primary "heading" line: bolder, full-contrast.
         let title = Text::new(
-            "Upgrade for access to premium models.",
+            "升级以使用高级模型。",
             ui_font_family,
             13.0,
         )
@@ -1054,7 +1054,7 @@ impl AgentSlide {
 
         // Secondary subtext: muted, normal weight.
         let subtitle = Text::new(
-            "State-of-the-art models require paid plans.",
+            "顶尖模型需要付费套餐。",
             ui_font_family,
             12.0,
         )
@@ -1187,7 +1187,7 @@ impl AgentSlide {
 
         let paste_token_link = ui_builder
             .link(
-                "Click here".into(),
+                "点击此处".into(),
                 None,
                 Some(Box::new(|ctx| {
                     ctx.dispatch_typed_action(AgentSlideAction::PasteAuthTokenFromClipboardClicked);

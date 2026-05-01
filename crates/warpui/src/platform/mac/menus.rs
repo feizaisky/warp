@@ -189,20 +189,20 @@ fn resolve_standard_action(action: StandardAction) -> StandardMenuItemProperties
     }
 
     match action {
-        StandardAction::Close => make("Close Window", "performClose:", none, ""),
-        StandardAction::Quit => make("Quit Warp", "terminate:", cmd, "q"),
-        StandardAction::Hide => make("Hide Warp", "hide:", cmd, "h"),
+        StandardAction::Close => make("关闭窗口", "performClose:", none, ""),
+        StandardAction::Quit => make("退出 Warp", "terminate:", cmd, "q"),
+        StandardAction::Hide => make("隐藏 Warp", "hide:", cmd, "h"),
         StandardAction::HideOtherApps => {
-            make("Hide Others", "hideOtherApplications:", cmd | option, "h")
+            make("隐藏其他", "hideOtherApplications:", cmd | option, "h")
         }
-        StandardAction::ShowAllApps => make("Show All", "unhideAllApplications:", none, ""),
-        StandardAction::Minimize => make("Minimize", "performMiniaturize:", cmd, "m"),
-        StandardAction::Zoom => make("Zoom", "performZoom:", none, ""),
-        StandardAction::BringAllToFront => make("Bring All to Front", "arrangeInFront:", none, ""),
+        StandardAction::ShowAllApps => make("全部显示", "unhideAllApplications:", none, ""),
+        StandardAction::Minimize => make("最小化", "performMiniaturize:", cmd, "m"),
+        StandardAction::Zoom => make("缩放", "performZoom:", none, ""),
+        StandardAction::BringAllToFront => make("全部前置", "arrangeInFront:", none, ""),
         StandardAction::ToggleFullScreen => {
-            make("ToggleFullScreen", "toggleFullScreen:", cmd | ctrl, "f")
+            make("切换全屏", "toggleFullScreen:", cmd | ctrl, "f")
         }
-        StandardAction::Paste => make("Paste", "paste:", none, ""),
+        StandardAction::Paste => make("粘贴", "paste:", none, ""),
     }
 }
 
