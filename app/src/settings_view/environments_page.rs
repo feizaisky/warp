@@ -81,8 +81,8 @@ use {
     warp_graphql::queries::user_github_info::UserGithubInfoResult,
 };
 
-const PAGE_TITLE_TEXT: &str = "Environments";
-const PAGE_DESCRIPTION_TEXT: &str = "Environments define where your ambient agents run. Set one up in minutes via GitHub (recommended), Warp-assisted setup, or manual configuration.";
+const PAGE_TITLE_TEXT: &str = "环境";
+const PAGE_DESCRIPTION_TEXT: &str = "环境定义了后台智能体的运行位置。可通过 GitHub（推荐）、Warp 辅助设置或手动配置在几分钟内完成设置。";
 const CARD_BORDER_WIDTH: f32 = 1.;
 const CARD_PADDING: f32 = 16.;
 const CARD_SPACING: f32 = 12.;
@@ -190,16 +190,16 @@ impl EnvironmentDisplayData {
     fn format_timestamp_text(&self) -> String {
         let last_edited_part = self.last_edited_ts.map(|ts| {
             format!(
-                "Last edited: {}",
+                "上次编辑：{}",
                 format_approx_duration_from_now_utc(ts.utc())
             )
         });
         let last_used_part = match self.last_used_ts {
             Some(ts) => format!(
-                "Last used: {}",
+                "上次使用：{}",
                 format_approx_duration_from_now_utc(ts.utc())
             ),
-            None => "Last used: never".to_string(),
+            None => "从未使用".to_string(),
         };
         match last_edited_part {
             Some(edited) => format!("{} · {}", edited, last_used_part),
@@ -372,7 +372,7 @@ impl EnvironmentsPageView {
         });
 
         // Create search editor for list page
-        let search_editor = Self::create_single_line_editor("Search environments...", ctx);
+        let search_editor = Self::create_single_line_editor("搜索环境...", ctx);
         ctx.subscribe_to_view(&search_editor, |me, _, event, ctx| match event {
             crate::editor::Event::Edited(_) => {
                 me.search_query = me.search_editor.as_ref(ctx).buffer_text(ctx);
@@ -635,7 +635,7 @@ impl EnvironmentsPageView {
 
             if should_handle {
                 self.pending_save_env_id = None;
-                self.show_success_toast("Successfully updated environment".to_string(), ctx);
+                self.show_success_toast("环境更新成功".to_string(), ctx);
 
                 // No need to force a global cloud-object refresh here: on update success the
                 // sync pipeline updates this environment's `revision_ts` (used for "Last edited")
@@ -653,7 +653,7 @@ impl EnvironmentsPageView {
                 if let Some(result_client_id) = &result.client_id {
                     if *result_client_id == pending_client_id {
                         self.show_success_toast(
-                            "Successfully created environment".to_string(),
+                            "环境创建成功".to_string(),
                             ctx,
                         );
                     }
@@ -670,7 +670,7 @@ impl EnvironmentsPageView {
                 if let Some(server_id) = &result.server_id {
                     if server_id.uid() == pending_env_id.uid() {
                         self.show_success_toast(
-                            "Environment deleted successfully".to_string(),
+                            "环境已删除".to_string(),
                             ctx,
                         );
                     }
@@ -693,9 +693,9 @@ impl EnvironmentsPageView {
             self.pending_share_server_id = None;
 
             if matches!(result.success_type, OperationSuccessType::Success) {
-                self.show_success_toast("Successfully shared environment".to_string(), ctx);
+                self.show_success_toast("环境共享成功".to_string(), ctx);
             } else {
-                self.show_error_toast("Failed to share environment with team".to_string(), ctx);
+                self.show_error_toast("与团队共享环境失败".to_string(), ctx);
             }
 
             ctx.notify();
@@ -765,7 +765,7 @@ impl EnvironmentsPageView {
 
                 let Some(owner) = owner else {
                     self.show_error_toast(
-                        "Unable to create environment: not logged in.".to_string(),
+                        "无法创建环境：尚未登录。".to_string(),
                         ctx,
                     );
                     return;
@@ -792,7 +792,7 @@ impl EnvironmentsPageView {
                 let Some(existing_env) = CloudAmbientAgentEnvironment::get_by_id(env_id, ctx)
                 else {
                     self.show_error_toast(
-                        "Unable to save: environment no longer exists.".to_string(),
+                        "无法保存：环境已不存在。".to_string(),
                         ctx,
                     );
                     return;
@@ -961,7 +961,7 @@ impl TypedActionView for EnvironmentsPageView {
             EnvironmentsPageAction::ShareToTeam(env_id) => {
                 let Some(team_uid) = UserWorkspaces::as_ref(ctx).current_team_uid() else {
                     self.show_error_toast(
-                        "Unable to share environment: you are not currently on a team.".to_string(),
+                        "无法共享环境：您当前不在任何团队中。".to_string(),
                         ctx,
                     );
                     return;
@@ -969,7 +969,7 @@ impl TypedActionView for EnvironmentsPageView {
 
                 let SyncId::ServerId(server_id) = *env_id else {
                     self.show_error_toast(
-                        "Unable to share environment: environment is not yet synced.".to_string(),
+                        "无法共享环境：环境尚未同步。".to_string(),
                         ctx,
                     );
                     return;
@@ -1286,7 +1286,7 @@ impl EnvironmentsPageWidget {
         let theme = appearance.theme();
         Container::new(
             Text::new(
-                "No environments match your search.",
+                "没有与搜索条件匹配的环境。",
                 appearance.ui_font_family(),
                 appearance.ui_font_size(),
             )
@@ -1401,13 +1401,13 @@ impl EnvironmentsPageWidget {
         };
 
         let (github_button_label, github_button_enabled) = if dropdown_state.is_loading {
-            ("Loading...", false)
+            ("加载中...", false)
         } else if dropdown_state.load_error_message.is_some() {
-            ("Retry", true)
+            ("重试", true)
         } else if dropdown_state.auth_url.is_some() {
-            ("Authorize", true)
+            ("授权", true)
         } else {
-            ("Get started", true)
+            ("开始使用", true)
         };
 
         let github_button = Self::render_empty_state_button(
@@ -1429,7 +1429,7 @@ impl EnvironmentsPageWidget {
 
         let local_repos_button = Self::render_empty_state_button(
             appearance,
-            "Launch agent",
+            "启动智能体",
             ButtonVariant::Secondary,
             view.empty_state_local_repos_button_mouse_state.clone(),
             true,
@@ -1437,7 +1437,7 @@ impl EnvironmentsPageWidget {
         );
         let local_repos_button_compact = Self::render_empty_state_button(
             appearance,
-            "Launch agent",
+            "启动智能体",
             ButtonVariant::Secondary,
             view.empty_state_local_repos_button_mouse_state.clone(),
             true,
@@ -1448,10 +1448,10 @@ impl EnvironmentsPageWidget {
             appearance,
             EmptyStateRowConfig {
                 icon: Icon::Github,
-                title: "Quick setup",
-                badge: Some("Suggested"),
+                title: "快速设置",
+                badge: Some("推荐"),
                 subtitle:
-                    "Select the GitHub repositories you’d like to work with and we’ll suggest a base image and config",
+                    "选择您要使用的 GitHub 仓库，我们将为您建议基础镜像和配置",
                 action_button: github_button,
                 compact_action_button: github_button_compact,
                 icon_size,
@@ -1462,10 +1462,10 @@ impl EnvironmentsPageWidget {
             appearance,
             EmptyStateRowConfig {
                 icon: Icon::Terminal,
-                title: "Use the agent",
+                title: "使用智能体",
                 badge: None,
                 subtitle:
-                    "Choose a locally set up project and we’ll help you set up an environment based on it",
+                    "选择一个已在本地设置的项目，我们将帮助您基于它设置环境",
                 action_button: local_repos_button,
                 compact_action_button: local_repos_button_compact,
                 icon_size,
@@ -1484,7 +1484,7 @@ impl EnvironmentsPageWidget {
         .finish();
 
         let header = Text::new(
-            "You haven’t set up any environments yet.",
+            "您尚未设置任何环境。",
             appearance.ui_font_family(),
             appearance.ui_font_size() * 1.1,
         )
@@ -1493,7 +1493,7 @@ impl EnvironmentsPageWidget {
         .finish();
 
         let subheader = Text::new(
-            "Choose how you’d like to set up your environment:",
+            "选择您希望的设置方式：",
             appearance.ui_font_family(),
             appearance.ui_font_size() * 0.95,
         )
@@ -1813,7 +1813,7 @@ impl EnvironmentsPageWidget {
                 }
             }
 
-            let mut details_parts = vec![format!("Image: {}", env_docker_image)];
+            let mut details_parts = vec![format!("镜像：{}", env_docker_image)];
 
             if !env_github_repos.is_empty() {
                 let repos_text = env_github_repos
@@ -1821,12 +1821,12 @@ impl EnvironmentsPageWidget {
                     .map(|(owner, repo)| format!("{}/{}", owner, repo))
                     .collect::<Vec<_>>()
                     .join(", ");
-                details_parts.push(format!("Repos: {}", repos_text));
+                details_parts.push(format!("仓库：{}", repos_text));
             }
 
             if !env_setup_commands.is_empty() {
                 let commands_text = env_setup_commands.join(", ");
-                details_parts.push(format!("Setup commands: {}", commands_text));
+                details_parts.push(format!("设置命令：{}", commands_text));
             }
 
             // Create details section with Env ID on first line and other details below
@@ -1858,7 +1858,7 @@ impl EnvironmentsPageWidget {
             let view_runs_link = appearance
                 .ui_builder()
                 .link(
-                    "View my runs".to_string(),
+                    "查看我的运行记录".to_string(),
                     None,
                     Some(Box::new(move |ctx| {
                         ctx.dispatch_typed_action(WorkspaceAction::ViewAgentRunsForEnvironment {
@@ -1938,7 +1938,7 @@ impl EnvironmentsPageWidget {
                     )
                     .with_tooltip(move || {
                         share_ui_builder
-                            .tool_tip("Share".to_string())
+                            .tool_tip("分享".to_string())
                             .build()
                             .finish()
                     })
@@ -1974,7 +1974,7 @@ impl EnvironmentsPageWidget {
             if is_card_hovered {
                 edit_button = edit_button.with_tooltip(move || {
                     edit_ui_builder
-                        .tool_tip("Edit".to_string())
+                        .tool_tip("编辑".to_string())
                         .build()
                         .finish()
                 });

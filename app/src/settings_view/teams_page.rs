@@ -85,14 +85,14 @@ use warpui::{
 
 const TEAM_MEMBERS_HEADER_POSITION_ID: &str = "team_settings:team_members_header";
 // Styling for team create page
-const TEAM_NAME_EDITOR_PLACEHOLDER_TEXT: &str = "Team name";
+const TEAM_NAME_EDITOR_PLACEHOLDER_TEXT: &str = "团队名称";
 const CREATE_TEAM_BUTTON_LEFT_PADDING: f32 = 10.;
-const CREATE_TEAM_DESCRIPTION: &str = "When you create a team, you can collaborate on agent-driven development by sharing cloud agent runs, environments, automations, and artifacts. You can also create a shared knowledge store for teammates and agents alike.";
+const CREATE_TEAM_DESCRIPTION: &str = "创建团队后，您可以通过共享云端智能体运行记录、环境、自动化流程和产出物进行协作开发，还可以为团队成员和智能体创建共享知识库。";
 
 // Styling for team management page
-const LEAVE_TEAM_BUTTON_LABEL: &str = "Leave team";
-const DELETE_TEAM_BUTTON_LABEL: &str = "Delete team";
-const CREATE_TEAM_BUTTON_LABEL: &str = "Create";
+const LEAVE_TEAM_BUTTON_LABEL: &str = "退出团队";
+const DELETE_TEAM_BUTTON_LABEL: &str = "删除团队";
+const CREATE_TEAM_BUTTON_LABEL: &str = "创建";
 const APPROVE_DOMAINS_PLACEHOLDER: &str = "Domains, comma separated";
 const EMAILS_PLACEHOLDER: &str = "Emails, comma separated";
 const APPROVE_DOMAINS_BUTTON_LABEL: &str = "Set";
