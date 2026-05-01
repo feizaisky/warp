@@ -40,7 +40,7 @@ impl AITip for CloudModeTip {
 pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
     vec![
         CloudModeTip::new(
-            "Install the Oz Slack integration to trigger agents from any channel or DM.",
+            "安装 Oz Slack 集成，可从任意频道或私信触发智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack"),
         ),
         CloudModeTip::new(
@@ -64,7 +64,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "Create agents that automatically fix bugs when issues are filed in Linear.",
+            "创建智能体，在 Linear 中提交 issue 时自动修复 Bug。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/linear"),
         ),
         CloudModeTip::new(
@@ -72,7 +72,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
-            "Run agents from GitHub Actions using the `oz-agent-action`.",
+            "使用 `oz-agent-action` 从 GitHub Actions 运行智能体。",
             Some("https://github.com/warpdotdev/oz-agent-action"),
         ),
         CloudModeTip::new(
@@ -80,7 +80,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
-            "Create reusable environments with Docker images for consistent agent execution.",
+            "使用 Docker 镜像创建可复用环境，确保智能体稳定执行。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/environments"),
         ),
         CloudModeTip::new(
@@ -100,7 +100,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations"),
         ),
         CloudModeTip::new(
-            "Create a scheduled agent to clean up stale feature flags every week.",
+            "创建定时智能体，每周自动清理过期功能标志。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
@@ -108,7 +108,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/linear"),
         ),
         CloudModeTip::new(
-            "Run agents on remote dev boxes or CI runners using the Oz CLI.",
+            "使用 Oz CLI 在远程开发机或 CI Runner 上运行智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/platform"),
         ),
         CloudModeTip::new(
@@ -132,7 +132,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
-            "Create an agent that automatically reviews PRs and suggests improvements.",
+            "创建智能体，自动审查 PR 并提出改进建议。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
@@ -156,7 +156,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/secrets"),
         ),
         CloudModeTip::new(
-            "Create an agent that runs nightly to check for dependency updates.",
+            "创建每日执行的智能体，自动检查依赖更新。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
@@ -180,7 +180,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack"),
         ),
         CloudModeTip::new(
-            "Create an agent that responds to @mentions in Slack threads with full context.",
+            "创建智能体，在 Slack 话题中响应 @提及并提供完整上下文。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack"),
         ),
         CloudModeTip::new(

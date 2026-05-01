@@ -101,7 +101,7 @@ where
             Some(click_button_style),
             None,
         )
-        .with_centered_text_label("Learn more".into())
+        .with_centered_text_label("了解更多".into())
         .build()
         .on_click(move |ctx, _, _| {
             ctx.dispatch_typed_action(action.clone());
@@ -191,7 +191,7 @@ where
                 Container::new(
                     appearance
                         .ui_builder()
-                        .span("Using Warp Offline")
+                        .span("离线使用 Warp")
                         .with_style(header_styles)
                         .build()
                         .finish(),
@@ -238,7 +238,7 @@ where
             .with_child(render_close_overlay_button(
                 appearance,
                 appearance.ui_builder(),
-                "Dismiss".into(),
+                "关闭".into(),
                 mouse_state_handle,
                 action,
             ))
@@ -369,7 +369,7 @@ pub fn render_privacy_settings_overlay_body<A: Action + Clone + 'static>(
             .with_child(
                 Container::new(
                     ui_builder
-                        .span("Privacy Settings")
+                        .span("隐私设置")
                         .with_style(header_styles)
                         .build()
                         .finish(),
@@ -387,7 +387,7 @@ pub fn render_privacy_settings_overlay_body<A: Action + Clone + 'static>(
             .with_child(render_close_overlay_button(
                 appearance,
                 ui_builder,
-                "Done".into(),
+                "完成".into(),
                 handles.close_button_mouse.clone(),
                 actions.hide_overlay.clone(),
             ))
@@ -456,7 +456,7 @@ pub fn render_privacy_settings_toggles<A: Action + Clone + 'static>(
         .with_child(
             Shrinkable::new(
                 1.,
-                render_privacy_settings_section_header("Help improve Warp", appearance).finish(),
+                render_privacy_settings_section_header("帮助改进 Warp", appearance).finish(),
             )
             .finish(),
         )
@@ -483,7 +483,7 @@ pub fn render_privacy_settings_toggles<A: Action + Clone + 'static>(
             appearance
                 .ui_builder()
                 .link(
-                    "Learn more".into(),
+                    "了解更多".into(),
                     Some(PRIVACY_URL.into()),
                     None,
                     handles.telemetry_docs_mouse.clone(),
@@ -501,7 +501,7 @@ pub fn render_privacy_settings_toggles<A: Action + Clone + 'static>(
         .with_child(
             Shrinkable::new(
                 1.,
-                render_privacy_settings_section_header("Send crash reports", appearance).finish(),
+                render_privacy_settings_section_header("发送崩溃报告", appearance).finish(),
             )
             .finish(),
         )
@@ -531,7 +531,7 @@ pub fn render_privacy_settings_toggles<A: Action + Clone + 'static>(
             Shrinkable::new(
                 1.,
                 render_privacy_settings_section_header(
-                    "Store AI conversations in the cloud",
+                    "将 AI 对话存储到云端",
                     appearance,
                 )
                 .finish(),

@@ -150,9 +150,9 @@ impl View for CloudModeSetupTextBlock {
                             &self.agent_view_controller,
                             app,
                         ) {
-                            "Running setup commands..."
+                            "正在运行设置命令..."
                         } else {
-                            "Ran setup commands"
+                            "已运行设置命令"
                         },
                         appearance.ai_font_family(),
                         appearance.monospace_font_size(),

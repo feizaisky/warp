@@ -16,10 +16,10 @@ use super::{
     InlineBannerTextButtonVariant,
 };
 
-const SPEEDBUMP_HEADER: &str = "Optimize Warp for this codebase?";
-const SPEEDBUMP_TEXT: &str = "Unlock smarter, more consistent responses by letting the Agent understand your codebase and generate rules for it. You can also do this at any point by running /init";
+const SPEEDBUMP_HEADER: &str = "为此代码库优化 Warp？";
+const SPEEDBUMP_TEXT: &str = "通过让智能体理解您的代码库并为其生成规则，解锁更智能、更一致的响应。您也可以随时通过运行 /init 来完成此操作。";
 /// Text for the button that allows execution
-const ALLOW_BUTTON_TEXT: &str = "Optimize";
+const ALLOW_BUTTON_TEXT: &str = "优化";
 
 #[derive(Clone, Copy, Debug)]
 pub enum AgentModeSetupSpeedbumpBannerAction {

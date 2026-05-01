@@ -130,33 +130,33 @@ impl TipsView {
 
         let tip_items = vec![
             TipItem::new(
-                "Command Palette".to_string(),
-                "Easily discover everything you can do in Warp without your hands leaving the keyboard.".to_string(),
+                "命令面板".to_string(),
+                "无需双手离开键盘，即可轻松发现 Warp 中的所有功能。".to_string(),
                 TipAction::CommandPalette,
                 ctx,
             ),
             TipItem::new(
-                "Split Pane".to_string(),
-                "Split tabs into multiple panes to make your ideal layout."
+                "分割窗格".to_string(),
+                "将标签页分割为多个窗格，打造您的理想布局。"
                     .to_string(),
                 TipAction::SplitPane,
                 ctx,
             ),
             TipItem::new(
-                "History Search".to_string(),
-                "Find, edit and re-run previously executed commands.".to_string(),
+                "历史搜索".to_string(),
+                "查找、编辑并重新运行以前执行过的命令。".to_string(),
                 TipAction::HistorySearch,
                 ctx,
             ),
             TipItem::new(
-                "AI Command Search".to_string(),
-                "Generate shell commands with natural language.".to_string(),
+                "AI 命令搜索".to_string(),
+                "用自然语言生成 shell 命令。".to_string(),
                 TipAction::AiCommandSearch,
                 ctx,
             ),
             TipItem::new(
-                "Theme Picker".to_string(),
-                "Make Warp your own by choosing a built-in theme. Or create your own.".to_string(),
+                "主题选择器".to_string(),
+                "选择内置主题，或创建您自己的主题，让 Warp 独具一格。".to_string(),
                 TipAction::ThemePicker,
                 ctx,
             ),
@@ -265,7 +265,7 @@ impl TipsView {
                 .with_child(
                     Container::new(
                         ui_builder
-                            .wrappable_text("Shortcut".to_string(), false)
+                            .wrappable_text("快捷键".to_string(), false)
                             .with_style(UiComponentStyles {
                                 font_family_id: Some(appearance.ui_font_family()),
                                 font_size: Some(appearance.monospace_font_size() * 0.8),
@@ -400,7 +400,7 @@ impl TipsView {
                         Align::new(
                             appearance
                                 .ui_builder()
-                                .paragraph("Skip Welcome Tips".to_string())
+                                .paragraph("跳过欢迎提示".to_string())
                                 .build()
                                 .finish(),
                         )
@@ -453,7 +453,7 @@ impl TipsView {
             .finish();
 
         let title = ui_builder
-            .span("Complete!")
+            .span("完成！")
             .with_style(UiComponentStyles {
                 font_weight: Some(Weight::Bold),
                 // Set to white here as the background has 85% black overlay.
@@ -465,7 +465,7 @@ impl TipsView {
             .finish();
 
         let sub_text = ui_builder
-            .paragraph("Nice work on finishing the welcome tips!")
+            .paragraph("恭喜完成欢迎提示！")
             .with_style(UiComponentStyles {
                 font_size: Some(12.),
                 font_color: Some(Fill::white().into()),
@@ -485,7 +485,7 @@ impl TipsView {
                     .set_width(152.)
                     .set_height(34.),
             )
-            .with_centered_text_label("Close Welcome Tips".to_string())
+            .with_centered_text_label("关闭欢迎提示".to_string())
             .build()
             .on_click(|ctx, _, _| ctx.dispatch_typed_action(TipsAction::DismissTips))
             .finish();

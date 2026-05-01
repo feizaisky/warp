@@ -95,7 +95,7 @@ pub fn maybe_log_out(app: &mut AppContext) {
             || num_unsaved_files > 0)
     {
         send_telemetry_sync_from_app_ctx!(TelemetryEvent::LogOutModalShown, app);
-        let mut button_data = vec![ModalButton::for_app("Yes, log out", |ctx| {
+        let mut button_data = vec![ModalButton::for_app("确认退出登录", |ctx| {
             log_out(ctx);
         })];
 
@@ -110,7 +110,7 @@ pub fn maybe_log_out(app: &mut AppContext) {
                 "You have {num_long_running_commands} {plural} running."
             ));
 
-            button_data.push(ModalButton::for_app("Show running processes", move |ctx| {
+            button_data.push(ModalButton::for_app("显示正在运行的进程", move |ctx| {
                 send_telemetry_sync_from_app_ctx!(
                     TelemetryEvent::LogOutModalCancel { nav_palette: true },
                     ctx
@@ -175,7 +175,7 @@ pub fn maybe_log_out(app: &mut AppContext) {
             ));
         }
 
-        button_data.push(ModalButton::for_app("Cancel", move |ctx| {
+        button_data.push(ModalButton::for_app("取消", move |ctx| {
             send_telemetry_sync_from_app_ctx!(
                 TelemetryEvent::LogOutModalCancel { nav_palette: false },
                 ctx
@@ -183,7 +183,7 @@ pub fn maybe_log_out(app: &mut AppContext) {
         }));
 
         let alert_data = AlertDialogWithCallbacks::for_app(
-            "Log out?",
+            "退出登录？",
             info_text_vec.join("\n"),
             button_data,
             move |ctx| {

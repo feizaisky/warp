@@ -1485,7 +1485,7 @@ fn render_groups(
 
     if workspace.tabs.is_empty() {
         return Container::new(
-            Text::new_inline("No tabs open", appearance.ui_font_family(), 12.)
+            Text::new_inline("没有打开的标签页", appearance.ui_font_family(), 12.)
                 .with_color(theme.sub_text_color(theme.background()).into())
                 .finish(),
         )
@@ -2505,13 +2505,13 @@ impl TypedPane<'_> {
     }
     fn kind_label(&self) -> &'static str {
         match self {
-            TypedPane::Terminal(_) => "Terminal",
+            TypedPane::Terminal(_) => "终端",
             TypedPane::Code(_) => "Code",
             TypedPane::CodeDiff => "Code Diff",
             TypedPane::File => "File",
-            TypedPane::Notebook { .. } => "Notebook",
-            TypedPane::Workflow { .. } => "Workflow",
-            TypedPane::Settings => "Settings",
+            TypedPane::Notebook { .. } => "笔记本 (Notebook)",
+            TypedPane::Workflow { .. } => "工作流",
+            TypedPane::Settings => "设置",
             TypedPane::EnvVarCollection => "Environment Variables",
             TypedPane::EnvironmentManagement => "Environments",
             TypedPane::AIFact => "Rules",
@@ -2527,7 +2527,7 @@ impl TypedPane<'_> {
                 .file_view(app)
                 .as_ref(app)
                 .contains_unsaved_changes(app)
-                .then(|| "Unsaved".to_string()),
+                .then(|| "未保存".to_string()),
             TypedPane::Terminal(_)
             | TypedPane::CodeDiff
             | TypedPane::File
@@ -2980,7 +2980,7 @@ fn terminal_primary_line_data(
     }
 
     TerminalPrimaryLineData::Text {
-        text: "New session".to_string(),
+        text: "新建会话".to_string(),
         font: TerminalPrimaryLineFont::Ui,
     }
 }
@@ -2991,7 +2991,7 @@ fn terminal_kind_badge_label(is_oz_agent: bool, cli_agent: Option<CLIAgent>) -> 
     } else if is_oz_agent {
         "Oz".to_string()
     } else {
-        "Terminal".to_string()
+        "终端".to_string()
     }
 }
 

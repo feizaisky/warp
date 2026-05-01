@@ -148,7 +148,7 @@ impl FirstTimeCloudAgentSetupView {
         // Title - 20px medium weight
         column.add_child(
             Text::new(
-                "Start a new Oz cloud agent",
+                "启动新的 Oz 云端智能体",
                 appearance.ui_font_family(),
                 20.,
             )
@@ -160,10 +160,10 @@ impl FirstTimeCloudAgentSetupView {
         // Description with "Visit docs" link
         let description_fragments = vec![
             FormattedTextFragment::plain_text(
-                "Use Oz cloud agents to run parallel agents, build agents that run autonomously, and check in on your agents from anywhere. ",
+                "使用 Oz 云端智能体并行运行多个智能体、构建自主运行的智能体，并从任意位置查看智能体状态。",
             ),
             FormattedTextFragment::hyperlink(
-                "Visit docs",
+                "访问文档",
                 "https://docs.warp.dev/agent-platform/cloud-agents/overview",
             ),
         ];
@@ -192,7 +192,7 @@ impl FirstTimeCloudAgentSetupView {
 
         // Bold/semibold text in foreground color (per Figma: font-semibold text-[#e3e2df])
         Text::new(
-            "Cloud agents require an environment that they'll run in to get their task done. Create your first environment below. You'll be able to edit the environment later, or add new environments when you need them.",
+            "云端智能体需要一个运行环境来完成任务。请在下方创建您的第一个环境。您可以稍后编辑环境，或在需要时添加新环境。",
             appearance.ui_font_family(),
             appearance.ui_font_size(),
         )
@@ -212,7 +212,7 @@ impl FirstTimeCloudAgentSetupView {
 
         // Badge with blue border
         let badge = Container::new(
-            Text::new("Free credits", appearance.ui_font_family(), 12.)
+            Text::new("免费积分", appearance.ui_font_family(), 12.)
                 .with_style(Properties::default().weight(Weight::Semibold))
                 .with_color(theme.accent().into())
                 .finish(),
@@ -225,10 +225,10 @@ impl FirstTimeCloudAgentSetupView {
 
         // Banner text - dynamic based on credits
         let credits_text = if credits == 1 {
-            "You have 1 free credit to use on Oz cloud agents.".to_string()
+            "您有 1 个免费积分可用于 Oz 云端智能体。".to_string()
         } else {
             format!(
-                "You have {} free credits to use on Oz cloud agents.",
+                "您有 {} 个免费积分可用于 Oz 云端智能体。",
                 credits
             )
         };

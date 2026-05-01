@@ -61,8 +61,8 @@ const ENV_VAR_HORIZONTAL_MARGIN: f32 = 20.;
 const ENV_VAR_RIGHT_ELEMENT_VERTICAL_MARGIN: f32 = 5.;
 const ENV_VAR_SPAN_VERTICAL_MARGIN: f32 = 15.;
 const ENV_VAR_BUTTON_HEIGHT: f32 = 30.;
-const ENV_VAR_SPAN: &str = "Environment variables";
-const NEW_ENV_VAR_BUTTON_LABEL: &str = "New environment variables";
+const ENV_VAR_SPAN: &str = "环境变量";
+const NEW_ENV_VAR_BUTTON_LABEL: &str = "新建环境变量";
 
 /// Scale factor the title should be from the user's current font size.
 const TITLE_FONT_SIZE_SCALE_FACTOR: f32 = 1.12;
@@ -253,9 +253,9 @@ impl WorkflowsMoreInfoView {
         appearance: &Appearance,
     ) -> Box<dyn Element> {
         let label = if cloud_workflow.model().data.is_agent_mode_workflow() {
-            "Edit prompt"
+            "编辑提示词"
         } else {
-            "Edit workflow"
+            "编辑工作流"
         };
         let workflow = cloud_workflow.clone();
         render_hoverable_card_button(
@@ -439,7 +439,7 @@ impl WorkflowsMoreInfoView {
             .with_child(
                 Container::new(
                     Text::new_inline(
-                        "Command edited.",
+                        "命令已编辑。",
                         appearance.ui_font_family(),
                         appearance.monospace_font_size(),
                     )
@@ -461,7 +461,7 @@ impl WorkflowsMoreInfoView {
                         ButtonVariant::Text,
                         self.button_mouse_states.reset_command.clone(),
                     )
-                    .with_centered_text_label(String::from("Reset"))
+                    .with_centered_text_label(String::from("重置"))
                     .with_style(UiComponentStyles {
                         font_family_id: Some(appearance.ui_font_family()),
                         font_size: Some(appearance.monospace_font_size()),
@@ -504,7 +504,7 @@ impl WorkflowsMoreInfoView {
                     1.,
                     Container::new(
                         Text::new_inline(
-                            "to cycle parameters",
+                            "循环切换参数",
                             appearance.ui_font_family(),
                             appearance.monospace_font_size(),
                         )
@@ -538,7 +538,7 @@ impl WorkflowsMoreInfoView {
         let workflow = self.workflow.as_workflow().to_owned();
         render_hoverable_card_button(
             icons::Icon::Workflow,
-            Some("Save as workflow".to_string()),
+            Some("另存为工作流".to_string()),
             self.button_mouse_states.save_as_workflow.clone(),
             move |ctx, _, _| {
                 ctx.dispatch_typed_action(TerminalAction::OpenWorkflowModalForAIWorkflow(

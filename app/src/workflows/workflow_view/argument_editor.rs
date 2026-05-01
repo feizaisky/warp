@@ -41,12 +41,12 @@ use super::{
 };
 
 const ARGUMENT_INPUT_HEIGHT: f32 = 30.;
-const ARGUMENT_LABEL_TEXT: &str = "Arguments";
+const ARGUMENT_LABEL_TEXT: &str = "参数";
 const ARGUMENT_LABEL_HEIGHT: f32 = 20.;
 const ARGUMENT_LABEL_MARGIN_BOTTOM: f32 = 5.;
-const ARGUMENT_DESCRIPTION_PLACEHOLDER_TEXT: &str = "Description";
-const ARGUMENT_ALIAS_DESCRIPTION_PLACEHOLDER_TEXT: &str = "Value (optional)";
-const ARGUMENT_DEFAULT_VALUE_PLACEHOLDER_TEXT: &str = "Default value (optional)";
+const ARGUMENT_DESCRIPTION_PLACEHOLDER_TEXT: &str = "描述";
+const ARGUMENT_ALIAS_DESCRIPTION_PLACEHOLDER_TEXT: &str = "值（可选）";
+const ARGUMENT_DEFAULT_VALUE_PLACEHOLDER_TEXT: &str = "默认值（可选）";
 pub const DEFAULT_ARGUMENT_PREFIX: &str = "argument";
 
 /// Width of the argument editor in alias mode.
@@ -588,7 +588,7 @@ impl WorkflowView {
                 )
                 .with_tooltip(move || {
                     ui_builder
-                        .tool_tip("Add a workflow argument".to_string())
+                        .tool_tip("添加工作流参数".to_string())
                         .build()
                         .finish()
                 })
@@ -602,7 +602,7 @@ impl WorkflowView {
                     Container::new(
                         appearance
                         .ui_builder()
-                        .span("Fill out the arguments in this workflow and copy it to run in your terminal session")
+                        .span("填写此工作流的参数并复制到终端会话中运行")
                         .with_soft_wrap()
                         .with_style(UiComponentStyles {
                             font_size: Some(EDITOR_FONT_SIZE),
@@ -826,7 +826,7 @@ impl WorkflowView {
                         .add_environment_variables_mouse_state
                         .clone(),
                 )
-                .with_centered_text_label("Add environment variables".to_string())
+                .with_centered_text_label("添加环境变量".to_string())
                 .build()
                 .on_click(|ctx, _, _| {
                     ctx.dispatch_typed_action(WorkspaceAction::CreatePersonalEnvVarCollection);
@@ -838,7 +838,7 @@ impl WorkflowView {
             .with_children([
                 appearance
                     .ui_builder()
-                    .span("Environment variables")
+                    .span("环境变量")
                     .with_style(UiComponentStyles {
                         font_size: Some(13.),
                         ..Default::default()

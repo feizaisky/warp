@@ -50,11 +50,11 @@ const SECTION_FONT_SIZE: f32 = 16.;
 const SPAN_FONT_SIZE: f32 = 16.;
 const VARIANT_FONT_SIZE: f32 = 13.;
 
-const CANCEL_BUTTON_LABEL: &str = "Close";
-const NEW_ENUM_SPAN: &str = "New enum";
+const CANCEL_BUTTON_LABEL: &str = "关闭";
+const NEW_ENUM_SPAN: &str = "新建枚举";
 const EXISTING_ENUM_SPAN: &str = "Edit enum";
 const NAME_PLACEHOLDER_TEXT: &str = "Name";
-const CREATE_BUTTON_LABEL: &str = "Create";
+const CREATE_BUTTON_LABEL: &str = "创建";
 const SAVE_BUTTON_LABEL: &str = "Save";
 const VARIANT_PLACEHOLDER_TEXT: &str = "Variant";
 const STATIC_LABEL_TEXT: &str = "Variants";
