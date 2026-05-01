@@ -2,6 +2,8 @@
     <img width="1024" alt="Warp Agentic Development Environment product preview" src="https://github.com/user-attachments/assets/9976b2da-2edd-4604-a36c-8fd53719c6d4" />
 </a>
 
+> 🇨🇳 **中文用户**：本 fork 提供非官方简体中文汉化，详见 [README.zh-CN.md](README.zh-CN.md)。
+
 <p align="center">
   <a href="https://www.warp.dev">Website</a>
   ·
