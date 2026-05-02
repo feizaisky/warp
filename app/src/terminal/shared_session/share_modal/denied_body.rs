@@ -9,8 +9,8 @@ use warpui::{
 
 use super::style::{self, MODAL_PADDING};
 
-const SESSION_BUILD_FREE_PLAN_SUBHEADER: &str = "Warp's free and pro plans come with a limited number of shared sessions.\n\nFor increased access to session sharing upgrade to the Build plan.";
-const VIEW_PLANS_TEXT: &str = "View plans";
+const SESSION_BUILD_FREE_PLAN_SUBHEADER: &str = "Warp 的免费版和专业版提供有限数量的共享会话。\n\n如需更多共享会话权限，请升级到 Build 套餐。";
+const VIEW_PLANS_TEXT: &str = "查看套餐";
 
 pub struct DeniedBody {
     button_mouse_state: MouseStateHandle,
