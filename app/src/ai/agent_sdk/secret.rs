@@ -622,7 +622,7 @@ fn read_bedrock_secret_value(
                     "Bedrock secrets require --bedrock-api-key and --region in non-interactive mode"
                 ));
             }
-            let result = inquire::Text::new("AWS Region:").prompt();
+            let result = inquire::Text::new("AWS 区域：").prompt();
             match result {
                 Ok(value) if !value.is_empty() => value,
                 Ok(_) => return Ok(None),
@@ -660,7 +660,7 @@ fn read_bedrock_access_key_secret_value(
             if !io::stdin().is_terminal() {
                 return Err(anyhow::anyhow!(NON_INTERACTIVE_REQUIRED_MSG));
             }
-            match inquire::Text::new("AWS Access Key ID:").prompt() {
+            match inquire::Text::new("AWS Access Key ID：").prompt() {
                 Ok(value) if !value.is_empty() => value,
                 Ok(_) => return Ok(None),
                 Err(InquireError::OperationCanceled | InquireError::OperationInterrupted) => {
@@ -677,7 +677,7 @@ fn read_bedrock_access_key_secret_value(
             if !io::stdin().is_terminal() {
                 return Err(anyhow::anyhow!(NON_INTERACTIVE_REQUIRED_MSG));
             }
-            match Password::new("AWS Secret Access Key:")
+            match Password::new("AWS Secret Access Key：")
                 .with_display_toggle_enabled()
                 .without_confirmation()
                 .prompt()
@@ -703,7 +703,7 @@ fn read_bedrock_access_key_secret_value(
                 // persistent IAM credentials do not need a session token.
                 None
             } else {
-                match Password::new("AWS Session Token (optional, press Enter to skip):")
+                match Password::new("AWS Session Token（可选，按 Enter 跳过）：")
                     .with_display_toggle_enabled()
                     .without_confirmation()
                     .prompt()

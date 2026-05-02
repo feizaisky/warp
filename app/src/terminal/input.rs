@@ -774,21 +774,21 @@ impl InputSuggestionsMode {
             InputSuggestionsMode::UserQueryMenu {
                 action: UserQueryMenuAction::ForkFrom,
                 ..
-            } => Some("Search queries"),
+            } => Some("搜索查询"),
             InputSuggestionsMode::UserQueryMenu {
                 action: UserQueryMenuAction::Rewind,
                 ..
-            } => Some("Search queries to rewind to"),
-            InputSuggestionsMode::ConversationMenu => Some("Search conversations"),
-            InputSuggestionsMode::SkillMenu => Some("Search skills"),
-            InputSuggestionsMode::ModelSelector => Some("Search models"),
-            InputSuggestionsMode::ProfileSelector => Some("Search profiles"),
+            } => Some("搜索可回退的查询"),
+            InputSuggestionsMode::ConversationMenu => Some("搜索对话"),
+            InputSuggestionsMode::SkillMenu => Some("搜索技能"),
+            InputSuggestionsMode::ModelSelector => Some("搜索模型"),
+            InputSuggestionsMode::ProfileSelector => Some("搜索配置"),
             InputSuggestionsMode::SlashCommands if FeatureFlag::AgentView.is_enabled() => {
-                Some("Search commands")
+                Some("搜索命令")
             }
-            InputSuggestionsMode::PromptsMenu => Some("Search prompts"),
-            InputSuggestionsMode::IndexedReposMenu => Some("Search indexed repos"),
-            InputSuggestionsMode::PlanMenu { .. } => Some("Search plans"),
+            InputSuggestionsMode::PromptsMenu => Some("搜索提示词"),
+            InputSuggestionsMode::IndexedReposMenu => Some("搜索已索引仓库"),
+            InputSuggestionsMode::PlanMenu { .. } => Some("搜索计划"),
             _ => None,
         }
     }
@@ -1824,7 +1824,7 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "workspace:show_command_search",
-            "Command Search",
+            "命令搜索",
             WorkspaceAction::ShowCommandSearch(Default::default()),
         )
         // Only show command search if none of the input-related panels are open, and if we aren't
@@ -1839,7 +1839,7 @@ pub fn init(app: &mut AppContext) {
         .with_custom_action(CustomAction::CommandSearch),
         EditableBinding::new(
             "input:search_command_history",
-            "History Search",
+            "历史搜索",
             WorkspaceAction::ShowCommandSearch(CommandSearchOptions {
                 filter: Some(QueryFilter::History),
                 init_content: Default::default(),
@@ -3856,7 +3856,7 @@ impl Input {
                             "Inline conversation menu: active conversation missing navigation data: {conversation_navigation_data:?}"
                         );
                         ctx.emit(Event::ShowToast {
-                            message: "Couldn't navigate to conversation.".to_string(),
+                            message: "无法跳转到对话。".to_string(),
                             flavor: ToastFlavor::Error,
                         });
                         return;
@@ -4693,7 +4693,7 @@ impl Input {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::error(format!("Skill not found: {}", reference)),
+                        DismissibleToast::error(format!("未找到技能：{}", reference)),
                         window_id,
                         ctx,
                     );
@@ -4756,7 +4756,7 @@ impl Input {
             let window_id = ctx.window_id();
             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                 let toast =
-                    DismissibleToast::default(String::from("No active conversation to export"));
+                    DismissibleToast::default(String::from("没有可导出的活动对话"));
                 toast_stack.add_ephemeral_toast(toast, window_id, ctx);
             });
             return;

@@ -116,7 +116,7 @@ impl CloudSetupGuideView {
         );
 
         let visit_oz_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("访问 Oz (Visit Oz)", SecondaryTheme)
+            ActionButton::new("访问 Oz", SecondaryTheme)
                 .on_click(|ctx| ctx.dispatch_typed_action(CloudSetupGuideAction::VisitOz))
         });
 
@@ -345,21 +345,21 @@ impl CloudSetupGuideView {
         let Some((workflow, setup_step)) = (match code {
             CREATE_ENV_SLASH_CMD => Some((
                 WorkflowType::Local(
-                    Workflow::new("Create Environment", CREATE_ENV_SLASH_CMD).with_arguments(vec![
-                        Argument::new("github link or local filepath", ArgumentType::Text)
-                            .with_description("GitHub link or local filepath to the repository"),
+                    Workflow::new("创建环境", CREATE_ENV_SLASH_CMD).with_arguments(vec![
+                        Argument::new("GitHub 链接或本地文件路径", ArgumentType::Text)
+                            .with_description("仓库的 GitHub 链接或本地文件路径"),
                     ]),
                 ),
                 SetupGuideStep::CreateEnvironment,
             )),
             CREATE_ENV_CLI_CMD => Some((
                 WorkflowType::Local(
-                    Workflow::new("Create Environment (CLI)", CREATE_ENV_CLI_CMD).with_arguments(
+                    Workflow::new("创建环境（CLI）", CREATE_ENV_CLI_CMD).with_arguments(
                         vec![
                             Argument::new("NAME", ArgumentType::Text)
-                                .with_description("Name for the environment"),
+                                .with_description("环境名称"),
                             Argument::new("DOCKER_IMAGE", ArgumentType::Text)
-                                .with_description("Docker image to use for the environment"),
+                                .with_description("环境使用的 Docker 镜像"),
                         ],
                     ),
                 ),
@@ -367,17 +367,17 @@ impl CloudSetupGuideView {
             )),
             CREATE_SLACK_INTEGRATION_CMD => Some((
                 WorkflowType::Local(
-                    Workflow::new("Create Slack Integration", CREATE_SLACK_INTEGRATION_CMD)
+                    Workflow::new("创建 Slack 集成", CREATE_SLACK_INTEGRATION_CMD)
                         .with_arguments(vec![Argument::new("environment_id", ArgumentType::Text)
-                            .with_description("ID of the environment to integrate with")]),
+                            .with_description("要集成的环境 ID")]),
                 ),
                 SetupGuideStep::CreateSlackIntegration,
             )),
             CREATE_LINEAR_INTEGRATION_CMD => Some((
                 WorkflowType::Local(
-                    Workflow::new("Create Linear Integration", CREATE_LINEAR_INTEGRATION_CMD)
+                    Workflow::new("创建 Linear 集成", CREATE_LINEAR_INTEGRATION_CMD)
                         .with_arguments(vec![Argument::new("environment_id", ArgumentType::Text)
-                            .with_description("ID of the environment to integrate with")]),
+                            .with_description("要集成的环境 ID")]),
                 ),
                 SetupGuideStep::CreateLinearIntegration,
             )),

@@ -34,10 +34,10 @@ use crate::ui_components::buttons::icon_button_with_color;
 use crate::ui_components::icons;
 
 /// Header text for the network log pane.
-pub const NETWORK_LOG_HEADER_TEXT: &str = "Network log";
+pub const NETWORK_LOG_HEADER_TEXT: &str = "网络日志";
 
 /// Tooltip shown on hover over the refresh button in the pane header.
-const REFRESH_TOOLTIP: &str = "Refresh";
+const REFRESH_TOOLTIP: &str = "刷新";
 
 /// Event emitted by the [`NetworkLogView`].
 #[derive(Debug, Clone, PartialEq, Eq)]

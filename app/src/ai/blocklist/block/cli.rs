@@ -142,7 +142,7 @@ lazy_static! {
 const HAS_PENDING_CLI_ACTION_CONTEXT_KEY: &str = "HasPendingCLIAgentAction";
 const HAS_PENDING_NON_TRANSFER_CONTROL_ACTION_CONTEXT_KEY: &str =
     "HasPendingNonTransferControlCLIAgentAction";
-const BLOCKED_ACTION_MESSAGE_FOR_TRANSFER_CONTROL: &str = "Agent is asking you to take control.";
+const BLOCKED_ACTION_MESSAGE_FOR_TRANSFER_CONTROL: &str = "智能体正在请求你接管控制。";
 
 pub fn init(app: &mut AppContext) {
     use warpui::keymap::{macros::*, FixedBinding};

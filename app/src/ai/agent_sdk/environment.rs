@@ -342,7 +342,7 @@ impl EnvironmentCommandRunner {
     where
         F: FnOnce(String, &mut ModelContext<Self>) + Send + 'static,
     {
-        const CUSTOM_IMAGE_OPTION: &str = "Custom Docker image";
+        const CUSTOM_IMAGE_OPTION: &str = "自定义 Docker 镜像";
 
         let server_api = ServerApiProvider::as_ref(ctx).get();
         let operation = ListWarpDevImages::build(ListWarpDevImagesVariables {});
@@ -371,7 +371,7 @@ impl EnvironmentCommandRunner {
                         output.images.into_iter().map(|img| img.image).collect();
                     image_choices.push(CUSTOM_IMAGE_OPTION.to_string());
 
-                    let selected_image = match Select::new("Select a base image:", image_choices)
+                    let selected_image = match Select::new("选择基础镜像：", image_choices)
                         .prompt()
                     {
                         Ok(image) => image,
@@ -387,7 +387,7 @@ impl EnvironmentCommandRunner {
                     };
 
                     let final_image = if selected_image == CUSTOM_IMAGE_OPTION {
-                        match inquire::Text::new("Enter custom Docker image name:").prompt() {
+                        match inquire::Text::new("输入自定义 Docker 镜像名称：").prompt() {
                             Ok(custom) => custom,
                             Err(err) => {
                                 if !Self::handle_inquire_error(err, ctx) {

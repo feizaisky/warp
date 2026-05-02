@@ -99,7 +99,7 @@ impl EnableAutoReloadModalBody {
                             );
 
                             ctx.emit(EnableAutoReloadModalBodyEvent::ShowToast {
-                                message: "Auto-reload settings updated".to_string(),
+                                message: "自动充值设置已更新".to_string(),
                                 flavor: ToastFlavor::Success,
                             });
                             ctx.emit(EnableAutoReloadModalBodyEvent::Close);
@@ -109,7 +109,7 @@ impl EnableAutoReloadModalBody {
                         if me.update_workspace_settings_loading {
                             me.update_workspace_settings_loading = false;
                             ctx.emit(EnableAutoReloadModalBodyEvent::ShowToast {
-                                message: "Failed to enable auto-reload. Please try updating your settings in Billing & usage.".to_string(),
+                                message: "无法启用自动充值。请前往“账单与用量”更新设置后重试。".to_string(),
                                 flavor: ToastFlavor::Error,
                             });
                             ctx.notify();
@@ -212,13 +212,13 @@ impl EnableAutoReloadModalBody {
     fn render_content(&self, appearance: &Appearance) -> Box<dyn Element> {
         let theme = appearance.theme();
         let explanation_fragments = vec![
-            FormattedTextFragment::plain_text("When enabled, "),
-            FormattedTextFragment::bold("auto-reload"),
+            FormattedTextFragment::plain_text("启用后，"),
+            FormattedTextFragment::bold("自动充值"),
             FormattedTextFragment::plain_text(
-                " will automatically purchase your selected package when you run out. ",
+                " 会在你用完积分时自动购买你选择的套餐。",
             ),
             FormattedTextFragment::hyperlink(
-                "Learn more",
+                "了解更多",
                 "https://docs.warp.dev/support-and-community/plans-and-billing/add-on-credits#id-2.-enable-auto-reload",
             ),
         ];
@@ -278,9 +278,9 @@ impl EnableAutoReloadModalBody {
             .finish();
 
         let button_text = if self.update_workspace_settings_loading {
-            "Saving...".to_string()
+            "正在保存...".to_string()
         } else {
-            "Enable".to_string()
+            "启用".to_string()
         };
 
         let mut enable_button = appearance
@@ -387,7 +387,7 @@ impl warpui::TypedActionView for EnableAutoReloadModalBody {
                 let workspaces = UserWorkspaces::as_ref(ctx);
                 let Some(team_uid) = workspaces.current_team_uid() else {
                     ctx.emit(EnableAutoReloadModalBodyEvent::ShowToast {
-                        message: "Oops, something went wrong; your team's data could not be found."
+                        message: "哎呀，出了点问题；找不到你团队的数据。"
                             .to_string(),
                         flavor: ToastFlavor::Error,
                     });
@@ -419,7 +419,7 @@ impl EnableAutoReloadModal {
         let body = ctx.add_typed_action_view(EnableAutoReloadModalBody::new);
 
         let modal = ctx.add_typed_action_view(|ctx| {
-            Modal::new(Some("Enable auto reload?".to_string()), body.clone(), ctx).with_body_style(
+            Modal::new(Some("启用自动充值？".to_string()), body.clone(), ctx).with_body_style(
                 UiComponentStyles {
                     // Padding of 0 here since we add a horizontal bar that needs to span the full width in the body
                     // So we handle padding in the body itself

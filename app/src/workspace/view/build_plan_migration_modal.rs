@@ -265,7 +265,7 @@ impl BuildPlanMigrationModal {
             })
             .finish();
 
-        let label = FormattedTextElement::from_str("Auto-reload", appearance.ui_font_family(), 12.)
+        let label = FormattedTextElement::from_str("自动充值", appearance.ui_font_family(), 12.)
             .with_color(blended_colors::text_sub(
                 theme,
                 blended_colors::neutral_4(theme),
@@ -303,9 +303,9 @@ impl BuildPlanMigrationModal {
 
     fn render_get_started_button(&self, appearance: &Appearance) -> Box<dyn Element> {
         let button_text = if self.is_updating {
-            "Saving...".to_string()
+            "正在保存...".to_string()
         } else {
-            "Get Started".to_string()
+            "开始使用".to_string()
         };
 
         let button_font_color = self.is_updating.then_some(
@@ -353,7 +353,7 @@ impl BuildPlanMigrationModal {
         let theme = appearance.theme();
 
         let title = Self::create_text(
-            "Use auto-reload to never miss a beat.".to_string(),
+            "使用自动充值，始终不中断。".to_string(),
             appearance.ui_font_family(),
             16.,
             blended_colors::text_main(theme, blended_colors::neutral_2(theme)),
@@ -361,7 +361,7 @@ impl BuildPlanMigrationModal {
         );
 
         let description = Self::create_text(
-            "Auto-reload will automatically purchase credits at your selected rate when your account balance reaches 100 credits. Your monthly spend limit is set at your legacy plan's monthly cost and can be updated in Settings > Billing & usage.".to_string(),
+            "当你的账户余额降至 100 积分时，自动充值会按你选择的额度自动购买积分。你的每月支出上限默认为旧套餐的月费用，也可以在“设置 > 账单与用量”中更新。".to_string(),
             appearance.ui_font_family(),
             14.,
             blended_colors::text_sub(theme, blended_colors::neutral_4(theme)),
@@ -513,9 +513,9 @@ impl BuildPlanMigrationModal {
             .unwrap_or((2000, 1800));
 
         let title_text = if is_business {
-            "Welcome to the New Business Plan"
+            "欢迎使用新的 Business 套餐"
         } else {
-            "Welcome to Warp Build"
+            "欢迎使用 Warp Build"
         };
 
         let title = Self::create_text(
@@ -527,18 +527,18 @@ impl BuildPlanMigrationModal {
         );
 
         let intro_text = if is_business {
-            "Your workspace has been updated to the new Warp Business Plan as the legacy Business plan is sunset."
+            "由于旧版 Business 套餐已停止提供，你的工作区已升级到新的 Warp Business 套餐。"
         } else {
-            "Your workspace has been updated to the Warp Build Plan as the legacy Pro, Turbo, and Lightspeed plans are sunset."
+            "由于旧版 Pro、Turbo 和 Lightspeed 套餐已停止提供，你的工作区已升级到 Warp Build 套餐。"
         };
 
         let intro = Self::create_text(intro_text.to_string(), font_family, 14., text_color, None);
 
         let pricing_header = Self::create_text(
             if is_business {
-                "The new Business plan is a primarily usage-based plan, starting at:"
+                "新的 Business 套餐主要按使用量计费，起价为："
             } else {
-                "Warp Build is a primarily usage-based plan, starting at:"
+                "Warp Build 主要按使用量计费，起价为："
             }
             .to_string(),
             font_family,
@@ -548,7 +548,7 @@ impl BuildPlanMigrationModal {
         );
 
         let price_monthly = Self::create_bullet_item(
-            format!("${} per user per month", base_plan_prices.0 / 100),
+            format!("每位用户每月 ${}", base_plan_prices.0 / 100),
             font_family,
             14.,
             text_color,
@@ -556,7 +556,7 @@ impl BuildPlanMigrationModal {
 
         let price_annual = Self::create_bullet_item(
             format!(
-                "${} per user per month for annual plans",
+                "年付套餐为每位用户每月 ${}",
                 base_plan_prices.1 / 100
             ),
             font_family,
@@ -566,9 +566,9 @@ impl BuildPlanMigrationModal {
 
         let features_header = Self::create_text(
             if is_business {
-                "The new Business plan comes with:"
+                "新的 Business 套餐包含："
             } else {
-                "Build comes with:"
+                "Build 套餐包含："
             }
             .to_string(),
             font_family,
@@ -579,7 +579,7 @@ impl BuildPlanMigrationModal {
 
         let base_credits = Self::create_bullet_item(
             format!(
-                "{} base credits per month",
+                "每月 {} 基础积分",
                 base_credits_limit.separate_with_commas()
             ),
             font_family,
@@ -588,14 +588,14 @@ impl BuildPlanMigrationModal {
         );
 
         let reload_credits = Self::create_bullet_item(
-            "Access to Reload credits and volume-based discounts".to_string(),
+            "可使用 Reload 积分和阶梯折扣".to_string(),
             font_family,
             14.,
             text_color,
         );
 
         let byok = Self::create_bullet_item(
-            "Bring your own API key".to_string(),
+            "可自带 API 密钥".to_string(),
             font_family,
             14.,
             text_color,
@@ -609,7 +609,7 @@ impl BuildPlanMigrationModal {
 
         if is_business {
             let sso = Self::create_bullet_item(
-                "SAML-based SSO".to_string(),
+                "基于 SAML 的单点登录（SSO）".to_string(),
                 font_family,
                 14.,
                 text_color,
@@ -617,7 +617,7 @@ impl BuildPlanMigrationModal {
             features_list.add_child(sso);
 
             let zdr = Self::create_bullet_item(
-                "Automatically enforced team-wide Zero Data Retention".to_string(),
+                "自动在全团队范围内强制启用零数据保留".to_string(),
                 font_family,
                 14.,
                 text_color,
@@ -626,12 +626,12 @@ impl BuildPlanMigrationModal {
         }
 
         let and_more =
-            Self::create_bullet_item("And more...".to_string(), font_family, 14., text_color);
+            Self::create_bullet_item("以及更多功能...".to_string(), font_family, 14., text_color);
         features_list.add_child(and_more);
 
         let learn_more_fragments = vec![
-            FormattedTextFragment::plain_text("Learn more on our "),
-            FormattedTextFragment::hyperlink("pricing page", "https://www.warp.dev/pricing"),
+            FormattedTextFragment::plain_text("前往我们的 "),
+            FormattedTextFragment::hyperlink("定价页面", "https://www.warp.dev/pricing"),
             FormattedTextFragment::plain_text("."),
         ];
         let learn_more = Container::new(
@@ -789,7 +789,7 @@ impl TypedActionView for BuildPlanMigrationModal {
                 let workspaces = UserWorkspaces::as_ref(ctx);
                 let Some(team_uid) = workspaces.current_team_uid() else {
                     ctx.emit(BuildPlanMigrationModalEvent::ShowToast {
-                        message: "Oops, something went wrong; your team data could not be found."
+                        message: "哎呀，出了点问题；找不到你的团队数据。"
                             .to_string(),
                         flavor: ToastFlavor::Error,
                     });

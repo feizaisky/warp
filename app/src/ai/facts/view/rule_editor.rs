@@ -28,8 +28,8 @@ use super::{is_delete_allowed, style, AIFact, CloudAIFact, CloudAIFactModel};
 use crate::ai::facts::AIMemory;
 use crate::ui_components::icons::Icon;
 
-const RULE_NAME_PLACEHOLDER_TEXT: &str = "e.g. Rust rules";
-const RULE_DESCRIPTION_PLACEHOLDER_TEXT: &str = "e.g. Never use unwrap in Rust";
+const RULE_NAME_PLACEHOLDER_TEXT: &str = "例如：Rust 规则";
+const RULE_DESCRIPTION_PLACEHOLDER_TEXT: &str = "例如：在 Rust 中永远不要使用 unwrap";
 
 #[derive(Debug, Clone, Copy)]
 enum EditorType {

@@ -24,8 +24,8 @@ use ai::api_keys::ApiKeyManager;
 const ANONYMOUS_USER_REQUEST_LIMIT_SOFT_GATE_PERCENTAGE: f32 = 0.5;
 
 const TELEMETRY_DISABLED_PRIMARY_TEXT: &str = "使用 AI 功能，";
-const ENABLE_ANALYTICS_ACTION_TEXT: &str = "enable analytics";
-const UPGRADE_TO_BUILD_ACTION_TEXT: &str = "upgrade";
+const ENABLE_ANALYTICS_ACTION_TEXT: &str = "启用分析";
+const UPGRADE_TO_BUILD_ACTION_TEXT: &str = "升级";
 
 const NO_CONNECTION_PRIMARY_TEXT: &str = "无网络连接";
 const ANONYMOUS_USER_REQUEST_LIMIT_SOFT_GATE_PRIMARY_TEXT: &str = "";
@@ -36,14 +36,14 @@ const OUT_OF_REQUESTS_PRIMARY_TEXT: &str = "积分已用完";
 const ANONYMOUS_USER_REQUEST_LIMIT_ACTION_TEXT: &str = "注册以获取更多 AI 积分";
 const DELINQUENT_DUE_TO_PAYMENT_ISSUE_ACTION_TEXT: &str = "管理账单";
 const OVERAGES_TOGGLEABLE_BUT_NOT_ENABLED_ACTION_TEXT: &str = "启用超出限额使用";
-const MONTHLY_OVERAGES_SPEND_LIMIT_REACHED_ACTION_TEXT: &str = "Increase monthly spend limit";
+const MONTHLY_OVERAGES_SPEND_LIMIT_REACHED_ACTION_TEXT: &str = "提高每月支出上限";
 const UPGRADE_TEXT: &str = "升级";
 const COMPARE_PLANS_TEXT: &str = "比较套餐";
 const CONTACT_SUPPORT_TEXT: &str = "联系支持";
-const NON_ADMIN_CONTACT_ADMIN_TEXT: &str = ", contact a team admin";
-const NON_ADMIN_ASK_ADMIN_TO_ENABLE_OVERAGES_TEXT: &str = ", ask a team admin to enable overages";
+const NON_ADMIN_CONTACT_ADMIN_TEXT: &str = "，请联系团队管理员";
+const NON_ADMIN_ASK_ADMIN_TO_ENABLE_OVERAGES_TEXT: &str = "，请让团队管理员启用超出限额使用";
 const NON_ADMIN_ASK_ADMIN_TO_INCREASE_OVERAGES_TEXT: &str =
-    ", ask a team admin to increase overages";
+    "，请让团队管理员提高超出限额上限";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PromptAlertAction {
@@ -283,7 +283,7 @@ impl PromptAlertView {
                 ));
 
                 // Show "or upgrade to Build" link
-                text_fragments.push(FormattedTextFragment::plain_text(" or "));
+                text_fragments.push(FormattedTextFragment::plain_text(" 或 "));
                 let upgrade_url = if let Some(team) = UserWorkspaces::as_ref(app).current_team() {
                     UserWorkspaces::upgrade_link_for_team(team.uid)
                 } else {
@@ -357,7 +357,7 @@ impl PromptAlertView {
                         let upgrade_text = if !has_admin_permissions {
                             COMPARE_PLANS_TEXT
                         } else if team.billing_metadata.can_upgrade_to_build_plan() {
-                            "Upgrade to Build"
+                            "升级到 Build"
                         } else {
                             UPGRADE_TEXT
                         };
@@ -376,7 +376,7 @@ impl PromptAlertView {
                     let label =
                         if let Some(workspace) = UserWorkspaces::as_ref(app).current_workspace() {
                             if workspace.billing_metadata.can_upgrade_to_build_plan() {
-                                "Upgrade to Build"
+                                "升级到 Build"
                             } else {
                                 UPGRADE_TEXT
                             }
@@ -386,9 +386,9 @@ impl PromptAlertView {
                     text_fragments.push(FormattedTextFragment::hyperlink(label, upgrade_url));
                 }
                 if UserWorkspaces::as_ref(app).is_byo_api_key_enabled() {
-                    text_fragments.push(FormattedTextFragment::plain_text(" or "));
+                    text_fragments.push(FormattedTextFragment::plain_text(" 或 "));
                     text_fragments.push(FormattedTextFragment::hyperlink_action(
-                        "use your own API keys",
+                        "使用你自己的 API 密钥",
                         WorkspaceAction::ShowSettingsPageWithSearch {
                             search_query: "api".to_string(),
                             section: Some(SettingsSection::WarpAgent),
@@ -453,7 +453,7 @@ impl View for PromptAlertView {
         if suggest_buy_credits {
             text_fragments.push(FormattedTextFragment::plain_text("  "));
             text_fragments.push(FormattedTextFragment::hyperlink_action(
-                "Add credits",
+                "添加积分",
                 WorkspaceAction::ShowSettingsPage(SettingsSection::BillingAndUsage),
             ));
         } else {

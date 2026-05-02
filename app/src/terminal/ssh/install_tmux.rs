@@ -257,11 +257,11 @@ impl SshInstallTmuxBlock {
         let package_manager = &self.system_details.package_manager;
         Container::new(requested_script::render_requested_scripts(
             TitledScript {
-                title: format!("Install with {package_manager}"),
+                title: format!("使用 {package_manager} 安装"),
                 content: tmux_system_install_script.to_string(),
             },
             TitledScript {
-                title: "Install to ~/.warp".to_string(),
+                title: "安装到 ~/.warp".to_string(),
                 content: self.tmux_local_install_script.clone(),
             },
             *is_first_script_active,

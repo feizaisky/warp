@@ -137,7 +137,7 @@ fn make_item_fields<A: Action + Clone>(
 
         if matches!(reason, DisableReason::RequiresUpgrade) {
             item =
-                item.with_right_side_label("disabled", Properties::default().style(Style::Italic));
+                item.with_right_side_label("已禁用", Properties::default().style(Style::Italic));
         }
     }
 

@@ -35,8 +35,8 @@ use crate::{
     TelemetryEvent,
 };
 
-const ACCEPT_LABEL: &str = "Generate tests";
-const CANCEL_LABEL: &str = "Dismiss";
+const ACCEPT_LABEL: &str = "生成测试";
+const CANCEL_LABEL: &str = "忽略";
 
 #[derive(Debug, Clone)]
 pub enum SuggestedUnitTestsEvent {

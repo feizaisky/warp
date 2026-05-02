@@ -168,9 +168,9 @@ impl OnboardingAgenticSuggestionsBlock {
             ),
             (
                 AgenticSuggestionsContent {
-                    title: format!("Explore git history in {git_repo_trimmed}"),
+                    title: format!("探索 {git_repo_trimmed} 的 git 历史"),
                     description: "与智能体模式一起了解 git 仓库的近期变更".to_string(),
-                    prompt: format!("Explore my git history in {git_repo_path} and provide me a summary."),
+                    prompt: format!("请探索我在 {git_repo_path} 中的 git 历史，并为我提供摘要。"),
                     chip_type: OnboardingChipType::ExploreGitHistory,
                     icon: UIIcon::Icon::BookOpen,
                 },

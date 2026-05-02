@@ -929,7 +929,7 @@ impl TerminalView {
                 );
                 if state.is_hovered() {
                     let tooltip = ui_builder
-                        .tool_tip("Cloud agent run".to_string())
+                        .tool_tip("云端智能体运行".to_string())
                         .build()
                         .finish();
                     stack.add_positioned_overlay_child(

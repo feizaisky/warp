@@ -383,7 +383,7 @@ impl LeftPanelView {
                 ToolbeltButtonConfig {
                     icon: Icon::FileCopy,
                     active_icon: None,
-                    tooltip_text: "Project explorer".to_string(),
+                    tooltip_text: "项目浏览器".to_string(),
                     action: LeftPanelAction::ProjectExplorer,
                     render_with_active_state: false,
                     tooltip_keybinding: toolbelt_tooltip_keybinding(&tooltip_keybinding_names, ctx),
@@ -399,7 +399,7 @@ impl LeftPanelView {
                 ToolbeltButtonConfig {
                     icon: Icon::Search,
                     active_icon: None,
-                    tooltip_text: "Global search".to_string(),
+                    tooltip_text: "全局搜索".to_string(),
                     action: LeftPanelAction::GlobalSearch {
                         entry_focus: GlobalSearchEntryFocus::QueryEditor,
                     },
@@ -433,7 +433,7 @@ impl LeftPanelView {
                 ToolbeltButtonConfig {
                     icon: Icon::Conversation,
                     active_icon: Some(Icon::Conversation),
-                    tooltip_text: "Agent conversations".to_string(),
+                    tooltip_text: "智能体对话".to_string(),
                     action: LeftPanelAction::ConversationListView,
                     render_with_active_state: false,
                     tooltip_keybinding: toolbelt_tooltip_keybinding(&tooltip_keybinding_names, ctx),

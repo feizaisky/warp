@@ -502,7 +502,7 @@ impl ShareBlockModal {
             );
             ctx.clipboard().write(ClipboardContent::plain_text(link));
             ctx.emit(ShareBlockModalEvent::ShowToast {
-                message: "Link copied.".to_string(),
+                message: "链接已复制。".to_string(),
                 flavor: ToastFlavor::Default,
             });
         }
@@ -546,7 +546,7 @@ impl ShareBlockModal {
         ctx.clipboard()
             .write(ClipboardContent::plain_text(embed_snippet));
         ctx.emit(ShareBlockModalEvent::ShowToast {
-            message: "Embed code copied.".to_string(),
+            message: "嵌入代码已复制。".to_string(),
             flavor: ToastFlavor::Success,
         });
     }

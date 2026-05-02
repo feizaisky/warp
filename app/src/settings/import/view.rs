@@ -271,7 +271,7 @@ impl SettingsImportView {
                     font_size: Some(FONT_SIZE),
                     ..Default::default()
                 })
-                .with_centered_text_label("Import".to_owned())
+                .with_centered_text_label("导入".to_owned())
                 .build()
                 .on_click(move |ctx, _, _| {
                     ctx.dispatch_typed_action(SettingsImportAction::ImportButtonClicked);

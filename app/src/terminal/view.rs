@@ -4782,8 +4782,8 @@ impl TerminalView {
                     let block_id = BlockId::from(block.id().to_string());
                     let suggestion = AgentModePromptSuggestion::Success(PromptSuggestion {
                         id: Uuid::new_v4().to_string(),
-                        label: Some("Execute this plan".to_string()),
-                        prompt: "Execute this plan".to_string(),
+                        label: Some("执行此计划".to_string()),
+                        prompt: "执行此计划".to_string(),
                         coding_query_context: None,
                         static_prompt_suggestion_name: Some("EXECUTE_CREATED_PLAN".to_string()),
                         should_start_new_conversation: false,
@@ -6472,7 +6472,7 @@ impl TerminalView {
                     _ => Some(AIBlockNotificationSummary {
                         success: false,
                         title,
-                        description: "An unknown error occurred".to_string(),
+                        description: "发生了未知错误".to_string(),
                     }),
                 }
             }
@@ -22104,7 +22104,7 @@ impl TerminalView {
                             .finish(),
                     )
                     .with_child(
-                        Text::new_inline("Loading session...", appearance.ui_font_family(), 14.)
+                        Text::new_inline("正在加载会话...", appearance.ui_font_family(), 14.)
                             .with_color(color.into())
                             .finish(),
                     )

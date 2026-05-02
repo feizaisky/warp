@@ -33,8 +33,8 @@ impl MarkdownToggleView {
                         icon_color: theme.main_text_color(theme.background()).into(),
                         label: Some(LabelConfig {
                             label: match mode {
-                                MarkdownDisplayMode::Rendered => "Rendered".into(),
-                                MarkdownDisplayMode::Raw => "Raw".into(),
+                                MarkdownDisplayMode::Rendered => "渲染结果".into(),
+                                MarkdownDisplayMode::Raw => "原始内容".into(),
                             },
                             width_override: Some(55.0),
                             color: if is_selected {
