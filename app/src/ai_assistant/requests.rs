@@ -247,9 +247,9 @@ impl Requests {
                             cache_request_limit_info(request_limit_info, ctx);
                             model.request_limit_info = request_limit_info;
                             let next_time = if let Some(next_refresh_time) = model.serialized_time_until_refresh() {
-                                format!("after {next_refresh_time}")
+                                format!("{next_refresh_time}后")
                             } else {
-                                String::from("later")
+                                String::from("稍后")
                             };
 
                             let auth_state = AuthStateProvider::as_ref(ctx).get();
@@ -259,17 +259,17 @@ impl Requests {
                                 if team.billing_metadata.can_upgrade_to_higher_tier_plan() {
                                     if has_admin_permissions {
                                         let upgrade_url = UserWorkspaces::upgrade_link_for_team(team.uid);
-                                        format!("It seems you're out of credits. Please try again {next_time}.\n\n[Upgrade]({upgrade_url}) for more credits.")
+                                        format!("你的额度似乎已用完。请在{next_time}重试。\n\n[升级]({upgrade_url})以获取更多额度。")
                                     } else {
-                                        format!("It seems you're out of credits. Please try again {next_time}.\n\nContact a team admin to upgrade for more credits.")
+                                        format!("你的额度似乎已用完。请在{next_time}重试。\n\n请联系团队管理员升级以获取更多额度。")
                                     }
                                 } else {
-                                    format!("It seems you're out of credits. Please try again {next_time}.")
+                                    format!("你的额度似乎已用完。请在{next_time}重试。")
                                 }
                             } else {
                                 let user_id = auth_state.user_id().unwrap_or_default();
                                 let upgrade_url = UserWorkspaces::upgrade_link(user_id);
-                                format!("It seems you're out of credits. Please try again {next_time}.\n\n[Upgrade]({upgrade_url}) for more credits.")
+                                format!("你的额度似乎已用完。请在{next_time}重试。\n\n[升级]({upgrade_url})以获取更多额度。")
                             };
                             let response_in_markdown = markdown_segments_from_text(
                                 transcript_part_index,
@@ -294,7 +294,7 @@ impl Requests {
                             );
                         }
                         _ => {
-                            let response = "We're experiencing technical difficulties right now. Please try again later.".to_owned();
+                            let response = "我们目前遇到技术问题。请稍后重试。".to_owned();
                             let response_in_markdown = markdown_segments_from_text(
                                 transcript_part_index,
                                 TranscriptPartSubType::Answer,
@@ -407,11 +407,11 @@ impl Requests {
                 let num_hours = num_minutes / 60;
                 let num_days = num_hours / 24;
                 let remaining_text = if num_days > 0 {
-                    format!("{num_days} days")
+                    format!("{num_days} 天")
                 } else if num_hours > 0 {
-                    format!("{num_hours} hours")
+                    format!("{num_hours} 小时")
                 } else {
-                    format!("{num_minutes} minutes")
+                    format!("{num_minutes} 分钟")
                 };
                 Some(remaining_text)
             }

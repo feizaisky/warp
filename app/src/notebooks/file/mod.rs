@@ -219,14 +219,14 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "notebookview:focus_terminal_input",
-            "Focus Terminal Input from File",
+            "从文件聚焦终端输入",
             FileNotebookAction::FocusTerminalInput,
         )
         .with_context_predicate(id!("FileNotebookView"))
         .with_key_binding(cmd_or_ctrl_shift("l")),
         EditableBinding::new(
             "notebookview:reload_file",
-            "Reload file",
+            "重新加载文件",
             FileNotebookAction::ReloadFile,
         )
         .with_context_predicate(id!("FileNotebookView")),
@@ -311,7 +311,7 @@ impl FileNotebookView {
             .as_ref()
             .map(|location| location.name.clone())
             .or_else(|| self.file_state.display_name())
-            .unwrap_or_else(|| "Untitled".to_string())
+            .unwrap_or_else(|| "未命名".to_string())
     }
 
     pub fn focus(&self, ctx: &mut ViewContext<Self>) {
@@ -603,7 +603,7 @@ impl FileNotebookView {
                 let workflow_type = workflow.named_workflow(|| {
                     self.location
                         .as_ref()
-                        .map(|location| format!("Command from {}", location.name))
+                        .map(|location| format!("来自 {} 的命令", location.name))
                 });
                 let source = workflow.source.unwrap_or(WorkflowSource::Notebook {
                     notebook_id: None,
@@ -727,7 +727,7 @@ impl FileNotebookView {
             .with_child(
                 appearance
                     .ui_builder()
-                    .paragraph(format!("Could not read {}", source.display_name()))
+                    .paragraph(format!("无法读取 {}", source.display_name()))
                     .with_style(self.state_style(appearance))
                     .build()
                     .finish(),
@@ -740,7 +740,7 @@ impl FileNotebookView {
                         .with_text_and_icon_label(
                             TextAndIcon::new(
                                 TextAndIconAlignment::TextFirst,
-                                "Try again".to_string(),
+                                "重试".to_string(),
                                 Icon::Refresh.to_warpui_icon(error_text_color),
                                 MainAxisSize::Min,
                                 MainAxisAlignment::Center,
@@ -766,7 +766,7 @@ impl FileNotebookView {
         Align::new(
             appearance
                 .ui_builder()
-                .paragraph(format!("Loading {}...", source.display_name()))
+                .paragraph(format!("正在加载 {}...", source.display_name()))
                 .with_style(self.state_style(appearance))
                 .build()
                 .finish(),
@@ -779,7 +779,7 @@ impl FileNotebookView {
         Align::new(
             appearance
                 .ui_builder()
-                .paragraph("Missing source file".to_string())
+                .paragraph("缺少源文件".to_string())
                 .with_style(self.state_style(appearance))
                 .build()
                 .finish(),
@@ -809,7 +809,7 @@ impl View for FileNotebookView {
 
     fn accessibility_contents(&self, _ctx: &AppContext) -> Option<AccessibilityContent> {
         Some(AccessibilityContent::new_without_help(
-            format!("{} notebook", self.title()),
+            format!("{} 笔记本", self.title()),
             WarpA11yRole::TextRole,
         ))
     }
@@ -945,7 +945,7 @@ impl BackingView for FileNotebookView {
         }) = self.file_state.source()
         {
             actions.push(
-                MenuItemFields::new("刷新文件 (Refresh file)")
+                MenuItemFields::new("刷新文件")
                     .with_on_select_action(FileNotebookAction::ReloadFile)
                     .into_item(),
             );
@@ -955,7 +955,7 @@ impl BackingView for FileNotebookView {
                 // The markdown rendered/raw toggle is always visible in the pane header, so we don't
                 // duplicate it in the overflow menu. Keep "Open in editor" available for local files.
                 actions.push(
-                    MenuItemFields::new("在编辑器中打开 (Open in editor)")
+                    MenuItemFields::new("在编辑器中打开")
                         .with_on_select_action(FileNotebookAction::OpenInEditor)
                         .into_item(),
                 );
@@ -1083,7 +1083,7 @@ impl FileLocation {
         let name = path
             .file_name()
             .map(|name| name.to_string_lossy().into_owned())
-            .unwrap_or_else(|| "Unnamed".to_string());
+            .unwrap_or_else(|| "未命名".to_string());
 
         Self { breadcrumbs, name }
     }

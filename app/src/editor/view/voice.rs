@@ -71,9 +71,7 @@ impl EditorView {
         ctx: &mut ViewContext<EditorView>,
     ) -> ViewHandle<FeaturePopup> {
         let voice_new_feature_popup = ctx.add_typed_action_view(|_| {
-            FeaturePopup::new_feature(NewFeaturePopupLabel::FromString(
-                "尝试语音输入".to_string(),
-            ))
+            FeaturePopup::new_feature(NewFeaturePopupLabel::FromString("尝试语音输入".to_string()))
         });
 
         ctx.subscribe_to_view(&voice_new_feature_popup, |_me, _, event, ctx| {

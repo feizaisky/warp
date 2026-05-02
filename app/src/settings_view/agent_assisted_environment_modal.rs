@@ -433,12 +433,12 @@ impl AgentAssistedEnvironmentModal {
         if self.available_repos.is_empty() {
             let text = if cfg!(all(feature = "local_fs", not(target_family = "wasm"))) {
                 if self.available_repos_loading {
-                    "Loading locally indexed repos…"
+                    "正在加载本地已索引仓库…"
                 } else {
-                    "No locally indexed repos found yet. Index a repo, then try again."
+                    "尚未找到本地已索引仓库。请先索引一个仓库，然后重试。"
                 }
             } else {
-                "Local repo selection is unavailable in this build."
+                "此构建版本不支持选择本地仓库。"
             };
 
             col.add_child(

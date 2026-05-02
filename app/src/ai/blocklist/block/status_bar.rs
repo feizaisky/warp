@@ -888,11 +888,11 @@ impl BlocklistAIStatusBar {
 
         let progress = ambient_agent_model.agent_progress()?;
         let progress_text = if progress.harness_started_at.is_some() {
-            "Starting Environment (Step 3/3)"
+            "正在启动环境（第 3/3 步）"
         } else if progress.claimed_at.is_some() {
-            "Creating Environment (Step 2/3)"
+            "正在创建环境（第 2/3 步）"
         } else {
-            "Connecting to Host (Step 1/3)"
+            "正在连接 Host（第 1/3 步）"
         };
         Some(render_warping_indicator_base(
             WarpingIndicatorProps {
@@ -930,11 +930,11 @@ impl BlocklistAIStatusBar {
                     color: Some(error_color),
                 },
                 MessageItem::Text {
-                    content: "Missing GitHub authentication. ".into(),
+                    content: "缺少 GitHub 身份验证。".into(),
                     color: Some(error_color),
                 },
                 MessageItem::hyperlink(
-                    "Authenticate GitHub",
+                    "验证 GitHub",
                     auth_url.to_owned(),
                     self.state_handles.github_auth_link.clone(),
                 ),
@@ -962,7 +962,7 @@ impl BlocklistAIStatusBar {
                     color: Some(color),
                 },
                 MessageItem::Text {
-                    content: "Cloud agent run cancelled".into(),
+                    content: "云端智能体运行已取消".into(),
                     color: Some(color),
                 },
             ]));
@@ -1013,7 +1013,7 @@ fn render_agent_tip(tip: &AgentTip, app: &AppContext) -> Box<dyn Element> {
         fragments.push(FormattedTextFragment::hyperlink_action(text, action));
     } else if let Some(link_target) = tip.link.clone() {
         fragments.push(FormattedTextFragment::plain_text(" "));
-        fragments.push(FormattedTextFragment::hyperlink("Learn more", link_target));
+        fragments.push(FormattedTextFragment::hyperlink("了解更多", link_target));
     }
 
     let formatted_text =
@@ -1073,9 +1073,9 @@ fn render_fallback_explanation<V: View>(
         .map(|info| info.base_model_name.as_str());
     let text = match primary_name {
         Some(primary) => {
-            format!("The primary model ({primary}) failed. Retrying with the fallback model.")
+            format!("主模型 ({primary}) 失败。正在使用备用模型重试。")
         }
-        None => "The primary model failed. Retrying with the fallback model.".to_owned(),
+        None => "主模型失败。正在使用备用模型重试。".to_owned(),
     };
     let appearance = Appearance::as_ref(app);
     Text::new_inline(
@@ -1128,8 +1128,8 @@ fn resolve_fallback_warping_message<V: View>(
         return None;
     }
     Some(match display_name.as_deref() {
-        Some(name) => format!("Warping with {name}."),
-        None => "Warping with another model.".to_owned(),
+        Some(name) => format!("正在使用 {name} 响应。"),
+        None => "正在使用另一个模型响应。".to_owned(),
     })
 }
 
@@ -1165,7 +1165,7 @@ impl View for BlocklistAIStatusBar {
                     WarpingIndicatorProps {
                         icon: None,
                         warping_indicator_text: MaybeShimmeringText::Shimmering {
-                            text: "Setting up environment".into(),
+                            text: "正在设置环境".into(),
                             shimmering_text_handle: self.shimmering_text_handle.clone(),
                         },
                         non_shimmering_text: None,
@@ -1197,8 +1197,8 @@ impl View for BlocklistAIStatusBar {
                         non_shimmering_text: None,
                         non_shimmering_suffix: None,
                         buttons: Some(render_switch_control_to_user_button(
-                            "Exit",
-                            "Exit agent input",
+                            "退出",
+                            "退出智能体输入",
                             ButtonProps {
                                 button_handle: &self.state_handles.take_over_button,
                                 keystroke: self.set_terminal_input_keystroke.as_ref(),

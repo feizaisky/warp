@@ -725,8 +725,7 @@ impl Action {
                 if let Err(err) = open_docker_container(url, ctx) {
                     if let Some(window_id) = primary_window_id {
                         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                            let toast =
-                                DismissibleToast::error("Custom URI is invalid.".to_owned());
+                            let toast = DismissibleToast::error("自定义 URI 无效。".to_owned());
                             toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                         });
                     }
@@ -970,7 +969,7 @@ pub fn handle_incoming_uri(url: &Url, ctx: &mut AppContext) {
         Err(e) => {
             if let Some(window_id) = primary_window_id {
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = DismissibleToast::error(format!("Custom URI is invalid: {e:?}"));
+                    let toast = DismissibleToast::error(format!("自定义 URI 无效：{e:?}"));
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
             }

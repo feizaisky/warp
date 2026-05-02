@@ -625,7 +625,7 @@ impl RunnableCommandModel for NotebookCommand {
                     appearance,
                     Icon::Copy,
                     self.mouse_state_handles.copy_button_state.clone(),
-                    "Copy",
+                    "复制",
                     custom_action_to_display(CustomAction::Copy),
                 )
                 .on_click(move |ctx, app, _| {
@@ -652,7 +652,7 @@ impl RunnableCommandModel for NotebookCommand {
                         appearance,
                         Icon::TerminalInput,
                         self.mouse_state_handles.insert_button_state.clone(),
-                        "Run in terminal",
+                        "在终端中运行",
                         NotebookKeybindings::as_ref(ctx).run_commands_keybinding(),
                     )
                     .on_click(move |ctx, app, _| {

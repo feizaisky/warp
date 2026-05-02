@@ -192,7 +192,7 @@ impl BuildPlanMigrationModal {
             UserWorkspacesEvent::UpdateWorkspaceSettingsRejected(_err) => {
                 self.is_updating = false;
                 ctx.emit(BuildPlanMigrationModalEvent::ShowToast {
-                    message: "Failed to enable auto-reload. Please try updating your settings in Billing & usage.".to_string(),
+                    message: "启用自动充值失败。请尝试在“账单与用量”中更新设置。".to_string(),
                     flavor: ToastFlavor::Error,
                 });
                 ctx.notify();
@@ -555,10 +555,7 @@ impl BuildPlanMigrationModal {
         );
 
         let price_annual = Self::create_bullet_item(
-            format!(
-                "年付套餐为每位用户每月 ${}",
-                base_plan_prices.1 / 100
-            ),
+            format!("年付套餐为每位用户每月 ${}", base_plan_prices.1 / 100),
             font_family,
             14.,
             text_color,
@@ -594,12 +591,8 @@ impl BuildPlanMigrationModal {
             text_color,
         );
 
-        let byok = Self::create_bullet_item(
-            "可自带 API 密钥".to_string(),
-            font_family,
-            14.,
-            text_color,
-        );
+        let byok =
+            Self::create_bullet_item("可自带 API 密钥".to_string(), font_family, 14., text_color);
 
         let mut features_list = Flex::column()
             .with_cross_axis_alignment(CrossAxisAlignment::Start)
@@ -789,8 +782,7 @@ impl TypedActionView for BuildPlanMigrationModal {
                 let workspaces = UserWorkspaces::as_ref(ctx);
                 let Some(team_uid) = workspaces.current_team_uid() else {
                     ctx.emit(BuildPlanMigrationModalEvent::ShowToast {
-                        message: "哎呀，出了点问题；找不到你的团队数据。"
-                            .to_string(),
+                        message: "哎呀，出了点问题；找不到你的团队数据。".to_string(),
                         flavor: ToastFlavor::Error,
                     });
                     return;

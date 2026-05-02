@@ -12,7 +12,7 @@ define_settings_group!(UndoCloseSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "general.undo_close.enabled",
-        description: "Whether the undo close feature is enabled.",
+        description: "是否启用撤销关闭功能。",
     },
     grace_period: UndoCloseGracePeriod {
         type: Duration,
@@ -21,6 +21,6 @@ define_settings_group!(UndoCloseSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "general.undo_close.grace_period",
-        description: "How long after closing a tab you can still undo the close.",
+        description: "关闭标签页后仍可撤销关闭的时长。",
     },
 ]);

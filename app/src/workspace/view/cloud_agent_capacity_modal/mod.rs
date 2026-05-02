@@ -128,11 +128,11 @@ impl CloudAgentCapacityModal {
         let (title_text, mut explanation_text) = match self.variant {
             CloudAgentCapacityModalVariant::ConcurrentLimit => (
                 "已达到并发云端智能体上限",
-                "This cloud run is queued because your team has reached the maximum number of concurrent cloud agents. It will start automatically when another cloud run finishes.".to_string(),
+                "由于你的团队已达到并发云端智能体数量上限，此云端运行已进入队列。其他云端运行结束后，它会自动启动。".to_string(),
             ),
             CloudAgentCapacityModalVariant::OutOfCredits => (
-                "You're out of AI credits",
-                "This cloud run stopped because your team has used all available AI credits for the current billing period.".to_string(),
+                "AI 点数已用完",
+                "由于你的团队已用完当前计费周期内的所有可用 AI 点数，此云端运行已停止。".to_string(),
             ),
         };
 
@@ -183,19 +183,15 @@ impl CloudAgentCapacityModal {
             let pricing_text = if customer_type == CustomerType::Free {
                 if let Some(pricing) = plan_pricing {
                     let price = pricing.yearly_plan_price_per_month_usd_cents / 100;
-                    format!(
-                        "Paid plans start at ${price}/month and include everything in your free trial plus:"
-                    )
+                    format!("付费套餐 ${price}/月起，包含免费试用的全部内容，此外还有：")
                 } else {
-                    "Paid plans include everything in your free trial plus:".to_string()
+                    "付费套餐包含免费试用的全部内容，此外还有：".to_string()
                 }
             } else if let Some(pricing) = plan_pricing {
                 let price = pricing.yearly_plan_price_per_month_usd_cents / 100;
-                format!(
-                    "The Business plan starts at ${price}/month and includes everything on your current plan plus:"
-                )
+                format!("Business 套餐 ${price}/月起，包含当前套餐的全部内容，此外还有：")
             } else {
-                "The Business plan includes everything on your current plan plus:".to_string()
+                "Business 套餐包含当前套餐的全部内容，此外还有：".to_string()
             };
 
             let pricing = FormattedTextElement::new(

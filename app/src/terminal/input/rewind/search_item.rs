@@ -43,7 +43,7 @@ impl RewindSearchItem {
     pub fn new_current() -> Self {
         Self {
             exchange_id: None,
-            query_text: "Current".to_string(),
+            query_text: "当前".to_string(),
             file_changes: FileChangesInfo::default(),
             query_match_result: None,
             score: OrderedFloat(0.0),

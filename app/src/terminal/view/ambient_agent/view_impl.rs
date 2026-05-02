@@ -35,7 +35,7 @@ use super::{
     is_cloud_agent_pre_first_exchange, AmbientAgentEntryBlock, AmbientAgentViewModelEvent,
 };
 const CHILD_AGENT_GITHUB_AUTH_REQUIRED_BLOCKED_ACTION: &str =
-    "GitHub authentication required before starting the child agent.";
+    "启动子智能体前需要完成 GitHub 身份验证。";
 
 impl TerminalView {
     fn active_ambient_agent_conversation_id(&self, ctx: &AppContext) -> Option<AIConversationId> {
@@ -769,11 +769,11 @@ impl TerminalView {
         } else {
             // Show loading screen - determine the message based on progress state
             let message = if progress.harness_started_at.is_some() {
-                "Starting Environment (Step 3/3)"
+                "正在启动环境（步骤 3/3）"
             } else if progress.claimed_at.is_some() {
-                "Creating Environment (Step 2/3)"
+                "正在创建环境（步骤 2/3）"
             } else {
-                "Connecting to Host (Step 1/3)"
+                "正在连接主机（步骤 1/3）"
             };
 
             render_cloud_mode_loading_screen(

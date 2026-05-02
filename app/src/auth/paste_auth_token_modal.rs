@@ -53,7 +53,7 @@ pub fn init(app: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::Paste,
             PasteAuthTokenModalAction::PasteIntoEditor,
-            "Paste",
+            "粘贴",
             id!(PasteAuthTokenModalView::ui_name()),
         ),
         FixedBinding::standard(
@@ -120,7 +120,7 @@ impl PasteAuthTokenModalView {
                 },
                 ctx,
             );
-            editor.set_placeholder_text("Enter auth token", ctx);
+            editor.set_placeholder_text("输入认证令牌", ctx);
             editor
         });
 
@@ -238,7 +238,7 @@ impl View for PasteAuthTokenModalView {
         let ui_builder = appearance.ui_builder();
 
         let title = FormattedTextElement::from_str(
-            "Paste your auth token below",
+            "在下方粘贴你的认证令牌",
             appearance.ui_font_family(),
             16.,
         )
@@ -265,7 +265,7 @@ impl View for PasteAuthTokenModalView {
 
         let subtitle_color = internal_colors::text_sub(theme, dialog_surface_solid);
         let subtitle = FormattedTextElement::from_str(
-            "Paste your auth token from the browser to get complete login.",
+            "从浏览器粘贴认证令牌以完成登录。",
             appearance.ui_font_family(),
             14.,
         )
@@ -325,7 +325,7 @@ impl View for PasteAuthTokenModalView {
         let cancel_button = self.cancel_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Cancel".into()),
+                content: button::Content::Label("取消".into()),
                 theme: &button::themes::Naked,
                 options: button::Options {
                     on_click: Some(Box::new(|ctx, _app, _pos| {
@@ -340,7 +340,7 @@ impl View for PasteAuthTokenModalView {
         let continue_button = self.continue_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Continue".into()),
+                content: button::Content::Label("继续".into()),
                 theme: &button::themes::Primary,
                 options: button::Options {
                     keystroke: Some(enter),

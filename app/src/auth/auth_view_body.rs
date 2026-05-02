@@ -49,8 +49,8 @@ const TOS_URL: &str = "https://www.warp.dev/terms-of-service";
 const COMMON_BODY_UI_FONT_SIZE: f32 = 12.;
 const AUTH_MODAL_GAP: f32 = 16.;
 
-const AUTH_TOKEN_INPUT_PLACEHOLDER_TEXT: &str = "Auth Token";
-const AUTH_TOKEN_INPUT_PLACEHOLDER_TEXT_EXPERIMENTAL: &str = "Browser auth token";
+const AUTH_TOKEN_INPUT_PLACEHOLDER_TEXT: &str = "身份验证令牌";
+const AUTH_TOKEN_INPUT_PLACEHOLDER_TEXT_EXPERIMENTAL: &str = "浏览器身份验证令牌";
 
 const AUTH_TOKEN_INPUT_BORDER_RADIUS: Radius = Radius::Pixels(4.);
 
@@ -488,12 +488,7 @@ impl AuthViewBody {
 
     fn render_sign_in_row(&self, ui_builder: &UiBuilder) -> Box<dyn Element> {
         Flex::row()
-            .with_child(
-                ui_builder
-                    .span("已有账号？")
-                    .build()
-                    .finish(),
-            )
+            .with_child(ui_builder.span("已有账号？").build().finish())
             .with_child(
                 ui_builder
                     .link(
@@ -516,16 +511,11 @@ impl AuthViewBody {
     fn render_sign_up_later_row(&self, ui_builder: &UiBuilder) -> Box<dyn Element> {
         Container::new(
             Flex::row()
-                .with_child(
-                    ui_builder
-                        .span("暂时不想登录？")
-                        .build()
-                        .finish(),
-                )
+                .with_child(ui_builder.span("暂时不想登录？").build().finish())
                 .with_child(
                     ui_builder
                         .link(
-                            "Skip for now".into(),
+                            "暂时跳过".into(),
                             None,
                             Some(Box::new(|ctx| {
                                 ctx.dispatch_typed_action(AuthViewBodyAction::InitiateLoginLater);
@@ -547,30 +537,20 @@ impl AuthViewBody {
     fn render_sign_in_later_confirm_row(&self, ui_builder: &UiBuilder) -> Box<dyn Element> {
         Container::new(
             Flex::column()
+                .with_child(ui_builder.paragraph("确定要跳过登录吗？").build().finish())
                 .with_child(
                     ui_builder
-                        .paragraph("确定要跳过登录吗？")
-                        .build()
-                        .finish(),
-                )
-                .with_child(
-                    ui_builder
-                        .paragraph("You can sign up later, but some features, such as AI,")
+                        .paragraph("您可以稍后注册，但部分功能（例如 AI）")
                         .build()
                         .finish(),
                 )
                 .with_child(
                     Flex::row()
-                        .with_child(
-                            ui_builder
-                                .span("are only available to logged-in users. ")
-                                .build()
-                                .finish(),
-                        )
+                        .with_child(ui_builder.span("仅对已登录用户可用。").build().finish())
                         .with_child(
                             ui_builder
                                 .link(
-                                    "Yes, skip login".into(),
+                                    "是，跳过登录".into(),
                                     None,
                                     Some(Box::new(|ctx| {
                                         ctx.dispatch_typed_action(AuthViewBodyAction::LoginLater);
@@ -607,15 +587,13 @@ impl AuthViewBody {
         };
 
         let text = match self.variant {
-            AuthViewVariant::RequireLoginCloseable  => {
-                "In order to use Warp’s AI features or collaborate with others, please create an account."
+            AuthViewVariant::RequireLoginCloseable => {
+                "如需使用 Warp 的 AI 功能或与他人协作，请创建账号。"
             }
             AuthViewVariant::HitDriveObjectLimitCloseable => {
-                "In order to create more objects in Warp Drive, please create an account."
+                "如需在 Warp Drive 中创建更多对象，请创建账号。"
             }
-            AuthViewVariant::ShareRequirementCloseable => {
-                "In order to share, please create an account."
-            }
+            AuthViewVariant::ShareRequirementCloseable => "如需共享，请创建账号。",
             _ => "",
         };
 
@@ -771,16 +749,11 @@ impl AuthViewBody {
             Flex::column()
                 .with_child(
                     Flex::row()
-                        .with_child(
-                            ui_builder
-                                .span("如果浏览器未自动启动，")
-                                .build()
-                                .finish(),
-                        )
+                        .with_child(ui_builder.span("如果浏览器未自动启动，").build().finish())
                         .with_child(
                             ui_builder
                                 .link(
-                                    "copy the URL".into(),
+                                    "复制 URL".into(),
                                     None,
                                     Some(Box::new(|event_ctx| {
                                         event_ctx.dispatch_typed_action(
@@ -797,12 +770,7 @@ impl AuthViewBody {
                         )
                         .finish(),
                 )
-                .with_child(
-                    ui_builder
-                        .span("and open the page manually.")
-                        .build()
-                        .finish(),
-                )
+                .with_child(ui_builder.span("并手动打开该页面。").build().finish())
                 .finish(),
         )
         .finish();

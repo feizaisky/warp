@@ -21,7 +21,7 @@ define_settings_group!(KeysSettings, settings: [
         private: false,
         toml_path: "global_hotkey.dedicated_window.settings",
         max_table_depth: 2,
-        description: "Configuration options for Quake Mode window behavior.",
+        description: "Quake 模式窗口行为的配置选项。",
     },
     quake_mode_enabled: QuakeModeEnabled {
         type: bool,
@@ -30,7 +30,7 @@ define_settings_group!(KeysSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "global_hotkey.dedicated_window.enabled",
-        description: "Whether the dedicated hotkey window is enabled. Mutually exclusive with `global_hotkey.toggle_all_windows.enabled`; only one should be true at a time.",
+        description: "是否启用专用快捷键窗口。与 `global_hotkey.toggle_all_windows.enabled` 互斥，同一时间只能有一个为 true。",
     },
     activation_hotkey_enabled: ActivationHotkeyEnabled {
         type: bool,
@@ -39,7 +39,7 @@ define_settings_group!(KeysSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "global_hotkey.toggle_all_windows.enabled",
-        description: "Whether the hotkey that toggles visibility of all windows is enabled. Mutually exclusive with `global_hotkey.dedicated_window.enabled`; only one should be true at a time.",
+        description: "是否启用用于切换所有窗口可见性的快捷键。与 `global_hotkey.dedicated_window.enabled` 互斥，同一时间只能有一个为 true。",
     },
     activation_hotkey_keybinding: ActivationHotkeyKeybinding {
         type: Option<Keystroke>,
@@ -48,7 +48,7 @@ define_settings_group!(KeysSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "global_hotkey.toggle_all_windows.keybinding",
-        description: "The keybinding used for the global activation hotkey. Format: modifiers (cmd, ctrl, alt, shift, meta) and a key joined by '-', e.g. \"cmd-shift-a\" or \"alt-enter\". Bindings are case-sensitive: when shift is present, the key must be its shifted form (e.g., \"ctrl-shift-E\", not \"ctrl-shift-e\").",
+        description: "全局激活快捷键使用的按键绑定。格式为修饰键（cmd、ctrl、alt、shift、meta）和按键用 '-' 连接，例如 \"cmd-shift-a\" 或 \"alt-enter\"。绑定区分大小写：包含 shift 时，按键必须写成带 shift 后的形式（例如 \"ctrl-shift-E\"，而不是 \"ctrl-shift-e\"）。",
     }
     extra_meta_keys: ExtraMetaKeys {
         type: ExtraMetaKeysEnum,
@@ -57,7 +57,7 @@ define_settings_group!(KeysSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "terminal.input.extra_meta_keys",
-        description: "Controls which additional keys are treated as meta keys.",
+        description: "控制哪些额外按键会被视为 meta 键。",
     }
     ctrl_tab_behavior: CtrlTabBehaviorSetting {
         type: CtrlTabBehavior,
@@ -66,7 +66,7 @@ define_settings_group!(KeysSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "keys.ctrl_tab_behavior_setting",
-        description: "Controls the behavior of Ctrl+Tab.",
+        description: "控制 Ctrl+Tab 的行为。",
     }
 ]);
 

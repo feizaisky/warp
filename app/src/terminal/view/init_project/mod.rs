@@ -39,7 +39,8 @@ use warpui::{
 };
 
 const ONBOARDING_TEXT: &str = "好的，让我们开始设置此项目！您是否允许我索引此代码库？索引可帮助我快速理解上下文，并在此代码库中提供更有针对性的解决方案。代码不会存储在 Warp 服务器上。";
-const ALREADY_SETUP_TEXT: &str = "此项目已初始化。您可以点击下方按钮重新生成此代码库的 AGENTS.md 文件。";
+const ALREADY_SETUP_TEXT: &str =
+    "此项目已初始化。您可以点击下方按钮重新生成此代码库的 AGENTS.md 文件。";
 // Native Warp rules file format.
 pub const FILES_TO_CHECK: [&str; 2] = ["AGENTS.md", "WARP.md"];
 // File formats that can be linked to WARP.md.
@@ -372,12 +373,9 @@ impl InitStepBlock {
         mouse_states: &LanguageServersMouseStateHandles,
     ) -> Vec<KeyboardNavigableButtonBuilder> {
         let button_text = if server_info.is_installed {
-            format!("Enable {} support", server_info.server_type.language_name())
+            format!("启用 {} 支持", server_info.server_type.language_name())
         } else {
-            format!(
-                "Install and enable {}",
-                server_info.server_type.language_name()
-            )
+            format!("安装并启用 {}", server_info.server_type.language_name())
         };
 
         vec![
@@ -391,7 +389,7 @@ impl InitStepBlock {
                 false,
             ),
             simple_navigation_button(
-                "Skip for now.".to_string(),
+                "暂时跳过".to_string(),
                 mouse_states.skip_button.clone(),
                 InitProjectBlockAction::SkipLanguageServers,
                 false,
@@ -405,13 +403,13 @@ impl InitStepBlock {
     ) -> Vec<KeyboardNavigableButtonBuilder> {
         vec![
             simple_navigation_button(
-                "Yes, index this codebase.".to_string(),
+                "是，索引此代码库。".to_string(),
                 mouse_states.index_button.clone(),
                 InitProjectBlockAction::IndexCodebase(pwd_path.to_path_buf()),
                 false,
             ),
             simple_navigation_button(
-                "Skip for now.".to_string(),
+                "暂时跳过".to_string(),
                 mouse_states.skip_button.clone(),
                 InitProjectBlockAction::SkipIndex,
                 false,
@@ -428,7 +426,7 @@ impl InitStepBlock {
         for (i, linkable_file) in LINKABLE_FILES.iter().enumerate() {
             if let Some(path) = linkable_files.iter().find(|p| p.ends_with(linkable_file)) {
                 buttons.push(simple_navigation_button(
-                    format!("Link existing {linkable_file} to my AGENTS.md file"),
+                    format!("将现有 {linkable_file} 链接到我的 AGENTS.md 文件"),
                     mouse_states.link_buttons[i].clone(),
                     InitProjectBlockAction::LinkFromExisting(path.clone()),
                     false,
@@ -437,13 +435,13 @@ impl InitStepBlock {
         }
 
         buttons.push(simple_navigation_button(
-            "Generate AGENTS.md file".to_string(),
+            "生成 AGENTS.md 文件".to_string(),
             mouse_states.generate_button.clone(),
             InitProjectBlockAction::GenerateRules,
             false,
         ));
         buttons.push(simple_navigation_button(
-            "Skip AGENTS.md generation for now".to_string(),
+            "暂时跳过生成 AGENTS.md".to_string(),
             mouse_states.skip_button.clone(),
             InitProjectBlockAction::SkipRules,
             false,
@@ -457,13 +455,13 @@ impl InitStepBlock {
     ) -> Vec<KeyboardNavigableButtonBuilder> {
         vec![
             simple_navigation_button(
-                "Create an environment".to_string(),
+                "创建环境".to_string(),
                 mouse_states.create_button.clone(),
                 InitProjectBlockAction::StartCreateEnvironment,
                 false,
             ),
             simple_navigation_button(
-                "Skip for now".to_string(),
+                "暂时跳过".to_string(),
                 mouse_states.skip_button.clone(),
                 InitProjectBlockAction::SkipCreateEnvironment,
                 false,
@@ -632,7 +630,7 @@ impl InitStepBlock {
                 )
                 .with_header(
                     HeaderConfig::new(
-                        "Would you like the Agent to index this codebase? This will lead to more efficient and tailored help.",
+                        "是否允许智能体索引此代码库？索引可帮助智能体提供更高效、更有针对性的帮助。",
                         app,
                     )
                     .with_icon(yellow_stop_icon(appearance))
@@ -667,31 +665,29 @@ impl InitStepBlock {
         };
 
         match indexing_result {
-            CodebaseIndexingResult::Accepted => {
-                RenderableAction::new("Codebase index started", app)
-                    .with_icon(Icon::Check.to_warpui_icon(Fill::success()).finish())
-                    .with_action_button(
-                        Appearance::as_ref(app)
-                            .ui_builder()
-                            .button(
-                                ButtonVariant::Outlined,
-                                mouse_states.view_status_button.clone(),
-                            )
-                            .with_text_label("查看索引状态".to_string())
-                            .build()
-                            .on_click(|ctx, _, _| {
-                                ctx.dispatch_typed_action(
-                                    InitProjectBlockAction::ViewCodebaseContextStatus,
-                                );
-                            })
-                            .finish(),
-                    )
-                    .with_content_item_spacing()
-                    .render(app)
-                    .finish()
-            }
+            CodebaseIndexingResult::Accepted => RenderableAction::new("代码库索引已启动", app)
+                .with_icon(Icon::Check.to_warpui_icon(Fill::success()).finish())
+                .with_action_button(
+                    Appearance::as_ref(app)
+                        .ui_builder()
+                        .button(
+                            ButtonVariant::Outlined,
+                            mouse_states.view_status_button.clone(),
+                        )
+                        .with_text_label("查看索引状态".to_string())
+                        .build()
+                        .on_click(|ctx, _, _| {
+                            ctx.dispatch_typed_action(
+                                InitProjectBlockAction::ViewCodebaseContextStatus,
+                            );
+                        })
+                        .finish(),
+                )
+                .with_content_item_spacing()
+                .render(app)
+                .finish(),
             CodebaseIndexingResult::Skipped => {
-                Self::render_skipped_completion("Codebase index cancelled", app)
+                Self::render_skipped_completion("已取消代码库索引", app)
             }
         }
     }
@@ -741,7 +737,7 @@ impl InitStepBlock {
         Self::render_ready_with_buttons(
             action_view,
             format!(
-                "Enable {} support for this codebase? This will give you smarter code navigation, inline error checking, and more.",
+                "是否为此代码库启用 {} 支持？这将提供更智能的代码导航、内联错误检查等功能。",
                 server_info.server_type.language_name()
             ),
             app,
@@ -786,19 +782,16 @@ impl InitStepBlock {
                 servers_to_install,
             } => {
                 let label = if !servers_to_install.is_empty() {
-                    "Started installation for language support".to_string()
+                    "已开始安装语言支持".to_string()
                 } else if enabled_servers.len() == 1 {
-                    format!(
-                        "{} language support enabled",
-                        enabled_servers[0].language_name()
-                    )
+                    format!("已启用 {} 语言支持", enabled_servers[0].language_name())
                 } else {
-                    "Language support enabled".to_string()
+                    "已启用语言支持".to_string()
                 };
                 Self::render_success_completion(&label, app)
             }
             LanguageServersResult::Skipped => {
-                Self::render_skipped_completion("Language support skipped", app)
+                Self::render_skipped_completion("已跳过语言支持", app)
             }
         }
     }
@@ -825,14 +818,14 @@ impl InitStepBlock {
                 };
                 Self::render_ready_with_buttons(
                     action_view,
-                    "Would you like to create an AGENTS.md file? Warp can create one for you with project specific rules, context, and conventions inferred from your codebase. The agent will use this context as it codes.",
+                    "是否创建 AGENTS.md 文件？Warp 可以根据代码库推断项目专属规则、上下文和约定并为您创建文件。智能体编写代码时会使用这些上下文。",
                     app,
                 )
             }
             InitStepStatus::Running => {
                 // AI is generating AGENTS.md - show in-progress state
                 let appearance = Appearance::as_ref(app);
-                RenderableAction::new("Generating AGENTS.md...", app)
+                RenderableAction::new("正在生成 AGENTS.md...", app)
                     .with_icon(in_progress_icon(appearance).finish())
                     .with_content_item_spacing()
                     .render(app)
@@ -864,13 +857,13 @@ impl InitStepBlock {
                 };
                 Self::render_ready_with_buttons(
                     action_view,
-                    "Would you like to create an environment for this project so you can run cloud agents in it? The agent will guide you through choosing GitHub repos, configuring a Docker image, and specifying startup commands.",
+                    "是否要为此项目创建环境以便在其中运行云端智能体？智能体将引导您选择 GitHub 仓库、配置 Docker 镜像并指定启动命令。",
                     app,
                 )
             }
             InitStepStatus::Running => {
                 let appearance = Appearance::as_ref(app);
-                RenderableAction::new("Creating environment...", app)
+                RenderableAction::new("正在创建环境...", app)
                     .with_icon(in_progress_icon(appearance).finish())
                     .with_content_item_spacing()
                     .render(app)
@@ -892,11 +885,9 @@ impl InitStepBlock {
         };
 
         match env_result {
-            CreateEnvironmentResult::Created => {
-                Self::render_success_completion("Environment created", app)
-            }
+            CreateEnvironmentResult::Created => Self::render_success_completion("环境已创建", app),
             CreateEnvironmentResult::Skipped => {
-                Self::render_skipped_completion("Environment creation skipped", app)
+                Self::render_skipped_completion("已跳过创建环境", app)
             }
         }
     }
@@ -919,12 +910,12 @@ impl InitStepBlock {
         let init_completed = self.model.as_ref(app).is_completed();
         match rules_result {
             ProjectScopedRulesResult::LinkedFromExisting(path) => {
-                Self::render_success_completion(&format!("Project rules linked from {path}"), app)
+                Self::render_success_completion(&format!("项目规则已从 {path} 链接"), app)
             }
             ProjectScopedRulesResult::GenerateNew {
                 button_disabled, ..
             } => {
-                let mut action = RenderableAction::new("Project rules configured", app)
+                let mut action = RenderableAction::new("项目规则已配置", app)
                     .with_icon(Icon::Check.to_warpui_icon(Fill::success()).finish());
                 if init_completed {
                     action = action.with_action_button(Self::regenerate_button(
@@ -936,7 +927,7 @@ impl InitStepBlock {
                 action.with_content_item_spacing().render(app).finish()
             }
             ProjectScopedRulesResult::AlreadyExists { button_disabled } => {
-                let mut action = RenderableAction::new("Project rules already configured", app)
+                let mut action = RenderableAction::new("项目规则已存在", app)
                     .with_icon(Icon::Check.to_warpui_icon(Fill::success()).finish());
                 if init_completed {
                     action = action.with_action_button(Self::regenerate_button(
@@ -948,7 +939,7 @@ impl InitStepBlock {
                 action.with_content_item_spacing().render(app).finish()
             }
             ProjectScopedRulesResult::Skipped => {
-                Self::render_skipped_completion("Project rules skipped", app)
+                Self::render_skipped_completion("已跳过项目规则", app)
             }
         }
     }
@@ -989,7 +980,7 @@ impl InitStepBlock {
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
                             DismissibleToast::success(format!(
-                                "{} installed and enabled successfully.",
+                                "{} 已成功安装并启用。",
                                 server_type.binary_name()
                             )),
                             window_id,
@@ -1013,7 +1004,7 @@ impl InitStepBlock {
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
                             DismissibleToast::error(format!(
-                                "Failed to install {}: {e}",
+                                "安装 {} 失败：{e}",
                                 server_type.binary_name()
                             )),
                             window_id,
@@ -1137,7 +1128,7 @@ impl TypedActionView for InitStepBlock {
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
                             DismissibleToast::default(format!(
-                                "Installing {} in background...",
+                                "正在后台安装 {}...",
                                 server_names.join(", ")
                             )),
                             window_id,

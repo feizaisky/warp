@@ -18,8 +18,7 @@ use super::{
 };
 
 const TITLE: &str = "登录以使用 AI";
-const CONTENT: &str =
-    "未登录用户无法使用 AI 功能。创建账户以使用 AI。";
+const CONTENT: &str = "未登录用户无法使用 AI 功能。创建账户以使用 AI。";
 const SIGN_UP_BUTTON_TEXT: &str = "注册";
 
 // Layout constants for three-column banner

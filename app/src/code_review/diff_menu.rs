@@ -115,7 +115,7 @@ impl CodeReviewDiffMenu {
                 ..Default::default()
             };
             let mut editor = EditorView::new(options, ctx);
-            editor.set_placeholder_text("Search diff sets or branches to compare…", ctx);
+            editor.set_placeholder_text("搜索要比较的变更集或分支…", ctx);
             editor
         });
 
@@ -282,7 +282,7 @@ impl CodeReviewDiffMenu {
         let theme = appearance.theme();
         Container::new(
             Text::new(
-                "No matches",
+                "无匹配结果",
                 appearance.ui_font_family(),
                 appearance.ui_font_size(),
             )

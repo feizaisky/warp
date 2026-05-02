@@ -84,7 +84,7 @@ impl InitEnvironmentBlock {
             ),
             // Skip button
             simple_navigation_button(
-                "Cancel".to_string(),
+                "取消".to_string(),
                 MouseStateHandle::default(),
                 InitEnvironmentBlockAction::Skip,
                 false,
@@ -155,7 +155,7 @@ impl View for InitEnvironmentBlock {
 
         let rendered_step = match &self.setup_state {
             SetupState::Pending { action_view } => self.render_pending_step(action_view, app),
-            SetupState::Skipped => RenderableAction::new("Environment setup cancelled", app)
+            SetupState::Skipped => RenderableAction::new("已取消环境设置", app)
                 .with_icon(cancelled_icon(appearance).finish())
                 .with_content_item_spacing()
                 .render(app)

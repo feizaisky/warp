@@ -75,14 +75,15 @@ const BODY_FONT_SIZE: f32 = 13.;
 const TITLE_FONT_SIZE: f32 = 16.;
 const ZERO_STATE_HELP_TEXT_FONT_SIZE: f32 = 12.;
 
-const ZERO_STATE_HELP_TEXT: &str = "Shift + ctrl + space 一个代码块或文本选区来询问 Warp AI。";
-const SCRIPT_ZERO_STATE_PROMPT: &str = "Write a script to connect to an AWS EC2 instance.";
-const GIT_ZERO_STATE_PROMPT: &str = "How do I undo the most recent commits in git?";
+const ZERO_STATE_HELP_TEXT: &str =
+    "按 Shift + Ctrl + Space 选择一个代码块或文本选区来询问 Warp AI。";
+const SCRIPT_ZERO_STATE_PROMPT: &str = "写一个连接到 AWS EC2 实例的脚本。";
+const GIT_ZERO_STATE_PROMPT: &str = "如何撤销 git 中最近的提交？";
 const FILES_ZERO_STATE_PROMPT: &str = "如何查找包含特定文本的所有文件？";
 
 // The placeholder texts are prepended with a space to give them cushion from the cursor.
-const INIT_PLACEHOLDER_TEXT: &str = " Ask a question...";
-const FOLLOWUP_PLACEHOLDER_TEXT: &str = " Type a response or click one above...";
+const INIT_PLACEHOLDER_TEXT: &str = " 提问...";
+const FOLLOWUP_PLACEHOLDER_TEXT: &str = " 输入回复，或点击上方选项...";
 const RESTART_BUTTON_TEXT: &str = "重新开始";
 
 const ASK_AI_BLOCK_INPUT_LIMIT: usize = 100;
@@ -158,7 +159,7 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "ai_assistant_panel:focus_terminal_input",
-            "从 Warp AI 聚焦终端输入",
+            "从 Warp AI 聚焦到终端输入框",
             AIAssistantAction::FocusTerminalInput,
         )
         .with_context_predicate(id!("AIAssistantPanel"))
@@ -304,28 +305,25 @@ impl AIAssistantPanelView {
                 populate_input_box,
             } => {
                 if *populate_input_box {
-                    let prefix = "Explain the following:\n";
+                    let prefix = "解释以下内容：\n";
                     let code_block_formatting_len = self.format_as_code_block("").len();
-                    let truncated =
-                        if text.chars().count() + prefix.len() + code_block_formatting_len
-                            > PROMPT_CHARACTER_LIMIT
-                        {
-                            // Take the first k characters of the text selection, where k is the
-                            // remaining length after we limit the prompt and add formatting to it.
-                            let truncated: String = text
-                                .chars()
-                                // Take 3 for the ellipsis
-                                .take(
-                                    PROMPT_CHARACTER_LIMIT
-                                        - prefix.len()
-                                        - code_block_formatting_len
-                                        - 3,
-                                )
-                                .collect();
-                            format!("{truncated}...")
-                        } else {
-                            text.to_string()
-                        };
+                    let prefix_len = prefix.chars().count();
+                    let truncated = if text.chars().count() + prefix_len + code_block_formatting_len
+                        > PROMPT_CHARACTER_LIMIT
+                    {
+                        // Take the first k characters of the text selection, where k is the
+                        // remaining length after we limit the prompt and add formatting to it.
+                        let truncated: String = text
+                            .chars()
+                            // Take 3 for the ellipsis
+                            .take(
+                                PROMPT_CHARACTER_LIMIT - prefix_len - code_block_formatting_len - 3,
+                            )
+                            .collect();
+                        format!("{truncated}...")
+                    } else {
+                        text.to_string()
+                    };
 
                     self.editor.update(ctx, |editor, ctx| {
                         editor.set_buffer_text(
@@ -350,15 +348,17 @@ impl AIAssistantPanelView {
 
                 // Formatting strings.
                 let question = if block_successful {
-                    "\nWhat should I do next?"
+                    "\n接下来我该怎么做？"
                 } else {
-                    "\nHow do I fix this?"
+                    "\n如何修复这个问题？"
                 };
-                let prefix = "I ran the command: `";
-                let suffix = "` and got the following output:\n";
+                let prefix = "我运行了命令：`";
+                let suffix = "`，并得到以下输出：\n";
                 let code_block_formatting_len = self.format_as_code_block("").len();
-                let non_input_output_len =
-                    prefix.len() + suffix.len() + question.len() + code_block_formatting_len;
+                let non_input_output_len = prefix.chars().count()
+                    + suffix.chars().count()
+                    + question.chars().count()
+                    + code_block_formatting_len;
 
                 let input_len = input.chars().count();
                 let output_len = output.chars().count();
@@ -661,12 +661,12 @@ impl AIAssistantPanelView {
         let time_now = Local::now();
 
         result.push_str(&format!(
-            "## Warp AI Transcript ({})\n\n",
+            "## Warp AI 对话记录 ({})\n\n",
             time_now.format("%x %l:%M %p")
         ));
 
         for part in transcript {
-            result.push_str(&format!("Prompt: {}\n\n", part.raw_user_prompt().trim()));
+            result.push_str(&format!("提示：{}\n\n", part.raw_user_prompt().trim()));
             result.push_str(&format!(
                 "Warp AI: {}\n\n",
                 part.raw_assistant_answer().trim()
@@ -788,7 +788,7 @@ impl AIAssistantPanelView {
                 ..Default::default()
             };
             ui_builder
-                .tool_tip("复制记录到剪贴板".to_owned())
+                .tool_tip("复制对话记录到剪贴板".to_owned())
                 .with_style(tool_tip_style)
                 .build()
                 .finish()
@@ -846,7 +846,7 @@ impl AIAssistantPanelView {
             .with_children([
                 Container::new(
                     Text::new_inline(
-                        "Character limit exceeded.",
+                        "已超出字符限制。",
                         appearance.ui_font_family(),
                         BODY_FONT_SIZE,
                     )

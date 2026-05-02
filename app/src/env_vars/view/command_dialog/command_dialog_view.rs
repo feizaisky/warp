@@ -30,11 +30,11 @@ const CONTAINER_PADDING: f32 = 25.;
 const ELEMENT_SPACING: f32 = 10.;
 const EDITOR_DIVIDE: f32 = 6.;
 
-const SECRET_SPAN: &str = "Secret command";
-const SAVE_BUTTON_LABEL: &str = "Save";
-const CANCEL_BUTTON_LABEL: &str = "Cancel";
-const NAME_PLACEHOLDER_TEXT: &str = "Name";
-const COMMAND_PLACEHOLDER_TEXT: &str = "Command";
+const SECRET_SPAN: &str = "密钥命令";
+const SAVE_BUTTON_LABEL: &str = "保存";
+const CANCEL_BUTTON_LABEL: &str = "取消";
+const NAME_PLACEHOLDER_TEXT: &str = "名称";
+const COMMAND_PLACEHOLDER_TEXT: &str = "命令";
 
 #[derive(Debug, Clone)]
 pub enum EnvVarCommandDialogAction {

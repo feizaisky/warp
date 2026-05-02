@@ -101,7 +101,7 @@ define_settings_group!(WarpDrivePrivacySettings, settings: [
         private: false,
         storage_key: "TelemetryEnabled",
         toml_path: "privacy.telemetry_enabled",
-        description: "Whether anonymous usage telemetry is collected.",
+        description: "是否收集匿名使用情况遥测。",
     },
     is_crash_reporting_enabled: IsCrashReportingEnabled {
         type: bool,
@@ -111,7 +111,7 @@ define_settings_group!(WarpDrivePrivacySettings, settings: [
         private: false,
         storage_key: "CrashReportingEnabled",
         toml_path: "privacy.crash_reporting_enabled",
-        description: "Whether crash reports are sent.",
+        description: "是否发送崩溃报告。",
     },
     is_cloud_conversation_storage_enabled: IsCloudConversationStorageEnabled {
         type: bool,
@@ -121,7 +121,7 @@ define_settings_group!(WarpDrivePrivacySettings, settings: [
         private: false,
         storage_key: "CloudConversationStorageEnabled",
         toml_path: "agents.cloud_conversation_storage_enabled",
-        description: "Whether conversations are stored in the cloud.",
+        description: "对话是否存储在云端。",
     },
 ]);
 
@@ -132,7 +132,7 @@ maybe_define_setting!(CustomSecretRegexList, group: PrivacySettings, {
     sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::No),
     private: false,
     toml_path: "privacy.custom_secret_regex_list",
-    description: "Custom regex patterns for detecting and redacting secrets.",
+    description: "用于检测和脱敏密钥的自定义正则表达式模式。",
 });
 
 maybe_define_setting!(HasInitializedDefaultSecretRegexes, group: PrivacySettings, {

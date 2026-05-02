@@ -523,7 +523,7 @@ impl EnvironmentCommandRunner {
             ctx.terminate_app(
                 warpui::platform::TerminationMode::ForceTerminate,
                 Some(Err(anyhow::anyhow!(
-                    "Exceeded maximum number of authorization attempts ({}). Please try again later.",
+                    "已超过最大授权尝试次数（{}）。请稍后重试。",
                     MAX_AUTH_ATTEMPTS
                 ))),
             );
@@ -646,7 +646,7 @@ impl EnvironmentCommandRunner {
                                             ctx.terminate_app(
                                                 warpui::platform::TerminationMode::ForceTerminate,
                                                 Some(Err(anyhow::anyhow!(
-                                                    "GitHub authorization failed. Please try again."
+                                                    "GitHub 授权失败。请重试。"
                                                 ))),
                                             );
                                         }
@@ -654,7 +654,7 @@ impl EnvironmentCommandRunner {
                                             ctx.terminate_app(
                                                 warpui::platform::TerminationMode::ForceTerminate,
                                                 Some(Err(anyhow::anyhow!(
-                                                    "GitHub authorization expired. Please try again."
+                                                    "GitHub 授权已过期。请重试。"
                                                 ))),
                                             );
                                         }

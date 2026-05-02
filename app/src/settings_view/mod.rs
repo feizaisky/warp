@@ -235,24 +235,24 @@ impl Display for SettingsSection {
             SettingsSection::Appearance => write!(f, "外观"),
             SettingsSection::Features => write!(f, "功能"),
             SettingsSection::Privacy => write!(f, "隐私"),
-            SettingsSection::Referrals => write!(f, "推荐 (Referrals)"),
+            SettingsSection::Referrals => write!(f, "推荐"),
             SettingsSection::Teams => write!(f, "团队"),
             SettingsSection::Code => write!(f, "代码"),
             SettingsSection::Warpify => write!(f, "Warpify"),
             SettingsSection::AI => write!(f, "AI"),
             SettingsSection::BillingAndUsage => write!(f, "计费与用量"),
             SettingsSection::Keybindings => write!(f, "键盘快捷键"),
-            SettingsSection::SharedBlocks => write!(f, "共享代码块 (Shared blocks)"),
+            SettingsSection::SharedBlocks => write!(f, "共享代码块"),
             SettingsSection::MCPServers => write!(f, "MCP 服务器"),
             SettingsSection::WarpDrive => write!(f, "Warp Drive"),
             SettingsSection::WarpAgent => write!(f, "Warp 智能体"),
-            SettingsSection::AgentProfiles => write!(f, "配置 (Profiles)"),
+            SettingsSection::AgentProfiles => write!(f, "配置文件"),
             SettingsSection::AgentMCPServers => write!(f, "MCP 服务器"),
-            SettingsSection::Knowledge => write!(f, "知识库 (Knowledge)"),
+            SettingsSection::Knowledge => write!(f, "知识库"),
             SettingsSection::ThirdPartyCLIAgents => write!(f, "第三方 CLI 智能体"),
             SettingsSection::CodeIndexing => write!(f, "索引与项目"),
             SettingsSection::EditorAndCodeReview => write!(f, "编辑器与代码审查"),
-            SettingsSection::CloudEnvironments => write!(f, "环境 (Environments)"),
+            SettingsSection::CloudEnvironments => write!(f, "环境"),
             SettingsSection::OzCloudAPIKeys => write!(f, "Oz Cloud API 密钥"),
         }
     }
@@ -516,10 +516,7 @@ pub fn init_actions_from_parent_view<T: Action + Clone>(
         ToggleSettingActionPair::add_toggle_setting_action_pairs_as_bindings(
             vec![
                 ToggleSettingActionPair::custom(
-                    SettingActionPairDescriptions::new(
-                        "Show initialization block",
-                        "Hide initialization block",
-                    ),
+                    SettingActionPairDescriptions::new("显示初始化块", "隐藏初始化块"),
                     builder(SettingsAction::Debug(
                         DebugSettingsAction::ToggleInitializationBlock,
                     )),
@@ -530,10 +527,7 @@ pub fn init_actions_from_parent_view<T: Action + Clone>(
                     None,
                 ),
                 ToggleSettingActionPair::custom(
-                    SettingActionPairDescriptions::new(
-                        "Show in-band command blocks",
-                        "Hide in-band command blocks",
-                    ),
+                    SettingActionPairDescriptions::new("显示带内命令块", "隐藏带内命令块"),
                     builder(SettingsAction::Debug(
                         DebugSettingsAction::ToggleInBandCommandBlocks,
                     )),
@@ -552,25 +546,25 @@ pub fn init_actions_from_parent_view<T: Action + Clone>(
         ToggleSettingActionPair::add_toggle_setting_action_pairs_as_bindings(
             vec![
                 ToggleSettingActionPair::new(
-                    "recording mode",
+                    "录制模式",
                     WorkspaceAction::ToggleRecordingMode,
                     &id!("Workspace"),
                     flags::RECORDING_MODE_FLAG,
                 ),
                 ToggleSettingActionPair::new(
-                    "in-band generators for new sessions",
+                    "新会话的带内生成器",
                     WorkspaceAction::ToggleInBandGenerators,
                     &id!("Workspace"),
                     flags::IN_BAND_GENERATORS_FLAG,
                 ),
                 ToggleSettingActionPair::new(
-                    "debug network status",
+                    "调试网络状态",
                     WorkspaceAction::ToggleDebugNetworkStatus,
                     &id!("Workspace"),
                     flags::DEBUG_NETWORK_ONLINE_FLAG,
                 ),
                 ToggleSettingActionPair::new(
-                    "memory statistics",
+                    "内存统计",
                     WorkspaceAction::ToggleShowMemoryStats,
                     &id!("Workspace"),
                     flags::DEBUG_SHOW_MEMORY_STATS_FLAG,
@@ -670,8 +664,8 @@ impl<T: Action + Clone> ToggleSettingActionPair<T> {
 
         ToggleSettingActionPair {
             descriptions: SettingActionPairDescriptions {
-                enable: format!("Enable {description_suffix}"),
-                disable: format!("Disable {description_suffix}"),
+                enable: format!("启用{description_suffix}"),
+                disable: format!("禁用{description_suffix}"),
             },
             contexts: SettingActionPairContexts {
                 enable_predicate: context_prefix.to_owned() & !id!(context_boolean_flag),
@@ -1018,7 +1012,7 @@ pub struct SettingsView {
 
 impl SettingsView {
     pub fn new(page: Option<SettingsSection>, ctx: &mut ViewContext<Self>) -> Self {
-        let pane_configuration = ctx.add_model(|_ctx| PaneConfiguration::new("Settings"));
+        let pane_configuration = ctx.add_model(|_ctx| PaneConfiguration::new("设置"));
 
         let global_resource_handles = GlobalResourceHandlesProvider::as_ref(ctx).get().clone();
         // Main settings page with accounts info
@@ -1151,7 +1145,7 @@ impl SettingsView {
                 ..Default::default()
             };
             let mut editor = EditorView::single_line(options, ctx);
-            editor.set_placeholder_text("Search", ctx);
+            editor.set_placeholder_text("搜索", ctx);
             editor
         });
 
@@ -1194,19 +1188,19 @@ impl SettingsView {
         let mut nav_items = vec![
             SettingsNavItem::Page(SettingsSection::Account),
             SettingsNavItem::Umbrella(SettingsUmbrella::new(
-                "Agents",
+                "智能体",
                 SettingsSection::ai_subpages().to_vec(),
             )),
             SettingsNavItem::Page(SettingsSection::BillingAndUsage),
             SettingsNavItem::Umbrella(SettingsUmbrella::new(
-                "Code",
+                "代码",
                 vec![
                     SettingsSection::CodeIndexing,
                     SettingsSection::EditorAndCodeReview,
                 ],
             )),
             SettingsNavItem::Umbrella(SettingsUmbrella::new(
-                "Cloud platform",
+                "云平台",
                 vec![
                     SettingsSection::CloudEnvironments,
                     SettingsSection::OzCloudAPIKeys,
@@ -1510,28 +1504,28 @@ impl SettingsView {
 
         if ContextFlag::CreateNewSession.is_enabled() {
             items.extend(vec![
-                MenuItemFields::new("Split pane right")
+                MenuItemFields::new("向右拆分窗格")
                     .with_on_select_action(SettingsAction::Split(Direction::Right))
                     .with_key_shortcut_label(keybinding_name_to_display_string(
                         "pane_group:add_right",
                         ctx,
                     ))
                     .into_item(),
-                MenuItemFields::new("Split pane left")
+                MenuItemFields::new("向左拆分窗格")
                     .with_on_select_action(SettingsAction::Split(Direction::Left))
                     .with_key_shortcut_label(keybinding_name_to_display_string(
                         "pane_group:add_left",
                         ctx,
                     ))
                     .into_item(),
-                MenuItemFields::new("Split pane down")
+                MenuItemFields::new("向下拆分窗格")
                     .with_on_select_action(SettingsAction::Split(Direction::Down))
                     .with_key_shortcut_label(keybinding_name_to_display_string(
                         "pane_group:add_down",
                         ctx,
                     ))
                     .into_item(),
-                MenuItemFields::new("Split pane up")
+                MenuItemFields::new("向上拆分窗格")
                     .with_on_select_action(SettingsAction::Split(Direction::Up))
                     .with_key_shortcut_label(keybinding_name_to_display_string(
                         "pane_group:add_up",
@@ -1560,7 +1554,7 @@ impl SettingsView {
             );
 
             items.push(
-                MenuItemFields::new("Close pane")
+                MenuItemFields::new("关闭窗格")
                     .with_on_select_action(SettingsAction::Close)
                     .with_key_shortcut_label(
                         custom_tag_to_keystroke(CustomAction::CloseCurrentSession.into())
@@ -2233,10 +2227,10 @@ impl SettingsView {
         Container::new(
             Align::new(
                 Flex::column()
-                .with_cross_axis_alignment(CrossAxisAlignment::Center)
+                    .with_cross_axis_alignment(CrossAxisAlignment::Center)
                     .with_children([
                         Text::new(
-                            "No settings match your search.",
+                            "没有匹配搜索的设置。",
                             appearance.ui_font_family(),
                             appearance.ui_font_size(),
                         )
@@ -2244,7 +2238,7 @@ impl SettingsView {
                         .with_color(theme.sub_text_color(theme.background()).into_solid())
                         .finish(),
                         Text::new(
-                            "You may want to try using different keywords or checking for any possible typos.",
+                            "可以尝试使用其他关键词，或检查是否有拼写错误。",
                             appearance.ui_font_family(),
                             appearance.ui_font_size(),
                         )
@@ -2255,7 +2249,7 @@ impl SettingsView {
             )
             .finish(),
         )
-            .with_uniform_margin(16.)
+        .with_uniform_margin(16.)
         .with_corner_radius(CornerRadius::with_all(Radius::Pixels(4.)))
         .with_background(internal_colors::fg_overlay_1(appearance.theme()))
         .finish()
@@ -2663,7 +2657,7 @@ impl BackingView for SettingsView {
         _ctx: &view::HeaderRenderContext<'_>,
         _app: &AppContext,
     ) -> view::HeaderContent {
-        view::HeaderContent::simple("Settings")
+        view::HeaderContent::simple("设置")
     }
 
     fn set_focus_handle(&mut self, focus_handle: PaneFocusHandle, _ctx: &mut ViewContext<Self>) {

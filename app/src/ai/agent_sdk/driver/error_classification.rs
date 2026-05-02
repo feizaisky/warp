@@ -13,43 +13,39 @@ pub fn classify_driver_error(error: &AgentDriverError) -> (AgentTaskState, TaskS
         AgentDriverError::TerminalUnavailable | AgentDriverError::InvalidRuntimeState => (
             AgentTaskState::Error,
             TaskStatusUpdate::with_error_code(
-                "An internal error occurred. Please try running your task again. If the issue persists, contact support.",
+                "发生内部错误。请重新运行任务。如果问题仍然存在，请联系支持团队。",
                 PlatformErrorCode::InternalError,
             ),
         ),
         AgentDriverError::BootstrapFailed => (
             AgentTaskState::Error,
             TaskStatusUpdate::with_error_code(
-                "Terminal session failed to start. Please try running your task again.",
+                "终端会话启动失败。请重新运行任务。",
                 PlatformErrorCode::InternalError,
             ),
         ),
         AgentDriverError::ShareSessionFailed { error: share_err } => {
             let message = match share_err {
                 ShareSessionError::Internal(_) => {
-                    "Failed to share agent session due to an internal error. Please try running your task again.".to_string()
+                    "由于内部错误，共享智能体会话失败。请重新运行任务。".to_string()
                 }
                 ShareSessionError::Failed(reason) => {
                     // The reason string comes from the session-sharing layer and is aimed at
                     // interactive users (e.g. "try sharing again"). Provide a cloud-agent-
                     // appropriate message instead of wrapping it, which would produce
                     // repetitive "try again" text.
-                    format!("Failed to share agent session: {reason}")
+                    format!("共享智能体会话失败：{reason}")
                 }
                 ShareSessionError::Disabled => {
-                    "Session sharing is not enabled for your account. This is likely because \
-                     an administrator has disabled session sharing for your team. Please \
-                     verify that session sharing is enabled in your team settings, or try \
-                     running without the --share flag."
+                    "你的账户未启用会话共享。这可能是因为管理员为你的团队停用了会话共享。请确认团队设置中已启用会话共享，或尝试不带 --share 标志运行。"
                     .to_string()
                 }
                 ShareSessionError::Timeout => {
-                    "Failed to share agent session: timed out waiting for the session sharing \
-                     server to respond. Please check your network connection and try again."
+                    "共享智能体会话失败：等待会话共享服务器响应超时。请检查网络连接后重试。"
                     .to_string()
                 }
                 ShareSessionError::Interrupted => {
-                    "Session sharing was interrupted before it could complete. Please try running your task again.".to_string()
+                    "会话共享尚未完成就被中断。请重新运行任务。".to_string()
                 }
             };
             (
@@ -66,7 +62,7 @@ pub fn classify_driver_error(error: &AgentDriverError) -> (AgentTaskState, TaskS
         AgentDriverError::WarpDriveSyncFailed => (
             AgentTaskState::Error,
             TaskStatusUpdate::with_error_code(
-                "Warp Drive failed to sync. Please check your network connection and try again.",
+                "Warp Drive 同步失败。请检查网络连接后重试。",
                 PlatformErrorCode::InternalError,
             ),
         ),
@@ -202,7 +198,7 @@ pub fn classify_driver_error(error: &AgentDriverError) -> (AgentTaskState, TaskS
         AgentDriverError::TeamMetadataRefreshTimeout => (
             AgentTaskState::Error,
             TaskStatusUpdate::with_error_code(
-                "Timed out refreshing team metadata. Please check your network connection and try again.",
+                "刷新团队元数据超时。请检查网络连接后重试。",
                 PlatformErrorCode::InternalError,
             ),
         ),

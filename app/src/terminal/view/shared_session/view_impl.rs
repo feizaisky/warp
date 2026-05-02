@@ -770,11 +770,7 @@ impl TerminalView {
             SessionEndedReason::InactivityLimitReached,
             ctx,
         );
-        self.show_persistent_toast(
-            "因不活跃，共享已结束".to_owned(),
-            ToastFlavor::Error,
-            ctx,
-        );
+        self.show_persistent_toast("因不活跃，共享已结束".to_owned(), ToastFlavor::Error, ctx);
     }
 
     fn show_warning_on_inactivity_period_expired(&mut self, ctx: &mut ViewContext<Self>) {

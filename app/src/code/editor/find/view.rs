@@ -108,7 +108,7 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "find:find_next_occurrence",
-            "Find the next occurrence of your search query",
+            "查找搜索查询的下一个匹配项",
             FindAction::CmdG,
         )
         .with_context_predicate(id!("CodeEditorFind"))
@@ -118,7 +118,7 @@ pub fn init(app: &mut AppContext) {
         .with_linux_or_windows_key_binding("f3"),
         EditableBinding::new(
             "find:find_prev_occurrence",
-            "Find the previous occurrence of your search query",
+            "查找搜索查询的上一个匹配项",
             FindAction::CmdShiftG,
         )
         .with_context_predicate(id!("CodeEditorFind"))
@@ -373,15 +373,15 @@ impl CodeEditorFind {
         let content = if let Some(match_index) = self.searcher.as_ref(ctx).selected_match() {
             AccessibilityContent::new(
                 format!(
-                    "Result {} of {}.",
+                    "第 {} 个结果，共 {} 个。",
                     match_index + 1,
                     self.searcher.as_ref(ctx).match_count()
                 ),
-                "Use enter and shift-enter to navigate between matches. Escape to quit.",
+                "使用 Enter 和 Shift-Enter 在匹配项之间导航。按 ESC 退出。",
                 WarpA11yRole::UserAction,
             )
         } else {
-            AccessibilityContent::new_without_help("No results.", WarpA11yRole::UserAction)
+            AccessibilityContent::new_without_help("无结果。", WarpA11yRole::UserAction)
         };
         ctx.emit_a11y_content(content);
     }
@@ -393,14 +393,14 @@ impl CodeEditorFind {
             let remaining_matches = self.searcher.as_ref(ctx).match_count();
             AccessibilityContent::new(
                 format!(
-                    "Successfully replaced match. Selected match is {match_index} of {remaining_matches}"
+                    "已成功替换匹配项。当前选中第 {match_index} 个匹配项，共 {remaining_matches} 个"
                 ),
-                "Continue pressing Enter to replace more matches, or use up/down arrows to navigate.",
+                "继续按 Enter 可替换更多匹配项，或使用上下箭头导航。",
                 WarpA11yRole::UserAction,
             )
         } else {
             AccessibilityContent::new_without_help(
-                "Successfully replaced the last match.",
+                "已成功替换最后一个匹配项。",
                 WarpA11yRole::UserAction,
             )
         };
@@ -927,9 +927,9 @@ impl View for CodeEditorFind {
         let match_count = self.searcher.as_ref(app).match_count();
         let selected_match = self.searcher.as_ref(app).selected_match();
         let description = match (match_count, selected_match) {
-            (0, _) | (_, None) => "Find bar for searching text in the editor.".to_string(),
+            (0, _) | (_, None) => "用于在编辑器中搜索文本的查找栏。".to_string(),
             (count, Some(current)) => format!(
-                "Find bar with {} matches found. Currently on match {} of {}.",
+                "查找栏找到 {} 个匹配项。当前位于第 {} 个，共 {} 个。",
                 count,
                 current + 1,
                 count
@@ -938,9 +938,9 @@ impl View for CodeEditorFind {
 
         let is_replace_focused = self.is_replace_open && self.replace_editor.is_focused(app);
         let help_text = if is_replace_focused {
-            "Replace field focused. Type replacement text, press Enter to replace current match, Tab to return to find field. Use up/down arrows to navigate matches, Escape to close."
+            "替换字段已聚焦。输入替换文本，按 Enter 替换当前匹配项，按 Tab 返回查找字段。使用上下箭头导航匹配项，按 ESC 关闭。"
         } else {
-            "Find field focused. Type to search text. Use Enter and Shift-Enter or up/down arrows to navigate between matches. Press Escape to close find bar."
+            "查找字段已聚焦。输入要搜索的文本。使用 Enter 和 Shift-Enter 或上下箭头在匹配项之间导航。按 ESC 关闭查找栏。"
         };
 
         Some(AccessibilityContent::new(

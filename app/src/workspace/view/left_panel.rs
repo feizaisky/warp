@@ -792,14 +792,11 @@ impl LeftPanelView {
 
         let tooltip = if let Some(keybinding) = tooltip_keybinding {
             ui_builder
-                .tool_tip_with_sublabel("Close panel".to_string(), keybinding)
+                .tool_tip_with_sublabel("关闭面板".to_string(), keybinding)
                 .build()
                 .finish()
         } else {
-            ui_builder
-                .tool_tip("Close panel".to_string())
-                .build()
-                .finish()
+            ui_builder.tool_tip("关闭面板".to_string()).build().finish()
         };
 
         let icon_color = appearance

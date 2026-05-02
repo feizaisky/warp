@@ -573,9 +573,11 @@ const ELLIPSE_SVG_PATH: &str = "bundled/svg/ellipse.svg";
 
 const AI_ASSISTANT_BUTTON_ID: &str = "workspace_view:ai_assistant_button";
 
-const VERSION_DEPRECATION_BANNER_TEXT: &str = "您的应用已过时，部分功能可能无法正常使用。请立即更新。";
+const VERSION_DEPRECATION_BANNER_TEXT: &str =
+    "您的应用已过时，部分功能可能无法正常使用。请立即更新。";
 
-const VERSION_DEPRECATION_WITHOUT_PERMISSIONS_BANNER_TEXT: &str = "部分 Warp 功能可能无法正常使用，需要立即更新，但 Warp 无法执行更新。";
+const VERSION_DEPRECATION_WITHOUT_PERMISSIONS_BANNER_TEXT: &str =
+    "部分 Warp 功能可能无法正常使用，需要立即更新，但 Warp 无法执行更新。";
 
 const ASK_AI_ASSISTANT_KEYBINDING_NAME: &str = "workspace:toggle_ai_assistant";
 const TOGGLE_RESOURCE_CENTER_KEYBINDING_NAME: &str = "workspace:toggle_resource_center";
@@ -1933,7 +1935,7 @@ impl Workspace {
                     log::warn!("Failed to remove tab config file: {e:?}");
                     self.toast_stack.update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
-                            DismissibleToast::error(format!("Failed to remove tab config: {e}")),
+                            DismissibleToast::error(format!("移除标签页配置失败：{e}")),
                             ctx,
                         );
                     });
@@ -2361,7 +2363,7 @@ impl Workspace {
                     me.shown_staging_banner_count += 1;
                     me.toast_stack.update(ctx, |toast_stack, ctx| {
                         let toast = DismissibleToast::error(
-                            "Staging API call failed. Did your IP address change?".to_string(),
+                            "Staging API 调用失败。你的 IP 地址是否发生了变化？".to_string(),
                         )
                         .with_object_id("staging_access_blocked_toast".to_string());
                         toast_stack.add_ephemeral_toast(toast, ctx);
@@ -2447,14 +2449,12 @@ impl Workspace {
                         let path = error.file_path.clone();
                         let toast = DismissibleToast::error(message)
                             .with_object_id(object_id.clone())
-                            .with_link(
-                                ToastLink::new("打开文件".to_string()).with_onclick_action(
-                                    WorkspaceAction::OpenTabConfigErrorFile {
-                                        path,
-                                        toast_object_id: object_id,
-                                    },
-                                ),
-                            );
+                            .with_link(ToastLink::new("打开文件".to_string()).with_onclick_action(
+                                WorkspaceAction::OpenTabConfigErrorFile {
+                                    path,
+                                    toast_object_id: object_id,
+                                },
+                            ));
                         toast_stack.update(ctx, |toast_stack, ctx| {
                             toast_stack.add_persistent_toast(toast, ctx);
                         });
@@ -4048,9 +4048,7 @@ impl Workspace {
                 let Some(cloud_conversation) = cloud_conversation else {
                     log::error!("Failed to load conversation from server");
                     me.toast_stack.update(ctx, |view, ctx| {
-                        let new_toast = DismissibleToast::error(
-                            "加载对话数据失败。".to_string(),
-                        );
+                        let new_toast = DismissibleToast::error("加载对话数据失败。".to_string());
                         view.add_ephemeral_toast(new_toast, ctx);
                     });
                     return;
@@ -9469,12 +9467,10 @@ impl Workspace {
                     .unwrap_or_else(|| UserWorkspaces::upgrade_link(*user_id));
 
                 self.toast_stack.update(ctx, |view, ctx| {
-                    let new_toast =
-                        DismissibleToast::error("您的 AI 积分已用完。".into())
-                            .with_link(
-                                ToastLink::new("升级以获取更多积分。".into())
-                                    .with_href(upgrade_link),
-                            );
+                    let new_toast = DismissibleToast::error("您的 AI 积分已用完。".into())
+                        .with_link(
+                            ToastLink::new("升级以获取更多积分。".into()).with_href(upgrade_link),
+                        );
                     view.add_ephemeral_toast(new_toast, ctx);
                 });
             }
@@ -11603,8 +11599,7 @@ impl Workspace {
                 Err(e) => {
                     log::error!("Conversation forking failed. {e}.");
                     WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                        let toast =
-                            DismissibleToast::error("对话分叉失败。".to_owned());
+                        let toast = DismissibleToast::error("对话分叉失败。".to_owned());
                         toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                     });
                     return;
@@ -11832,7 +11827,7 @@ impl Workspace {
             .conversation(&conversation_id)
             .and_then(|c| c.title())
             .map(|s| s.to_string())
-            .unwrap_or_else(|| "Conversation".to_string());
+            .unwrap_or_else(|| "对话".to_string());
 
         let title = if source_title.chars().count() > MAX_FORK_TOAST_TITLE_LENGTH {
             let truncated: String = source_title
@@ -14605,8 +14600,7 @@ impl Workspace {
             {
                 let window_id = ctx.window_id();
                 WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast =
-                        DismissibleToast::default("此计划已在上下文中。".to_owned());
+                    let toast = DismissibleToast::default("此计划已在上下文中。".to_owned());
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
                 return;
@@ -14710,8 +14704,7 @@ impl Workspace {
 
         if !ContextFlag::CreateNewSession.is_enabled() {
             self.toast_stack.update(ctx, |toast_stack, ctx| {
-                let toast =
-                    DismissibleToast::error("无法打开新的终端会话".to_string());
+                let toast = DismissibleToast::error("无法打开新的终端会话".to_string());
                 toast_stack.add_ephemeral_toast(toast, ctx);
             });
             return None;
@@ -15214,25 +15207,19 @@ impl Workspace {
                                 let new_toast = if let Some(workflow) = cloned_workflow {
                                     DismissibleToast::error(message)
                                         .with_link(
-                                            ToastLink::new(
-                                                "Check out the latest version and try again."
-                                                    .to_string(),
-                                            )
-                                            .with_onclick_action(
-                                                WorkspaceAction::HandleConflictingWorkflow(
-                                                    workflow.id,
+                                            ToastLink::new("查看最新版本后重试。".to_string())
+                                                .with_onclick_action(
+                                                    WorkspaceAction::HandleConflictingWorkflow(
+                                                        workflow.id,
+                                                    ),
                                                 ),
-                                            ),
                                         )
                                         .with_object_id(object_id)
                                 } else if let Some(env_var_collection) = cloned_env_var_collection {
                                     DismissibleToast::error(message)
                                         .with_link(
-                                            ToastLink::new(
-                                                "Check out the latest version and try again."
-                                                    .to_string(),
-                                            )
-                                            .with_onclick_action(
+                                            ToastLink::new("查看最新版本后重试。".to_string())
+                                                .with_onclick_action(
                                                 WorkspaceAction::HandleConflictingEnvVarCollection(
                                                     env_var_collection.id,
                                                 ),
@@ -18415,8 +18402,7 @@ impl Workspace {
                         if is_incoming_version_past_current(new_version.soft_cutoff.as_deref()) {
                             VERSION_DEPRECATION_WITHOUT_PERMISSIONS_BANNER_TEXT.to_owned()
                         } else {
-                            "A new version is available but Warp is unable to perform the update."
-                                .to_owned()
+                            "已有新版本可用，但 Warp 无法执行更新。".to_owned()
                         };
 
                     Some(WorkspaceBannerFields {
@@ -18426,7 +18412,7 @@ impl Workspace {
                         description,
                         secondary_button: None,
                         button: Some(WorkspaceBannerButtonDetails {
-                            text: "Update Warp manually".to_string(),
+                            text: "手动更新 Warp".to_string(),
                             action: WorkspaceAction::DownloadNewVersion,
                             variant: BannerButtonVariant::Outlined,
                             icon: None,
@@ -18441,7 +18427,7 @@ impl Workspace {
                         if is_incoming_version_past_current(new_version.soft_cutoff.as_deref()) {
                             VERSION_DEPRECATION_WITHOUT_PERMISSIONS_BANNER_TEXT.to_owned()
                         } else {
-                            "Warp was unable to launch the new installed version.".to_owned()
+                            "Warp 无法启动新安装的版本。".to_owned()
                         };
 
                     Some(WorkspaceBannerFields {
@@ -18451,7 +18437,7 @@ impl Workspace {
                         description,
                         secondary_button: None,
                         button: Some(WorkspaceBannerButtonDetails {
-                            text: "Update Warp manually".to_string(),
+                            text: "手动更新 Warp".to_string(),
                             action: WorkspaceAction::DownloadNewVersion,
                             variant: BannerButtonVariant::Outlined,
                             icon: None,
@@ -18469,7 +18455,7 @@ impl Workspace {
                             description: VERSION_DEPRECATION_BANNER_TEXT.to_string(),
                             secondary_button: None,
                             button: Some(WorkspaceBannerButtonDetails {
-                                text: "Update now".to_string(),
+                                text: "立即更新".to_string(),
                                 action: WorkspaceAction::ApplyUpdate,
                                 variant: BannerButtonVariant::Outlined,
                                 icon: None,
@@ -18483,8 +18469,7 @@ impl Workspace {
                                     banner_type: WorkspaceBanner::VersionDeprecated,
                                     severity: BannerSeverity::Warning,
                                     heading: None,
-                                    description: "您的应用已过时，需要更新。"
-                                        .to_string(),
+                                    description: "您的应用已过时，需要更新。".to_string(),
                                     secondary_button: None,
                                     button: Some(WorkspaceBannerButtonDetails {
                                         text: "重启应用并立即更新".to_string(),
@@ -18595,7 +18580,7 @@ impl Workspace {
 
             if let Some(more_info_button_action) = more_info_button_action {
                 let more_info_details = WorkspaceBannerButtonDetails {
-                    text: "More info".to_owned(),
+                    text: "更多信息".to_owned(),
                     action: more_info_button_action,
                     variant: BannerButtonVariant::Outlined,
                     icon: None,
@@ -20762,8 +20747,7 @@ impl TypedActionView for Workspace {
                 self.process_updated_sync_state(ctx);
 
                 self.toast_stack.update(ctx, |view, ctx| {
-                    let new_toast =
-                        DismissibleToast::success("已禁用所有同步输入。".to_string());
+                    let new_toast = DismissibleToast::success("已禁用所有同步输入。".to_string());
                     view.add_ephemeral_toast(new_toast, ctx);
                 });
                 send_telemetry_from_ctx!(TelemetryEvent::DisableInputSync, ctx);
@@ -21640,7 +21624,7 @@ impl TypedActionView for Workspace {
                         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                             toast_stack.add_ephemeral_toast(
                                 DismissibleToast::error(
-                                    "Failed to delete conversation. Please exit the agent view and try again.".to_string(),
+                                    "删除对话失败。请退出智能体视图后重试。".to_string(),
                                 ),
                                 window_id,
                                 ctx,

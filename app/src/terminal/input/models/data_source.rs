@@ -61,7 +61,7 @@ impl InlineMenuAction for AcceptModel {
                 key: "enter".to_owned(),
                 ..Default::default()
             }),
-            MessageItem::text(" to select"),
+            MessageItem::text(" 选择"),
             MessageItem::keystroke(if OperatingSystem::get().is_mac() {
                 Keystroke {
                     key: "enter".to_owned(),
@@ -76,7 +76,7 @@ impl InlineMenuAction for AcceptModel {
                     ..Default::default()
                 }
             }),
-            MessageItem::text(" select and save to profile"),
+            MessageItem::text(" 选择并保存到配置文件"),
         ];
 
         if args.inline_menu_model.tab_configs().len() > 1 {
@@ -85,7 +85,7 @@ impl InlineMenuAction for AcceptModel {
                 shift: true,
                 ..Default::default()
             }));
-            items.push(MessageItem::text(" to cycle tabs"));
+            items.push(MessageItem::text(" 切换标签页"));
         }
 
         items.push(MessageItem::clickable(
@@ -94,7 +94,7 @@ impl InlineMenuAction for AcceptModel {
                     key: "escape".to_owned(),
                     ..Default::default()
                 }),
-                MessageItem::text(" to dismiss"),
+                MessageItem::text(" 关闭"),
             ],
             |ctx| {
                 ctx.dispatch_typed_action(
@@ -340,7 +340,7 @@ impl SearchItem for ModelSearchItem {
         }
 
         if self.is_selected {
-            let selected_label = "(selected)";
+            let selected_label = "(已选择)";
             let selected_text = Text::new_inline(
                 selected_label.to_string(),
                 appearance.ui_font_family(),
@@ -359,7 +359,7 @@ impl SearchItem for ModelSearchItem {
         }
 
         if self.is_disabled() {
-            let disabled_label = "(disabled)";
+            let disabled_label = "(已停用)";
             let disabled_text = Text::new_inline(
                 disabled_label.to_string(),
                 appearance.ui_font_family(),
@@ -384,7 +384,7 @@ impl SearchItem for ModelSearchItem {
             let discount_percentage = self.discount_percentage.unwrap_or(0.);
             let chip = Container::new(
                 Text::new_inline(
-                    format!("{}% off!", discount_percentage.round() as u32),
+                    format!("{}% 优惠", discount_percentage.round() as u32),
                     appearance.ui_font_family(),
                     font_size,
                 )
@@ -432,7 +432,7 @@ impl SearchItem for ModelSearchItem {
                     ButtonVariant::Outlined,
                     self.manage_api_key_mouse_state.clone(),
                 )
-                .with_text_label("Manage".to_string())
+                .with_text_label("管理".to_string())
                 .with_style(UiComponentStyles {
                     height: Some(24.),
                     padding: Some(Coords {
@@ -500,16 +500,14 @@ impl SearchItem for ModelSearchItem {
                 );
 
             let mut text_fragments = vec![
-                FormattedTextFragment::plain_text(format!(
-                    "{display_name} is not available for free users. "
-                )),
-                FormattedTextFragment::hyperlink("Upgrade", upgrade_url),
+                FormattedTextFragment::plain_text(format!("{display_name} 不适用于免费用户。")),
+                FormattedTextFragment::hyperlink("升级", upgrade_url),
             ];
 
             if byok_available {
-                text_fragments.push(FormattedTextFragment::plain_text(" or ".to_string()));
+                text_fragments.push(FormattedTextFragment::plain_text("或".to_string()));
                 text_fragments.push(FormattedTextFragment::hyperlink_action(
-                    "bring your own key",
+                    "使用自己的 API key",
                     WorkspaceAction::ShowSettingsPageWithSearch {
                         search_query: "api".to_string(),
                         section: Some(SettingsSection::WarpAgent),
@@ -584,12 +582,12 @@ impl SearchItem for ModelSearchItem {
     }
 
     fn accessibility_label(&self) -> String {
-        let mut label = format!("Model: {}", self.display_text);
+        let mut label = format!("模型：{}", self.display_text);
         if self.is_selected {
-            label.push_str(" (selected)");
+            label.push_str(" (已选择)");
         }
         if self.is_disabled() {
-            label.push_str(" (disabled)");
+            label.push_str(" (已停用)");
         }
         label
     }

@@ -32,7 +32,7 @@ pub struct Menus {
 impl EnvVarCollectionView {
     pub(super) fn initialize_menus(ctx: &mut ViewContext<Self>) -> Menus {
         let command_item = Self::item(
-            "Command",
+            "命令",
             EnvVarCollectionAction::DisplayCommandDialog,
             None,
             Some(Icon::Terminal),
@@ -53,7 +53,7 @@ impl EnvVarCollectionView {
         );
 
         let edit_item = Self::item(
-            "Edit",
+            "编辑",
             EnvVarCollectionAction::EditCommand,
             None,
             Some(Icon::Terminal),
@@ -383,7 +383,7 @@ impl EnvVarCollectionView {
         // Add "Duplicate" to menu
         if space != Some(Space::Shared) {
             menu_items.push(
-                MenuItemFields::new("Duplicate")
+                MenuItemFields::new("复制副本")
                     .with_on_select_action(EnvVarCollectionAction::Duplicate)
                     .with_icon(Icon::Duplicate)
                     .into_item(),
@@ -395,7 +395,7 @@ impl EnvVarCollectionView {
             && (!FeatureFlag::SharedWithMe.is_enabled() || access_level.can_trash())
         {
             menu_items.push(
-                MenuItemFields::new("Trash")
+                MenuItemFields::new("移至回收站")
                     .with_on_select_action(EnvVarCollectionAction::Trash)
                     .with_icon(Icon::Trash)
                     .into_item(),
@@ -404,7 +404,7 @@ impl EnvVarCollectionView {
 
         #[cfg(feature = "local_fs")]
         menu_items.push(
-            MenuItemFields::new("Export")
+            MenuItemFields::new("导出")
                 .with_on_select_action(EnvVarCollectionAction::Export)
                 .with_icon(Icon::Download)
                 .into_item(),

@@ -56,10 +56,10 @@ const DROPDOWN_WIDTH: f32 = 72.;
 const MODAL_CONTENT_FONT_SIZE: f32 = 14.;
 const CHECKBOX_SIZE: f32 = 16.;
 
-const MODAL_TITLE: &str = "Edit prompt";
-const WARP_PROMPT_SECTION_HEADER: &str = "Warp terminal prompt";
-const SHELL_PROMPT_SECTION_HEADER: &str = "Shell prompt (PS1)";
-const RESTORE_DEFAULT_BUTTON: &str = "Restore default";
+const MODAL_TITLE: &str = "编辑提示符";
+const WARP_PROMPT_SECTION_HEADER: &str = "Warp 终端提示符";
+const SHELL_PROMPT_SECTION_HEADER: &str = "Shell 提示符 (PS1)";
+const RESTORE_DEFAULT_BUTTON: &str = "恢复默认";
 
 pub fn init(app: &mut AppContext) {
     use warpui::keymap::macros::*;
@@ -599,7 +599,7 @@ impl EditorModal {
     fn render_same_line_prompt_section(&self, appearance: &Appearance) -> Box<dyn Element> {
         let label = appearance
             .ui_builder()
-            .span("Same line prompt".to_string())
+            .span("同一行提示符".to_string())
             .with_style(UiComponentStyles {
                 font_size: Some(MODAL_CONTENT_FONT_SIZE),
                 ..Default::default()
@@ -637,7 +637,7 @@ impl EditorModal {
                 Container::new(
                     appearance
                         .ui_builder()
-                        .span("Separator".to_string())
+                        .span("分隔符".to_string())
                         .with_style(UiComponentStyles {
                             font_size: Some(MODAL_CONTENT_FONT_SIZE),
                             ..Default::default()
@@ -784,7 +784,7 @@ impl EditorModal {
 
     fn render_buttons(&self, appearance: &Appearance) -> Box<dyn Element> {
         let cancel_button = self.render_primary_button(
-            "Cancel".to_string(),
+            "取消".to_string(),
             ButtonVariant::Outlined,
             false,
             self.mouse_state_handles.cancel_button_handle.clone(),
@@ -799,7 +799,7 @@ impl EditorModal {
             || (matches!(self.prompt_type, PromptType::Warp)
                 && self.chip_configurator.used_chips.is_empty());
         let save_button = self.render_primary_button(
-            "Save changes".to_string(),
+            "保存更改".to_string(),
             ButtonVariant::Accent,
             save_disabled,
             self.mouse_state_handles.save_button_handle.clone(),

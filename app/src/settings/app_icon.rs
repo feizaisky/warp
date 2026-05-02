@@ -21,10 +21,7 @@ use warp_core::{
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "The app icon displayed in the dock.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "Dock 中显示的应用图标。", rename_all = "snake_case")]
 pub enum AppIcon {
     /// Current default: White glyph on blue/black gradient blackground, set in Dec 2024.
     #[default]
@@ -131,6 +128,6 @@ define_settings_group!(AppIconSettings, settings: [
         private: false,
         storage_key: "AppIcon",
         toml_path: "appearance.icon.app_icon",
-        description: "The app icon displayed in the dock.",
+        description: "Dock 中显示的应用图标。",
     },
 ]);

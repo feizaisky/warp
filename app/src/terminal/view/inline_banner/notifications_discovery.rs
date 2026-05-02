@@ -79,10 +79,7 @@ pub fn render_inline_notifications_discovery_banner(
             "我们不会再显示此横幅，但您随时可以前往设置启用通知。",
             vec![],
         ),
-        NotificationsMode::Disabled => (
-            "通知已关闭，但您随时可以前往设置启用通知。",
-            vec![],
-        ),
+        NotificationsMode::Disabled => ("通知已关闭，但您随时可以前往设置启用通知。", vec![]),
         NotificationsMode::Unset => (
             trigger.discovery_banner_copy(),
             vec![
@@ -107,18 +104,15 @@ pub fn render_inline_notifications_discovery_banner(
             // permissions request (if any)
             let (title, docs_button) = match request_outcome {
                 Some(request_outcome) => match request_outcome {
-                    RequestPermissionsOutcome::Accepted => (
-                        "成功！您现在可以接收桌面通知了。",
-                        learn_more_button,
-                    ),
-                    RequestPermissionsOutcome::PermissionsDenied => (
-                        "Warp 被拒绝发送通知的权限。",
-                        troubleshoot_button,
-                    ),
-                    RequestPermissionsOutcome::OtherError { .. } => (
-                        "申请权限时发生错误。",
-                        troubleshoot_button,
-                    ),
+                    RequestPermissionsOutcome::Accepted => {
+                        ("成功！您现在可以接收桌面通知了。", learn_more_button)
+                    }
+                    RequestPermissionsOutcome::PermissionsDenied => {
+                        ("Warp 被拒绝发送通知的权限。", troubleshoot_button)
+                    }
+                    RequestPermissionsOutcome::OtherError { .. } => {
+                        ("申请权限时发生错误。", troubleshoot_button)
+                    }
                 },
                 None => (
                     "请记得在权限请求弹窗中点击「允许」以完成通知设置。",

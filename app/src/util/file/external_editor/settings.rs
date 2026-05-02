@@ -76,7 +76,7 @@ define_settings_group!(EditorSettings, settings: [
         private: false,
         toml_path: "code.editor.open_file_editor",
         max_table_depth: 0,
-        description: "The editor used to open files.",
+        description: "用于打开文件的编辑器。",
     },
     open_code_panels_file_editor: OpenCodePanelsFileEditor {
         type: EditorChoice,
@@ -86,7 +86,7 @@ define_settings_group!(EditorSettings, settings: [
         private: false,
         toml_path: "code.editor.open_code_panels_file_editor",
         max_table_depth: 0,
-        description: "The editor used to open files from code panels.",
+        description: "用于从代码面板打开文件的编辑器。",
     },
     open_file_layout: OpenFileLayout {
         type: EditorLayout,
@@ -95,7 +95,7 @@ define_settings_group!(EditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.open_file_layout",
-        description: "The layout used when opening files in the editor.",
+        description: "在编辑器中打开文件时使用的布局。",
     },
     prefer_markdown_viewer: PreferMarkdownViewer {
         type: bool,
@@ -104,7 +104,7 @@ define_settings_group!(EditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.prefer_markdown_viewer",
-        description: "Whether to use the Markdown viewer when opening Markdown files.",
+        description: "打开 Markdown 文件时是否使用 Markdown 查看器。",
     },
     prefer_tabbed_editor_view: PreferTabbedEditorView {
         type: bool,
@@ -113,7 +113,7 @@ define_settings_group!(EditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.prefer_tabbed_editor_view",
-        description: "Whether to prefer opening files in a tabbed editor view.",
+        description: "是否优先在标签式编辑器视图中打开文件。",
     },
     open_conversation_layout_preference: OpenConversationLayoutPreference {
         type: OpenConversationPreference,
@@ -122,7 +122,7 @@ define_settings_group!(EditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.open_conversation_layout_preference",
-        description: "Whether to open agent conversations in a new tab or a split pane.",
+        description: "智能体对话是在新标签页还是拆分面板中打开。",
     },
 ]);
 
@@ -137,10 +137,7 @@ define_settings_group!(EditorSettings, settings: [
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "How to open agent conversations.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "打开智能体对话的方式。", rename_all = "snake_case")]
 pub enum OpenConversationPreference {
     NewTab,
     SplitPane,

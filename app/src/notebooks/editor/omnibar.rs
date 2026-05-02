@@ -446,13 +446,13 @@ impl TypedActionView for Omnibar {
                 .style_toggle_a11y(BufferTextStyle::InlineCode),
             OmnibarAction::ConvertBlock(style) => {
                 ActionAccessibilityContent::Custom(AccessibilityContent::new_without_help(
-                    format!("Convert to {}", BlockType::from(style).label()),
+                    format!("转换为 {}", BlockType::from(style).label()),
                     WarpA11yRole::UserAction,
                 ))
             }
             OmnibarAction::OpenLinkEditor => ActionAccessibilityContent::from_debug(),
             OmnibarAction::UnstyleLink => ActionAccessibilityContent::Custom(
-                AccessibilityContent::new_without_help("Remove link", WarpA11yRole::UserAction),
+                AccessibilityContent::new_without_help("移除链接", WarpA11yRole::UserAction),
             ),
         }
     }

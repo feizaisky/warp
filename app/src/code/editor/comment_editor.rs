@@ -275,7 +275,7 @@ impl CommentEditor {
         self.is_imported_comment = origin.is_imported_from_github();
 
         self.save_button.update(ctx, |button, ctx| {
-            button.set_label("Update", ctx);
+            button.set_label("更新", ctx);
         });
         ctx.notify();
 
@@ -330,7 +330,7 @@ impl CommentEditor {
             .finish();
 
         let label = Text::new(
-            "Comment imported from GitHub".to_string(),
+            "从 GitHub 导入的评论".to_string(),
             appearance.ui_font_family(),
             appearance.ui_font_size(),
         )

@@ -12,7 +12,7 @@ define_settings_group!(SshSettings,
             private: false,
             storage_key: "EnableSSHWrapper",
             toml_path: "warpify.ssh.enable_legacy_ssh_wrapper",
-            description: "Whether the legacy SSH wrapper is enabled for SSH sessions.",
+            description: "SSH 会话是否启用旧版 SSH 包装器。",
         },
     ]
 );

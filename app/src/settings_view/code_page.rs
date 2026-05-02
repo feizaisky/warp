@@ -85,12 +85,13 @@ const CODEBASE_INDEXING_LABEL: &str = "代码库索引";
 const CODEBASE_INDEX_DESCRIPTION: &str = "Warp 可在您浏览代码仓库时自动建立索引，帮助智能体快速理解上下文并提供解决方案。代码不会存储到服务器。若无法索引某代码库，Warp 仍可通过 grep 和 find 工具访问和分析。";
 const WARP_INDEXING_IGNORE_DESCRIPTION: &str = "如需排除特定文件或目录不参与索引，请将其添加到仓库目录的 .warpindexingignore 文件中。这些文件仍可被 AI 功能访问，但不会包含在代码库嵌入中。";
 const AUTO_INDEX_FEATURE_NAME: &str = "默认索引新文件夹";
-const AUTO_INDEX_DESCRIPTION: &str = "启用后，Warp 将在您浏览代码仓库时自动建立索引，帮助智能体快速理解上下文并提供精准解决方案。";
+const AUTO_INDEX_DESCRIPTION: &str =
+    "启用后，Warp 将在您浏览代码仓库时自动建立索引，帮助智能体快速理解上下文并提供精准解决方案。";
 const INDEXING_DISABLED_ADMIN_TEXT: &str = "团队管理员已禁用代码库索引。";
 const INDEXING_WORKSPACE_ENABLED_ADMIN_TEXT: &str = "团队管理员已启用代码库索引。";
-const INDEXING_DISABLED_GLOBAL_AI_TEXT: &str =
-    "使用代码库索引需要先启用 AI 功能。";
-const CODEBASE_INDEX_LIMIT_REACHED: &str = "您已达到当前方案的代码库索引数量上限。请删除现有索引以对新代码库自动建立索引。";
+const INDEXING_DISABLED_GLOBAL_AI_TEXT: &str = "使用代码库索引需要先启用 AI 功能。";
+const CODEBASE_INDEX_LIMIT_REACHED: &str =
+    "您已达到当前方案的代码库索引数量上限。请删除现有索引以对新代码库自动建立索引。";
 
 /// Identifies which subpage of the Code settings the user is viewing.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -1415,7 +1416,7 @@ impl CodePageWidget {
         // "INDEXING" label on its own row
         column.add_child(
             ui_builder
-                .span("INDEXING")
+                .span("索引")
                 .with_style(UiComponentStyles {
                     font_size: Some(11.0),
                     font_weight: Some(Weight::Semibold),
@@ -1523,11 +1524,7 @@ impl CodePageWidget {
                 | CodebaseIndexingError::MaxDepthExceeded,
             )) = index_state.last_sync_result()
             {
-                (
-                    "代码库过大",
-                    theme.ui_warning_color(),
-                    Icon::AlertTriangle,
-                )
+                ("代码库过大", theme.ui_warning_color(), Icon::AlertTriangle)
             } else if index_state.has_synced_version() {
                 (
                     "已过期",
@@ -1639,7 +1636,7 @@ impl CodePageWidget {
         // "LSP SERVERS" label
         content.add_child(
             ui_builder
-                .span("LSP SERVERS")
+                .span("LSP 服务器")
                 .with_style(UiComponentStyles {
                     font_size: Some(11.0),
                     font_weight: Some(Weight::Semibold),
@@ -2328,10 +2325,7 @@ impl SettingsWidget for CodeReviewPanelToggleWidget {
                     ctx.dispatch_typed_action(CodeSettingsPageAction::ToggleCodeReviewPanel);
                 })
                 .finish(),
-            Some(
-                "在窗口右上角显示按钮，用于切换代码审查面板。"
-                    .into(),
-            ),
+            Some("在窗口右上角显示按钮，用于切换代码审查面板。".into()),
         )
     }
 }
@@ -2413,10 +2407,7 @@ impl SettingsWidget for ProjectExplorerToggleWidget {
                     ctx.dispatch_typed_action(CodeSettingsPageAction::ToggleProjectExplorer);
                 })
                 .finish(),
-            Some(
-                "在左侧工具面板添加 IDE 风格的项目资源管理器（文件树）。"
-                    .into(),
-            ),
+            Some("在左侧工具面板添加 IDE 风格的项目资源管理器（文件树）。".into()),
         )
     }
 }

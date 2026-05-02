@@ -395,7 +395,7 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "pane_group:resize_left",
-            "Resize pane > Move divider left",
+            "调整面板大小 > 向左移动分隔线",
             PaneGroupAction::ResizeLeft,
         )
         .with_context_predicate(
@@ -404,7 +404,7 @@ pub fn init(app: &mut AppContext) {
         .with_mac_key_binding("cmd-ctrl-left"),
         EditableBinding::new(
             "pane_group:resize_right",
-            "Resize pane > Move divider right",
+            "调整面板大小 > 向右移动分隔线",
             PaneGroupAction::ResizeRight,
         )
         .with_context_predicate(
@@ -413,7 +413,7 @@ pub fn init(app: &mut AppContext) {
         .with_mac_key_binding("cmd-ctrl-right"),
         EditableBinding::new(
             "pane_group:resize_up",
-            "Resize pane > Move divider up",
+            "调整面板大小 > 向上移动分隔线",
             PaneGroupAction::ResizeUp,
         )
         .with_context_predicate(
@@ -422,7 +422,7 @@ pub fn init(app: &mut AppContext) {
         .with_mac_key_binding("cmd-ctrl-up"),
         EditableBinding::new(
             "pane_group:resize_down",
-            "Resize pane > Move divider down",
+            "调整面板大小 > 向下移动分隔线",
             PaneGroupAction::ResizeDown,
         )
         .with_context_predicate(

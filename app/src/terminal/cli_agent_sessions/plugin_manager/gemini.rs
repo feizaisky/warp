@@ -107,11 +107,11 @@ impl CliAgentPluginManager for GeminiPluginManager {
     }
 
     fn install_success_message(&self) -> &'static str {
-        "Warp plugin installed. Please restart Gemini CLI to activate."
+        "Warp 插件已安装。请重启 Gemini CLI 以激活。"
     }
 
     fn update_success_message(&self) -> &'static str {
-        "Warp plugin updated. Please restart Gemini CLI to activate."
+        "Warp 插件已更新。请重启 Gemini CLI 以激活。"
     }
 
     fn install_instructions(&self) -> &'static PluginInstructions {

@@ -468,7 +468,7 @@ impl TabData {
                             Some(id) => id.to_ansi_color(&terminal_colors).into(),
                         };
                         let tooltip = match ansi_id {
-                            None => "Default (no color)".to_string(),
+                            None => "默认（无颜色）".to_string(),
                             Some(id) => id.to_string(),
                         };
 
@@ -1143,7 +1143,7 @@ impl<'a> TabComponent<'a> {
 
                         if state.is_hovered() {
                             let tooltip = ui_builder
-                                .tool_tip("Cloud agent run".to_string())
+                                .tool_tip("云端智能体运行".to_string())
                                 .build()
                                 .finish();
                             stack.add_positioned_overlay_child(

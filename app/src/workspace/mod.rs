@@ -796,10 +796,8 @@ pub fn init(app: &mut AppContext) {
         .with_context_predicate(id!("Workspace") & id!(flags::ENABLE_WARP_DRIVE)),
         EditableBinding::new(
             TOGGLE_CONVERSATION_LIST_VIEW_BINDING_NAME,
-            BindingDescription::new("Toggle Agent conversation list view").with_custom_description(
-                bindings::MAC_MENUS_CONTEXT,
-                "Agent conversation list view",
-            ),
+            BindingDescription::new("切换智能体对话列表视图")
+                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "智能体对话列表视图"),
             WorkspaceAction::ToggleConversationListView,
         )
         .with_enabled(|| FeatureFlag::AgentViewConversationListView.is_enabled())
@@ -809,8 +807,8 @@ pub fn init(app: &mut AppContext) {
         .with_group(bindings::BindingGroup::WarpAi.as_str()),
         EditableBinding::new(
             "workspace:close_panel",
-            BindingDescription::new("Close focused panel")
-                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Close focused panel"),
+            BindingDescription::new("关闭聚焦面板")
+                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "关闭聚焦面板"),
             WorkspaceAction::ClosePanel,
         )
         .with_context_predicate(id!("Workspace"))
@@ -1266,8 +1264,8 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "workspace:open_repository",
-            BindingDescription::new("Open repository")
-                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Open Repository"),
+            BindingDescription::new("打开仓库")
+                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "打开仓库"),
             WorkspaceAction::OpenRepository { path: None },
         )
         .with_context_predicate(id!("Workspace"))
@@ -1275,8 +1273,8 @@ pub fn init(app: &mut AppContext) {
         .with_group(bindings::BindingGroup::Folders.as_str()),
         EditableBinding::new(
             "workspace:open_ai_fact_collection",
-            BindingDescription::new("Open AI Rules")
-                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Open AI Rules"),
+            BindingDescription::new("打开 AI 规则")
+                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "打开 AI 规则"),
             WorkspaceAction::OpenAIFactCollection,
         )
         .with_enabled(|| FeatureFlag::AIRules.is_enabled())
@@ -1287,8 +1285,8 @@ pub fn init(app: &mut AppContext) {
 
     app.register_editable_bindings([EditableBinding::new(
         "workspace:open_mcp_servers",
-        BindingDescription::new("Open MCP Servers")
-            .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Open MCP Servers"),
+        BindingDescription::new("打开 MCP 服务器")
+            .with_custom_description(bindings::MAC_MENUS_CONTEXT, "打开 MCP 服务器"),
         WorkspaceAction::OpenMCPServerCollection,
     )
     .with_enabled(|| {
@@ -1343,7 +1341,7 @@ fn add_open_setting_pages_as_editable_binding(app: &mut AppContext) {
         EditableBinding::new(
             "workspace:show_settings",
             BindingDescription::new("打开设置")
-                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Settings"),
+                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "设置"),
             WorkspaceAction::ShowSettings,
         )
         .with_context_predicate(id!("Workspace"))
@@ -1405,7 +1403,7 @@ fn add_open_setting_pages_as_editable_binding(app: &mut AppContext) {
         EditableBinding::new(
             "workspace:show_settings_teams_page",
             BindingDescription::new("打开设置：团队")
-                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Open Team Settings"),
+                .with_custom_description(bindings::MAC_MENUS_CONTEXT, "打开团队设置"),
             WorkspaceAction::ShowSettingsPage(SettingsSection::Teams),
         )
         .with_group(bindings::BindingGroup::Settings.as_str())
@@ -1506,9 +1504,9 @@ fn add_overflow_menu_items_as_editable_binding(app: &mut AppContext) {
         .with_context_predicate(id!("Workspace")),
         EditableBinding::new(
             "workspace:send_feedback",
-            BindingDescription::new("发送反馈（打开外部链接）").with_dynamic_override(
-                |ctx| is_feedback_skill_available(ctx).then(|| "Send feedback with Oz".into()),
-            ),
+            BindingDescription::new("发送反馈（打开外部链接）").with_dynamic_override(|ctx| {
+                is_feedback_skill_available(ctx).then(|| "Send feedback with Oz".into())
+            }),
             WorkspaceAction::SendFeedback,
         )
         .with_context_predicate(id!("Workspace")),

@@ -146,7 +146,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Never,
     private: false,
     toml_path: "agents.voice.voice_input_toggle_key",
-    description: "The key used to toggle voice input.",
+    description: "用于切换语音输入的按键。",
 );
 
 impl VoiceInputToggleKey {
@@ -314,7 +314,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "general.default_session_mode",
-    description: "The default mode for new terminal sessions.",
+    description: "新终端会话的默认模式。",
 );
 
 impl DefaultSessionMode {
@@ -364,7 +364,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "agents.warp_agent.other.thinking_display_mode",
-    description: "Controls how agent thinking traces are displayed after streaming.",
+    description: "控制流式输出结束后智能体思考轨迹的显示方式。",
 );
 
 impl ThinkingDisplayMode {
@@ -716,7 +716,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::No),
         private: false,
         toml_path: "agents.warp_agent.is_any_ai_enabled",
-        description: "Controls whether all AI features are enabled.",
+        description: "控制是否启用所有 AI 功能。",
     },
     // This field should not be referenced directly to lookup active AI enablement -- use the
     // `is_active_ai_enabled()` getter.
@@ -727,7 +727,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::No),
         private: false,
         toml_path: "agents.warp_agent.active_ai.enabled",
-        description: "Controls whether proactive AI features like suggestions are enabled.",
+        description: "控制是否启用建议等主动 AI 功能。",
     },
     // This field should not be referenced directly to lookup autodetection enablement -- use the
     // `is_ai_autodetection_enabled()` getter.
@@ -738,7 +738,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.input.ai_auto_detection_enabled",
-        description: "Controls whether AI automatically detects natural language input.",
+        description: "控制 AI 是否自动检测自然语言输入。",
     },
     // This field should not be referenced directly -- use the
     // `is_nld_in_terminal_enabled()` getter.
@@ -752,7 +752,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.input.nld_in_terminal_enabled",
-        description: "Controls whether natural language detection is enabled in the terminal input.",
+        description: "控制终端输入中是否启用自然语言检测。",
     },
     autodetection_command_denylist: AICommandDenylist {
         type: String,
@@ -761,7 +761,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.input.ai_command_denylist",
-        description: "Commands to exclude from AI natural language autodetection.",
+        description: "从 AI 自然语言自动检测中排除的命令。",
     },
     // This field should not be referenced directly to lookup intelligent autosuggestion enablement
     // -- use the `is_intelligent_autosuggestions_enabled()` getter.
@@ -772,7 +772,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.intelligent_autosuggestions_enabled",
-        description: "Controls whether AI-powered intelligent autosuggestions are enabled.",
+        description: "控制是否启用 AI 驱动的智能自动建议。",
     }
     // This field should not be referenced directly to lookup Prompt Suggestions
     // enablement -- use the `is_prompt_suggestions_enabled()` getter.
@@ -786,7 +786,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.agent_mode_query_suggestions_enabled",
-        description: "Controls whether prompt suggestions are shown in agent mode.",
+        description: "控制智能体模式下是否显示提示词建议。",
     }
 
     // This field should not be referenced directly to lookup Code Suggestions
@@ -798,7 +798,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.code_suggestions_enabled",
-        description: "Controls whether AI code suggestions are enabled.",
+        description: "控制是否启用 AI 代码建议。",
     }
     // This field should not be referenced directly to lookup natural language autosuggestions
     // enablement -- use the `is_natural_language_autosuggestions_enabled()` getter.
@@ -810,7 +810,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.natural_language_autosuggestions_enabled",
-        description: "Controls whether ghosted text autosuggestions are shown for AI input queries.",
+        description: "控制 AI 输入查询是否显示灰色自动建议文本。",
         feature_flag: FeatureFlag::PredictAMQueries,
     }
     // This field should not be referenced directly to lookup shared block title generations
@@ -823,7 +823,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.shared_block_title_generation_enabled",
-        description: "Controls whether titles are auto-generated when sharing blocks.",
+        description: "控制共享块时是否自动生成标题。",
     }
     // This field should not be referenced directly to lookup git operations AI autogen
     // enablement -- use the `is_git_operations_autogen_enabled()` getter.
@@ -834,7 +834,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.git_operations_autogen_enabled",
-        description: "Controls whether AI auto-generates commit messages and PR title/body in the code review dialogs.",
+        description: "控制 AI 是否在代码审查对话框中自动生成提交消息和 PR 标题/正文。",
     }
     // This field should not be referenced directly to lookup Rule Suggestions
     // enablement -- use the `is_rule_suggestions_enabled()` getter.
@@ -845,7 +845,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.active_ai.rule_suggestions_enabled",
-        description: "Controls whether the agent suggests rules to save after responses.",
+        description: "控制智能体响应后是否建议保存规则。",
         feature_flag: FeatureFlag::SuggestedRules,
     }
     // This field should not be referenced directly to lookup Voice AI enablement -- use the
@@ -857,7 +857,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.voice.voice_input_enabled",
-        description: "Controls whether voice input is enabled for AI interactions.",
+        description: "控制 AI 交互中是否启用语音输入。",
     },
     // The number of times the user has entered Agent Mode.
     // Not a user-visible setting. We model it so we can show the voice input new feature popup
@@ -903,7 +903,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.profiles.agent_mode_command_execution_allowlist",
-        description: "Commands that the agent can execute without explicit permission.",
+        description: "智能体无需明确许可即可执行的命令。",
     },
     // Predicates that Agent Mode can use to decide if a command must
     // be executed by the user.
@@ -917,7 +917,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.profiles.agent_mode_command_execution_denylist",
-        description: "Commands that the agent must always ask before executing.",
+        description: "智能体执行前必须始终询问的命令。",
     },
     // Enabled iff Agent Mode can execute readonly commands without explicit user consent.
     //
@@ -930,7 +930,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.profiles.agent_mode_execute_readonly_commands",
-        description: "Whether the agent can auto-execute read-only commands without asking.",
+        description: "智能体是否可不经询问自动执行只读命令。",
     },
     // Determines coding permissions that Agent Mode has.
     // Note that if Agent Mode has permissions to execute readonly commands,
@@ -945,7 +945,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.profiles.agent_mode_coding_permissions",
-        description: "The file read permission level for the agent.",
+        description: "智能体的文件读取权限级别。",
     }
     // Specific filepaths that Agent Mode can read without asking for additional permissions.
     // These should be persisted as absolute filepaths to avoid ambiguity.
@@ -961,7 +961,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Never,
         private: false,
         toml_path: "agents.profiles.agent_mode_coding_file_read_allowlist",
-        description: "File paths the agent can read without asking for permission.",
+        description: "智能体无需请求权限即可读取的文件路径。",
     }
     // Whether or not the profile-level command autoexecution speedbump has been shown.
     //
@@ -1015,7 +1015,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "cloud_platform.third_party_api_keys.aws_bedrock_credentials_enabled",
-        description: "Whether Warp should use your local AWS credentials for Bedrock-enabled requests.",
+        description: "Warp 是否应使用你的本地 AWS 凭据发送启用 Bedrock 的请求。",
     }
     // Whether to automatically run the AWS login command when Bedrock credentials are expired.
     //
@@ -1028,7 +1028,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "cloud_platform.third_party_api_keys.aws_bedrock_auto_login",
-        description: "Whether to automatically run the AWS login command when Bedrock credentials expire.",
+        description: "Bedrock 凭据过期时是否自动运行 AWS 登录命令。",
     }
     // Command to run to refresh AWS credentials when using Bedrock auto-login.
     aws_bedrock_auth_refresh_command: AwsBedrockAuthRefreshCommand {
@@ -1038,7 +1038,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "cloud_platform.third_party_api_keys.aws_bedrock_auth_refresh_command",
-        description: "The command to run to refresh AWS credentials for Bedrock.",
+        description: "用于刷新 Bedrock AWS 凭据的命令。",
     }
     // AWS profile name to use when loading credentials from the local AWS credential/config chain.
     aws_bedrock_profile: AwsBedrockProfile {
@@ -1048,7 +1048,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "cloud_platform.third_party_api_keys.aws_bedrock_profile",
-        description: "The AWS profile name to use for Bedrock credentials.",
+        description: "Bedrock 凭据使用的 AWS profile 名称。",
     }
     // Whether the AWS Bedrock login banner has been permanently dismissed.
     //
@@ -1068,7 +1068,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.knowledge.rules_enabled",
-        description: "Whether the agent uses your saved rules during requests.",
+        description: "智能体处理请求时是否使用你保存的规则。",
     }
     // Whether warp drive context should be included in AI requests
     warp_drive_context_enabled: WarpDriveContextEnabled {
@@ -1078,7 +1078,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.knowledge.warp_drive_context_enabled",
-        description: "Whether Warp Drive context is included in AI requests.",
+        description: "AI 请求中是否包含 Warp Drive 上下文。",
     }
 
     // Whether the codebase speedbump banner has been permanently dismissed for a given repo path.
@@ -1189,7 +1189,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.should_show_oz_updates_in_zero_state",
-        description: "Whether the \"What's new\" section is shown in the agent view.",
+        description: "是否在智能体视图中显示“新功能”部分。",
     }
 
     // Whether or not the user has enabled the ability to use Warp credits even when providing
@@ -1201,7 +1201,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "cloud_platform.third_party_api_keys.can_use_warp_credits_with_byok",
-        description: "Whether Warp credits can be used even when providing your own API key.",
+        description: "即使提供自己的 API 密钥时，是否仍可使用 Warp 额度。",
     }
 
     should_render_use_agent_footer_for_user_commands: ShouldRenderUseAgentToolbarForUserCommands {
@@ -1211,7 +1211,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.should_render_use_agent_toolbar_for_user_commands",
-        description: "Whether to show the \"Use Agent\" footer for terminal commands.",
+        description: "是否为终端命令显示“使用智能体”页脚。",
     }
 
     // Whether to render the CLI agent footer for commands like Claude, Codex, Gemini, etc.
@@ -1223,7 +1223,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.third_party.should_render_cli_agent_toolbar",
-        description: "Whether to show the CLI agent footer for coding agent commands.",
+        description: "是否为编码智能体命令显示 CLI 智能体页脚。",
     }
     // When enabled and a CLI agent session has a plugin listener, rich input
     // auto-closes when the session enters a Blocked state (the agent requires
@@ -1235,7 +1235,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.third_party.auto_toggle_composer",
-        description: "Whether CLI agent Rich Input automatically closes and reopens based on the agent's blocked state.",
+        description: "CLI 智能体富输入是否根据智能体的阻塞状态自动关闭并重新打开。",
     }
 
     // When enabled and a CLI agent session has a plugin listener, rich input
@@ -1247,7 +1247,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.third_party.auto_open_composer_on_cli_agent_start",
-        description: "Whether CLI agent Rich Input automatically opens when a CLI agent session starts.",
+        description: "CLI 智能体会话启动时是否自动打开富输入。",
     }
 
     // When enabled and a CLI agent session does NOT have a plugin listener,
@@ -1261,7 +1261,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.third_party.auto_dismiss_composer_after_submit",
-        description: "Whether CLI agent Rich Input automatically closes after the user submits a prompt.",
+        description: "用户提交提示词后 CLI 智能体富输入是否自动关闭。",
     }
 
     // Maps custom toolbar command regex patterns to specific CLI agents.
@@ -1276,7 +1276,7 @@ define_settings_group!(AISettings, settings: [
         private: false,
         toml_path: "agents.third_party.cli_agent_toolbar_enabled_commands",
         max_table_depth: 1,
-        description: "Maps custom toolbar command patterns to specific CLI agents.",
+        description: "将自定义工具栏命令模式映射到特定 CLI 智能体。",
     }
 
     // This is not a user-visible setting - it tracks whether a paid user has dismissed the
@@ -1354,7 +1354,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.cloud_agent_computer_use_enabled",
-        description: "Whether computer use is enabled for cloud agent conversations.",
+        description: "云端智能体对话是否启用计算机使用能力。",
     }
 
     // Whether multi-agent orchestration is enabled. When enabled, the agent can
@@ -1368,7 +1368,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.orchestration_enabled",
-        description: "Whether multi-agent orchestration is enabled.",
+        description: "是否启用多智能体编排。",
         feature_flag: FeatureFlag::Orchestration,
     }
 
@@ -1382,7 +1382,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.mcp_servers.file_based_mcp_enabled",
-        description: "Whether third-party file-based MCP servers are automatically detected.",
+        description: "是否自动检测第三方基于文件的 MCP 服务器。",
     }
 
     // Controls how agent thinking/reasoning traces are displayed.
@@ -1398,7 +1398,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.input.include_agent_commands_in_history",
-        description: "Whether agent-executed commands are included in command history.",
+        description: "智能体执行的命令是否加入命令历史。",
     }
 
     // Controls whether the conversation history view appears in the tools panel.
@@ -1409,7 +1409,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.show_conversation_history",
-        description: "Whether conversation history appears in the tools panel.",
+        description: "对话历史是否显示在工具面板中。",
     }
 
 
@@ -1421,7 +1421,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.other.show_agent_notifications",
-        description: "Whether agent notifications are shown.",
+        description: "是否显示智能体通知。",
     }
 
     // Per-agent, per-host tracking of whether the user dismissed the plugin install chip.
@@ -1458,7 +1458,7 @@ define_settings_group!(AISettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::No),
         private: false,
         toml_path: "agents.warp_agent.other.agent_attribution_enabled",
-        description: "Whether the Warp Agent adds an attribution co-author line to commit messages and pull requests it creates.",
+        description: "Warp 智能体是否在其创建的提交消息和 Pull Request 中添加归属共同作者行。",
     }
 ]);
 

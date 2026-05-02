@@ -410,7 +410,8 @@ pub fn get_input_box_top_border_width() -> f32 {
 pub const COMPLETIONS_MENU_WIDTH: f32 = 330.;
 pub const OPEN_COMPLETIONS_KEYBINDING_NAME: &str = "input:open_completion_suggestions";
 pub const INPUT_A11Y_LABEL: &str = "命令输入。";
-pub const INPUT_A11Y_HELPER: &str = "输入 Shell 命令，按回车执行。按 cmd-up 导航到之前执行的命令输出。按 cmd-l 重新聚焦命令输入。";
+pub const INPUT_A11Y_HELPER: &str =
+    "输入 Shell 命令，按回车执行。按 cmd-up 导航到之前执行的命令输出。按 cmd-l 重新聚焦命令输入。";
 pub const AI_COMMAND_SEARCH_HINT_TEXT: &str = "输入 '#' 获取 AI 命令建议";
 
 const AGENT_MODE_AI_DISABLED_AUTODETECTION_DISABLED_HINT_TEXT: &str = "运行命令";
@@ -418,25 +419,25 @@ const AGENT_MODE_AI_DISABLED_AUTODETECTION_DISABLED_HINT_TEXT: &str = "运行命
 // Rotating hint text options for new Agent Mode conversations
 const AGENT_MODE_HINT_OPTIONS: &[&str] = &[
     "用 Warp 做任何事，例如：将我的 React 应用部署到 Vercel 并配置环境变量",
-    "Warp anything e.g. Help me debug why my Python tests are failing in CI",
-    "Warp anything e.g. Set up a new microservice with Docker and create the deployment pipeline",
-    "Warp anything e.g. Find and fix the memory leak in my Node.js application",
-    "Warp anything e.g. Create a backup script for my PostgreSQL database and schedule it",
-    "Warp anything e.g. Help me migrate my data from MySQL to PostgreSQL",
-    "Warp anything e.g. Set up monitoring and alerts for my AWS infrastructure",
-    "Warp anything e.g. Build a REST API for my mobile app using FastAPI",
-    "Warp anything e.g. Help me optimize my SQL queries that are running slowly",
-    "Warp anything e.g. Create a GitHub Actions workflow to automatically deploy on merge",
-    "Warp anything e.g. Set up Redis caching for my web application",
-    "Warp anything e.g. Help me troubleshoot why my Kubernetes pods keep crashing",
-    "Warp anything e.g. Build a data pipeline to process CSV files and load them into BigQuery",
-    "Warp anything e.g. Set up SSL certificates and configure HTTPS for my domain",
-    "Warp anything e.g. Help me refactor this legacy code to use modern design patterns",
-    "Warp anything e.g. Create unit tests for my authentication service",
-    "Warp anything e.g. Set up log aggregation with ELK stack for my distributed system",
-    "Warp anything e.g. Help me implement OAuth2 authentication in my Express.js app",
-    "Warp anything e.g. Optimize my Docker images to reduce build times and size",
-    "Warp anything e.g. Set up A/B testing infrastructure for my web application",
+    "用 Warp 做任何事，例如：帮我调试 Python 测试为什么在 CI 中失败",
+    "用 Warp 做任何事，例如：搭建新的微服务并创建部署流水线",
+    "用 Warp 做任何事，例如：查找并修复 Node.js 应用中的内存泄漏",
+    "用 Warp 做任何事，例如：创建 PostgreSQL 备份脚本并配置定时执行",
+    "用 Warp 做任何事，例如：帮我把数据从 MySQL 迁移到 PostgreSQL",
+    "用 Warp 做任何事，例如：为我的 AWS 基础设施设置监控和告警",
+    "用 Warp 做任何事，例如：使用 FastAPI 为移动应用构建 REST API",
+    "用 Warp 做任何事，例如：优化运行缓慢的 SQL 查询",
+    "用 Warp 做任何事，例如：创建 GitHub Actions 工作流，在合并时自动部署",
+    "用 Warp 做任何事，例如：为 Web 应用设置 Redis 缓存",
+    "用 Warp 做任何事，例如：排查 Kubernetes Pod 持续崩溃的原因",
+    "用 Warp 做任何事，例如：构建数据流水线，处理 CSV 文件并加载到 BigQuery",
+    "用 Warp 做任何事，例如：为我的域名设置 SSL 证书并配置 HTTPS",
+    "用 Warp 做任何事，例如：帮我将遗留代码重构为现代设计模式",
+    "用 Warp 做任何事，例如：为认证服务创建单元测试",
+    "用 Warp 做任何事，例如：为分布式系统设置 ELK 日志聚合",
+    "用 Warp 做任何事，例如：帮我在 Express.js 应用中实现 OAuth2 认证",
+    "用 Warp 做任何事，例如：优化 Docker 镜像，减少构建时间和体积",
+    "用 Warp 做任何事，例如：为 Web 应用设置 A/B 测试基础设施",
 ];
 
 fn get_agent_mode_new_conversation_hint_text() -> &'static str {
@@ -458,11 +459,9 @@ fn get_stable_agent_mode_hint_text(cached_hint: &mut Option<&'static str>) -> &'
 }
 
 const AGENT_MODE_AI_ENABLED_STEER_HINT_TEXT_UDI: &str = "引导正在运行的智能体";
-const AGENT_MODE_AI_ENABLED_STEER_HINT_TEXT_CLASSIC: &str =
-    "引导正在运行的智能体，或按退格键退出";
+const AGENT_MODE_AI_ENABLED_STEER_HINT_TEXT_CLASSIC: &str = "引导正在运行的智能体，或按退格键退出";
 const AGENT_MODE_AI_ENABLED_FOLLOW_UP_HINT_TEXT_UDI: &str = "追问";
-const AGENT_MODE_AI_ENABLED_FOLLOW_UP_HINT_TEXT_CLASSIC: &str =
-    "追问，或按退格键退出";
+const AGENT_MODE_AI_ENABLED_FOLLOW_UP_HINT_TEXT_CLASSIC: &str = "追问，或按退格键退出";
 
 /// Action name for setting input mode to agent mode
 pub const SET_INPUT_MODE_AGENT_ACTION_NAME: &str = "input:set_mode_agent";
@@ -4755,8 +4754,7 @@ impl Input {
         else {
             let window_id = ctx.window_id();
             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                let toast =
-                    DismissibleToast::default(String::from("没有可导出的活动对话"));
+                let toast = DismissibleToast::default(String::from("没有可导出的活动对话"));
                 toast_stack.add_ephemeral_toast(toast, window_id, ctx);
             });
             return;

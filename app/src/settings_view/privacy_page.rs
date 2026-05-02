@@ -86,21 +86,17 @@ const USER_SECRET_REGEX_DESCRIPTION: &str =
     when the next command runs. You can use the inline (?i) flag as a prefix to your regex \
     to make it case-insensitive.";
 const TELEMETRY_DESCRIPTION_OLD: &str =
-    "App analytics help us make the product better for you. We only collect \
-    app usage metadata, never console input or output.";
+    "应用分析有助于我们为您改进产品。我们只收集应用使用元数据，绝不会收集控制台输入或输出。";
 const TELEMETRY_TITLE: &str = "帮助改进 Warp";
 const TELEMETRY_DESCRIPTION: &str =
-    "App analytics help us make the product better for you. We may collect \
-    certain console interactions to improve Warp's AI capabilities.";
-const TELEMETRY_FREE_TIER_NOTE: &str =
-    "免费套餐需要启用分析功能才能使用 AI 功能。";
+    "应用分析有助于我们为您改进产品。我们可能会收集某些控制台交互，以改进 Warp 的 AI 能力。";
+const TELEMETRY_FREE_TIER_NOTE: &str = "免费套餐需要启用分析功能才能使用 AI 功能。";
 const TELEMETRY_DOCS_URL: &str =
     "https://docs.warp.dev/support-and-community/privacy-and-security/privacy#what-telemetry-data-does-warp-collect-and-why";
 
 const DATA_MANAGEMENT_TITLE: &str = "管理您的数据";
 const DATA_MANAGEMENT_DESCRIPTION: &str =
-    "At any time, you may choose to delete your Warp account permanently. \
-    You will no longer be able to use Warp.";
+    "您可以随时选择永久删除您的 Warp 账户。删除后您将无法继续使用 Warp。";
 const DATA_MANAGEMENT_LINK_TEXT: &str = "访问数据管理页面";
 
 const PRIVACY_POLICY_TITLE: &str = "隐私政策";
@@ -798,10 +794,7 @@ impl SecretRedactionWidget {
 
         if is_enterprise_tab_active {
             row.add_child(Shrinkable::new(1., Empty::new().finish()).finish());
-            row.add_child(self.render_info(
-                "企业密钥隐藏规则不可修改。".to_string(),
-                appearance,
-            ));
+            row.add_child(self.render_info("企业密钥隐藏规则不可修改。".to_string(), appearance));
         }
 
         Container::new(row.finish())
@@ -1017,9 +1010,7 @@ impl SecretRedactionWidget {
                         .with_main_axis_size(MainAxisSize::Max)
                         .with_main_axis_alignment(MainAxisAlignment::SpaceBetween)
                         .with_cross_axis_alignment(CrossAxisAlignment::Center)
-                        .with_child(
-                            self.render_section_title("推荐".to_string(), appearance),
-                        )
+                        .with_child(self.render_section_title("推荐".to_string(), appearance))
                         .with_child(
                             Container::new(
                                 ui_builder
@@ -1028,7 +1019,8 @@ impl SecretRedactionWidget {
                                         self.add_all_button_mouse_state.clone(),
                                     )
                                     .with_text_and_icon_label(Self::add_button(
-                                        "全部添加", appearance,
+                                        "全部添加",
+                                        appearance,
                                     ))
                                     .with_style(Self::add_button_style())
                                     .build()
@@ -1193,10 +1185,7 @@ impl SettingsWidget for SecretRedactionWidget {
                 .with_child(
                     Container::new({
                         if is_enterprise_enabled {
-                            self.render_info(
-                                "已由您的组织启用。".to_string(),
-                                appearance,
-                            )
+                            self.render_info("已由您的组织启用。".to_string(), appearance)
                         } else {
                             ui_builder
                                 .switch(self.switch_state.clone())
@@ -1261,7 +1250,7 @@ impl SettingsWidget for SecretRedactionWidget {
                     Container::new(
                         ui_builder
                             .paragraph(
-                                "Choose how secrets are visually presented in the block list while keeping them searchable. This setting only affects what you see in the block list.",
+                                "选择密钥在块列表中的视觉呈现方式，同时保持其可搜索。此设置仅影响您在块列表中看到的内容。",
                             )
                             .with_style(UiComponentStyles {
                                 font_color: Some(description_text_color),
@@ -1332,7 +1321,10 @@ impl SettingsWidget for SecretRedactionWidget {
                                 ButtonVariant::Secondary,
                                 self.add_regex_button_mouse_state.clone(),
                             )
-                            .with_text_and_icon_label(Self::add_button("添加正则表达式", appearance))
+                            .with_text_and_icon_label(Self::add_button(
+                                "添加正则表达式",
+                                appearance,
+                            ))
                             .with_style(Self::add_button_style())
                             .build()
                             .on_click(move |ctx, _, _| {
@@ -1410,8 +1402,7 @@ impl AppAnalyticsWidget {
             let mut stack = Stack::new().with_child(badge);
             if is_hovered {
                 let tooltip = ui_builder.tool_tip(
-                    "Your administrator has enabled zero data retention for your team. User generated content will never be collected."
-                        .to_string(),
+                    "您的管理员已为团队启用零数据保留。用户生成内容永远不会被收集。".to_string(),
                 );
                 stack.add_positioned_child(
                     tooltip.build().finish(),
@@ -1580,7 +1571,7 @@ impl SettingsWidget for AppAnalyticsWidget {
             Align::new(
                 ui_builder
                     .link(
-                        "Read more about Warp's use of data".into(),
+                        "了解更多关于 Warp 数据使用的信息".into(),
                         Some(TELEMETRY_DOCS_URL.into()),
                         None,
                         self.docs_link_mouse_state.clone(),
@@ -1630,7 +1621,7 @@ impl SettingsWidget for CrashReportsWidget {
         let privacy_settings = PrivacySettings::as_ref(app);
         Flex::column()
             .with_child(render_body_item::<PrivacyPageAction>(
-                "Send crash reports".into(),
+                "发送崩溃报告".into(),
                 None,
                 // Crash report state is always synced to cloud, so no need to show local only icon.
                 LocalOnlyIconState::Hidden,
@@ -1648,10 +1639,7 @@ impl SettingsWidget for CrashReportsWidget {
             ))
             .with_child(
                 ui_builder
-                    .paragraph(
-                        "Crash reports assist with debugging and stability improvements."
-                            .to_owned(),
-                    )
+                    .paragraph("崩溃报告有助于调试并改进稳定性。".to_owned())
                     .with_style(UiComponentStyles {
                         font_color: Some(
                             appearance
@@ -1744,7 +1732,7 @@ impl SettingsWidget for CloudConversationStorageWidget {
 
         Flex::column()
             .with_child(render_body_item::<PrivacyPageAction>(
-                "Store AI conversations in the cloud".into(),
+                "在云端存储 AI 对话".into(),
                 None,
                 LocalOnlyIconState::Hidden,
                 toggle_state,
@@ -1756,13 +1744,9 @@ impl SettingsWidget for CloudConversationStorageWidget {
                 ui_builder
                     .paragraph(
                         if is_checked {
-                            "Agent conversations can be shared with others and are retained \
-                            when you log in on different devices. This data is only stored \
-                            for product functionality, and Warp will not use it for analytics."
+                            "智能体对话可以与他人共享，并会在您登录不同设备时保留。此数据仅为产品功能而存储，Warp 不会将其用于分析。"
                         } else {
-                            "Agent conversations are only stored locally on your machine, are \
-                            lost upon logout, and cannot be shared. Note: conversation data \
-                            for ambient agents are still stored in the cloud."
+                            "智能体对话仅存储在您的本机，注销后会丢失，且无法共享。注意：ambient agents 的对话数据仍会存储在云端。"
                         }
                         .to_owned(),
                     )
@@ -1808,7 +1792,7 @@ impl SettingsWidget for NetworkLogWidget {
         let ui_builder = appearance.ui_builder();
         Flex::column()
             .with_child(render_body_item::<PrivacyPageAction>(
-                "Network log console".into(),
+                "网络日志控制台".into(),
                 None,
                 // Not rendering a setting, so no need to show local only icon state.
                 LocalOnlyIconState::Hidden,
@@ -1820,9 +1804,7 @@ impl SettingsWidget for NetworkLogWidget {
             .with_child(
                 ui_builder
                     .paragraph(
-                        "We've built a native console that allows you to view all communications \
-                        from Warp to external servers to ensure you feel comfortable that your \
-                        work is always kept safe."
+                        "我们构建了原生控制台，供您查看 Warp 与外部服务器之间的所有通信，确保您可以放心了解自己的工作始终安全。"
                             .to_owned(),
                     )
                     .with_style(UiComponentStyles {
@@ -1846,7 +1828,7 @@ impl SettingsWidget for NetworkLogWidget {
                 Align::new(
                     ui_builder
                         .link(
-                            "View network logging".to_owned(),
+                            "查看网络日志".to_owned(),
                             None,
                             Some(Box::new(|ctx| {
                                 ctx.dispatch_typed_action(PrivacyPageAction::LaunchNetworkLogging);

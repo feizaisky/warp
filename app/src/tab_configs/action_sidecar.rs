@@ -133,16 +133,11 @@ pub(crate) fn render_action_sidecar(
         appearance
             .ui_builder()
             .button(ButtonVariant::Outlined, mouse_states.make_default.clone())
-            .with_centered_text_label("Make default".into())
+            .with_centered_text_label("设为默认".into())
             .with_style(disabled_style)
             .with_tooltip({
                 let ui_builder = appearance.ui_builder().clone();
-                move || {
-                    ui_builder
-                        .tool_tip("Already the default".into())
-                        .build()
-                        .finish()
-                }
+                move || ui_builder.tool_tip("已是默认".into()).build().finish()
             })
             .with_tooltip_position(ButtonTooltipPosition::Above)
             .set_clicked_styles(None)
@@ -152,7 +147,7 @@ pub(crate) fn render_action_sidecar(
         appearance
             .ui_builder()
             .button(ButtonVariant::Outlined, mouse_states.make_default.clone())
-            .with_centered_text_label("Make default".into())
+            .with_centered_text_label("设为默认".into())
             .with_style(button_style)
             .build()
             .with_cursor(Cursor::PointingHand)

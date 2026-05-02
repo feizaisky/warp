@@ -358,7 +358,7 @@ impl AgentNotificationsModel {
                 let artifacts = self.flush_pending_artifacts(conversation_id);
                 self.add_notification(
                     title,
-                    "Something went wrong.".to_owned(),
+                    "出了点问题。".to_owned(),
                     NotificationCategory::Error,
                     NotificationSourceAgent::Oz,
                     origin,

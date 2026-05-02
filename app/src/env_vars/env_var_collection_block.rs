@@ -44,8 +44,8 @@ use crate::{
 /// For horizontal padding, use [`INLINE_ACTION_HORIZONTAL_PADDING`] for consistency.
 const ENV_VAR_COLLECTION_BODY_VERTICAL_PADDING: f32 = 16.;
 
-const ENV_VAR_COLLECTION_CANCEL_LABEL: &str = "Cancel";
-const ENV_VAR_COLLECTION_ACCEPT_LABEL: &str = "Run";
+const ENV_VAR_COLLECTION_CANCEL_LABEL: &str = "取消";
+const ENV_VAR_COLLECTION_ACCEPT_LABEL: &str = "运行";
 
 lazy_static! {
     static ref CANCEL_ENV_VAR_COLLECTION_KEYSTROKE: Keystroke = Keystroke {
@@ -255,8 +255,7 @@ impl EnvVarCollectionBlock {
     }
 
     fn render_header(&self, app: &AppContext) -> Box<dyn Element> {
-        const COMMAND_WAITING_FOR_USER_MESSAGE: &str =
-            "OK if I run this command and read the output?";
+        const COMMAND_WAITING_FOR_USER_MESSAGE: &str = "可以运行此命令并读取输出吗？";
 
         let title: Cow<'static, str> = if self.state == EnvVarCollectionState::WaitingForUser {
             COMMAND_WAITING_FOR_USER_MESSAGE.into()

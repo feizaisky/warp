@@ -833,20 +833,11 @@ impl Input {
                     .as_ref(ctx)
                     .active_conversation(self.terminal_view_id);
                 if conversation.is_none() {
-                    show_error_toast(
-                        "无法显示对话费用：没有活动对话".to_owned(),
-                        ctx,
-                    );
+                    show_error_toast("无法显示对话费用：没有活动对话".to_owned(), ctx);
                 } else if conversation.is_some_and(|c| c.is_empty()) {
-                    show_error_toast(
-                        "无法显示对话费用：对话为空".to_owned(),
-                        ctx,
-                    );
+                    show_error_toast("无法显示对话费用：对话为空".to_owned(), ctx);
                 } else if conversation.is_some_and(|c| !c.status().is_done()) {
-                    show_error_toast(
-                        "无法显示对话费用：对话仍在进行中".to_owned(),
-                        ctx,
-                    );
+                    show_error_toast("无法显示对话费用：对话仍在进行中".to_owned(), ctx);
                 } else {
                     ctx.dispatch_typed_action(&TerminalAction::ToggleUsageFooter);
                 }

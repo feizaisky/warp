@@ -809,17 +809,11 @@ impl NotificationsTrigger {
     pub fn discovery_banner_copy(&self) -> &'static str {
         match self {
             NotificationsTrigger::LongRunningCommand(..) => {
-                "Warp can notify you when long-running commands finish."
+                "长时间运行的命令结束时，Warp 可以通知你。"
             }
-            NotificationsTrigger::AgentTaskCompleted(..) => {
-                "Warp can notify you when an agent finishes responding."
-            }
-            NotificationsTrigger::NeedsAttention => {
-                "Warp can notify you when a command or agent needs your attention."
-            }
-            NotificationsTrigger::PasswordPrompt => {
-                "Warp can notify you when you're prompted to enter a password."
-            }
+            NotificationsTrigger::AgentTaskCompleted(..) => "智能体完成响应时，Warp 可以通知你。",
+            NotificationsTrigger::NeedsAttention => "命令或智能体需要你关注时，Warp 可以通知你。",
+            NotificationsTrigger::PasswordPrompt => "系统提示你输入密码时，Warp 可以通知你。",
         }
     }
 
@@ -847,9 +841,9 @@ impl NotificationsTrigger {
         let (title_suffix, body_prefix) = match self {
             LongRunningCommand(command_succeeded, block_duration) => {
                 let status = if *command_succeeded {
-                    "finished"
+                    "已完成"
                 } else {
-                    "failed"
+                    "失败"
                 };
 
                 let duration_seconds = block_duration.as_secs_f32();
@@ -860,22 +854,19 @@ impl NotificationsTrigger {
                 };
 
                 (
-                    format!(" {status} after {duration_seconds}s"),
-                    "Latest output: ".to_string(),
+                    format!(" {status}，用时 {duration_seconds}s"),
+                    "最新输出：".to_string(),
                 )
             }
             AgentTaskCompleted(command_succeeded) => {
                 if *command_succeeded {
-                    (" finished".to_string(), "Latest output: ".to_string())
+                    (" 已完成".to_string(), "最新输出：".to_string())
                 } else {
-                    (" failed".to_string(), "Error: ".to_string())
+                    (" 失败".to_string(), "错误：".to_string())
                 }
             }
-            NotificationsTrigger::NeedsAttention => (" blocked".to_string(), "".to_string()),
-            PasswordPrompt => (
-                " is waiting for a password".to_string(),
-                "Latest output: ".to_string(),
-            ),
+            NotificationsTrigger::NeedsAttention => (" 已阻塞".to_string(), "".to_string()),
+            PasswordPrompt => (" 正在等待密码".to_string(), "最新输出：".to_string()),
         };
 
         // Get rid of newlines in the command and output because it causes the
@@ -3705,13 +3696,11 @@ impl TerminalView {
         let slow_bootstrap_banner = ctx.add_typed_action_view(|_| {
             Banner::<TerminalAction>::new_with_buttons(
                 BannerTextContent::formatted_text(vec![
-                    FormattedTextFragment::plain_text(
-                        "Seems like your shell is taking a while to start...  ",
-                    ),
-                    FormattedTextFragment::hyperlink("More info", KNOWN_ISSUES_URL),
+                    FormattedTextFragment::plain_text("你的 shell 似乎需要较长时间启动..."),
+                    FormattedTextFragment::hyperlink("更多信息", KNOWN_ISSUES_URL),
                 ]),
                 vec![BannerTextButton::new(
-                    "Show initialization block".to_string(),
+                    "显示初始化块".to_string(),
                     Rc::new(|event_ctx, _ctx, _position| {
                         event_ctx.dispatch_typed_action(BannerAction::<TerminalAction>::Action(
                             TerminalAction::ShowInitializationBlock,
@@ -3731,14 +3720,14 @@ impl TerminalView {
 
         let control_master_error_banner = ctx.add_typed_action_view(|_| {
             Banner::new(BannerTextContent::formatted_text(vec![
-                FormattedTextFragment::plain_text("Seems like your completions are not working ("),
-                FormattedTextFragment::hyperlink("more info", CONTROLMASTER_ISSUES_URL),
-                FormattedTextFragment::plain_text("). Enabling tmux warpification in "),
+                FormattedTextFragment::plain_text("你的补全功能似乎无法正常工作（"),
+                FormattedTextFragment::hyperlink("更多信息", CONTROLMASTER_ISSUES_URL),
+                FormattedTextFragment::plain_text("）。在"),
                 FormattedTextFragment::hyperlink_action(
-                    "settings",
+                    "设置",
                     TerminalAction::ShowWarpifySettings,
                 ),
-                FormattedTextFragment::plain_text(" may resolve this issue."),
+                FormattedTextFragment::plain_text("中启用 tmux warpification 可能会解决此问题。"),
             ]))
         });
 
@@ -3748,10 +3737,8 @@ impl TerminalView {
 
         let incompatible_configuration_banner = ctx.add_typed_action_view(|_| {
             Banner::new(BannerTextContent::formatted_text(vec![
-                FormattedTextFragment::plain_text(
-                    "Your shell configuration is incompatible with Warp...  ",
-                ),
-                FormattedTextFragment::hyperlink("More info", KNOWN_ISSUES_URL),
+                FormattedTextFragment::plain_text("你的 shell 配置与 Warp 不兼容..."),
+                FormattedTextFragment::hyperlink("更多信息", KNOWN_ISSUES_URL),
             ]))
         });
 
@@ -3762,18 +3749,18 @@ impl TerminalView {
         let emacs_bindings_banner = ctx.add_typed_action_view(|_| {
             Banner::new_with_buttons(
                 BannerTextContent::formatted_text(vec![
-                    FormattedTextFragment::plain_text("Did you intend "),
+                    FormattedTextFragment::plain_text("你是否想使用 "),
                     FormattedTextFragment::inline_code("ctrl-a"),
                     FormattedTextFragment::plain_text("/"),
                     FormattedTextFragment::inline_code("ctrl-e"),
-                    FormattedTextFragment::plain_text(" to move the cursor?"),
+                    FormattedTextFragment::plain_text(" 移动光标？"),
                 ]),
                 // Here, we use DismissalType::Temporary and DismissalType::Permanent variants
                 // as stand-ins for changing bindings vs. leaving them as-is.
                 // TODO(Linear PLAT-512): update Banner to support generic event type.
                 vec![
                     BannerTextButton::new(
-                        String::from("Yes, use Emacs-style bindings"),
+                        String::from("是，使用 Emacs 风格快捷键"),
                         Rc::new(|event_ctx, _app_ctx, _| {
                             event_ctx.dispatch_typed_action(
                                 BannerAction::<TerminalAction>::Dismiss(DismissalType::Temporary),
@@ -3781,7 +3768,7 @@ impl TerminalView {
                         }),
                     ),
                     BannerTextButton::new(
-                        String::from("No, keep IDE bindings"),
+                        String::from("否，保留 IDE 快捷键"),
                         Rc::new(|event_ctx, _app_ctx, _| {
                             event_ctx.dispatch_typed_action(
                                 BannerAction::<TerminalAction>::Dismiss(DismissalType::Permanent),
@@ -6406,24 +6393,21 @@ impl TerminalView {
                 .get_pending_action(app)
                 .map(|action| match &action.action {
                     AIAgentActionType::RequestCommandOutput { command, .. } => {
-                        format!("Oz needs your permission to run `{command}`")
+                        format!("Oz 需要你的许可才能运行 `{command}`")
                     }
-                    AIAgentActionType::ReadFiles(..) => {
-                        "Oz needs your permission to read files".to_string()
-                    }
+                    AIAgentActionType::ReadFiles(..) => "Oz 需要你的许可才能读取文件".to_string(),
                     AIAgentActionType::SearchCodebase(..) => {
-                        "Oz needs your permission to search your codebase".to_string()
+                        "Oz 需要你的许可才能搜索代码库".to_string()
                     }
                     AIAgentActionType::RequestFileEdits { .. } => {
-                        "Oz needs your permission to edit a file".to_string()
+                        "Oz 需要你的许可才能编辑文件".to_string()
                     }
                     AIAgentActionType::WriteToLongRunningShellCommand { .. } => {
-                        "Oz needs your permission to interact with a running shell command"
-                            .to_string()
+                        "Oz 需要你的许可才能与正在运行的 Shell 命令交互".to_string()
                     }
-                    _ => "Oz needs your confirmation to continue".to_string(),
+                    _ => "Oz 需要你的确认才能继续".to_string(),
                 })
-                .unwrap_or("Oz needs your confirmation to continue".to_string());
+                .unwrap_or("Oz 需要你的确认才能继续".to_string());
             return Some(AIBlockNotificationSummary {
                 success: false,
                 title,
@@ -8616,11 +8600,11 @@ impl TerminalView {
 
         let a11y_message = match &warpify_keybinding {
             Some(keystroke) => format!(
-                "You can press {} to Warpify this {} for more Warp features.",
+                "你可以按 {} 来 Warpify 这个{}，以使用更多 Warp 功能。",
                 keystroke.displayed(),
                 lowercase_title
             ),
-            None => format!("You can Warpify this {lowercase_title} for more Warp features."),
+            None => format!("你可以 Warpify 这个{lowercase_title}，以使用更多 Warp 功能。"),
         };
 
         model
@@ -8630,7 +8614,7 @@ impl TerminalView {
             )));
 
         let a11y_content = AccessibilityContent::new(
-            format!("{title} recognized."),
+            format!("已识别{title}。"),
             a11y_message,
             WarpA11yRole::TextRole,
         );
@@ -8744,7 +8728,7 @@ impl TerminalView {
 
         let a11y_content = AccessibilityContent::new(
             trigger.discovery_banner_copy(),
-            "You can enable notifications through the command palette.",
+            "你可以通过命令面板启用通知。",
             WarpA11yRole::TextRole,
         );
         ctx.emit_a11y_content(a11y_content);
@@ -8779,11 +8763,11 @@ impl TerminalView {
             .error
             .as_ref()
             .map(|e| e.notifications_error_banner_title())
-            .unwrap_or("Error sending notification");
+            .unwrap_or("发送通知出错");
 
         let a11y_content = AccessibilityContent::new(
             banner_title,
-            "Make sure you have enabled access for Warp notifications in System Preferences.",
+            "请确保你已在系统偏好设置中允许 Warp 通知。",
             WarpA11yRole::TextRole,
         );
         ctx.emit_a11y_content(a11y_content);
@@ -11491,19 +11475,19 @@ impl TerminalView {
                     .as_ref(app)
                     .remote_server_setup_state(sid)
                     .map(|state| match state {
-                        RemoteServerSetupState::Checking => "Checking...".to_string(),
+                        RemoteServerSetupState::Checking => "正在检查...".to_string(),
                         RemoteServerSetupState::Installing {
                             progress_percent: Some(p),
-                        } => format!("Installing... ({p}%)"),
+                        } => format!("正在安装... ({p}%)"),
                         RemoteServerSetupState::Installing {
                             progress_percent: None,
-                        } => "Installing...".to_string(),
-                        RemoteServerSetupState::Updating => "Updating...".to_string(),
-                        RemoteServerSetupState::Initializing => "Initializing...".to_string(),
-                        _ => "Starting shell...".to_string(),
+                        } => "正在安装...".to_string(),
+                        RemoteServerSetupState::Updating => "正在更新...".to_string(),
+                        RemoteServerSetupState::Initializing => "正在初始化...".to_string(),
+                        _ => "正在启动 Shell...".to_string(),
                     })
             })
-            .unwrap_or_else(|| "Starting shell...".to_string());
+            .unwrap_or_else(|| "正在启动 Shell...".to_string());
 
         let shimmer_element = shimmering_warp_loading_text(
             message,
@@ -12513,7 +12497,7 @@ impl TerminalView {
         // Set fallback title since /init may have no initial query
         BlocklistAIHistoryModel::handle(ctx).update(ctx, |history, _ctx| {
             if let Some(conversation) = history.conversation_mut(&conversation_id) {
-                conversation.set_fallback_display_title("Project setup".to_string());
+                conversation.set_fallback_display_title("项目设置".to_string());
             }
         });
 
@@ -12762,10 +12746,7 @@ impl TerminalView {
         let repos = args;
         let (button_label, use_current_dir) = if !repos.is_empty() {
             (
-                format!(
-                    "Create environment using the supplied repos: {}",
-                    repos.join(", ")
-                ),
+                format!("使用提供的仓库创建环境：{}", repos.join(", ")),
                 false,
             )
         } else {
@@ -12787,12 +12768,9 @@ impl TerminalView {
             let is_repo = false;
 
             if is_repo {
-                (
-                    "Create environment using the current working dir as repo".to_string(),
-                    true,
-                )
+                ("使用当前工作目录作为仓库创建环境".to_string(), true)
             } else {
-                ("Create environment without any repos".to_string(), false)
+                ("不使用仓库创建环境".to_string(), false)
             }
         };
 
@@ -13123,7 +13101,7 @@ fn build_onboarding_keybindings(ctx: &AppContext) -> OnboardingKeybindings {
 /// Builds the context-menu label for forking an AI conversation from a given query.
 fn fork_label_for_query(query: &str) -> String {
     if query.is_empty() {
-        "Fork from last query".to_string()
+        "从上一个查询分叉".to_string()
     } else {
         let first_line = query.lines().next().unwrap_or(query).trim();
         let chars: Vec<char> = first_line.chars().take(21).collect();
@@ -13132,7 +13110,7 @@ fn fork_label_for_query(query: &str) -> String {
         } else {
             (chars.iter().collect::<String>(), "")
         };
-        format!("Fork from \"{truncated}{suffix}\"")
+        format!("从“{truncated}{suffix}”分叉")
     }
 }
 
@@ -13571,8 +13549,8 @@ impl TerminalView {
             });
 
             let a11y_content = AccessibilityContent::new(
-                format!("Suggested corrected command: {}", correction.command),
-                "Press right arrow to insert or keep editing to ignore",
+                format!("建议修正的命令：{}", correction.command),
+                "按右箭头插入，或继续编辑以忽略",
                 WarpA11yRole::HelpRole,
             );
             ctx.emit_a11y_content(a11y_content);
@@ -15162,12 +15140,12 @@ impl TerminalView {
                 let scroll_to_top_str = if is_single_selection {
                     "滚动到块顶部"
                 } else {
-                    "Scroll to top of blocks"
+                    "滚动到多个块顶部"
                 };
                 let scroll_to_bottom_str = if is_single_selection {
-                    "Scroll to bottom of block"
+                    "滚动到块底部"
                 } else {
-                    "Scroll to bottom of blocks"
+                    "滚动到多个块底部"
                 };
 
                 // currently, we don't support share for multi selections
@@ -15184,9 +15162,9 @@ impl TerminalView {
                 let share_block_label = if FeatureFlag::CreatingSharedSessions.is_enabled()
                     && ContextFlag::CreateSharedSession.is_enabled()
                 {
-                    "Share block..."
+                    "共享块..."
                 } else {
-                    "Share..."
+                    "共享..."
                 };
 
                 let mut items = vec![
@@ -15922,13 +15900,13 @@ impl TerminalView {
         if !is_editor_disabled {
             let input_settings = InputSettings::as_ref(ctx);
             let inverse_action = if *input_settings.show_hint_text {
-                "Hide"
+                "隐藏"
             } else {
-                "Show"
+                "显示"
             };
             items.push(MenuItem::Separator);
             items.push(
-                MenuItemFields::new(format!("{inverse_action} input hint text"))
+                MenuItemFields::new(format!("{inverse_action}输入提示文本"))
                     .with_on_select_action(TerminalAction::InputContextMenuItem(
                         InputContextMenuAction::ToggleInputHintText,
                     ))
@@ -16418,14 +16396,14 @@ impl TerminalView {
         if ChannelState::channel().is_dogfood() {
             vec![
                 (
-                    "Copy debugging link".to_string(),
+                    "复制调试链接".to_string(),
                     ContextMenuAction::CopyAIDebuggingLink {
                         conversation_token: conversation_token.clone(),
                         request_id: server_output_id,
                     },
                 ),
                 (
-                    "Copy conversation ID".to_string(),
+                    "复制对话 ID".to_string(),
                     ContextMenuAction::CopyConversationId {
                         conversation_id: conversation_token.clone(),
                     },
@@ -16433,7 +16411,7 @@ impl TerminalView {
             ]
         } else {
             vec![(
-                "Copy debugging ID".to_string(),
+                "复制调试 ID".to_string(),
                 ContextMenuAction::CopyExternalDebuggingId {
                     request_id: server_output_id,
                     conversation_id: conversation_token.clone(),
@@ -18104,7 +18082,7 @@ impl TerminalView {
                 populate_input_box,
             } => {
                 if *populate_input_box {
-                    let query_prefix = "Explain the following:\n";
+                    let query_prefix = "解释以下内容：\n";
                     let formatted_selection = { format!("```\n{}\n```", text.trim()) };
                     let combined_query = Some(format!("{query_prefix}{formatted_selection}"));
                     (combined_query, None)
@@ -18123,7 +18101,7 @@ impl TerminalView {
             }
 
             AskAIType::FromAICommandSearch { query } => {
-                let query_prefix = "What is the command to: ";
+                let query_prefix = "要执行以下操作，应该使用什么命令：";
                 (Some(format!("{}{}", query_prefix, query.trim())), None)
             }
         };
@@ -19470,7 +19448,7 @@ impl TerminalView {
         {
             AuthManager::handle(ctx).update(ctx, |auth_manager, ctx| {
                 auth_manager.attempt_login_gated_feature(
-                    "Share Block",
+                    "分享块",
                     AuthViewVariant::ShareRequirementCloseable,
                     ctx,
                 )
@@ -19697,7 +19675,7 @@ impl TerminalView {
                     let password_trigger = NotificationsTrigger::NeedsAttention;
                     let notification_content = password_trigger.create_notification_content(
                         active_block.command_to_string(),
-                        "Command is waiting for a password".to_string(),
+                        "命令正在等待密码".to_string(),
                     );
                     ctx.emit(Event::SendNotification(notification_content));
                     send_telemetry_from_ctx!(
@@ -20600,23 +20578,19 @@ impl TerminalView {
         let show_banner = if honor_ps1 {
             let banner_content = if shell_plugins.contains("p10k_unsupported") {
                 Some(BannerTextContent::formatted_text(vec![
-                    FormattedTextFragment::bold("Powerlevel10k now supports Warp!  "),
+                    FormattedTextFragment::bold("Powerlevel10k 现在支持 Warp！"),
                     FormattedTextFragment::plain_text(
-                        "You seem to be running an older (unsupported) version, please follow ",
+                        "你似乎正在运行较旧的（不受支持的）版本，请按照",
                     ),
-                    FormattedTextFragment::hyperlink(
-                        "these instructions",
-                        P10K_UPDATE_INSTRUCTIONS_URL,
-                    ),
-                    FormattedTextFragment::plain_text(" to update to the latest version."),
+                    FormattedTextFragment::hyperlink("这些说明", P10K_UPDATE_INSTRUCTIONS_URL),
+                    FormattedTextFragment::plain_text("更新到最新版本。"),
                 ]))
             } else if shell_plugins.contains("pure") {
                 Some(BannerTextContent::formatted_text(vec![
                     FormattedTextFragment::plain_text(
-                        "Pure is not yet supported in Warp. You might consider one of the \
-                        supported prompts as an alternative.  ",
+                        "Warp 尚不支持 Pure。你可以考虑改用受支持的提示符。",
                     ),
-                    FormattedTextFragment::hyperlink("Learn more", PROMPT_COMPATIBILITY_URL),
+                    FormattedTextFragment::hyperlink("了解更多", PROMPT_COMPATIBILITY_URL),
                 ]))
             } else {
                 None
@@ -21393,10 +21367,10 @@ impl TerminalView {
         };
 
         let start = block.start_ts().map_or_else(String::new, |b| {
-            format!("Started at: {}", b.format("%a %b %-d at %-I:%M %p"))
+            format!("开始于：{}", b.format("%a %b %-d at %-I:%M %p"))
         });
         let end = block.completed_ts().map_or_else(String::new, |b| {
-            format!("\nCompleted at: {}", b.format("%a %b %-d at %-I:%M %p"))
+            format!("\n完成于：{}", b.format("%a %b %-d at %-I:%M %p"))
         });
         format!("{start}{end}")
     }
@@ -21642,9 +21616,9 @@ impl TerminalView {
                         && input_mode.is_inverted_blocklist()
                         && is_long_running_command
                     {
-                        "Lock scrolling at bottom of block".to_string()
+                        "将滚动锁定在块底部".to_string()
                     } else {
-                        "Jump to the bottom of this block".to_string()
+                        "跳转到此块底部".to_string()
                     };
 
                     let tool_tip = appearance
@@ -21821,7 +21795,7 @@ impl TerminalView {
                 .error
                 .as_ref()
                 .map(|e| e.notifications_error_banner_title())
-                .unwrap_or("Error sending notification");
+                .unwrap_or("发送通知出错");
 
             inline_banners.insert(
                 state.banner_id,
@@ -23161,19 +23135,19 @@ impl TerminalView {
         let model = self.model.lock();
         model.block_list().block_at(index).map(|block| {
             let status = if block.has_failed() {
-                format!("failed, status code {}", block.exit_code().value())
+                format!("失败，状态码 {}", block.exit_code().value())
             } else if block.is_background() {
-                "background".to_string()
+                "后台".to_string()
             } else if block.is_done() {
-                "succeeded".to_string()
+                "成功".to_string()
             } else {
-                "in progress".to_string()
+                "进行中".to_string()
             };
             AccessibilityContent::new(
-                format!("Block {index}: {}, {}.\n", block.command_to_string(), status),
+                format!("块 {index}: {}, {}。\n", block.command_to_string(), status),
                 // TODO (a11y) Keybindings should be taken from the actual user's
                 // configuration
-                "Press cmd-C to read and copy both command and output, and cmd-option-shift-C to read and copy output only. Press cmd-B to bookmark the block: you could navigate between bookmarked blocks quickly using option-up and option-down.",
+                "按 cmd-C 朗读并复制命令和输出，按 cmd-option-shift-C 仅朗读并复制输出。按 cmd-B 为块添加书签：你可以使用 option-up 和 option-down 在已加书签的块之间快速导航。",
                 WarpA11yRole::TextRole,
             )
         })
@@ -23656,7 +23630,7 @@ impl TerminalView {
                 env_var_collection
                     .title
                     .clone()
-                    .unwrap_or("Untitled".to_owned()),
+                    .unwrap_or("无标题".to_owned()),
                 env_var_collection
                     .vars
                     .iter()
@@ -23699,8 +23673,7 @@ impl TerminalView {
         let (shell_path_string, shell_type) = shell_session_info;
         if shell_type == ShellType::PowerShell {
             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                let toast =
-                    DismissibleToast::error("不支持 PowerShell 子 Shell".to_owned());
+                let toast = DismissibleToast::error("不支持 PowerShell 子 Shell".to_owned());
                 toast_stack.add_ephemeral_toast(toast, window_id, ctx);
             });
             return;
@@ -23710,7 +23683,7 @@ impl TerminalView {
         // subshell start
         self.env_vars = env_var_collection.vars;
         self.model.lock().set_env_var_collection_name(Some(
-            env_var_collection.title.unwrap_or("Untitled".to_owned()),
+            env_var_collection.title.unwrap_or("无标题".to_owned()),
         ));
         self.set_and_execute_subshell_command(&shell_path_string, shell_type, ctx);
 
@@ -24196,12 +24169,9 @@ impl TypedActionView for TerminalView {
                     Empty
                 }
             }
-            BookmarkBlock(_) | BookmarkSelectedBlock => {
-                Custom(AccessibilityContent::new_without_help(
-                    "Toggle Bookmark block",
-                    WarpA11yRole::TextRole,
-                ))
-            }
+            BookmarkBlock(_) | BookmarkSelectedBlock => Custom(
+                AccessibilityContent::new_without_help("切换块书签", WarpA11yRole::TextRole),
+            ),
             ExpandBlockSelectionAbove | ExpandBlockSelectionBelow => {
                 if let Some(mut content) = self
                     .selected_blocks
@@ -24209,7 +24179,7 @@ impl TypedActionView for TerminalView {
                     .and_then(|index| self.selected_block_accessibility_content(index))
                 {
                     let num_selected_text =
-                        format!("Selected {} blocks.", self.num_non_hidden_selected_blocks());
+                        format!("已选择 {} 个块。", self.num_non_hidden_selected_blocks());
                     content.value = format!("{}\n{}", num_selected_text, content.value);
                     Custom(content)
                 } else {
@@ -24218,21 +24188,21 @@ impl TypedActionView for TerminalView {
             }
             SelectAllBlocks => Custom(AccessibilityContent::new_without_help(
                 format!(
-                    "Selected all {} blocks.",
+                    "已选择全部 {} 个块。",
                     self.num_non_hidden_selected_blocks()
                 ),
                 WarpA11yRole::TextRole,
             )),
             ScrollToBottomOfSelectedBlocks => Custom(AccessibilityContent::new_without_help(
-                "Scrolled to bottom of selected block".to_string(),
+                "已滚动到所选块底部".to_string(),
                 WarpA11yRole::TextRole,
             )),
             ScrollToTopOfSelectedBlocks => Custom(AccessibilityContent::new_without_help(
-                "Scrolled to top of selected block".to_string(),
+                "已滚动到所选块顶部".to_string(),
                 WarpA11yRole::TextRole,
             )),
             ScrollToBottomOfOverhangingBlock(_) => Custom(AccessibilityContent::new_without_help(
-                "Scrolled to bottom of bottommost visible block".to_string(),
+                "已滚动到最底部可见块的底部".to_string(),
                 WarpA11yRole::TextRole,
             )),
             CopyOutputs => {
@@ -24240,7 +24210,7 @@ impl TypedActionView for TerminalView {
                 self.with_non_hidden_selected_blocks(
                     |block| {
                         outputs.push(format!(
-                            "Block {}.\nOutput: {}",
+                            "块 {}。\n输出：{}",
                             block.index(),
                             block.output_to_string()
                         ));
@@ -24248,7 +24218,7 @@ impl TypedActionView for TerminalView {
                     ctx,
                 );
                 let text = format!(
-                    "Copied {} block outputs.\n{}",
+                    "已复制 {} 个块输出。\n{}",
                     outputs.len(),
                     outputs.join("\n")
                 );
@@ -24262,7 +24232,7 @@ impl TypedActionView for TerminalView {
                 self.with_non_hidden_selected_blocks(
                     |block| {
                         blocks.push(format!(
-                            "Block {}: {}. Output: {}",
+                            "块 {}: {}。输出：{}",
                             block.index(),
                             block.command_to_string(),
                             block.output_to_string()
@@ -24270,7 +24240,7 @@ impl TypedActionView for TerminalView {
                     },
                     ctx,
                 );
-                let text = format!("Copied {} blocks.\n{}", blocks.len(), blocks.join("\n"));
+                let text = format!("已复制 {} 个块。\n{}", blocks.len(), blocks.join("\n"));
                 Custom(AccessibilityContent::new_without_help(
                     text,
                     WarpA11yRole::TextRole,
@@ -24296,19 +24266,19 @@ impl TypedActionView for TerminalView {
                 ))
             }
             OpenBlockFilterEditor(block_index) => Custom(AccessibilityContent::new_without_help(
-                format!("Open block filter editor for block {block_index}"),
+                format!("打开块 {block_index} 的块筛选编辑器"),
                 WarpA11yRole::TextRole,
             )),
             ShowInitializationBlock => Custom(AccessibilityContent::new_without_help(
-                "Showed initialization block",
+                "已显示初始化块",
                 WarpA11yRole::TextareaRole,
             )),
             ShowWarpifySettings => Custom(AccessibilityContent::new_without_help(
-                "Opened Warpify Settings",
+                "已打开 Warpify 设置",
                 WarpA11yRole::ButtonRole,
             )),
             OpenFilesPalette { .. } => Custom(AccessibilityContent::new_without_help(
-                "Opened file search palette",
+                "已打开文件搜索面板",
                 WarpA11yRole::ButtonRole,
             )),
             InsertCommandCorrection { .. }
@@ -24377,28 +24347,27 @@ impl TypedActionView for TerminalView {
             OpenCodeInWarp { .. } => ActionAccessibilityContent::from_debug(),
             OpenInWarpBanner(action) => self.open_in_warp_banner_accessibility_content(*action),
             OpenAIBlockAttachedBlocksMenu { .. } => Custom(AccessibilityContent::new_without_help(
-                "Open list of blocks attached as context to this AI query.".to_owned(),
+                "打开作为上下文附加到此 AI 查询的块列表。".to_owned(),
                 WarpA11yRole::PopoverRole,
             )),
             OpenAIBlockOverflowMenu { .. } => Custom(AccessibilityContent::new_without_help(
-                "Open overflow menu with copy options for this AI block.".to_owned(),
+                "打开包含此 AI 块复制选项的更多菜单。".to_owned(),
                 WarpA11yRole::PopoverRole,
             )),
             RewindAIConversation { .. } => Custom(AccessibilityContent::new_without_help(
-                "Show confirmation dialog to rewind to before this point in the AI conversation."
-                    .to_owned(),
+                "显示确认对话框，以将 AI 对话回退到此点之前。".to_owned(),
                 WarpA11yRole::ButtonRole,
             )),
             ExecuteRewindAIConversation { .. } => Custom(AccessibilityContent::new_without_help(
-                "Execute rewind to before this point in the AI conversation.".to_owned(),
+                "执行回退，将 AI 对话回退到此点之前。".to_owned(),
                 WarpA11yRole::ButtonRole,
             )),
             SelectAIAttachedBlock(_) => Custom(AccessibilityContent::new_without_help(
-                "Click on a block attached as context to this AI query.".to_owned(),
+                "点击作为上下文附加到此 AI 查询的块。".to_owned(),
                 WarpA11yRole::ButtonRole,
             )),
             PickRepoToOpen => Custom(AccessibilityContent::new_without_help(
-                "Use file picker to select a git repository".to_owned(),
+                "使用文件选择器选择 git 仓库".to_owned(),
                 WarpA11yRole::PopoverRole,
             )),
             #[cfg(feature = "voice_input")]
@@ -24844,8 +24813,8 @@ impl TypedActionView for TerminalView {
                     keybinding_name_to_keystroke("terminal:warpify_subshell", ctx);
                 self.show_warpify_banner(
                     WarpificationMode::subshell(command.to_owned()),
-                    "Subshell",
-                    "subshell",
+                    "子 Shell",
+                    "子 Shell",
                     warpify_keybinding,
                     TelemetryEvent::ShowSubshellBanner,
                     ctx,
@@ -24856,8 +24825,8 @@ impl TypedActionView for TerminalView {
                     keybinding_name_to_keystroke("terminal:warpify_ssh_session", ctx);
                 self.show_warpify_banner(
                     WarpificationMode::ssh(command.to_string(), host.to_owned()),
-                    "SSH Session",
-                    "SSH session",
+                    "SSH 会话",
+                    "SSH 会话",
                     warpify_keybinding,
                     TelemetryEvent::SshTmuxWarpifyBannerDisplayed,
                     ctx,
@@ -25074,7 +25043,7 @@ impl TypedActionView for TerminalView {
             AttemptLoginGatedFeature => {
                 AuthManager::handle(ctx).update(ctx, |auth_manager, ctx| {
                     auth_manager.attempt_login_gated_feature(
-                        "Upgrade AI Usage",
+                        "升级 AI 使用额度",
                         AuthViewVariant::RequireLoginCloseable,
                         ctx,
                     )
@@ -25382,9 +25351,7 @@ impl TypedActionView for TerminalView {
                             let window_id = ctx.window_id();
                             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                                 toast_stack.add_ephemeral_toast(
-                                    DismissibleToast::error(
-                                        "Bundled skills cannot be edited".to_string(),
-                                    ),
+                                    DismissibleToast::error("无法编辑内置技能".to_string()),
                                     window_id,
                                     ctx,
                                 );
@@ -25399,9 +25366,7 @@ impl TypedActionView for TerminalView {
                     let window_id = ctx.window_id();
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
-                            DismissibleToast::error(
-                                "Editing skills is not supported in this build".to_string(),
-                            ),
+                            DismissibleToast::error("此构建不支持编辑技能".to_string()),
                             window_id,
                             ctx,
                         );

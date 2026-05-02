@@ -152,45 +152,45 @@ fn should_send_git_ops_ai_request(app: &AppContext) -> bool {
 fn user_facing_git_error(raw: &str) -> &'static str {
     let lower = raw.to_lowercase();
     if lower.contains("nothing to commit") {
-        "No changes to commit."
+        "没有可提交的更改。"
     } else if lower.contains("please tell me who you are")
         || lower.contains("author identity unknown")
     {
-        "Git identity not configured. Set user.name and user.email."
+        "未配置 Git 身份。请设置 user.name 和 user.email。"
     } else if lower.contains("updates were rejected")
         || lower.contains("non-fast-forward")
         || lower.contains("fetch first")
     {
-        "Remote has new changes \u{2014} pull before pushing."
+        "远程有新更改，请先 pull 再 push。"
     } else if lower.contains("does not appear to be a git repository")
         || lower.contains("no configured push destination")
         || lower.contains("no such remote")
     {
-        "No remote configured for this branch."
+        "此分支未配置远程仓库。"
     } else if lower.contains("authentication failed")
         || lower.contains("permission denied (publickey)")
     {
-        "Authentication failed. Check your Git credentials."
+        "认证失败。请检查你的 Git 凭据。"
     } else if lower.contains("could not resolve host")
         || lower.contains("network is unreachable")
         || lower.contains("connection timed out")
     {
-        "Network error. Check your connection."
+        "网络错误。请检查你的连接。"
     } else if lower.contains("repository not found") {
-        "Remote repository not found."
+        "未找到远程仓库。"
     } else if lower.contains("failed to execute gh command") {
         // `run_gh_command` wraps spawn failures with this prefix, which is
         // the reliable "gh binary missing" signal.
-        "GitHub CLI (gh) not installed. See https://cli.github.com/."
+        "未安装 GitHub CLI (gh)。请参阅 https://cli.github.com/。"
     } else if lower.contains("not logged in")
         || lower.contains("authentication required")
         || lower.contains("gh auth login")
     {
         // Phrases mirror `context_chips::current_prompt::is_gh_auth_error`,
         // which has been vetted against real `gh` failure output.
-        "GitHub CLI not authenticated. Run `gh auth login`."
+        "GitHub CLI 未认证。请运行 `gh auth login`。"
     } else {
-        "Git operation failed."
+        "Git 操作失败。"
     }
 }
 
@@ -211,7 +211,7 @@ fn render_branch_section(
     let sub_color = theme.sub_text_color(theme.surface_1()).into_solid();
 
     let label = Text::new(
-        "Branch",
+        "分支",
         appearance.ui_font_family(),
         appearance.ui_font_size(),
     )
@@ -298,7 +298,11 @@ fn render_file_changes_box(
     let files_text = Text::new(
         format!(
             "{total_files} {}",
-            if total_files == 1 { "file" } else { "files" }
+            if total_files == 1 {
+                "个文件"
+            } else {
+                "个文件"
+            }
         ),
         appearance.ui_font_family(),
         appearance.ui_font_size(),
@@ -504,7 +508,7 @@ impl GitDialog {
         // communicates which of commit / commit-and-push / commit-and-create-PR
         // will actually run on click.
         let (confirm_button, cancel_button, close_button) =
-            Self::build_dialog_buttons("Confirm", None, ctx);
+            Self::build_dialog_buttons("确认", None, ctx);
         let state = commit::new_state(&repo_path, allow_create_pr, has_upstream, ctx);
         let this = Self {
             repo_path,
@@ -582,7 +586,7 @@ impl GitDialog {
             button.on_click(|ctx| ctx.dispatch_typed_action(GitDialogAction::Confirm))
         });
         let cancel_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Cancel", NakedTheme)
+            ActionButton::new("取消", NakedTheme)
                 .with_size(ButtonSize::Small)
                 .with_height(32.)
                 .on_click(|ctx| ctx.dispatch_typed_action(GitDialogAction::Cancel))
@@ -657,15 +661,15 @@ impl GitDialog {
 
     fn title(&self) -> &'static str {
         match &self.mode {
-            GitDialogMode::Commit(_) => "Commit your changes",
+            GitDialogMode::Commit(_) => "提交你的更改",
             GitDialogMode::Push(state) => {
                 if state.publish {
-                    "Publish branch"
+                    "发布分支"
                 } else {
-                    "Push changes"
+                    "推送更改"
                 }
             }
-            GitDialogMode::CreatePr(_) => "Create pull request",
+            GitDialogMode::CreatePr(_) => "创建 PR",
         }
     }
 

@@ -233,10 +233,7 @@ impl UpdateModalBody {
             }
             MCPServerUpdate::Gallery {
                 name, new_version, ..
-            } => (
-                format!("来自 {name} 的更新"),
-                format!("版本 {new_version}"),
-            ),
+            } => (format!("来自 {name} 的更新"), format!("版本 {new_version}")),
         };
 
         let content = Flex::column()

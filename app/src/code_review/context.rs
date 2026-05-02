@@ -78,13 +78,13 @@ pub fn create_attachment_reference_and_key(
     match scope {
         DiffSetScope::All => {
             let diff_set_description = match diff_mode {
-                DiffMode::Head => "uncommitted changes".to_string(),
+                DiffMode::Head => "未提交的更改".to_string(),
                 DiffMode::MainBranch => {
                     let main_branch = main_branch_name.unwrap_or("main");
-                    format!("diffset against {main_branch}")
+                    format!("相对于 {main_branch} 的差异集")
                 }
                 DiffMode::OtherBranch(branch_name) => {
-                    format!("diffset against {branch_name}")
+                    format!("相对于 {branch_name} 的差异集")
                 }
             };
             let key = diff_set_description.clone();

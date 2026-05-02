@@ -18,7 +18,7 @@ use warp_core::ui::theme::AnsiColorIdentifier;
     settings_value::SettingsValue,
 )]
 #[schemars(
-    description = "Where new tabs are placed in the tab bar.",
+    description = "新标签页在标签栏中的放置位置。",
     rename_all = "snake_case"
 )]
 pub enum NewTabPlacement {
@@ -34,7 +34,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Never,
     private: false,
     toml_path: "general.new_tab_placement",
-    description: "Where new tabs are placed in the tab bar.",
+    description: "新标签页在标签栏中的放置位置。",
 );
 
 #[derive(
@@ -48,10 +48,7 @@ settings::macros::implement_setting_for_enum!(
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "Position of the close button on tabs.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "标签页关闭按钮的位置。", rename_all = "snake_case")]
 pub enum TabCloseButtonPosition {
     #[default]
     Right,
@@ -65,7 +62,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.tabs.tab_close_button_position",
-    description: "Position of the close button on tabs.",
+    description: "标签页关闭按钮的位置。",
 );
 
 /// Visibility options for workspace decorations like the tab bar.
@@ -82,7 +79,7 @@ settings::macros::implement_setting_for_enum!(
     settings_value::SettingsValue,
 )]
 #[schemars(
-    description = "When workspace decorations such as the tab bar are visible.",
+    description = "标签栏等工作区装饰元素的显示时机。",
     rename_all = "snake_case"
 )]
 pub enum WorkspaceDecorationVisibility {
@@ -102,7 +99,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.tabs.workspace_decoration_visibility",
-    description: "When workspace decorations such as the tab bar are visible.",
+    description: "标签栏等工作区装饰元素的显示时机。",
 );
 
 impl WorkspaceDecorationVisibility {
@@ -184,7 +181,7 @@ impl DirectoryTabColor {
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(description = "Mapping of directory paths to their tab color assignments.")]
+#[schemars(description = "目录路径到标签页颜色分配的映射。")]
 pub struct DirectoryTabColors(pub(crate) HashMap<String, DirectoryTabColor>);
 
 settings::macros::implement_setting_for_enum!(
@@ -195,7 +192,7 @@ settings::macros::implement_setting_for_enum!(
     private: false,
     toml_path: "appearance.tabs.directory_tab_colors",
     max_table_depth: 0,
-    description: "Mapping of directory paths to their tab color assignments.",
+    description: "目录路径到标签页颜色分配的映射。",
     feature_flag: warp_core::features::FeatureFlag::DirectoryTabColors,
 );
 
@@ -241,7 +238,7 @@ impl DirectoryTabColors {
     settings_value::SettingsValue,
 )]
 #[schemars(
-    description = "Configuration for the header toolbar chips in the vertical tab panel header.",
+    description = "垂直标签页面板标题栏中工具栏标签的配置。",
     rename_all = "snake_case"
 )]
 pub enum HeaderToolbarChipSelection {
@@ -278,7 +275,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.tabs.header_toolbar_chip_selection",
-    description: "Configuration for the header toolbar chips in the vertical tab panel header.",
+    description: "垂直标签页面板标题栏中工具栏标签的配置。",
 );
 
 #[derive(
@@ -292,10 +289,7 @@ settings::macros::implement_setting_for_enum!(
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "Display mode for the vertical tab bar.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "垂直标签栏的显示模式。", rename_all = "snake_case")]
 pub enum VerticalTabsViewMode {
     #[default]
     Compact,
@@ -309,7 +303,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.vertical_tabs.view_mode",
-    description: "Display mode for the vertical tab bar.",
+    description: "垂直标签栏的显示模式。",
 );
 
 #[derive(
@@ -324,7 +318,7 @@ settings::macros::implement_setting_for_enum!(
     settings_value::SettingsValue,
 )]
 #[schemars(
-    description = "Granularity of rows displayed in the vertical tabs panel.",
+    description = "垂直标签页面板中显示行的粒度。",
     rename_all = "snake_case"
 )]
 pub enum VerticalTabsDisplayGranularity {
@@ -340,7 +334,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.vertical_tabs.display_granularity",
-    description: "Granularity of rows displayed in the vertical tabs panel.",
+    description: "垂直标签页面板中显示行的粒度。",
 );
 
 #[derive(
@@ -355,7 +349,7 @@ settings::macros::implement_setting_for_enum!(
     settings_value::SettingsValue,
 )]
 #[schemars(
-    description = "Tab item display mode in vertical tabs.",
+    description = "垂直标签页中的标签项显示模式。",
     rename_all = "snake_case"
 )]
 pub enum VerticalTabsTabItemMode {
@@ -371,7 +365,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.vertical_tabs.tab_item_mode",
-    description: "Tab item display mode in vertical tabs.",
+    description: "垂直标签页中的标签项显示模式。",
 );
 
 #[derive(
@@ -403,7 +397,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.vertical_tabs.primary_info",
-    description: "The primary information displayed on vertical tabs.",
+    description: "垂直标签页上显示的主要信息。",
 );
 
 #[derive(
@@ -418,7 +412,7 @@ settings::macros::implement_setting_for_enum!(
     settings_value::SettingsValue,
 )]
 #[schemars(
-    description = "Subtitle shown on compact vertical tabs.",
+    description = "紧凑垂直标签页上显示的副标题。",
     rename_all = "snake_case"
 )]
 pub enum VerticalTabsCompactSubtitle {
@@ -435,7 +429,7 @@ settings::macros::implement_setting_for_enum!(
     SyncToCloud::Globally(RespectUserSyncSetting::Yes),
     private: false,
     toml_path: "appearance.vertical_tabs.compact_subtitle",
-    description: "Subtitle shown on compact vertical tabs.",
+    description: "紧凑垂直标签页上显示的副标题。",
 );
 
 define_settings_group!(TabSettings, settings: [
@@ -446,7 +440,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.tabs.show_indicators_button",
-        description: "Whether to show activity indicators on tabs.",
+        description: "是否在标签页上显示活动指示器。",
     },
     show_code_review_button: ShowCodeReviewButton {
         type: bool,
@@ -455,7 +449,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.show_code_review_button",
-        description: "Whether to show the code review button on tabs.",
+        description: "是否在标签页上显示代码审查按钮。",
     },
     show_code_review_diff_stats: ShowCodeReviewDiffStats {
         type: bool,
@@ -464,7 +458,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.show_code_review_diff_stats",
-        description: "Whether to show lines added/removed counts on the code review button.",
+        description: "是否在代码审查按钮上显示新增/删除行数。",
     },
     preserve_active_tab_color: PreserveActiveTabColor {
         type: bool,
@@ -473,7 +467,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.tabs.preserve_active_tab_color",
-        description: "Whether to preserve the active tab's color when switching tabs.",
+        description: "切换标签页时是否保留当前活动标签页的颜色。",
     },
     use_vertical_tabs: UseVerticalTabs {
         type: bool,
@@ -482,7 +476,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.vertical_tabs.enabled",
-        description: "Whether to display tabs vertically instead of horizontally.",
+        description: "是否以垂直方式而非水平方式显示标签页。",
     },
     show_vertical_tab_panel_in_restored_windows: ShowVerticalTabPanelInRestoredWindows {
         type: bool,
@@ -491,7 +485,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.vertical_tabs.show_panel_in_restored_windows",
-        description: "When restoring a window, open the vertical tabs panel even if it was closed when the session was saved.",
+        description: "恢复窗口时，即使保存会话时垂直标签页面板是关闭的，也打开该面板。",
     },
     use_latest_user_prompt_as_conversation_title_in_tab_names: UseLatestUserPromptAsConversationTitleInTabNames {
         type: bool,
@@ -500,7 +494,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.vertical_tabs.use_latest_prompt_as_title",
-        description: "Whether vertical tab names for agent conversations use the latest user prompt.",
+        description: "智能体对话的垂直标签页名称是否使用最新的用户提示词。",
     },
     vertical_tabs_display_granularity: VerticalTabsDisplayGranularity,
     vertical_tabs_tab_item_mode: VerticalTabsTabItemMode,
@@ -514,7 +508,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.vertical_tabs.show_pr_link",
-        description: "Whether to show PR links on vertical tabs.",
+        description: "是否在垂直标签页上显示 PR 链接。",
     },
     vertical_tabs_show_diff_stats: VerticalTabsShowDiffStats {
         type: bool,
@@ -523,7 +517,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.vertical_tabs.show_diff_stats",
-        description: "Whether to show diff stats on vertical tabs.",
+        description: "是否在垂直标签页上显示差异统计。",
     },
     vertical_tabs_show_details_on_hover: VerticalTabsShowDetailsOnHover {
         type: bool,
@@ -532,7 +526,7 @@ define_settings_group!(TabSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.vertical_tabs.show_details_on_hover",
-        description: "Whether to show a details sidecar when hovering over a vertical tab.",
+        description: "悬停在垂直标签页上时是否显示详情侧栏。",
     },
     header_toolbar_chip_selection: HeaderToolbarChipSelection,
     new_tab_placement: NewTabPlacement,

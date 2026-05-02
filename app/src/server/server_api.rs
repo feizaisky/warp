@@ -155,13 +155,13 @@ pub enum DeserializationError {
 
 #[derive(thiserror::Error, Debug)]
 pub enum AIApiError {
-    #[error("Request failed due to lack of AI quota.")]
+    #[error("请求失败，因为 AI 配额不足。")]
     QuotaLimit,
 
-    #[error("Warp is currently overloaded. Please try again later.")]
+    #[error("Warp 当前负载过高。请稍后重试。")]
     ServerOverloaded,
 
-    #[error("Internal error occurred at transport layer.")]
+    #[error("传输层发生内部错误。")]
     Transport(#[source] reqwest::Error),
 
     #[error("Failed to deserialize API response.")]
@@ -325,13 +325,13 @@ register_error!(AIApiError);
 
 #[derive(thiserror::Error, Debug)]
 pub enum TranscribeError {
-    #[error("Request failed due to lack of Voice quota.")]
+    #[error("请求失败，因为语音配额不足。")]
     QuotaLimit,
 
-    #[error("Warp is currently overloaded. Please try again later.")]
+    #[error("Warp 当前负载过高。请稍后重试。")]
     ServerOverloaded,
 
-    #[error("Internal error occurred at transport layer.")]
+    #[error("传输层发生内部错误。")]
     Transport,
 
     #[error("Failed to deserialize JSON.")]

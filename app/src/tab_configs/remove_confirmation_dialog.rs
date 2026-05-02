@@ -109,13 +109,11 @@ impl View for RemoveTabConfigConfirmationDialog {
             .with_margin_right(12.)
             .finish();
 
-        let title = format!("Remove '{}'?", self.config_name);
+        let title = format!("移除 '{}'？", self.config_name);
 
         let dialog = Dialog::new(
             title,
-            Some(
-                "此标签页配置将被永久删除，此操作无法撤销。".into(),
-            ),
+            Some("此标签页配置将被永久删除，此操作无法撤销。".into()),
             UiComponentStyles {
                 width: Some(DIALOG_WIDTH),
                 ..dialog_styles(appearance)

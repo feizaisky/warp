@@ -257,9 +257,9 @@ where
     .with_tooltip(move || {
         ui_builder
             .tool_tip(if is_sidebar_expanded {
-                "Hide file navigation".to_owned()
+                "隐藏文件导航".to_owned()
             } else {
-                "Show file navigation".to_owned()
+                "显示文件导航".to_owned()
             })
             .build()
             .finish()
@@ -317,10 +317,10 @@ const CODE_REVIEW_EDITOR_LINE_HEIGHT_RATIO: f32 = 1.4;
 /// Extra scroll buffer (in pixels) added when scrolling to a line that has a comment editor below it.
 const COMMENT_EDITOR_SCROLL_BUFFER: f32 = 200.0;
 
-pub const CODE_REVIEW_TOOLTIP_TEXT: &str = "View changes";
-const REMOTE_TEXT: &str = "Diffs only work for local workspaces.";
-const DISABLED_TEXT: &str = "Diffs only work for git repositories.";
-const WSL_TEXT: &str = "Diffs don't currently work in WSL.";
+pub const CODE_REVIEW_TOOLTIP_TEXT: &str = "查看更改";
+const REMOTE_TEXT: &str = "差异仅适用于本地工作区。";
+const DISABLED_TEXT: &str = "差异仅适用于 git 仓库。";
+const WSL_TEXT: &str = "差异目前不支持 WSL。";
 
 #[cfg(not(target_family = "wasm"))]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -333,10 +333,9 @@ enum InitButtons {
 
 pub fn get_discard_button_disabled_tooltip(git_operation_blocked: bool) -> String {
     if git_operation_blocked {
-        "Cannot discard changes while a git operation (merge, rebase, etc.) is in progress"
-            .to_string()
+        "git 操作（merge、rebase 等）进行中时无法丢弃更改".to_string()
     } else {
-        "No changes to discard".to_string()
+        "没有可丢弃的更改".to_string()
     }
 }
 
@@ -546,27 +545,37 @@ pub enum DiscardOperationType {
 impl DiscardOperationType {
     pub fn title(&self) -> String {
         match self {
-            DiscardOperationType::AllUncommittedChanges => {
-                "Discard uncommitted changes?".to_string()
-            }
+            DiscardOperationType::AllUncommittedChanges => "丢弃未提交的更改？".to_string(),
             DiscardOperationType::FileUncommittedChanges => {
-                "Discard all uncommitted changes to file?".to_string()
+                "丢弃此文件的所有未提交更改？".to_string()
             }
-            DiscardOperationType::AllChangesAgainstBranch(_) => "Discard all changes?".to_string(),
+            DiscardOperationType::AllChangesAgainstBranch(_) => "丢弃所有更改？".to_string(),
             DiscardOperationType::FileChangesAgainstBranch(_) => {
-                "Discard all changes to file?".to_string()
+                "丢弃此文件的所有更改？".to_string()
             }
         }
     }
 
     pub fn description(&self) -> Option<String> {
         match self {
-            DiscardOperationType::AllUncommittedChanges => Some("You're about to discard all local changes that haven't been committed.".to_string()),
-            DiscardOperationType::FileUncommittedChanges => Some("This will restore this file to the last committed version and discard local edits.".to_string()),
-            DiscardOperationType::AllChangesAgainstBranch(None) => Some("You're about to discard all committed and uncommitted changes.".to_string()),
-            DiscardOperationType::FileChangesAgainstBranch(None) => Some("This will restore this file to the main branch version and discard all committed and uncommitted edits.".to_string()),
-            DiscardOperationType::AllChangesAgainstBranch(Some(_)) => Some("You're about to discard all committed and uncommitted changes.".to_string()),
-            DiscardOperationType::FileChangesAgainstBranch(Some(branch)) => Some(format!("This will reset this file to the {branch} branch version and discard all committed and uncommitted edits.")),
+            DiscardOperationType::AllUncommittedChanges => {
+                Some("即将丢弃所有尚未提交的本地更改。".to_string())
+            }
+            DiscardOperationType::FileUncommittedChanges => {
+                Some("这会将此文件恢复到最后一次提交的版本，并丢弃本地编辑。".to_string())
+            }
+            DiscardOperationType::AllChangesAgainstBranch(None) => {
+                Some("即将丢弃所有已提交和未提交的更改。".to_string())
+            }
+            DiscardOperationType::FileChangesAgainstBranch(None) => {
+                Some("这会将此文件恢复到主分支版本，并丢弃所有已提交和未提交的编辑。".to_string())
+            }
+            DiscardOperationType::AllChangesAgainstBranch(Some(_)) => {
+                Some("即将丢弃所有已提交和未提交的更改。".to_string())
+            }
+            DiscardOperationType::FileChangesAgainstBranch(Some(branch)) => Some(format!(
+                "这会将此文件重置到 {branch} 分支版本，并丢弃所有已提交和未提交的编辑。"
+            )),
         }
     }
 
@@ -1222,7 +1231,7 @@ impl CodeReviewView {
         let maximize_button = ctx.add_typed_action_view(move |_| {
             // Since the view isn't part of a pane group yet, default to not-maximized. The button will be updated
             //when focus state changes.
-            let (icon, tooltip_text) = (Icon::Maximize, "Maximize");
+            let (icon, tooltip_text) = (Icon::Maximize, "最大化");
 
             ActionButton::new("", NakedTheme)
                 .with_icon(icon)
@@ -1384,7 +1393,7 @@ impl CodeReviewView {
         let init_project_button = ctx.add_typed_action_view(|_ctx| {
             ActionButton::new("初始化代码库", NakedTheme)
                 .with_size(ButtonSize::Small)
-                .with_tooltip("Enables codebase indexing and WARP.md")
+                .with_tooltip("启用代码库索引和 WARP.md")
                 .with_tooltip_alignment(TooltipAlignment::Center)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(CodeReviewAction::InitProjectForCurrentDirectory)
@@ -1395,7 +1404,7 @@ impl CodeReviewView {
         let open_repository_button = ctx.add_typed_action_view(|_ctx| {
             ActionButton::new("打开仓库", NakedTheme)
                 .with_size(ButtonSize::Small)
-                .with_tooltip("Navigate to a repo and initialize it for coding")
+                .with_tooltip("导航到仓库并初始化以进行编码")
                 .with_tooltip_alignment(TooltipAlignment::Center)
                 .on_click(|ctx| ctx.dispatch_typed_action(CodeReviewAction::OpenRepository))
         });
@@ -1508,9 +1517,9 @@ impl CodeReviewView {
 
         let is_maximized = focus_handle.is_maximized(ctx);
         let (icon, tooltip) = if is_maximized {
-            (Icon::Minimize, "Restore")
+            (Icon::Minimize, "恢复")
         } else {
-            (Icon::Maximize, "Maximize")
+            (Icon::Maximize, "最大化")
         };
 
         self.maximize_button.update(ctx, |button, ctx| {
@@ -1521,9 +1530,9 @@ impl CodeReviewView {
 
     fn update_file_nav_button_tooltip(&self, ctx: &mut ViewContext<Self>) {
         let tooltip = if self.file_sidebar_expanded {
-            "Hide file navigation"
+            "隐藏文件导航"
         } else {
-            "Show file navigation"
+            "显示文件导航"
         };
         self.file_nav_button.update(ctx, |button, ctx| {
             button.set_tooltip(Some(tooltip), ctx);
@@ -1635,7 +1644,7 @@ impl CodeReviewView {
 
         // 1. Always add "Uncommitted changes" first.
         targets.push(DiffTarget::new(
-            "Uncommitted changes",
+            "未提交的更改",
             DiffMode::Head,
             matches!(current_mode, DiffMode::Head),
         ));
@@ -3952,7 +3961,7 @@ impl CodeReviewView {
     fn render_placeholder_header(appearance: &Appearance) -> Box<dyn Element> {
         let theme = appearance.theme();
 
-        let header_text = "Loading open changes...";
+        let header_text = "正在加载打开的更改...";
         let loading_icon = Icon::Loading
             .to_warpui_icon(warp_core::ui::theme::Fill::Solid(
                 internal_colors::neutral_6(theme),
@@ -4106,7 +4115,7 @@ impl CodeReviewView {
             )
             .with_child(
                 Text::new(
-                    "Error loading diffs",
+                    "加载差异时出错",
                     appearance.ui_font_family(),
                     appearance.ui_font_size() + 2.,
                 )
@@ -4149,7 +4158,7 @@ impl CodeReviewView {
                         )
                         .with_text_and_icon_label(TextAndIcon::new(
                             TextAndIconAlignment::IconFirst,
-                            " Retry".to_string(),
+                            " 重试".to_string(),
                             Icon::Refresh.to_warpui_icon(warp_core::ui::theme::Fill::Solid(
                                 theme.main_text_color(theme.background()).into(),
                             )),
@@ -4216,7 +4225,7 @@ impl CodeReviewView {
             )
             .with_child(
                 Text::new(
-                    "Cannot detect diffs for this folder",
+                    "无法检测此文件夹的差异",
                     appearance.ui_font_family(),
                     appearance.ui_font_size() + 2.,
                 )
@@ -4296,7 +4305,7 @@ impl CodeReviewView {
             )
             .with_child(
                 Text::new(
-                    "Cannot detect diffs for this folder",
+                    "无法检测此文件夹的差异",
                     appearance.ui_font_family(),
                     appearance.ui_font_size() + 2.,
                 )
@@ -4472,7 +4481,7 @@ impl CodeReviewView {
             .with_child(
                 Container::new(
                     Text::new(
-                        "As you or the Agent make changes, you'll be able to track them here.",
+                        "当你或 Agent 进行更改时，可以在这里跟踪这些更改。",
                         appearance.ui_font_family(),
                         14.,
                     )
@@ -4511,7 +4520,7 @@ impl CodeReviewView {
                         zero_state_column.add_child(
                             Container::new(
                                 Text::new(
-                                    format!("Repo is initialized with a {file_name} file."),
+                                    format!("仓库已使用 {file_name} 文件初始化。"),
                                     appearance.ui_font_family(),
                                     12.,
                                 )
@@ -4657,7 +4666,7 @@ impl CodeReviewView {
 
                 self.clear_review_comments(ctx);
                 ToastStack::handle(ctx).update(ctx, |stack, ctx| {
-                    let toast = DismissibleToast::default("Comments sent to agent".into());
+                    let toast = DismissibleToast::default("评论已发送给 agent".into());
                     stack.add_ephemeral_toast(toast, self.window_id, ctx);
                 });
                 ctx.emit(CodeReviewViewEvent::ReviewSubmitted);
@@ -4665,7 +4674,7 @@ impl CodeReviewView {
             }
             ReviewSubmissionResult::Error => {
                 log::error!("Failed to submit review comments");
-                let error_message = "Could not submit comments to the agent".to_string();
+                let error_message = "无法将评论提交给 agent".to_string();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     let toast = DismissibleToast::error(error_message);
                     toast_stack.add_ephemeral_toast(toast, self.window_id, ctx);
@@ -5325,8 +5334,7 @@ impl CodeReviewView {
             if editor_state.has_unsaved_changes(app) {
                 let save_keystroke = Keystroke::parse("cmdorctrl-s").unwrap_or_default();
                 let save_shortcut = save_keystroke.displayed();
-                let tooltip_text =
-                    format!("This file has unsaved changes. {save_shortcut} to save");
+                let tooltip_text = format!("此文件有未保存的更改。按 {save_shortcut} 保存");
                 render_unsaved_circle_with_tooltip(
                     editor_state.unsaved_changes_mouse_state(),
                     tooltip_text,
@@ -5562,7 +5570,7 @@ impl CodeReviewView {
         if diff_size == DiffSize::Unrenderable {
             return Self::styled_file_content_container(
                 Text::new(
-                    "Diff is too large to render",
+                    "差异过大，无法渲染",
                     appearance.monospace_font_family(),
                     appearance.monospace_font_size(),
                 )
@@ -5575,7 +5583,7 @@ impl CodeReviewView {
         if file.file_diff.is_binary {
             Self::styled_file_content_container(
                 Text::new(
-                    "Binary file - no diff available",
+                    "二进制文件 - 无可用差异",
                     appearance.monospace_font_family(),
                     appearance.monospace_font_size(),
                 )
@@ -5586,7 +5594,7 @@ impl CodeReviewView {
         } else if file.file_diff.status.is_renamed() && file.file_diff.is_empty() {
             Self::styled_file_content_container(
                 Text::new(
-                    "File renamed without changes",
+                    "文件已重命名，无内容更改",
                     appearance.monospace_font_family(),
                     appearance.monospace_font_size(),
                 )
@@ -5597,7 +5605,7 @@ impl CodeReviewView {
         } else if file.file_diff.status.is_new_file() && file.file_diff.is_empty() {
             Self::styled_file_content_container(
                 Text::new(
-                    "New empty file",
+                    "新的空文件",
                     appearance.monospace_font_family(),
                     appearance.monospace_font_size(),
                 )
@@ -5627,7 +5635,7 @@ impl CodeReviewView {
         } else {
             Self::styled_file_content_container(
                 Text::new(
-                    "Unable to load file content",
+                    "无法加载文件内容",
                     appearance.ui_font_family(),
                     appearance.ui_font_size(),
                 )
@@ -5719,7 +5727,7 @@ impl CodeReviewView {
 
         if self.discard_dialog_state.discard_file_paths.is_empty() {
             return Text::new(
-                "No file selected",
+                "未选择文件",
                 appearance.ui_font_family(),
                 appearance.ui_font_size(),
             )
@@ -5734,7 +5742,7 @@ impl CodeReviewView {
 
         let CodeReviewViewState::Loaded(loaded) = self.state() else {
             return Text::new(
-                "No files to discard",
+                "没有可丢弃的文件",
                 appearance.ui_font_family(),
                 appearance.ui_font_size(),
             )
@@ -5862,8 +5870,10 @@ impl CodeReviewView {
                     )
                     .check(self.discard_dialog_state.stash_changes_enabled)
                     .with_label(
-                        appearance.ui_builder().span("Stash changes").with_style(
-                            UiComponentStyles {
+                        appearance
+                            .ui_builder()
+                            .span("暂存更改")
+                            .with_style(UiComponentStyles {
                                 font_size: Some(appearance.ui_font_size()),
                                 font_color: Some(
                                     appearance
@@ -5872,8 +5882,7 @@ impl CodeReviewView {
                                         .into(),
                                 ),
                                 ..Default::default()
-                            },
-                        ),
+                            }),
                     )
                     .build()
                     .on_click(|ctx, _, _| {
@@ -5989,11 +5998,10 @@ impl CodeReviewView {
 
                 let toast_id = self.revert_hunk_toast_id(ctx);
                 crate::workspace::ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = crate::view_components::DismissibleToast::default(
-                        "Diff removed".to_string(),
-                    )
-                    .with_object_id(toast_id)
-                    .with_action_button(self.undo_action_button.clone());
+                    let toast =
+                        crate::view_components::DismissibleToast::default("差异已移除".to_string())
+                            .with_object_id(toast_id)
+                            .with_action_button(self.undo_action_button.clone());
                     toast_stack.add_ephemeral_toast(toast, self.window_id, ctx);
                 });
 
@@ -6085,7 +6093,7 @@ impl CodeReviewView {
                 let toast_id = self.attach_context_not_allowed_toast_id(ctx);
                 crate::workspace::ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     let toast = crate::view_components::DismissibleToast::default(
-                        "Cannot attach context when terminal is running".to_string(),
+                        "终端运行时无法附加上下文".to_string(),
                     )
                     .with_object_id(toast_id);
                     toast_stack.add_ephemeral_toast(toast, self.window_id, ctx);
@@ -6197,10 +6205,8 @@ impl CodeReviewView {
             if !is_input_box_visible {
                 let toast_id = self.attach_diff_not_allowed_toast_id(ctx);
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = DismissibleToast::default(
-                        "Cannot attach diff while input is not available".to_string(),
-                    )
-                    .with_object_id(toast_id);
+                    let toast = DismissibleToast::default("输入不可用时无法附加差异".to_string())
+                        .with_object_id(toast_id);
                     toast_stack.add_ephemeral_toast(toast, self.window_id, ctx);
                 });
                 return;
@@ -6814,12 +6820,12 @@ impl CodeReviewView {
                 });
                 self.git_operations_chevron.update(ctx, |button, ctx| {
                     button.set_disabled(disabled, ctx);
-                    button.set_tooltip(disabled.then_some("No git actions available"), ctx);
+                    button.set_tooltip(disabled.then_some("无可用 git 操作"), ctx);
                 });
             }
             PrimaryGitActionMode::Push => {
                 self.git_primary_action_button.update(ctx, |button, ctx| {
-                    button.set_label("Push", ctx);
+                    button.set_label("推送", ctx);
                     button.set_icon(Some(Icon::ArrowUp), ctx);
                     button.set_disabled(false, ctx);
                     button.set_on_click(
@@ -6834,7 +6840,7 @@ impl CodeReviewView {
             }
             PrimaryGitActionMode::CreatePr => {
                 self.git_primary_action_button.update(ctx, |button, ctx| {
-                    button.set_label("Create PR", ctx);
+                    button.set_label("创建 PR", ctx);
                     button.set_icon(Some(Icon::Github), ctx);
                     button.set_disabled(false, ctx);
                     button.set_on_click(
@@ -6866,7 +6872,7 @@ impl CodeReviewView {
             }
             PrimaryGitActionMode::Publish => {
                 self.git_primary_action_button.update(ctx, |button, ctx| {
-                    button.set_label("Publish", ctx);
+                    button.set_label("发布", ctx);
                     button.set_icon(Some(Icon::UploadCloud), ctx);
                     button.set_disabled(false, ctx);
                     button.set_on_click(
@@ -6897,13 +6903,13 @@ impl CodeReviewView {
     /// sets the upstream).
     fn push_or_publish_menu_item(has_upstream: bool, disabled: bool) -> MenuItem<CodeReviewAction> {
         if has_upstream {
-            MenuItemFields::new("Push")
+            MenuItemFields::new("推送")
                 .with_icon(Icon::ArrowUp)
                 .with_on_select_action(CodeReviewAction::OpenPushDialog)
                 .with_disabled(disabled)
                 .into_item()
         } else {
-            MenuItemFields::new("Publish")
+            MenuItemFields::new("发布")
                 .with_icon(Icon::UploadCloud)
                 .with_on_select_action(CodeReviewAction::PublishBranch)
                 .with_disabled(disabled)
@@ -6926,7 +6932,7 @@ impl CodeReviewView {
             let is_on_main = diff_state.is_on_main_branch();
             let has_upstream = diff_state.upstream_ref().is_some();
             let upstream_differs_from_main = diff_state.upstream_differs_from_main();
-            MenuItemFields::new("Create PR")
+            MenuItemFields::new("创建 PR")
                 .with_icon(Icon::Github)
                 .with_on_select_action(CodeReviewAction::OpenCreatePrDialog)
                 .with_disabled(is_on_main || !has_upstream || !upstream_differs_from_main)
@@ -6995,7 +7001,7 @@ impl CodeReviewView {
 
         if FeatureFlag::DiffSetAsContext.is_enabled() && has_changes {
             items.push(
-                MenuItemFields::new("Add diff set as context")
+                MenuItemFields::new("将差异集添加为上下文")
                     .with_icon(Icon::Paperclip)
                     .with_on_select_action(CodeReviewAction::AddDiffSetAsContext(DiffSetScope::All))
                     .into_item(),
@@ -7003,9 +7009,9 @@ impl CodeReviewView {
         }
 
         let (comment_label, comment_icon) = if self.get_existing_diffset_comment(ctx).is_some() {
-            ("Show saved comment", Icon::MessageText)
+            ("显示已保存评论", Icon::MessageText)
         } else {
-            ("Add comment", Icon::MessagePlusSquare)
+            ("添加评论", Icon::MessagePlusSquare)
         };
 
         items.push(
@@ -7030,7 +7036,7 @@ impl CodeReviewView {
         let is_ai_enabled = AISettings::as_ref(ctx).is_any_ai_enabled(ctx);
         if is_ai_enabled && FeatureFlag::DiffSetAsContext.is_enabled() && has_changes {
             items.push(
-                MenuItemFields::new("Add diff set as context")
+                MenuItemFields::new("将差异集添加为上下文")
                     .with_icon(Icon::Paperclip)
                     .with_on_select_action(CodeReviewAction::AddDiffSetAsContext(DiffSetScope::All))
                     .into_item(),
@@ -7040,9 +7046,9 @@ impl CodeReviewView {
         if FeatureFlag::FileAndDiffSetComments.is_enabled() && has_changes {
             let (comment_label, comment_icon) = if self.get_existing_diffset_comment(ctx).is_some()
             {
-                ("Show saved comment", Icon::MessageText)
+                ("显示已保存评论", Icon::MessageText)
             } else {
-                ("Add comment", Icon::MessagePlusSquare)
+                ("添加评论", Icon::MessagePlusSquare)
             };
 
             items.push(
@@ -7055,7 +7061,7 @@ impl CodeReviewView {
 
         if FeatureFlag::DiscardPerFileAndAllChanges.is_enabled() && has_changes {
             items.push(
-                MenuItemFields::new("Discard all")
+                MenuItemFields::new("全部丢弃")
                     .with_icon(Icon::ReverseLeft)
                     .with_on_select_action(CodeReviewAction::ShowDiscardConfirmDialog(None))
                     .into_item(),
@@ -7831,7 +7837,7 @@ impl BackingView for CodeReviewView {
         _ctx: &view::HeaderRenderContext<'_>,
         _app: &AppContext,
     ) -> view::HeaderContent {
-        view::HeaderContent::simple("Reviewing code changes")
+        view::HeaderContent::simple("正在审查代码更改")
     }
 
     fn set_focus_handle(&mut self, focus_handle: PaneFocusHandle, ctx: &mut ViewContext<Self>) {

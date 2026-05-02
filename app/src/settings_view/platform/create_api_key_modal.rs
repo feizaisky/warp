@@ -37,12 +37,8 @@ pub(crate) enum ApiKeyType {
 impl ApiKeyType {
     fn description(&self) -> &'static str {
         match self {
-            ApiKeyType::Personal => {
-                "This API key is tied to your user and can make requests against your Warp account."
-            }
-            ApiKeyType::Team => {
-                "This API key is tied to your team and can make requests on behalf of your team."
-            }
+            ApiKeyType::Personal => "此 API 密钥绑定到您的用户，可对您的 Warp 账户发起请求。",
+            ApiKeyType::Team => "此 API 密钥绑定到您的团队，可代表您的团队发起请求。",
         }
     }
 }
@@ -74,7 +70,7 @@ impl ExpirationOption {
             ExpirationOption::OneDay => "1 天",
             ExpirationOption::ThirtyDays => "30 天",
             ExpirationOption::NinetyDays => "90 天",
-            ExpirationOption::Never => "Never",
+            ExpirationOption::Never => "永不",
         }
     }
 
@@ -140,7 +136,7 @@ impl CreateApiKeyModal {
                 ..Default::default()
             };
             let mut editor = EditorView::single_line(options, ctx);
-            editor.set_placeholder_text("Warp API Key", ctx);
+            editor.set_placeholder_text("Warp API 密钥", ctx);
             editor
         });
 
@@ -166,8 +162,8 @@ impl CreateApiKeyModal {
                         icon_color: theme.active_ui_text_color().into(),
                         label: Some(LabelConfig {
                             label: match key_type {
-                                ApiKeyType::Personal => "Personal".into(),
-                                ApiKeyType::Team => "Team".into(),
+                                ApiKeyType::Personal => "个人".into(),
+                                ApiKeyType::Team => "团队".into(),
                             },
                             width_override: Some(55.0),
                             color: if is_selected {
@@ -276,9 +272,7 @@ impl CreateApiKeyModal {
                     // This can happen if the team state changed between render and click.
                     self.request_state = RequestState::Idle;
                     ctx.emit(CreateApiKeyModalEvent::Error {
-                        message:
-                            "Unable to create a team API key because there is no current team."
-                                .to_string(),
+                        message: "无法创建团队 API 密钥，因为当前没有团队。".to_string(),
                     });
                     ctx.notify();
                     return;
@@ -311,7 +305,7 @@ impl CreateApiKeyModal {
                     }
                     Ok(warp_graphql::mutations::generate_api_key::GenerateApiKeyResult::Unknown) | Err(_) => {
                         me.request_state = RequestState::Idle;
-                        ctx.emit(CreateApiKeyModalEvent::Error { message: "Failed to create API key. Please try again.".to_string() });
+                        ctx.emit(CreateApiKeyModalEvent::Error { message: "创建 API 密钥失败。请重试。".to_string() });
                         ctx.notify();
                     }
                 }
@@ -402,9 +396,9 @@ impl CreateApiKeyModal {
         .finish();
 
         let copy_label = if self.raw_key_copied {
-            "Copied"
+            "已复制"
         } else {
-            "Copy"
+            "复制"
         };
         let copy_icon = if self.raw_key_copied {
             warp_core::ui::icons::Icon::Check.to_warpui_icon(appearance.theme().background())
@@ -453,7 +447,7 @@ impl CreateApiKeyModal {
                 ButtonVariant::Accent,
                 self.cancel_button_mouse_state.clone(),
             )
-            .with_text_label("Done".to_string())
+            .with_text_label("完成".to_string())
             .with_style(button_style)
             .build()
             .on_click(|ctx, _, _| ctx.dispatch_typed_action(CreateApiKeyModalAction::Cancel))
@@ -548,7 +542,7 @@ impl View for CreateApiKeyModal {
                         self.create_button_mouse_state.clone(),
                     )
                     .with_text_label(if is_pending {
-                        "Creating…".to_string()
+                        "创建中…".to_string()
                     } else {
                         "创建密钥".to_string()
                     })
@@ -579,7 +573,7 @@ impl View for CreateApiKeyModal {
                 // Show segmented control only if user has a team
                 if self.has_team {
                     let type_label =
-                        Text::new("Type", appearance.ui_font_family(), LABEL_FONT_SIZE)
+                        Text::new("类型", appearance.ui_font_family(), LABEL_FONT_SIZE)
                             .with_color(theme.active_ui_text_color().into())
                             .finish();
                     col.add_child(Container::new(type_label).with_margin_bottom(4.).finish());
@@ -610,7 +604,7 @@ impl View for CreateApiKeyModal {
                 );
 
                 let expiration_label =
-                    Text::new("Expiration", appearance.ui_font_family(), LABEL_FONT_SIZE)
+                    Text::new("过期时间", appearance.ui_font_family(), LABEL_FONT_SIZE)
                         .with_color(theme.active_ui_text_color().into())
                         .finish();
 

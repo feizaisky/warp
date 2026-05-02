@@ -122,11 +122,11 @@ impl CliAgentPluginManager for ClaudeCodePluginManager {
     }
 
     fn install_success_message(&self) -> &'static str {
-        "Warp plugin installed. Please run /reload-plugins to activate."
+        "Warp 插件已安装。请运行 /reload-plugins 以激活。"
     }
 
     fn update_success_message(&self) -> &'static str {
-        "Warp plugin updated. Please run /reload-plugins to activate."
+        "Warp 插件已更新。请运行 /reload-plugins 以激活。"
     }
 
     fn install_instructions(&self) -> &'static PluginInstructions {
@@ -181,8 +181,7 @@ static INSTALL_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| {
         ],
         post_install_notes: &[
             "重启 Claude Code 以激活插件。",
-            "There are some known issues with Claude Code's plugin system. \
-             If the plugin is not found after step 1, you can try manually adding an \"extraKnownMarketplaces\" entry to ~/.claude/settings.json.",
+            "Claude Code 的插件系统存在一些已知问题。如果步骤 1 后仍找不到插件，可以尝试在 ~/.claude/settings.json 中手动添加 \"extraKnownMarketplaces\" 条目。",
         ],
     }
 });

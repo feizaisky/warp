@@ -65,9 +65,9 @@ pub(super) fn new_state(publish: bool, commits: Vec<Commit>) -> PushState {
 
 pub(super) fn confirm_label(publish: bool) -> &'static str {
     if publish {
-        "Publish"
+        "发布"
     } else {
-        "Push"
+        "推送"
     }
 }
 
@@ -81,9 +81,9 @@ pub(super) fn confirm_icon(publish: bool) -> Icon {
 
 fn loading_label(publish: bool) -> &'static str {
     if publish {
-        "Publishing…"
+        "正在发布…"
     } else {
-        "Pushing…"
+        "正在推送…"
     }
 }
 

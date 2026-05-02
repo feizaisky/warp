@@ -76,7 +76,7 @@ impl AgentConfigRunner {
             ctx.terminate_app(
                 TerminationMode::ForceTerminate,
                 Some(Err(anyhow::anyhow!(
-                    "Exceeded maximum number of authorization attempts ({}). Please try again later.",
+                    "已超过最大授权尝试次数（{}）。请稍后重试。",
                     MAX_AUTH_ATTEMPTS
                 ))),
             );
@@ -155,7 +155,7 @@ impl AgentConfigRunner {
                                         ctx.terminate_app(
                                             TerminationMode::ForceTerminate,
                                             Some(Err(anyhow::anyhow!(
-                                                "GitHub authorization failed. Please try again."
+                                                "GitHub 授权失败。请重试。"
                                             ))),
                                         );
                                     }
@@ -163,7 +163,7 @@ impl AgentConfigRunner {
                                         ctx.terminate_app(
                                             TerminationMode::ForceTerminate,
                                             Some(Err(anyhow::anyhow!(
-                                                "GitHub authorization expired. Please try again."
+                                                "GitHub 授权已过期。请重试。"
                                             ))),
                                         );
                                     }

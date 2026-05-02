@@ -26,7 +26,8 @@ use crate::{
 };
 
 const TABBED_FILE_VIEWER_TOGGLE_HEADER: &str = "将文件合并到单个编辑器面板";
-const TABBED_FILE_VIEWER_TOGGLE_DESCRIPTION: &str = "开启此设置后，在同一标签页中打开的文件将自动合并到单个编辑器面板。";
+const TABBED_FILE_VIEWER_TOGGLE_DESCRIPTION: &str =
+    "开启此设置后，在同一标签页中打开的文件将自动合并到单个编辑器面板。";
 
 #[derive(Debug, Clone)]
 pub enum ExternalEditorAction {

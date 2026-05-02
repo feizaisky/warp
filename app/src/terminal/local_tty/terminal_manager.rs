@@ -126,7 +126,7 @@ type PtyController = writeable_pty::PtyController<mio_channel::Sender<Message>>;
 type RemoteServerController =
     writeable_pty::remote_server_controller::RemoteServerController<mio_channel::Sender<Message>>;
 
-const ACL_UPDATE_FAILURE_RESPONSE: &str = "Something went wrong. Please try again.";
+const ACL_UPDATE_FAILURE_RESPONSE: &str = "出了点问题。请重试。";
 
 /// The TerminalManager is responsible for
 /// - creating the terminal model
@@ -1607,7 +1607,7 @@ impl TerminalManager {
 
                 terminal_view.update(ctx, |view, ctx| {
                     view.show_persistent_toast(
-                        "Something went wrong. Please try sharing again.".to_string(),
+                        "出了点问题。请再次尝试共享。".to_string(),
                         ToastFlavor::Error,
                         ctx,
                     );

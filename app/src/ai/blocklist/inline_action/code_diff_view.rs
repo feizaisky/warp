@@ -211,7 +211,7 @@ pub fn init(app: &mut AppContext) {
 
     app.register_editable_bindings([EditableBinding::new(
         EDIT_REQUESTED_EDIT_NAME,
-        "Edit Code Diff",
+        "编辑代码差异",
         CodeDiffViewAction::Edit,
     )
     .with_context_predicate(id!(CodeDiffView::ui_name()) & !id!(DISPATCHED_REQUESTED_EDIT_EXPANDED))
@@ -1157,7 +1157,7 @@ impl CodeDiffView {
                     .diff_view
                     .as_ref(ctx)
                     .file_name()
-                    .unwrap_or_else(|| "file".to_string());
+                    .unwrap_or_else(|| "文件".to_string());
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
                         DismissibleToast::error(format!("还原 {file_name} 的更改失败")),
@@ -1665,7 +1665,7 @@ impl CodeDiffView {
                 fg_overlay_6(appearance.theme())
             };
             let mcp_config_button = render_provider_icon_button(
-                "Open config",
+                "打开配置",
                 mcp_button_handle.clone(),
                 appearance,
                 icon,
@@ -1863,10 +1863,10 @@ impl CodeDiffView {
             let diff_type = diff.diff_view.as_ref(app).diff();
             let file_name = match diff.diff_view.as_ref(app).file_name() {
                 Some(file_name) if matches!(diff_type, Some(DiffType::Create { .. })) => {
-                    format!("{file_name} (new)")
+                    format!("{file_name} (新增)")
                 }
                 Some(file_name) if matches!(diff_type, Some(DiffType::Delete { .. })) => {
-                    format!("{file_name} (deleted)")
+                    format!("{file_name} (已删除)")
                 }
                 Some(file_name) => {
                     // Check if this is a rename
@@ -1881,7 +1881,7 @@ impl CodeDiffView {
                         file_name
                     }
                 }
-                None => "No file name".to_string(),
+                None => "无文件名".to_string(),
             };
 
             // Get the full path for the tooltip
@@ -2001,7 +2001,7 @@ impl CodeDiffView {
         if Self::is_rename_without_changes(diff_type) {
             let placeholder = Container::new(
                 Text::new(
-                    "File renamed without changes",
+                    "文件已重命名，无内容更改",
                     appearance.monospace_font_family(),
                     appearance.monospace_font_size(),
                 )
@@ -2541,7 +2541,7 @@ impl CodeDiffView {
 
         let checkbox_text = appearance
             .ui_builder()
-            .span("Don't show me suggested code banners again")
+            .span("不再显示建议代码横幅")
             .with_style(UiComponentStyles {
                 font_color: Some(font_color),
                 font_size: Some(font_size),
@@ -2553,10 +2553,7 @@ impl CodeDiffView {
 
         let formatted_text = FormattedTextElement::new(
             FormattedText::new([FormattedTextLine::Line(vec![
-                FormattedTextFragment::hyperlink(
-                    "Manage suggested code banner settings",
-                    "Settings > AI",
-                ),
+                FormattedTextFragment::hyperlink("管理建议代码横幅设置", "设置 > AI"),
             ])]),
             font_size,
             font_family,
@@ -3060,9 +3057,9 @@ pub fn convert_file_edits_to_file_diffs(
             // For file deletions/moves we may not have any other context to show. Provide a minimal stub.
             if show_as_deleted && dummy_content.is_empty() {
                 dummy_content = if v4a_move_to.is_some() {
-                    "(renamed)".to_string()
+                    "(已重命名)".to_string()
                 } else {
-                    "(deleted file)".to_string()
+                    "(已删除文件)".to_string()
                 };
             }
 

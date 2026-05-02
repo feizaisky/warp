@@ -165,14 +165,10 @@ impl View for TerminalViewZeroStateBlock {
                 .finish(),
             )
             .with_child(
-                Text::new(
-                    "新终端会话",
-                    appearance.ui_font_family(),
-                    title_font_size,
-                )
-                .with_color(theme.main_text_color(theme.background()).into_solid())
-                .with_style(Properties::default().weight(Weight::Bold))
-                .finish(),
+                Text::new("新终端会话", appearance.ui_font_family(), title_font_size)
+                    .with_color(theme.main_text_color(theme.background()).into_solid())
+                    .with_style(Properties::default().weight(Weight::Bold))
+                    .finish(),
             )
             .finish();
 

@@ -147,14 +147,10 @@ impl FirstTimeCloudAgentSetupView {
 
         // Title - 20px medium weight
         column.add_child(
-            Text::new(
-                "启动新的 Oz 云端智能体",
-                appearance.ui_font_family(),
-                20.,
-            )
-            .with_style(Properties::default().weight(Weight::Medium))
-            .with_color(theme.foreground().into())
-            .finish(),
+            Text::new("启动新的 Oz 云端智能体", appearance.ui_font_family(), 20.)
+                .with_style(Properties::default().weight(Weight::Medium))
+                .with_color(theme.foreground().into())
+                .finish(),
         );
 
         // Description with "Visit docs" link
@@ -227,10 +223,7 @@ impl FirstTimeCloudAgentSetupView {
         let credits_text = if credits == 1 {
             "您有 1 个免费积分可用于 Oz 云端智能体。".to_string()
         } else {
-            format!(
-                "您有 {} 个免费积分可用于 Oz 云端智能体。",
-                credits
-            )
+            format!("您有 {} 个免费积分可用于 Oz 云端智能体。", credits)
         };
         let text = Text::new(credits_text, appearance.ui_font_family(), 12.)
             .with_color(blended_colors::text_sub(theme, theme.surface_1()))

@@ -242,14 +242,14 @@ pub fn init(app: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::Copy,
             CodeEditorViewAction::Copy,
-            "Copy",
+            "复制",
             text_entry.clone(),
         ),
         // Bindings for paste require the StandardAction and CustomAction binding to work on all platforms.
         FixedBinding::custom(
             CustomAction::Paste,
             CodeEditorViewAction::Paste,
-            "Paste",
+            "粘贴",
             text_entry.clone(),
         ),
         FixedBinding::standard(
@@ -261,32 +261,32 @@ pub fn init(app: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::WindowsPaste,
             CodeEditorViewAction::Paste,
-            "Paste",
+            "粘贴",
             text_entry.clone(),
         ),
         #[cfg(windows)]
         FixedBinding::custom(
             CustomAction::WindowsCopy,
             CodeEditorViewAction::WindowsCtrlC,
-            "Copy",
+            "复制",
             text_entry.clone(),
         ),
         FixedBinding::custom(
             CustomAction::Cut,
             CodeEditorViewAction::Cut,
-            "Cut",
+            "剪切",
             text_entry.clone(),
         ),
         FixedBinding::custom(
             CustomAction::Undo,
             CodeEditorViewAction::Undo,
-            "Undo",
+            "撤销",
             text_entry.clone(),
         ),
         FixedBinding::custom(
             CustomAction::Redo,
             CodeEditorViewAction::Redo,
-            "Redo",
+            "重做",
             text_entry.clone(),
         ),
         FixedBinding::new("escape", CodeEditorViewAction::Escape, text_entry.clone()),
@@ -331,13 +331,9 @@ pub fn init(app: &mut AppContext) {
         )
         .with_context_predicate(text_entry.clone())
         .with_key_binding("meta-b"),
-        EditableBinding::new(
-            "editor_view:up",
-            "光标上移",
-            CodeEditorViewAction::MoveUp,
-        )
-        .with_context_predicate(text_entry.clone())
-        .with_key_binding("ctrl-p"),
+        EditableBinding::new("editor_view:up", "光标上移", CodeEditorViewAction::MoveUp)
+            .with_context_predicate(text_entry.clone())
+            .with_key_binding("ctrl-p"),
         EditableBinding::new(
             "editor_view:down",
             "光标下移",
@@ -507,7 +503,7 @@ pub fn init(app: &mut AppContext) {
         )
         .with_context_predicate(text_entry.clone())
         .with_key_binding("cmdorctrl-/"),
-        EditableBinding::new("editor_view:delete", "Delete", CodeEditorViewAction::Delete)
+        EditableBinding::new("editor_view:delete", "删除", CodeEditorViewAction::Delete)
             .with_context_predicate(text_entry.clone())
             .with_key_binding("ctrl-d"),
         EditableBinding::new(

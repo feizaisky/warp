@@ -18,9 +18,8 @@ pub use task::{
     AmbientAgentTaskState, TaskStatusMessage,
 };
 pub const OUT_OF_CREDITS_TASK_FAILURE_MESSAGE: &str =
-    "Out of credits. Upgrade your Warp plan to continue running cloud agents.";
-pub const SERVER_OVERLOADED_TASK_FAILURE_MESSAGE: &str =
-    "Warp is temporarily overloaded. Please try again shortly.";
+    "点数不足。升级 Warp 套餐以继续运行云端智能体。";
+pub const SERVER_OVERLOADED_TASK_FAILURE_MESSAGE: &str = "Warp 暂时负载过高。请稍后重试。";
 
 #[derive(Debug, thiserror::Error)]
 #[error("Invalid task ID: {0}")]

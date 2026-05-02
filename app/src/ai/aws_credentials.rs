@@ -57,26 +57,21 @@ fn aws_profile_reference_for_message(profile: &str, capitalize_first_word: bool)
 fn user_facing_aws_credentials_error_message(err: &CredentialsError, profile: &str) -> String {
     match err {
         CredentialsError::CredentialsNotLoaded(_) => format!(
-            "AWS credentials were not found for {}. Log in with the AWS CLI or update your AWS credentials configuration, then refresh.",
+            "未找到 {} 的 AWS 凭据。请使用 AWS CLI 登录，或更新你的 AWS 凭据配置，然后刷新。",
             aws_profile_reference_for_message(profile, false)
         ),
-        CredentialsError::ProviderTimedOut(_) => {
-            "Timed out while loading AWS credentials. Refresh and try again.".to_string()
-        }
+        CredentialsError::ProviderTimedOut(_) => "加载 AWS 凭据超时。请刷新后重试。".to_string(),
         CredentialsError::InvalidConfiguration(_) => format!(
-            "{} is invalid or incomplete in your local AWS configuration. Update your AWS profile settings and credentials, then refresh.",
+            "本地 AWS 配置中的 {} 无效或不完整。请更新 AWS profile 设置和凭据，然后刷新。",
             aws_profile_reference_for_message(profile, true)
         ),
         CredentialsError::ProviderError(_) => {
-            "Unable to load AWS credentials from your configured provider. Refresh your AWS login and try again."
-                .to_string()
+            "无法从配置的提供方加载 AWS 凭据。请刷新 AWS 登录后重试。".to_string()
         }
         CredentialsError::Unhandled(_) => {
-            "Unexpected error while loading AWS credentials. Refresh your AWS login and try again."
-                .to_string()
+            "加载 AWS 凭据时发生意外错误。请刷新 AWS 登录后重试。".to_string()
         }
-        _ => "Unable to load AWS credentials. Refresh your AWS login and try again."
-            .to_string(),
+        _ => "无法加载 AWS 凭据。请刷新 AWS 登录后重试。".to_string(),
     }
 }
 

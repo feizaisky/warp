@@ -217,14 +217,14 @@ impl SecretManager {
     ) -> ErrorMessageAndCommand {
         match error_type {
             SecretErrorType::NotInstalled => {
-                let message = format!("{} CLI is not installed", &self);
+                let message = format!("未安装 {} CLI", &self);
 
                 let (link, link_message) = (
                     match self {
                         SecretManager::OnePassword => Some(ONEPASSWORD_DOCS_LINK.to_owned()),
                         SecretManager::LastPass => Some(LASTPASS_DOCS_LINK.to_owned()),
                     },
-                    Some(format!("View {} CLI installation documentation", &self)),
+                    Some(format!("查看 {} CLI 安装文档", &self)),
                 );
 
                 ErrorMessageAndCommand {
@@ -237,21 +237,18 @@ impl SecretManager {
                 let (link, link_message) = match self {
                     SecretManager::OnePassword => (
                         Some(ONEPASSWORD_DOCS_LINK.to_owned()),
-                        Some("Integrate 1Password app with CLI".to_owned()),
+                        Some("将 1Password 应用与 CLI 集成".to_owned()),
                     ),
                     SecretManager::LastPass => (None, None),
                 };
                 ErrorMessageAndCommand {
-                    message: format!(
-                        "{} didn't return secrets (likely not configured or authenticated)",
-                        &self
-                    ),
+                    message: format!("{} 未返回密钥（可能尚未配置或认证）", &self),
                     link,
                     link_message,
                 }
             }
             SecretErrorType::InvalidPlatform => ErrorMessageAndCommand {
-                message: "Platform not supported".to_owned(),
+                message: "不支持此平台".to_owned(),
                 link: None,
                 link_message: None,
             },

@@ -175,9 +175,9 @@ where
         ..Default::default()
     };
 
-    let paragraph_1 = "All of Warp’s non-cloud features work offline.";
-    let paragraph_2 = "However, we require users to be online when using Warp for the first time in order to enable Warp's AI and cloud features.";
-    let paragraph_3 = "We offer cloud features to all users, and so we need an internet connection to meter AI usage, prevent abuse, and associate cloud objects with users. If you opt to use Warp logged-out, a unique ID will be attached to an anonymous user account in order to support these features.";
+    let paragraph_1 = "Warp 的所有非云端功能都可离线使用。";
+    let paragraph_2 = "不过，首次使用 Warp 时需要保持在线，以启用 Warp 的 AI 和云端功能。";
+    let paragraph_3 = "我们向所有用户提供云端功能，因此需要互联网连接来统计 AI 用量、防止滥用，并将云端对象与用户关联。如果你选择未登录使用 Warp，系统会把一个唯一 ID 附加到匿名用户账户，以支持这些功能。";
 
     Container::new(
         Flex::column()
@@ -530,11 +530,7 @@ pub fn render_privacy_settings_toggles<A: Action + Clone + 'static>(
         .with_child(
             Shrinkable::new(
                 1.,
-                render_privacy_settings_section_header(
-                    "将 AI 对话存储到云端",
-                    appearance,
-                )
-                .finish(),
+                render_privacy_settings_section_header("将 AI 对话存储到云端", appearance).finish(),
             )
             .finish(),
         )

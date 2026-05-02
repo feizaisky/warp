@@ -206,14 +206,14 @@ mod package_manager {
                     // Make this an <h3>
                     heading_size: 3,
                     text: vec![FormattedTextFragment::bold(format!(
-                        "Run {package_manager_name} to update"
+                        "运行 {package_manager_name} 更新"
                     ))],
                 }),
                 FormattedTextLine::Line(vec![
-                    FormattedTextFragment::plain_text("If you installed Warp using "),
+                    FormattedTextFragment::plain_text("如果你使用 "),
                     FormattedTextFragment::bold(package_manager_name),
                     FormattedTextFragment::plain_text(
-                        " or a compatible tool, the pre-filled command will update Warp for you.",
+                        " 或兼容工具安装了 Warp，预填命令会为你更新 Warp。",
                     ),
                 ]),
             ];
@@ -221,7 +221,7 @@ mod package_manager {
             if self.package_manager.needs_repository_configuration() {
                 lines.push(FormattedTextLine::Line(vec![
                     FormattedTextFragment::plain_text(
-                        "\nThe command below includes a one-time configuration of the Warp package repository and PGP signing key.",
+                        "\n下面的命令包含对 Warp 软件包仓库和 PGP 签名密钥的一次性配置。",
                     ),
                 ]));
             }
@@ -231,22 +231,20 @@ mod package_manager {
                 .distribution_update_disabled_repository()
             {
                 lines.push(FormattedTextLine::Line(vec![
-                    FormattedTextFragment::plain_text(
-                        "\nThe ",
-                    ),
+                    FormattedTextFragment::plain_text("\n"),
                     FormattedTextFragment::inline_code("warp_handle_dist_upgrade"),
                     FormattedTextFragment::plain_text(
-                        " function ensures the Warp package repository is enabled, as we've detected you recently upgraded your distribution.",
+                        " 函数会确保 Warp 软件包仓库已启用，因为我们检测到你最近升级了发行版。",
                     ),
                 ]));
             }
 
             lines.push(FormattedTextLine::Line(vec![
-                FormattedTextFragment::plain_text("\nReview the command below, then "),
-                FormattedTextFragment::bold("press enter"),
-                FormattedTextFragment::plain_text(" to install the update and re-launch Warp.  "),
+                FormattedTextFragment::plain_text("\n检查下面的命令，然后"),
+                FormattedTextFragment::bold("按 Enter"),
+                FormattedTextFragment::plain_text("安装更新并重新启动 Warp。"),
                 FormattedTextFragment::hyperlink(
-                    "Please report any issues",
+                    "如有问题请报告",
                     "https://github.com/warpdotdev/Warp/issues/new/choose",
                 ),
             ]));

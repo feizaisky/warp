@@ -243,20 +243,20 @@ pub fn init(ctx: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::Copy,
             EditorAction::Copy,
-            "Copy",
+            "复制",
             id!("EditorView") & !id!("IMEOpen"),
         ),
         FixedBinding::custom(
             CustomAction::Cut,
             EditorAction::Cut,
-            "Cut",
+            "剪切",
             id!("EditorView") & !id!("IMEOpen"),
         ),
         // Bindings for paste require the StandardAction and CustomAction binding to work on all platforms.
         FixedBinding::custom(
             CustomAction::Paste,
             EditorAction::Paste,
-            "Paste",
+            "粘贴",
             id!("EditorView") & !id!("IMEOpen"),
         ),
         FixedBinding::standard(
@@ -268,7 +268,7 @@ pub fn init(ctx: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::WindowsPaste,
             EditorAction::Paste,
-            "Paste",
+            "粘贴",
             id!("EditorView") & !id!("IMEOpen"),
         ),
         FixedBinding::new(
@@ -402,13 +402,13 @@ pub fn init(ctx: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::Undo,
             EditorAction::Undo,
-            "Undo",
+            "撤销",
             id!("EditorView") & !id!("IMEOpen"),
         ),
         FixedBinding::custom(
             CustomAction::Redo,
             EditorAction::Redo,
-            "Redo",
+            "重做",
             id!("EditorView") & !id!("IMEOpen"),
         ),
         // This might seem like a no-op since `ctrl-right` changes desktops on Mac by default.
@@ -565,13 +565,9 @@ pub fn init(ctx: &mut AppContext) {
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_mac_key_binding("shift-ctrl-N"),
-        EditableBinding::new(
-            "editor_view:select_all",
-            "全选",
-            EditorAction::SelectAll,
-        )
-        .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
-        .with_custom_action(CustomAction::SelectAll),
+        EditableBinding::new("editor_view:select_all", "全选", EditorAction::SelectAll)
+            .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
+            .with_custom_action(CustomAction::SelectAll),
         EditableBinding::new(
             "editor:select_to_line_start",
             "选至行首",
@@ -588,7 +584,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("shift-ctrl-E"),
         EditableBinding::new(
             "editor_view:clear_and_copy_lines",
-            "Copy and clear selected lines",
+            "复制并清空选中行",
             EditorAction::ClearAndCopyLines,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -628,13 +624,9 @@ pub fn init(ctx: &mut AppContext) {
         EditableBinding::new("editor_view:left", "光标左移", EditorAction::Left)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_key_binding("ctrl-b"),
-        EditableBinding::new(
-            "editor_view:right",
-            "光标右移",
-            EditorAction::Right,
-        )
-        .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
-        .with_key_binding("ctrl-f"),
+        EditableBinding::new("editor_view:right", "光标右移", EditorAction::Right)
+            .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
+            .with_key_binding("ctrl-f"),
         EditableBinding::new(
             "editor_view:move_to_line_start",
             "移至行首",
@@ -666,25 +658,21 @@ pub fn init(ctx: &mut AppContext) {
             .with_linux_or_windows_key_binding("end"),
         EditableBinding::new(
             "editor_view:cmd_down",
-            "Move cursor to the bottom",
+            "将光标移至底部",
             EditorAction::CmdDown,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         // Match the behavior of VSCode, see https://code.visualstudio.com/docs/getstarted/keybindings#_basic-editing.
         .with_mac_key_binding("cmd-down")
         .with_linux_or_windows_key_binding("ctrl-end"),
-        EditableBinding::new(
-            "editor_view:cmd_up",
-            "Move cursor to the top",
-            EditorAction::CmdUp,
-        )
-        .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
-        // Match the behavior of VSCode, see https://code.visualstudio.com/docs/getstarted/keybindings#_basic-editing.
-        .with_mac_key_binding("cmd-up")
-        .with_linux_or_windows_key_binding("ctrl-home"),
+        EditableBinding::new("editor_view:cmd_up", "将光标移至顶部", EditorAction::CmdUp)
+            .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
+            // Match the behavior of VSCode, see https://code.visualstudio.com/docs/getstarted/keybindings#_basic-editing.
+            .with_mac_key_binding("cmd-up")
+            .with_linux_or_windows_key_binding("ctrl-home"),
         EditableBinding::new(
             "editor_view:move_to_and_select_buffer_start",
-            "Select and move to the top",
+            "选中并移至顶部",
             EditorAction::MoveToAndSelectBufferStart,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -692,7 +680,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-shift-home"),
         EditableBinding::new(
             "editor_view:move_to_and_select_buffer_end",
-            "Select and move to the bottom",
+            "选中并移至底部",
             EditorAction::MoveToAndSelectBufferEnd,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -714,28 +702,28 @@ pub fn init(ctx: &mut AppContext) {
         .with_key_binding("meta-b"),
         EditableBinding::new(
             "editor_view:move_to_paragraph_start",
-            "Move to the start of the paragraph",
+            "移至段落开头",
             EditorAction::MoveToParagraphStart,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("meta-a"),
         EditableBinding::new(
             "editor_view:move_to_paragraph_end",
-            "Move to the end of the paragraph",
+            "移至段落末尾",
             EditorAction::MoveToParagraphEnd,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("meta-e"),
         EditableBinding::new(
             "editor_view:move_to_buffer_start",
-            "Move to the start of the buffer",
+            "移至缓冲区开头",
             EditorAction::MoveToBufferStart,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("meta-shift-<"),
         EditableBinding::new(
             "editor_view:move_to_buffer_end",
-            "Move to the end of the buffer",
+            "移至缓冲区末尾",
             EditorAction::MoveToBufferEnd,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -743,21 +731,21 @@ pub fn init(ctx: &mut AppContext) {
         // Buffer modifications
         EditableBinding::new(
             "editor_view:backspace",
-            "Remove the previous character",
+            "删除前一个字符",
             EditorAction::Backspace,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("ctrl-h"),
         EditableBinding::new(
             "editor_view:cut_word_left",
-            "Cut word left",
+            "剪切左侧词",
             EditorAction::CutWordLeft,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("ctrl-w"),
         EditableBinding::new(
             "editor:delete_word_left",
-            "Delete word left",
+            "删除左侧词",
             EditorAction::DeleteWordLeft,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -765,17 +753,17 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-backspace"),
         EditableBinding::new(
             "editor_view:cut_word_right",
-            "Cut word right",
+            "剪切右侧词",
             EditorAction::CutWordRight,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("alt-d"),
-        EditableBinding::new("editor_view:delete", "Delete", EditorAction::Delete)
+        EditableBinding::new("editor_view:delete", "删除", EditorAction::Delete)
             .with_context_predicate(id!("EditorView") & !id!("EditorView_SingleCursorBufferEnd"))
             .with_key_binding("ctrl-d"),
         EditableBinding::new(
             "editor:delete_word_right",
-            "Delete word right",
+            "删除右侧词",
             EditorAction::DeleteWordRight,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -783,7 +771,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-delete"),
         EditableBinding::new(
             "editor_view:clear_lines",
-            "Clear selected lines",
+            "清空选中行",
             EditorAction::ClearAndCopyLines,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen") & !id!("Vim"))
@@ -792,14 +780,14 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("cmd-shift-K"),
         EditableBinding::new(
             "editor_view:cut_all_right",
-            "Cut all right",
+            "剪切右侧全部内容",
             EditorAction::CutAllRight,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("ctrl-k"),
         EditableBinding::new(
             "editor_view:delete_all_right",
-            "Delete all right",
+            "删除右侧全部内容",
             EditorAction::DeleteAllRight,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -807,7 +795,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("cmd-delete"),
         EditableBinding::new(
             "editor_view:delete_all_left",
-            "Delete all left",
+            "删除左侧全部内容",
             EditorAction::DeleteAllLeft,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -818,35 +806,35 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-y"),
         EditableBinding::new(
             "editor_view:insert_newline",
-            "Insert newline",
+            "插入换行",
             EditorAction::Newline,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("ctrl-j"),
         // Folds
-        EditableBinding::new("editor_view:fold", "Fold", EditorAction::Fold)
+        EditableBinding::new("editor_view:fold", "折叠", EditorAction::Fold)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_key_binding("alt-cmdorctrl-["),
-        EditableBinding::new("editor_view:unfold", "Unfold", EditorAction::Unfold)
+        EditableBinding::new("editor_view:unfold", "展开", EditorAction::Unfold)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_key_binding("alt-cmdorctrl-]"),
         EditableBinding::new(
             "editor_view:fold_selected_ranges",
-            "Fold selected ranges",
+            "折叠选中范围",
             EditorAction::FoldSelectedRanges,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("alt-cmdorctrl-f"),
         EditableBinding::new(
             "editor:insert_last_word_previous_command",
-            "Insert last word of previous command",
+            "插入上一条命令的最后一个词",
             EditorAction::InsertLastWordPrevCommand,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("meta-."),
         EditableBinding::new(
             "editor_view:move_backward_one_word",
-            "Move Backward One Word",
+            "向后移动一个词",
             EditorAction::MoveBackwardOneWord,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -854,7 +842,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-left"),
         EditableBinding::new(
             "editor_view:move_forward_one_word",
-            "Move Forward One Word",
+            "向前移动一个词",
             EditorAction::MoveForwardOneWord,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -862,7 +850,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-right"),
         EditableBinding::new(
             "editor_view:move_backward_one_subword",
-            "Move Backward One Subword",
+            "向后移动一个子词",
             EditorAction::MoveBackwardOneSubword,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -871,7 +859,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("ctrl-alt-left"),
         EditableBinding::new(
             "editor_view:move_forward_one_subword",
-            "Move Forward One Subword",
+            "向前移动一个子词",
             EditorAction::MoveForwardOneSubword,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -880,7 +868,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("ctrl-alt-right"),
         EditableBinding::new(
             "editor_view:select_left_by_subword",
-            "Select one subword to the left",
+            "向左选择一个子词",
             EditorAction::SelectLeftBySubword,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -889,7 +877,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("ctrl-alt-shift-left"),
         EditableBinding::new(
             "editor_view:select_right_by_subword",
-            "Select one subword to the right",
+            "向右选择一个子词",
             EditorAction::SelectRightBySubword,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -914,14 +902,14 @@ pub fn init(ctx: &mut AppContext) {
         // reassign command x ray to something else.
         EditableBinding::new(
             "editor_view:inspect_command",
-            "Inspect Command",
+            "检查命令",
             EditorAction::InspectCommand,
         )
         .with_enabled(|| FeatureFlag::AgentMode.is_enabled())
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen")),
         EditableBinding::new(
             "editor_view:inspect_command",
-            "Inspect Command",
+            "检查命令",
             EditorAction::InspectCommand,
         )
         .with_enabled(|| !FeatureFlag::AgentMode.is_enabled())
@@ -956,7 +944,7 @@ pub fn init(ctx: &mut AppContext) {
 
     ctx.register_editable_bindings([EditableBinding::new(
         "editor_view:insert_nonexpanding_space",
-        "Insert non-expanding space",
+        "插入非扩展空格",
         EditorAction::InsertNonExpandingSpace,
     )
     .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -4973,8 +4961,7 @@ impl EditorView {
                             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                                 toast_stack.add_ephemeral_toast(
                                     DismissibleToast::error(
-                                        "所选模型不支持将图片作为上下文。"
-                                            .to_string(),
+                                        "所选模型不支持将图片作为上下文。".to_string(),
                                     ),
                                     window_id,
                                     ctx,
@@ -5006,9 +4993,7 @@ impl EditorView {
                             let message = if num_excess_images == 1 {
                                 format!("1 张图片未附加——{limit_reason}。")
                             } else {
-                                format!(
-                                    "{num_excess_images} 张图片未附加——{limit_reason}。"
-                                )
+                                format!("{num_excess_images} 张图片未附加——{limit_reason}。")
                             };
 
                             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
@@ -5078,9 +5063,7 @@ impl EditorView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::error(
-                            "所选模型不支持将图片作为上下文。".to_owned(),
-                        ),
+                        DismissibleToast::error("所选模型不支持将图片作为上下文。".to_owned()),
                         window_id,
                         ctx,
                     );
@@ -5193,9 +5176,7 @@ impl EditorView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::error(
-                            "所选模型不支持将图片作为上下文。".to_owned(),
-                        ),
+                        DismissibleToast::error("所选模型不支持将图片作为上下文。".to_owned()),
                         window_id,
                         ctx,
                     );
@@ -5267,9 +5248,7 @@ impl EditorView {
                     } else if num_oversized_images == 1 {
                         "1 张图片未附加——文件过大。".into()
                     } else {
-                        format!(
-                            "{num_oversized_images} 张图片未附加——文件过大。"
-                        )
+                        format!("{num_oversized_images} 张图片未附加——文件过大。")
                     };
 
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
@@ -5287,9 +5266,7 @@ impl EditorView {
                     } else if num_unprocessed_images == 1 {
                         "1 张图片未附加——处理出错。".into()
                     } else {
-                        format!(
-                            "{num_unprocessed_images} 张图片未附加——处理出错。"
-                        )
+                        format!("{num_unprocessed_images} 张图片未附加——处理出错。")
                     };
 
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
@@ -8051,19 +8028,15 @@ impl EditorView {
             padding: Some(Coords::uniform(icon_size / 10.)),
             ..Default::default()
         });
-        let button =
-            button
-                .with_tooltip_position(ButtonTooltipPosition::Above)
-                .with_tooltip(self.render_menu_button_tooltip(
-                    "搜索文件和目录".to_string(),
-                    appearance,
-                ))
-                .build()
-                .with_cursor(Cursor::PointingHand)
-                .on_click(move |ctx, _, _| {
-                    ctx.dispatch_typed_action(EditorAction::SetAIContextMenuOpen(true));
-                })
-                .finish();
+        let button = button
+            .with_tooltip_position(ButtonTooltipPosition::Above)
+            .with_tooltip(self.render_menu_button_tooltip("搜索文件和目录".to_string(), appearance))
+            .build()
+            .with_cursor(Cursor::PointingHand)
+            .on_click(move |ctx, _, _| {
+                ctx.dispatch_typed_action(EditorAction::SetAIContextMenuOpen(true));
+            })
+            .finish();
 
         Some(button)
     }

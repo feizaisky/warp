@@ -20,7 +20,7 @@ use warpui::ModelContext;
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(description = "Whether the cursor blinks.", rename_all = "snake_case")]
+#[schemars(description = "光标是否闪烁。", rename_all = "snake_case")]
 pub enum CursorBlink {
     #[default]
     Enabled,
@@ -157,7 +157,7 @@ define_settings_group!(AppEditorSettings, settings: [
         private: false,
         storage_key: "CursorBlink",
         toml_path: "appearance.cursor.cursor_blink",
-        description: "Whether the cursor blinks.",
+        description: "光标是否闪烁。",
     },
     cursor_display_type: CursorDisplayState {
         type: CursorDisplayType,
@@ -167,7 +167,7 @@ define_settings_group!(AppEditorSettings, settings: [
         private: false,
         storage_key: "CursorDisplayType",
         toml_path: "appearance.cursor.cursor_display_type",
-        description: "The visual style of the cursor.",
+        description: "光标的视觉样式。",
     },
     vim_mode: VimModeEnabled {
         type: bool,
@@ -176,7 +176,7 @@ define_settings_group!(AppEditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "text_editing.vim_mode_enabled",
-        description: "Whether Vim keybindings are enabled.",
+        description: "是否启用 Vim 键位绑定。",
     },
     vim_unnamed_system_clipboard: VimUnnamedSystemClipboard {
         type: bool,
@@ -185,7 +185,7 @@ define_settings_group!(AppEditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "text_editing.vim_unnamed_system_clipboard",
-        description: "Whether the Vim unnamed register uses the system clipboard.",
+        description: "Vim 未命名寄存器是否使用系统剪贴板。",
     },
     vim_status_bar: VimStatusBar {
         type: bool,
@@ -194,7 +194,7 @@ define_settings_group!(AppEditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "text_editing.vim_status_bar",
-        description: "Whether the Vim status bar is displayed.",
+        description: "是否显示 Vim 状态栏。",
     },
     autocomplete_symbols: AutocompleteSymbols {
         type: bool,
@@ -203,7 +203,7 @@ define_settings_group!(AppEditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "text_editing.autocomplete_symbols",
-        description: "Whether matching symbols like brackets and quotes are auto-completed.",
+        description: "是否自动补全括号、引号等成对符号。",
     },
     enable_autosuggestions: EnableAutosuggestions {
         type: bool,
@@ -213,7 +213,7 @@ define_settings_group!(AppEditorSettings, settings: [
         private: false,
         storage_key: "Autosuggestions",
         toml_path: "terminal.input.autosuggestions.enabled",
-        description: "Whether command autosuggestions are shown.",
+        description: "是否显示命令自动建议。",
     },
     autosuggestion_keybinding_hint: AutosuggestionKeybindingHint {
         type: bool,
@@ -222,7 +222,7 @@ define_settings_group!(AppEditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "terminal.input.autosuggestions.keybinding_hint",
-        description: "Whether autosuggestion keybinding hints are displayed.",
+        description: "是否显示自动建议快捷键提示。",
     },
     show_autosuggestion_ignore_button: ShowAutosuggestionIgnoreButton {
         type: bool,
@@ -231,7 +231,7 @@ define_settings_group!(AppEditorSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "terminal.input.autosuggestions.show_ignore_button",
-        description: "Whether the ignore button is shown for autosuggestions.",
+        description: "是否为自动建议显示忽略按钮。",
     },
 ]);
 

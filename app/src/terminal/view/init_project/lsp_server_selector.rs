@@ -130,10 +130,13 @@ pub fn render_lsp_selector_block(
     );
 
     let title_element = Span::new(
-        "Would you like to enable available language support for this codebase? This will give you smarter code navigation and inline error checking.",
+        "是否为此代码库启用可用的语言支持？这将提供更智能的代码导航和内联错误检查。",
         UiComponentStyles {
             font_family_id: Some(appearance.ui_font_family()),
-            font_color: Some(blended_colors::text_main(appearance.theme(), header_background)),
+            font_color: Some(blended_colors::text_main(
+                appearance.theme(),
+                header_background,
+            )),
             font_size: Some(appearance.monospace_font_size()),
             ..Default::default()
         },
@@ -176,9 +179,9 @@ pub fn render_lsp_selector_block(
     let any_needs_download = selected_items.iter().any(|info| !info.is_installed);
 
     let enable_label = if any_needs_download {
-        "Install and enable"
+        "安装并启用"
     } else {
-        "Enable language support"
+        "启用语言支持"
     };
 
     // Create keyboard shortcut for Enter

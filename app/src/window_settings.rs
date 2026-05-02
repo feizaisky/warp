@@ -12,7 +12,7 @@ define_settings_group!(WindowSettings, settings: [
         private: false,
         storage_key: "OverrideBlur",
         toml_path: "appearance.window.override_blur",
-        description: "The blur radius applied to the window background.",
+        description: "应用到窗口背景的模糊半径。",
     },
     background_blur_texture: BackgroundBlurTexture {
         type: bool,
@@ -22,7 +22,7 @@ define_settings_group!(WindowSettings, settings: [
         private: false,
         storage_key: "OverrideBlurTexture",
         toml_path: "appearance.window.override_blur_texture",
-        description: "Whether to apply a blur texture to the window background.",
+        description: "是否为窗口背景应用模糊纹理。",
     }
     background_opacity: BackgroundOpacity {
         type: u8,
@@ -32,7 +32,7 @@ define_settings_group!(WindowSettings, settings: [
         private: false,
         storage_key: "OverrideOpacity",
         toml_path: "appearance.window.override_opacity",
-        description: "The opacity of the window background, from 1 to 100 percent.",
+        description: "窗口背景不透明度，范围为 1 到 100%。",
     },
     open_windows_at_custom_size: OpenWindowsAtCustomSize {
         type: bool,
@@ -41,7 +41,7 @@ define_settings_group!(WindowSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.window.open_windows_at_custom_size",
-        description: "Whether to open new windows at a custom size instead of the default.",
+        description: "是否以自定义尺寸而非默认尺寸打开新窗口。",
     },
     new_windows_num_columns: NewWindowsNumColumns {
         type: u16,
@@ -50,7 +50,7 @@ define_settings_group!(WindowSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.window.new_windows_num_columns",
-        description: "The number of columns for new windows when using a custom size.",
+        description: "使用自定义尺寸时新窗口的列数。",
     },
     new_windows_num_rows: NewWindowsNumRows {
         type: u16,
@@ -59,7 +59,7 @@ define_settings_group!(WindowSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.window.new_windows_num_rows",
-        description: "The number of rows for new windows when using a custom size.",
+        description: "使用自定义尺寸时新窗口的行数。",
     },
     left_panel_visibility_across_tabs: LeftPanelVisibilityAcrossTabs {
         type: bool,
@@ -68,7 +68,7 @@ define_settings_group!(WindowSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "appearance.window.left_panel_visibility_across_tabs",
-        description: "Whether the left panel visibility is shared across all tabs.",
+        description: "左侧面板的可见状态是否在所有标签页间共享。",
     },
     zoom_level: ZoomLevel {
         type: u16,
@@ -77,7 +77,7 @@ define_settings_group!(WindowSettings, settings: [
         sync_to_cloud: SyncToCloud::Never,
         private: false,
         toml_path: "appearance.window.zoom_level",
-        description: "The zoom level for the window, as a percentage.",
+        description: "窗口缩放级别，以百分比表示。",
     },
 ]);
 

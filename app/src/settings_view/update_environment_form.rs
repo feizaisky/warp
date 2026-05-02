@@ -343,8 +343,8 @@ pub struct UpdateEnvironmentForm {
 }
 
 const DESCRIPTION_MAX_CHARS: usize = 240;
-const REPOS_PLACEHOLDER_AUTHED: &str = "Enter repos (owner/repo format)";
-const REPOS_PLACEHOLDER_UNAUTHED: &str = "Paste repo URL(s)";
+const REPOS_PLACEHOLDER_AUTHED: &str = "输入仓库（owner/repo 格式）";
+const REPOS_PLACEHOLDER_UNAUTHED: &str = "粘贴仓库 URL";
 const FORM_FIELD_SPACING: f32 = 20.;
 const FORM_LABEL_SPACING: f32 = 6.;
 const FORM_INPUT_HEIGHT: f32 = 36.;
@@ -390,12 +390,12 @@ impl UpdateEnvironmentForm {
         let name_editor = Self::create_single_line_editor("环境名称", ctx);
         let description_editor = Self::create_description_editor(ctx);
         let docker_image_editor =
-            Self::create_single_line_editor("e.g. python:3.11, node:20-alpine", ctx);
+            Self::create_single_line_editor("例如：python:3.11、node:20-alpine", ctx);
         let repos_input_editor = Self::create_single_line_editor(REPOS_PLACEHOLDER_AUTHED, ctx);
 
         let setup_commands_input = ctx.add_typed_action_view(|ctx| {
             let mut input = SubmittableTextInput::new(ctx);
-            input.set_placeholder_text("e.g. cd my-repo && pip install -r requirements.txt", ctx);
+            input.set_placeholder_text("例如：cd my-repo && pip install -r requirements.txt", ctx);
             // Keep this consistent with other form inputs (e.g. repos): caller controls spacing.
             input.set_outer_margins(0., 0., ctx);
             input
@@ -705,7 +705,7 @@ impl UpdateEnvironmentForm {
         if !show_header {
             let button_text = match &self.mode {
                 EnvironmentFormMode::Create => "创建环境",
-                EnvironmentFormMode::Edit { .. } => "Save environment",
+                EnvironmentFormMode::Edit { .. } => "保存环境",
             };
             self.submit_button.update(ctx, |button, ctx| {
                 button.set_label(button_text, ctx);
@@ -800,7 +800,7 @@ impl UpdateEnvironmentForm {
                     .collect();
                 // Update button text for Edit mode
                 self.submit_button.update(ctx, |button, ctx| {
-                    button.set_label("Save", ctx);
+                    button.set_label("保存", ctx);
                 });
             }
         }
@@ -914,10 +914,7 @@ impl UpdateEnvironmentForm {
                 ..Default::default()
             };
             let mut editor = EditorView::new(options, ctx);
-            editor.set_placeholder_text(
-                "e.g., this environment is for all front end focused agents",
-                ctx,
-            );
+            editor.set_placeholder_text("例如：供前端相关 Agent 使用的环境", ctx);
             editor
         })
     }
@@ -1245,11 +1242,11 @@ impl UpdateEnvironmentForm {
                     }
                     Ok(UserGithubInfoResult::Unknown) => {
                         me.github_dropdown_state.load_error_message =
-                            Some("Failed to load GitHub repos".to_string());
+                            Some("加载 GitHub 仓库失败".to_string());
                     }
                     Err(e) => {
                         me.github_dropdown_state.load_error_message =
-                            Some(format!("Failed to load GitHub repos: {}", e));
+                            Some(format!("加载 GitHub 仓库失败：{}", e));
                     }
                 }
 
@@ -1438,7 +1435,7 @@ impl UpdateEnvironmentForm {
                             };
                         }
                         warp_graphql::queries::suggest_cloud_environment_image::SuggestCloudEnvironmentImageResult::UserFacingError(_) => {
-                            let error_message = "Failed to suggest a Docker image".to_string();
+                            let error_message = "推荐 Docker 镜像失败".to_string();
                             send_telemetry_from_ctx!(
                                 CloudAgentTelemetryEvent::ImageSuggestionFailed {
                                     error: error_message.clone(),
@@ -1451,7 +1448,7 @@ impl UpdateEnvironmentForm {
                             };
                         }
                         warp_graphql::queries::suggest_cloud_environment_image::SuggestCloudEnvironmentImageResult::Unknown => {
-                            let error_message = "Unknown response from suggestCloudEnvironmentImage".to_string();
+                            let error_message = "推荐 Docker 镜像失败：服务返回了未知响应".to_string();
                             send_telemetry_from_ctx!(
                                 CloudAgentTelemetryEvent::ImageSuggestionFailed {
                                     error: error_message.clone(),
@@ -1465,7 +1462,7 @@ impl UpdateEnvironmentForm {
                         }
                     },
                     Err(e) => {
-                        let error_message = format!("Failed to suggest a Docker image: {}", e);
+                        let error_message = format!("推荐 Docker 镜像失败：{}", e);
                         send_telemetry_from_ctx!(
                             CloudAgentTelemetryEvent::ImageSuggestionFailed {
                                 error: error_message.clone(),
@@ -1740,11 +1737,7 @@ impl UpdateEnvironmentForm {
             .with_cross_axis_alignment(CrossAxisAlignment::Stretch)
             .with_spacing(FORM_LABEL_SPACING);
 
-        field.add_child(Self::render_form_label(
-            "设置命令",
-            false,
-            appearance,
-        ));
+        field.add_child(Self::render_form_label("设置命令", false, appearance));
 
         let items = self
             .form_state
@@ -1762,7 +1755,7 @@ impl UpdateEnvironmentForm {
             });
 
         let helper_text = Text::new(
-            "Setup commands run independently. Each command runs from the workspace root (/workspace). If a command depends on the previous one, combine them with &&.",
+            "设置命令会独立运行。每条命令都从工作区根目录（/workspace）运行。如果某条命令依赖上一条命令，请用 && 合并它们。",
             appearance.ui_font_family(),
             appearance.ui_font_size() * 0.85,
         )
@@ -1810,7 +1803,7 @@ impl UpdateEnvironmentForm {
 
         field.add_child(
             Text::new(
-                "Description",
+                "描述",
                 appearance.ui_font_family(),
                 appearance.ui_font_size(),
             )
@@ -1842,7 +1835,7 @@ impl UpdateEnvironmentForm {
             .buffer_text(app)
             .chars()
             .count();
-        let count_text = format!("{} / {} characters", char_count, DESCRIPTION_MAX_CHARS);
+        let count_text = format!("{} / {} 个字符", char_count, DESCRIPTION_MAX_CHARS);
         field.add_child(
             Text::new(
                 count_text,
@@ -1872,7 +1865,7 @@ impl UpdateEnvironmentForm {
     fn render_repos_field_label(&self, appearance: &Appearance) -> Box<dyn Element> {
         let theme = appearance.theme();
         Text::new(
-            "Repo(s)",
+            "仓库",
             appearance.ui_font_family(),
             appearance.ui_font_size(),
         )
@@ -1904,7 +1897,7 @@ impl UpdateEnvironmentForm {
                     .with_child(
                         Container::new(
                             Text::new(
-                                "Loading...",
+                                "正在加载…",
                                 appearance.ui_font_family(),
                                 appearance.ui_font_size(),
                             )
@@ -2042,7 +2035,7 @@ impl UpdateEnvironmentForm {
             .github_dropdown_state
             .load_error_message
             .clone()
-            .unwrap_or_else(|| "Failed to load GitHub repositories".to_string());
+            .unwrap_or_else(|| "加载 GitHub 仓库失败".to_string());
 
         let mut field = Flex::column()
             .with_cross_axis_alignment(CrossAxisAlignment::Stretch)
@@ -2113,7 +2106,7 @@ impl UpdateEnvironmentForm {
                             )
                             .with_child(
                                 Text::new(
-                                    "Retry",
+                                    "重试",
                                     appearance.ui_font_family(),
                                     appearance.ui_font_size(),
                                 )
@@ -2345,7 +2338,7 @@ impl UpdateEnvironmentForm {
     fn render_repo_helper_text_row(&self, appearance: &Appearance) -> Box<dyn Element> {
         let theme = appearance.theme();
         let helper = Text::new(
-            "Type owner/repo and press Enter to add, or select from dropdown.",
+            "输入 owner/repo 后按 Enter 添加，或从下拉列表中选择。",
             appearance.ui_font_family(),
             appearance.ui_font_size() * 0.85,
         )
@@ -2371,7 +2364,7 @@ impl UpdateEnvironmentForm {
             // Plain text part
             text_row.add_child(
                 Text::new(
-                    "Missing a repo?",
+                    "缺少仓库？",
                     appearance.ui_font_family(),
                     appearance.ui_font_size() * 0.85,
                 )
@@ -2558,7 +2551,7 @@ impl UpdateEnvironmentForm {
             content.add_child(
                 Container::new(
                     Text::new(
-                        "No repositories found",
+                        "未找到仓库",
                         appearance.ui_font_family(),
                         appearance.ui_font_size(),
                     )
@@ -2934,7 +2927,7 @@ impl UpdateEnvironmentForm {
                 let ui_builder = appearance.ui_builder().clone();
                 move || {
                     ui_builder
-                        .tool_tip(format!("Open image at {docker_hub_url}"))
+                        .tool_tip(format!("在 Docker Hub 打开镜像：{docker_hub_url}"))
                         .build()
                         .finish()
                 }
@@ -2960,11 +2953,7 @@ impl UpdateEnvironmentForm {
             .with_spacing(FORM_LABEL_SPACING);
 
         // Label (without suggest button)
-        field.add_child(Self::render_form_label(
-            "Docker 镜像引用",
-            true,
-            appearance,
-        ));
+        field.add_child(Self::render_form_label("Docker 镜像引用", true, appearance));
 
         // Docker image input
         let editor_container = Container::new(
@@ -3058,12 +3047,12 @@ impl UpdateEnvironmentForm {
         let is_disabled = !self.can_suggest_image_for_current_repos();
 
         let button_text = if is_loading {
-            "Generating…"
+            "正在生成…"
         } else {
             "推荐镜像"
         };
 
-        let tooltip_text = "Warp will suggest a Docker image based on your selected repositories.";
+        let tooltip_text = "Warp 将根据已选仓库推荐 Docker 镜像。";
 
         let button = Hoverable::new(
             self.suggest_image_button_mouse_state.clone(),
@@ -3182,18 +3171,16 @@ impl UpdateEnvironmentForm {
                 let auth_url_with_next = self.auth_url_with_next(auth_url);
                 let action = UpdateEnvironmentFormAction::OpenUrl(auth_url_with_next);
                 let button = WarningBoxButtonConfig::new(
-                    "Authenticate",
+                    "授权",
                     self.suggest_image_auth_button_mouse_state.clone(),
                     move |ctx| {
                         ctx.dispatch_typed_action(action.clone());
                     },
                 );
                 Some(render_warning_box(
-                    WarningBoxConfig::new(
-                        "You need to grant access to your GitHub repos to suggest a Docker image",
-                    )
-                    .with_width(DROPDOWN_MAX_WIDTH)
-                    .with_button(button),
+                    WarningBoxConfig::new("需要授权访问 GitHub 仓库，才能推荐 Docker 镜像")
+                        .with_width(DROPDOWN_MAX_WIDTH)
+                        .with_button(button),
                     appearance,
                 ))
             }
@@ -3224,13 +3211,11 @@ impl UpdateEnvironmentForm {
         );
 
         render_warning_box(
-            WarningBoxConfig::new(
-                "We couldn't find a good match. We recommend using a custom Docker image for these repos.",
-            )
-            .with_description(reason)
-            .with_icon(Icon::AlertTriangle)
-            .with_width(DROPDOWN_MAX_WIDTH)
-            .with_button(button),
+            WarningBoxConfig::new("未找到合适的匹配项。建议为这些仓库使用自定义 Docker 镜像。")
+                .with_description(reason)
+                .with_icon(Icon::AlertTriangle)
+                .with_width(DROPDOWN_MAX_WIDTH)
+                .with_button(button),
             appearance,
         )
     }
@@ -3490,7 +3475,7 @@ impl View for UpdateEnvironmentForm {
 
         // Form fields
         page.add_child(Self::render_form_field(
-            "Name",
+            "名称",
             true,
             None,
             &self.name_editor,

@@ -99,8 +99,7 @@ const CLAIMED_REFERRAL_CLIP: usize = 999;
 const TERMS_LINK_TEXT: &str = "适用特定限制条款。";
 const TERMS_URL: &str =
     "https://docs.warp.dev/support-and-community/community/refer-a-friend#referral-program-terms-and-conditions";
-const TERMS_CONTACT_TEXT: &str =
-    " 如您对推荐计划有任何疑问，请联系 referrals@warp.dev。";
+const TERMS_CONTACT_TEXT: &str = " 如您对推荐计划有任何疑问，请联系 referrals@warp.dev。";
 
 enum ApiState {
     Loading,

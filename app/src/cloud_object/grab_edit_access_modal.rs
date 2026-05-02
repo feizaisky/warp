@@ -10,11 +10,10 @@ use crate::ui_components::dialog::{dialog_styles, Dialog};
 use warpui::elements::{Container, MouseStateHandle, Text};
 use warpui::ui_components::components::UiComponent;
 
-const EDIT_ANYWAY_CTA_LABEL: &str = "Edit anyway";
-const CANCEL_CTA_LABEL: &str = "Cancel";
-const EDIT_ANYWAY_TEXT: &str =
-    "If you take edit controls, the current editor will be forced into view mode";
-const CURRENTLY_EDITED_LABEL: &str = "This notebook is currently being edited";
+const EDIT_ANYWAY_CTA_LABEL: &str = "仍然编辑";
+const CANCEL_CTA_LABEL: &str = "取消";
+const EDIT_ANYWAY_TEXT: &str = "如果你接管编辑控制权，当前编辑者将被强制切换为查看模式";
+const CURRENTLY_EDITED_LABEL: &str = "此笔记本当前正在被编辑";
 
 #[derive(Default)]
 struct MouseStateHandles {

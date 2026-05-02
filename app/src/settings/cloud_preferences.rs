@@ -25,7 +25,7 @@ define_settings_group!(CloudPreferencesSettings, settings: [
        sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::No),
        private: false,
        toml_path: "account.is_settings_sync_enabled",
-       description: "Whether settings are synced across devices via the cloud.",
+       description: "设置是否通过云端在设备间同步。",
    },
 ]);
 

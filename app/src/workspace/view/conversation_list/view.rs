@@ -857,9 +857,7 @@ impl TypedActionView for ConversationListView {
                 if !conversation_is_done {
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
-                            DismissibleToast::error(
-                                "Conversations cannot be deleted while in progress.".to_string(),
-                            ),
+                            DismissibleToast::error("进行中的对话无法删除。".to_string()),
                             window_id,
                             ctx,
                         );
@@ -873,7 +871,7 @@ impl TypedActionView for ConversationListView {
                     .as_ref(ctx)
                     .get_item_by_id(&id, ctx)
                     .map(|c| c.title(ctx).to_string())
-                    .unwrap_or_else(|| "Conversation".to_string());
+                    .unwrap_or_else(|| "对话".to_string());
                 ctx.emit(Event::ShowDeleteConfirmationDialog {
                     conversation_id: *conversation_id,
                     conversation_title,
@@ -906,8 +904,7 @@ impl TypedActionView for ConversationListView {
                         })
                         .with_disabled(is_ambient_agent_conversation);
                     if is_ambient_agent_conversation {
-                        delete_item = delete_item
-                            .with_tooltip("环境智能体对话无法删除");
+                        delete_item = delete_item.with_tooltip("环境智能体对话无法删除");
                     }
 
                     // Check if conversation is shareable:
@@ -1039,10 +1036,7 @@ impl TypedActionView for ConversationListView {
                         let window_id = ctx.window_id();
                         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                             toast_stack.add_ephemeral_toast(
-                                DismissibleToast::error(
-                                    "Conversations cannot be deleted while in progress."
-                                        .to_string(),
-                                ),
+                                DismissibleToast::error("进行中的对话无法删除。".to_string()),
                                 window_id,
                                 ctx,
                             );
@@ -1063,7 +1057,7 @@ impl TypedActionView for ConversationListView {
                 let conversation_title = item
                     .as_ref()
                     .map(|c| c.title(ctx).to_string())
-                    .unwrap_or_else(|| "Conversation".to_string());
+                    .unwrap_or_else(|| "对话".to_string());
                 ctx.emit(Event::ShowDeleteConfirmationDialog {
                     conversation_id: *ai_conversation_id,
                     conversation_title,
@@ -1116,7 +1110,7 @@ impl TypedActionView for ConversationListView {
                 self.view_all = !self.view_all;
 
                 let label = if self.view_all {
-                    "Show less"
+                    "收起"
                 } else {
                     VIEW_ALL_LABEL
                 };

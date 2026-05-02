@@ -68,7 +68,7 @@ pub enum NotificationsMode {
  */
 #[serde(default)]
 #[derive(schemars::JsonSchema)]
-#[schemars(description = "Notification preferences for terminal events.")]
+#[schemars(description = "终端事件的通知偏好设置。")]
 pub struct NotificationsSettings {
     #[schemars(
         description = "Whether notifications are enabled, disabled, or not yet configured."
@@ -285,7 +285,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Never,
         private: false,
         toml_path: "session.startup_shell_override",
-        description: "The shell to use when Warp starts up.",
+        description: "Warp 启动时使用的 Shell。",
     },
     new_session_shell_override: NewSessionShellOverride {
         type: Option<NewSessionShell>,
@@ -294,7 +294,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Never,
         private: false,
         toml_path: "session.new_session_shell_override",
-        description: "The shell to use when opening a new session.",
+        description: "打开新会话时使用的 Shell。",
     }
     honor_ps1: HonorPS1 {
         type: bool,
@@ -303,7 +303,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "terminal.input.honor_ps1",
-        description: "Whether to use your shell's PS1 prompt instead of the Warp prompt.",
+        description: "是否使用 Shell 的 PS1 提示符而不是 Warp 提示符。",
     },
     saved_prompt: SavedPrompt {
         type: PromptSelection,
@@ -326,7 +326,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "general.should_confirm_close_session",
-        description: "Whether to show a confirmation dialog when closing a session.",
+        description: "关闭会话时是否显示确认对话框。",
     },
     // Value is saved here but not shown in ui (can't be toggled in settings)
     should_confirm_shared_session_edit_access: ShouldConfirmSharedSessionEditAccess {
@@ -344,7 +344,7 @@ define_settings_group!(SessionSettings, settings: [
         private: false,
         toml_path: "notifications.preferences",
         max_table_depth: 1,
-        description: "Notification preferences for terminal events.",
+        description: "终端事件的通知偏好设置。",
     }
     // This is a legacy setting that we no longer allow users to toggle after
     // context chips were introduced. We keep it only to respect users who
@@ -367,7 +367,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.input.show_model_selectors_in_prompt",
-        description: "Whether to show AI model selectors in the input prompt.",
+        description: "是否在输入提示中显示 AI 模型选择器。",
     },
     agent_footer_chip_selection: AgentToolbarChipSelectionSetting {
         type: AgentToolbarChipSelection,
@@ -376,7 +376,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.warp_agent.input.agent_toolbar_chip_selection_setting",
-        description: "Controls the layout of context chips in the Agent Mode toolbar.",
+        description: "控制智能体模式工具栏中上下文标签的布局。",
     },
     cli_agent_footer_chip_selection: CLIAgentToolbarChipSelectionSetting {
         type: CLIAgentToolbarChipSelection,
@@ -385,7 +385,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "agents.third_party.cli_agent_toolbar_chip_selection_setting",
-        description: "Controls the layout of context chips in the CLI Agent toolbar.",
+        description: "控制 CLI 智能体工具栏中上下文标签的布局。",
     },
     notification_toast_duration_secs: NotificationToastDurationSecs {
         type: u64,
@@ -394,7 +394,7 @@ define_settings_group!(SessionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "notifications.toast_duration_secs",
-        description: "How long notification toasts are displayed, in seconds.",
+        description: "通知 toast 的显示时长，单位为秒。",
     },
     // Tracks whether the `gh` CLI is installed and authenticated on this machine,
     // used to decide if the GitHub PR chip should be included by default.
@@ -416,5 +416,5 @@ settings::macros::implement_setting_for_enum!(
     private: false,
     toml_path: "session.working_directory_config",
     max_table_depth: 1,
-    description: "Controls the working directory used when opening new sessions.",
+    description: "控制打开新会话时使用的工作目录。",
 );

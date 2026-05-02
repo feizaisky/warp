@@ -525,14 +525,14 @@ impl EditorModel {
                 let action = if inclusive_contains(&selection_after, start)
                     && inclusive_contains(&selection_after, end)
                 {
-                    "selected"
+                    "已选择"
                 } else {
-                    "unselected"
+                    "已取消选择"
                 };
                 AccessibilityContent::new(delta, format!(", {action}"), WarpA11yRole::UserAction)
             }
             (true, false) => {
-                AccessibilityContent::new_without_help("Unselected", WarpA11yRole::UserAction)
+                AccessibilityContent::new_without_help("已取消选择", WarpA11yRole::UserAction)
             }
         }
     }
@@ -2229,7 +2229,7 @@ impl EditorModel {
 
         ctx.emit_a11y_content(AccessibilityContent::new(
             self.selected_text(ctx),
-            ", deleted",
+            "，已删除",
             WarpA11yRole::UserAction,
         ));
         self.change_selections(new_selections, ctx);
@@ -2253,7 +2253,7 @@ impl EditorModel {
 
         ctx.emit_a11y_content(AccessibilityContent::new(
             self.selected_text(ctx),
-            ", deleted",
+            "，已删除",
             WarpA11yRole::UserAction,
         ));
         self.change_selections(new_selections, ctx);

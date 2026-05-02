@@ -210,9 +210,12 @@ impl HoaOnboardingFlow {
         });
 
         let cta_button = ctx.add_view(|_ctx| {
-            ActionButton::new("\u{67e5}\u{770b}\u{65b0}\u{529f}\u{80fd}", HoaWelcomeModalButtonTheme)
-                .with_full_width(true)
-                .on_click(|ctx| ctx.dispatch_typed_action(HoaOnboardingAction::AdvanceFromWelcome))
+            ActionButton::new(
+                "\u{67e5}\u{770b}\u{65b0}\u{529f}\u{80fd}",
+                HoaWelcomeModalButtonTheme,
+            )
+            .with_full_width(true)
+            .on_click(|ctx| ctx.dispatch_typed_action(HoaOnboardingAction::AdvanceFromWelcome))
         });
 
         let enter = Keystroke::parse("enter").unwrap_or_default();

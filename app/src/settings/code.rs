@@ -10,7 +10,7 @@ define_settings_group!(CodeSettings, settings: [
         sync_to_cloud: SyncToCloud::Never,
         private: false,
         toml_path: "code.editor.use_warp_as_default_editor",
-        description: "Whether Warp is used as the default code editor.",
+        description: "是否将 Warp 用作默认代码编辑器。",
     }
     codebase_context_enabled: CodebaseContextEnabled {
         type: bool,
@@ -20,7 +20,7 @@ define_settings_group!(CodeSettings, settings: [
         private: false,
         storage_key: "AgentModeCodebaseContext",
         toml_path: "code.indexing.agent_mode_codebase_context",
-        description: "Whether codebase context is provided to the AI agent.",
+        description: "是否向 AI 智能体提供代码库上下文。",
     },
     auto_indexing_enabled: AutoIndexingEnabled {
         type: bool,
@@ -30,7 +30,7 @@ define_settings_group!(CodeSettings, settings: [
         private: false,
         storage_key: "AgentModeCodebaseContextAutoIndexing",
         toml_path: "code.indexing.agent_mode_codebase_context_auto_indexing",
-        description: "Whether automatic codebase indexing is enabled.",
+        description: "是否启用自动代码库索引。",
     },
     // Whether or not the user has manually dismissed the code toolbelt new feature popup.
     dismissed_code_toolbelt_new_feature_popup: DismissedCodeToolbeltNewFeaturePopup {
@@ -48,7 +48,7 @@ define_settings_group!(CodeSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.show_project_explorer",
-        description: "Whether the project explorer is shown in the tools panel.",
+        description: "是否在工具面板中显示项目浏览器。",
     },
     // Controls whether global file search appears in the tools panel.
     show_global_search: ShowGlobalSearch {
@@ -58,6 +58,6 @@ define_settings_group!(CodeSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "code.editor.show_global_search",
-        description: "Whether global file search is shown in the tools panel.",
+        description: "是否在工具面板中显示全局文件搜索。",
     },
 ]);

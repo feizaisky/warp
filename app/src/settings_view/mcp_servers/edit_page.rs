@@ -538,7 +538,9 @@ impl MCPServersEditPageView {
             let window_id = ctx.window_id();
             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                 toast_stack.add_ephemeral_toast(
-                    DismissibleToast::error("此 MCP 服务器包含密钥。请前往设置 > 隐私修改密钥隐藏设置。".to_string()),
+                    DismissibleToast::error(
+                        "此 MCP 服务器包含密钥。请前往设置 > 隐私修改密钥隐藏设置。".to_string(),
+                    ),
                     window_id,
                     ctx,
                 );
@@ -612,17 +614,14 @@ impl MCPServersEditPageView {
             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                 toast_stack.add_ephemeral_toast(
                     DismissibleToast::error(
-                        "编辑单个服务器时无法同时添加多个 MCP 服务器。"
-                            .to_string(),
+                        "编辑单个服务器时无法同时添加多个 MCP 服务器。".to_string(),
                     ),
                     window_id,
                     ctx,
                 );
             });
 
-            return Err(
-                "编辑单个服务器时无法同时添加多个 MCP 服务器。".to_string(),
-            );
+            return Err("编辑单个服务器时无法同时添加多个 MCP 服务器。".to_string());
         }
 
         Ok(parsed_templatable_mcp_servers[0].clone())

@@ -144,7 +144,7 @@ impl ChangelogModel {
 
             let mut preview_flags_string = preview_flags_vec
                 .iter()
-                .map(|flag| format!("* ***Preview-exclusive***: {flag}"))
+                .map(|flag| format!("* ***Preview 专属***：{flag}"))
                 .join("\n");
             preview_flags_string.push('\n');
 
@@ -166,19 +166,23 @@ impl ChangelogModel {
         if markdown_sections.is_empty() {
             markdown_sections.push(MarkdownSection {
                 title: ChangelogHeader::NewFeatures.to_string(),
-                markdown: "* No notable changes this release\n".to_owned(),
+                markdown: "* 此版本没有值得注意的变更\n".to_owned(),
             });
             if ChannelState::channel() == Channel::Dev {
-                markdown_sections[0].markdown.push_str("* *Don't forget to put changelog information in your PR description, if applicable!*\n");
+                markdown_sections[0]
+                    .markdown
+                    .push_str("* *如适用，请不要忘记在 PR 描述中填写更新日志信息！*\n");
             }
         } else if markdown_sections
             .iter()
             .all(|section| section.markdown.is_empty())
         {
             // Add this to the "New features" section (markdown_sections[0])
-            "* No notable changes this release\n".clone_into(&mut markdown_sections[0].markdown);
+            "* 此版本没有值得注意的变更\n".clone_into(&mut markdown_sections[0].markdown);
             if ChannelState::channel() == Channel::Dev {
-                markdown_sections[0].markdown.push_str("* *Don't forget to put changelog information in your PR description, if applicable!*\n");
+                markdown_sections[0]
+                    .markdown
+                    .push_str("* *如适用，请不要忘记在 PR 描述中填写更新日志信息！*\n");
             }
         }
     }
@@ -212,9 +216,9 @@ pub enum ChangelogHeader {
 impl fmt::Display for ChangelogHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            ChangelogHeader::NewFeatures => write!(f, "New features"),
-            ChangelogHeader::Improvements => write!(f, "Improvements"),
-            ChangelogHeader::BugFixes => write!(f, "Bug fixes"),
+            ChangelogHeader::NewFeatures => write!(f, "新功能"),
+            ChangelogHeader::Improvements => write!(f, "改进"),
+            ChangelogHeader::BugFixes => write!(f, "问题修复"),
         }
     }
 }

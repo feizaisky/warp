@@ -27,9 +27,7 @@ impl Slide for OzLaunchSlide {
 
     fn modal_subtext_paragraphs(&self) -> Vec<FormattedTextLine> {
         vec![FormattedTextLine::Line(vec![
-            FormattedTextFragment::plain_text(
-                "无限可扩展的编码智能体 — 在本地会话或云端运行。",
-            ),
+            FormattedTextFragment::plain_text("无限可扩展的编码智能体 — 在本地会话或云端运行。"),
         ])]
     }
 
@@ -76,13 +74,9 @@ impl Slide for OzLaunchSlide {
     fn title(&self) -> &'static str {
         match self {
             OzLaunchSlide::CloudAgents => "使用云端智能体突破笔记本限制",
-            OzLaunchSlide::AgentAutomations => {
-                "编排智能体，将技能转化为自动化"
-            }
+            OzLaunchSlide::AgentAutomations => "编排智能体，将技能转化为自动化",
             OzLaunchSlide::AgentManagement => "无缝追踪本地和云端智能体",
-            OzLaunchSlide::LaunchCredits => {
-                "升级到 Warp Build 即获 1,000 个免费云端智能体额度"
-            }
+            OzLaunchSlide::LaunchCredits => "升级到 Warp Build 即获 1,000 个免费云端智能体额度",
         }
     }
 
@@ -172,7 +166,8 @@ impl Slide for OzLaunchSlide {
     fn checkbox_config(&self) -> Option<CheckboxConfig> {
         Some(CheckboxConfig {
             label: "同步对话到云端",
-            description: "存储在云端的智能体对话可以一键分享给任何人，并允许跨设备和注销后继续对话。",
+            description:
+                "存储在云端的智能体对话可以一键分享给任何人，并允许跨设备和注销后继续对话。",
         })
     }
 

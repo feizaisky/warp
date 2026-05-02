@@ -127,10 +127,11 @@ const HEADER_MARGIN: f32 = 15.;
 const BANNER_VERTICAL_MARGIN: f32 = 10.;
 
 const CONFLICT_RESOLUTION_MESSAGE: &str =
-    "This notebook could not be saved because changes were made while you were editing. Please copy your work and refresh.";
-const REFRESH_BUTTON_TEXT: &str = "Refresh";
+    "此笔记本无法保存，因为你编辑期间已有其他更改。请复制你的内容并刷新。";
+const REFRESH_BUTTON_TEXT: &str = "刷新";
 
-const FEATURE_NOT_AVAILABLE_MESSAGE: &str = "This notebook could not be saved to the server because the feature is temporarily unavailable. The changes are saved locally. Please retry later.";
+const FEATURE_NOT_AVAILABLE_MESSAGE: &str =
+    "由于该功能暂时不可用，无法将此笔记本保存到服务器。更改已保存在本地，请稍后重试。";
 
 /// The frequency at which we check for modifications and save the notebook to the server. This
 /// lets us trade off how quickly edits appear on other clients with the load on the server for RTC
@@ -161,7 +162,7 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "notebookview:increase_font_size",
-            "Increase notebook font size",
+            "增大笔记本字体大小",
             NotebookAction::IncreaseFontSize,
         )
         .with_context_predicate(id!("NotebookView") & id!("NotMatchNotebookToMonospaceSize"))
@@ -169,7 +170,7 @@ pub fn init(app: &mut AppContext) {
         .with_key_binding("cmdorctrl-="),
         EditableBinding::new(
             "notebookview:decrease_font_size",
-            "Decrease notebook font size",
+            "减小笔记本字体大小",
             NotebookAction::DecreaseFontSize,
         )
         .with_context_predicate(id!("NotebookView") & id!("NotMatchNotebookToMonospaceSize"))
@@ -177,7 +178,7 @@ pub fn init(app: &mut AppContext) {
         .with_key_binding("cmdorctrl--"),
         EditableBinding::new(
             "notebookview:reset_font_size",
-            "Reset notebook font size",
+            "重置笔记本字体大小",
             NotebookAction::ResetFontSize,
         )
         .with_context_predicate(id!("NotebookView") & id!("NotMatchNotebookToMonospaceSize"))
@@ -185,7 +186,7 @@ pub fn init(app: &mut AppContext) {
         .with_custom_action(CustomAction::ResetFontSize),
         EditableBinding::new(
             "notebookview:focus_terminal_input",
-            "Focus Terminal Input from Notebook",
+            "从笔记本聚焦终端输入",
             NotebookAction::FocusTerminalInput,
         )
         .with_context_predicate(id!("NotebookView"))
@@ -200,14 +201,14 @@ pub fn init(app: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::IncreaseFontSize,
             NotebookAction::IncreaseFontSize,
-            "Increase font size",
+            "增大字体大小",
             id!("NotebookView") & id!("NotMatchNotebookToMonospaceSize"),
         )
         .with_group(bindings::BindingGroup::Settings.as_str()),
         FixedBinding::custom(
             CustomAction::DecreaseFontSize,
             NotebookAction::DecreaseFontSize,
-            "Decrease font size",
+            "减小字体大小",
             id!("NotebookView") & id!("NotMatchNotebookToMonospaceSize"),
         )
         .with_group(bindings::BindingGroup::Settings.as_str()),
@@ -379,7 +380,7 @@ impl NotebookView {
                 ..Default::default()
             };
             let mut editor = EditorView::single_line(options, ctx);
-            editor.set_placeholder_text("Untitled", ctx);
+            editor.set_placeholder_text("未命名", ctx);
             editor
         });
         ctx.subscribe_to_view(&title, |notebook, _, event, ctx| {
@@ -499,7 +500,7 @@ impl NotebookView {
     fn title_from_editor(title_editor: &ViewHandle<EditorView>, app: &AppContext) -> String {
         let mut title = title_editor.as_ref(app).buffer_text(app);
         if title.is_empty() {
-            title.push_str("Untitled");
+            title.push_str("未命名");
         }
         title
     }
@@ -822,10 +823,7 @@ impl NotebookView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::error(
-                            "This notebook cannot be saved because its content contains secrets"
-                                .to_string(),
-                        ),
+                        DismissibleToast::error("此笔记本无法保存，因为其内容包含密钥".to_string()),
                         window_id,
                         ctx,
                     );
@@ -1409,7 +1407,7 @@ impl NotebookView {
                 match space {
                     Space::Personal => {
                         menu_items.extend(team_spaces.iter().map(|space| {
-                            MenuItemFields::new(format!("Move to {}", space.name(ctx)))
+                            MenuItemFields::new(format!("移动到 {}", space.name(ctx)))
                                 .with_on_select_action(NotebookAction::MoveToSpace {
                                     cloud_object_type_and_id: cloud_object_type,
                                     new_space: *space,
@@ -1426,7 +1424,7 @@ impl NotebookView {
 
         if let Some(ai_document_id) = self.active_notebook_data.as_ref(ctx).ai_document_id(ctx) {
             menu_items.push(
-                MenuItemFields::new("附加到当前会话 (Attach to active session)")
+                MenuItemFields::new("附加到当前会话")
                     .with_on_select_action(NotebookAction::AttachPlanAsContext(ai_document_id))
                     .with_icon(icons::Icon::Paperclip)
                     .into_item(),
@@ -1453,7 +1451,7 @@ impl NotebookView {
             if let Some(link) = self.notebook_link(ctx) {
                 if let Ok(url) = Url::parse(&link) {
                     menu_items.push(
-                        MenuItemFields::new("在桌面端打开 (Open on Desktop)")
+                        MenuItemFields::new("在桌面端打开")
                             .with_on_select_action(NotebookAction::OpenLinkOnDesktop(url))
                             .with_icon(icons::Icon::Laptop)
                             .into_item(),
@@ -1465,7 +1463,7 @@ impl NotebookView {
         // Add "Duplicate" to menu
         if active_notebook_data.space(ctx) != Some(Space::Shared) {
             menu_items.push(
-                MenuItemFields::new("复制副本 (Duplicate)")
+                MenuItemFields::new("复制副本")
                     .with_on_select_action(NotebookAction::Duplicate)
                     .with_icon(icons::Icon::Duplicate)
                     .into_item(),
@@ -1475,7 +1473,7 @@ impl NotebookView {
         #[cfg(feature = "local_fs")]
         {
             menu_items.push(
-                MenuItemFields::new("导出 (Export)")
+                MenuItemFields::new("导出")
                     .with_on_select_action(NotebookAction::Export)
                     .with_icon(icons::Icon::Download)
                     .into_item(),
@@ -1487,7 +1485,7 @@ impl NotebookView {
             && (!FeatureFlag::SharedWithMe.is_enabled() || access_level.can_trash())
         {
             menu_items.push(
-                MenuItemFields::new("移至回收站 (Trash)")
+                MenuItemFields::new("移至回收站")
                     .with_on_select_action(NotebookAction::Trash)
                     .with_icon(icons::Icon::Trash)
                     .into_item(),
@@ -1750,10 +1748,7 @@ impl NotebookView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::error(
-                            "This notebook cannot be saved because its title contains secrets"
-                                .to_string(),
-                        ),
+                        DismissibleToast::error("此笔记本无法保存，因为其标题包含密钥".to_string()),
                         window_id,
                         ctx,
                     );
@@ -1829,7 +1824,7 @@ impl NotebookView {
     fn run_notebook_workflow(&self, workflow: &NotebookWorkflow, ctx: &mut ViewContext<Self>) {
         // If the notebook workflow was anonymous, synthesize metadata for it.
         let workflow_type =
-            workflow.named_workflow(|| Some(format!("Command from {}", self.title(ctx))));
+            workflow.named_workflow(|| Some(format!("来自 {} 的命令", self.title(ctx))));
 
         let notebook_id = self.server_id(ctx);
         let source = workflow.source.unwrap_or_else(|| {
@@ -2022,10 +2017,7 @@ impl NotebookView {
                                 )
                                 .with_tooltip(move || {
                                     ui_builder
-                                        .tool_tip(
-                                            "复制笔记本内容到个人工作区"
-                                                .to_string(),
-                                        )
+                                        .tool_tip("复制笔记本内容到个人工作区".to_string())
                                         .build()
                                         .finish()
                                 })
@@ -2184,7 +2176,7 @@ impl View for NotebookView {
 
     fn accessibility_contents(&self, ctx: &AppContext) -> Option<AccessibilityContent> {
         Some(AccessibilityContent::new_without_help(
-            format!("{} notebook", self.title(ctx)),
+            format!("{} 笔记本", self.title(ctx)),
             WarpA11yRole::TextRole,
         ))
     }
@@ -2333,7 +2325,7 @@ impl TypedActionView for NotebookView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::success("Link copied to clipboard".to_string()),
+                        DismissibleToast::success("链接已复制到剪贴板".to_string()),
                         window_id,
                         ctx,
                     );

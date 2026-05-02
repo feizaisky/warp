@@ -86,8 +86,7 @@ const OVERAGE_TOGGLE_ADMIN_HEADER: &str = "启用高级模型超额用量";
 const OVERAGE_TOGGLE_USER_HEADER_ENABLED: &str = "高级模型超额用量已启用";
 const OVERAGE_TOGGLE_USER_HEADER_DISABLED: &str = "高级模型超额用量未启用";
 const OVERAGE_TOGGLE_DESCRIPTION: &str = "超出套餐限制后继续使用高级模型。用量按 $20 为单位递增收费，直至达到您的支出上限，剩余余额将在预定账单日结算。";
-const OVERAGE_TOGGLE_USER_DESCRIPTION: &str =
-    "请联系团队管理员启用超额用量以获得更多 AI 用量。";
+const OVERAGE_TOGGLE_USER_DESCRIPTION: &str = "请联系团队管理员启用超额用量以获得更多 AI 用量。";
 
 const SORT_MENU_ITEM_DISPLAY_NAME_A_Z_LABEL: &str = "A to Z";
 const SORT_MENU_ITEM_DISPLAY_NAME_Z_A_LABEL: &str = "Z to A";
@@ -113,8 +112,7 @@ const ENTERPRISE_USAGE_CALLOUT_BODY_NON_ADMIN: &str =
     "此视图中的 Enterprise 点数用量信息尚未完整。如需详细的用量报告，请联系团队管理员。";
 
 const ADDON_CREDITS_DESCRIPTION: &str = "附加点数以预付套餐形式购买，每个账单周期自动延续，有效期一年。购买越多，单价越优惠。基础套餐点数用尽后将自动消耗附加点数。";
-const ADDITIONAL_ADDON_CREDITS_DESCRIPTION_FOR_TEAM: &str =
-    "已购买的附加点数在团队中共享使用。";
+const ADDITIONAL_ADDON_CREDITS_DESCRIPTION_FOR_TEAM: &str = "已购买的附加点数在团队中共享使用。";
 
 // Cloud agent trial widget constants.
 const AMBIENT_AGENT_TRIAL_TITLE: &str = "云端智能体试用";
@@ -1143,10 +1141,7 @@ impl UsageWidget {
         let credits_text = if credits_remaining == 1 {
             "1 点数剩余".to_string()
         } else {
-            format!(
-                "{} 点数剩余",
-                credits_remaining.separate_with_commas()
-            )
+            format!("{} 点数剩余", credits_remaining.separate_with_commas())
         };
         let credits_label = Text::new_inline(credits_text, appearance.ui_font_family(), 12.)
             .with_color(blended_colors::text_sub(theme, theme.surface_1()))
@@ -1411,13 +1406,9 @@ impl UsageWidget {
             },
         );
 
-        let label = Text::new_inline(
-            "月度超额支出限额",
-            appearance.ui_font_family(),
-            12.,
-        )
-        .with_color(appearance.theme().active_ui_text_color().into())
-        .finish();
+        let label = Text::new_inline("月度超额支出限额", appearance.ui_font_family(), 12.)
+            .with_color(appearance.theme().active_ui_text_color().into())
+            .finish();
 
         let value = Text::new_inline(spend_limit_text, appearance.ui_font_family(), 12.)
             .with_color(blended_colors::text_sub(
@@ -1855,10 +1846,9 @@ impl UsageWidget {
                 let cost_cents = bonus_grants.cents_spent;
                 let cost_dollars = cost_cents as f64 / 100.0;
 
-                let label =
-                    Text::new_inline("本月已购", appearance.ui_font_family(), 12.)
-                        .with_color(appearance.theme().active_ui_text_color().into())
-                        .finish();
+                let label = Text::new_inline("本月已购", appearance.ui_font_family(), 12.)
+                    .with_color(appearance.theme().active_ui_text_color().into())
+                    .finish();
 
                 let credits_text = if credits_purchased == 1 {
                     "1 点数".to_string()
@@ -2121,9 +2111,7 @@ impl UsageWidget {
                 ));
             } else if would_exceed_limit {
                 let warning_fragments = vec![
-                    FormattedTextFragment::plain_text(
-                        "充值将超出您的月度限额。",
-                    ),
+                    FormattedTextFragment::plain_text("充值将超出您的月度限额。"),
                     FormattedTextFragment::hyperlink_action(
                         "提高限额",
                         BillingAndUsagePageAction::ShowAddOnCreditModal,
@@ -2184,10 +2172,7 @@ impl UsageWidget {
         let (request_count_label, cost_label) =
             if let (Some(count), Some(cost)) = (total_overages_count, total_overages_cost) {
                 if count == 1 {
-                    (
-                        "1 点数".to_string(),
-                        format!("${:.2}", cost as f64 / 100.0),
-                    )
+                    ("1 点数".to_string(), format!("${:.2}", cost as f64 / 100.0))
                 } else {
                     (
                         format!("{} 点数", count.separate_with_commas()),
@@ -2276,17 +2261,22 @@ impl UsageWidget {
         if let Some(info) = prorated_request_limits_info {
             if info.is_request_limit_prorated {
                 row.add_child(render_info_icon(
-                appearance,
-                AdditionalInfo::<BillingAndUsagePageAction> {
-                    mouse_state: info.mouse_state,
-                    on_click_action: None,
-                    secondary_text: None,
-                    tooltip_override_text: match info.is_current_user {
-                        true => Some("您的点数限额已按比例分配，因为您在账单周期中途加入。".to_string()),
-                        false => Some("此点数限额已按比例分配，因为该用户在账单周期中途加入。".to_string()),
+                    appearance,
+                    AdditionalInfo::<BillingAndUsagePageAction> {
+                        mouse_state: info.mouse_state,
+                        on_click_action: None,
+                        secondary_text: None,
+                        tooltip_override_text: match info.is_current_user {
+                            true => Some(
+                                "您的点数限额已按比例分配，因为您在账单周期中途加入。".to_string(),
+                            ),
+                            false => Some(
+                                "此点数限额已按比例分配，因为该用户在账单周期中途加入。"
+                                    .to_string(),
+                            ),
+                        },
                     },
-                },
-            ))
+                ))
             }
         }
 
@@ -2392,8 +2382,7 @@ impl UsageWidget {
             .finish()
         } else {
             let header = "点数";
-            let description =
-                format!("这是您账户 AI 点数的 {refresh_duration} 限额。");
+            let description = format!("这是您账户 AI 点数的 {refresh_duration} 限额。");
 
             let request_usage_description = FormattedTextElement::from_str(
                 description,
@@ -3130,13 +3119,8 @@ impl UsageWidget {
                     if team.billing_metadata.can_upgrade_to_build_plan() {
                         if team.billing_metadata.is_on_legacy_paid_plan() {
                             vec![
-                                FormattedTextFragment::hyperlink(
-                                    "切换到 Build 计划",
-                                    upgrade_url,
-                                ),
-                                FormattedTextFragment::plain_text(
-                                    "以获得更灵活的定价模式。",
-                                ),
+                                FormattedTextFragment::hyperlink("切换到 Build 计划", upgrade_url),
+                                FormattedTextFragment::plain_text("以获得更灵活的定价模式。"),
                             ]
                         } else {
                             let mut fragments = vec![FormattedTextFragment::hyperlink(
@@ -3183,16 +3167,11 @@ impl UsageWidget {
                         "切换到 Business",
                         UserWorkspaces::upgrade_link_for_team(team.uid),
                     ),
-                    FormattedTextFragment::plain_text(
-                        "以获取 SSO 和自动零数据保留等安全功能。",
-                    ),
+                    FormattedTextFragment::plain_text("以获取 SSO 和自动零数据保留等安全功能。"),
                 ]
             } else if team.billing_metadata.is_on_build_business_plan() {
                 vec![
-                    FormattedTextFragment::hyperlink(
-                        "升级到 Enterprise",
-                        "mailto:sales@warp.dev",
-                    ),
+                    FormattedTextFragment::hyperlink("升级到 Enterprise", "mailto:sales@warp.dev"),
                     FormattedTextFragment::plain_text("以获得自定义限额和专属支持。"),
                 ]
             } else if !team.billing_metadata.is_usage_based_pricing_toggleable() {

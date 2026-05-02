@@ -50,7 +50,7 @@ impl GoToLineView {
                 },
                 ctx,
             );
-            editor.set_placeholder_text("Line number:Column", ctx);
+            editor.set_placeholder_text("行号:列号", ctx);
             editor
         });
 

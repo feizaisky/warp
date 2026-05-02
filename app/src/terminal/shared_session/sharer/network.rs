@@ -1236,8 +1236,7 @@ impl Network {
     }
 }
 
-const NO_QUOTA_REMAINING_MESSAGE: &str =
-    "Session sharing usage exceeded for the day. Please try again later.";
+const NO_QUOTA_REMAINING_MESSAGE: &str = "今日会话共享用量已超限。请稍后重试。";
 
 /// Converts [`SessionTerminatedReason`] to a user-facing string.
 pub fn session_terminated_reason_string(
@@ -1251,10 +1250,10 @@ pub fn session_terminated_reason_string(
         }
         SessionTerminatedReason::ExceededSizeLimit => {
             let max_bytes = max_session_size.get_appropriate_unit(UnitType::Decimal);
-            format!("Session limit ({max_bytes}) exceeded. Please reshare to continue.")
+            format!("已超过会话限制（{max_bytes}）。请重新共享以继续。")
         }
         SessionTerminatedReason::InternalServerError { .. } => {
-            "Session ended due to an internal error. Please try sharing again.".to_string()
+            "会话因内部错误而结束。请再次尝试共享。".to_string()
         }
     }
 }
@@ -1263,7 +1262,7 @@ pub fn session_terminated_reason_string(
 pub fn failed_to_initialize_session_user_error(reason: &FailedToInitializeSessionReason) -> String {
     match reason {
         FailedToInitializeSessionReason::InternalServerError { .. } => {
-            "An internal error occurred. Please try sharing again."
+            "发生内部错误。请再次尝试共享。"
         }
         FailedToInitializeSessionReason::ScrollbackTooLarge {} => {
             "Scrollback exceeds limit. Try sharing again without scrollback."
@@ -1279,13 +1278,9 @@ pub fn failed_to_initialize_session_user_error(reason: &FailedToInitializeSessio
 
 pub fn failed_to_add_guests_user_error(reason: &FailedToAddGuestsReason) -> String {
     match reason {
-        FailedToAddGuestsReason::Invalid => "Something went wrong. Please try again.",
-        FailedToAddGuestsReason::NotWarpUsers => {
-            "One or more emails were not associated with Warp accounts."
-        }
-        FailedToAddGuestsReason::GuestAlreadyAdded => {
-            "One or more emails have already been added to the session."
-        }
+        FailedToAddGuestsReason::Invalid => "出了点问题。请重试。",
+        FailedToAddGuestsReason::NotWarpUsers => "一个或多个邮箱未关联 Warp 账户。",
+        FailedToAddGuestsReason::GuestAlreadyAdded => "一个或多个邮箱已添加到该会话。",
     }
     .to_string()
 }

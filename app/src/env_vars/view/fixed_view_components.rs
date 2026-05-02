@@ -28,8 +28,8 @@ const VARIABLE_DIVIDER_HEIGHT: f32 = 2.;
 const SECTION_FONT_SIZE: f32 = 16.;
 const BUTTON_HEIGHT: f32 = 32.;
 
-const SAVE_BUTTON_TEXT: &str = "Save";
-const VARIABLES_LABEL_TEXT: &str = "Variables";
+const SAVE_BUTTON_TEXT: &str = "保存";
+const VARIABLES_LABEL_TEXT: &str = "变量";
 
 /// This file contains components that fixed in the view,
 /// i.e. the trash banner, breadcrumbs, and variables section header
@@ -63,9 +63,9 @@ impl EnvVarCollectionView {
         let mut stack = Stack::new();
 
         let text = if deleted {
-            "You no longer have access to these environment variables"
+            "你已无法访问这些环境变量"
         } else {
-            "Environment variables were moved to trash"
+            "环境变量已移至废纸篓"
         };
         stack.add_child(
             Align::new(
@@ -118,13 +118,11 @@ impl EnvVarCollectionView {
                             )
                             .with_tooltip(move || {
                                 ui_builder
-                                    .tool_tip(
-                                        "Restore environment variables from trash".to_string(),
-                                    )
+                                    .tool_tip("从废纸篓恢复环境变量".to_string())
                                     .build()
                                     .finish()
                             })
-                            .with_text_label("Restore".to_string())
+                            .with_text_label("恢复".to_string())
                             .build()
                             .on_click(|ctx, _, _| {
                                 ctx.dispatch_typed_action(EnvVarCollectionAction::Untrash)
@@ -246,7 +244,7 @@ impl EnvVarCollectionView {
             .with_text_and_icon_label(
                 TextAndIcon::new(
                     TextAndIconAlignment::TextFirst,
-                    "Load",
+                    "加载",
                     Icon::TerminalInput.to_warpui_icon(appearance.theme().active_ui_text_color()),
                     MainAxisSize::Min,
                     MainAxisAlignment::SpaceBetween,

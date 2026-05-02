@@ -593,7 +593,7 @@ impl DisplayChip {
                     DisplayChipMenu::new(
                         Vec::<DirectoryItem>::new(),
                         Some(FixedFooter::new(Arc::new(DirectoryItem {
-                            name: ".. (Parent Directory)".to_string(),
+                            name: ".. (父目录)".to_string(),
                             directory_type: DirectoryType::NavigateToParent,
                         }))), // Show parent directory option
                         ChipMenuType::Directories,
@@ -717,10 +717,9 @@ impl DisplayChip {
                             // nvm-windows has documented issues when installed alongside an existing Node.js installation.
                             // https://github.com/coreybutler/nvm-windows?tab=readme-ov-file#star-star-uninstall-any-pre-existing-node-installations-star-star
                             // Prompt the agent to remove this first.
-                            "Uninstall existing Node.js installation and install nvm for me"
-                                .to_string()
+                            "卸载现有 Node.js 并为我安装 nvm".to_string()
                         } else {
-                            "Install nvm for me".to_string()
+                            "为我安装 nvm".to_string()
                         }));
                         me.close_node_version_popup(ctx);
                     }
@@ -742,7 +741,7 @@ impl DisplayChip {
 
         let quota_reset_popup = ctx.add_typed_action_view(|_| {
             FeaturePopup::alert_icon(NewFeaturePopupLabel::FromString(
-                "Monthly AI credits reset!".to_string(),
+                "每月 AI 额度已重置！".to_string(),
             ))
         });
 
@@ -1023,7 +1022,7 @@ impl DisplayChip {
             if state.is_hovered() && is_interactive && !menu_open {
                 let tool_tip = appearance
                     .ui_builder()
-                    .tool_tip("Change git branch".to_string())
+                    .tool_tip("切换 git 分支".to_string())
                     .build()
                     .finish();
                 stack.add_positioned_overlay_child(tool_tip, udi_tooltip_positioning());
@@ -1090,7 +1089,7 @@ impl DisplayChip {
             if state.is_hovered() {
                 let tool_tip = appearance
                     .ui_builder()
-                    .tool_tip("View pull request".to_string())
+                    .tool_tip("查看 PR".to_string())
                     .build()
                     .finish();
                 stack.add_positioned_overlay_child(tool_tip, udi_tooltip_positioning());
@@ -1263,7 +1262,7 @@ impl DisplayChip {
                 if state.is_hovered() {
                     let tool_tip = appearance
                         .ui_builder()
-                        .tool_tip("Change working directory".to_string())
+                        .tool_tip("更改工作目录".to_string())
                         .build()
                         .finish();
 
@@ -1310,7 +1309,7 @@ impl DisplayChip {
                 if state.is_hovered() && !is_cli_agent_active {
                     let tool_tip = appearance
                         .ui_builder()
-                        .tool_tip("Working directory".to_string())
+                        .tool_tip("工作目录".to_string())
                         .build()
                         .finish();
 

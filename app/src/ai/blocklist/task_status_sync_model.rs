@@ -261,28 +261,28 @@ pub(crate) fn classify_renderable_error(
         RenderableAIError::QuotaLimit => (
             AgentTaskState::Failed,
             Some(TaskStatusUpdate::with_error_code(
-                "Your team has run out of credits. Purchase more credits to continue.",
+                "你的团队点数已用完。购买更多点数以继续。",
                 PlatformErrorCode::InsufficientCredits,
             )),
         ),
         RenderableAIError::ServerOverloaded => (
             AgentTaskState::Error,
             Some(TaskStatusUpdate::with_error_code(
-                "Warp is temporarily overloaded. Please try again shortly.",
+                "Warp 暂时负载过高。请稍后重试。",
                 PlatformErrorCode::ResourceUnavailable,
             )),
         ),
         RenderableAIError::InternalWarpError => (
             AgentTaskState::Error,
             Some(TaskStatusUpdate::with_error_code(
-                "An internal error occurred during the conversation. Please try again.",
+                "对话期间发生内部错误。请重试。",
                 PlatformErrorCode::InternalError,
             )),
         ),
         RenderableAIError::ContextWindowExceeded(msg) => (
             AgentTaskState::Failed,
             Some(TaskStatusUpdate::with_error_code(
-                format!("Context window exceeded: {msg}"),
+                format!("已超出上下文窗口：{msg}"),
                 PlatformErrorCode::InternalError,
             )),
         ),

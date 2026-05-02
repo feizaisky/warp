@@ -279,7 +279,7 @@ impl GetStartedView {
                     .with_text_and_icon_label(TextAndIcon::new(
                         TextAndIconAlignment::IconFirst,
                         format!(
-                            " New session in {}  {}",
+                            " 在 {} 新建会话  {}",
                             dirs::home_dir()
                                 .map(|dir| dir.display().to_string())
                                 .unwrap_or("~".to_string()),

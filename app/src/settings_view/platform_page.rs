@@ -464,18 +464,15 @@ impl PlatformPageWidget {
         header_row
             .add_child(Expanded::new(1., self.render_header_cell(appearance, "密钥")).finish());
         if FeatureFlag::TeamApiKeys.is_enabled() {
-            header_row.add_child(
-                Expanded::new(1., self.render_header_cell(appearance, "范围")).finish(),
-            );
+            header_row
+                .add_child(Expanded::new(1., self.render_header_cell(appearance, "范围")).finish());
         }
         header_row
             .add_child(Expanded::new(1., self.render_header_cell(appearance, "创建时间")).finish());
-        header_row.add_child(
-            Expanded::new(1., self.render_header_cell(appearance, "上次使用")).finish(),
-        );
-        header_row.add_child(
-            Expanded::new(1., self.render_header_cell(appearance, "到期时间")).finish(),
-        );
+        header_row
+            .add_child(Expanded::new(1., self.render_header_cell(appearance, "上次使用")).finish());
+        header_row
+            .add_child(Expanded::new(1., self.render_header_cell(appearance, "到期时间")).finish());
         header_row.add_child(Expanded::new(0.5, self.render_header_cell(appearance, "")).finish());
 
         Container::new(header_row.finish())

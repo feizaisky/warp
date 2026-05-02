@@ -764,7 +764,7 @@ impl AskUserQuestionView {
             ctx,
         );
         let next_button = CompactibleActionButton::new(
-            "Next".to_string(),
+            "下一步".to_string(),
             Some(KeystrokeSource::Fixed(
                 Keystroke::parse("enter").expect("keystroke should parse"),
             )),
@@ -986,9 +986,7 @@ impl AskUserQuestionView {
 
         Some(number_shortcut_buttons::numbered_shortcut_button(
             number,
-            accepted_text
-                .clone()
-                .unwrap_or_else(|| "Other...".to_string()),
+            accepted_text.clone().unwrap_or_else(|| "其他…".to_string()),
             accepted_text.is_some(),
             false,
             true,
@@ -1402,7 +1400,10 @@ impl AskUserQuestionView {
 
         let nav_message = Message::new(vec![
             MessageItem::clickable(
-                vec![MessageItem::keystroke(left_key), MessageItem::text("prev")],
+                vec![
+                    MessageItem::keystroke(left_key),
+                    MessageItem::text("上一个"),
+                ],
                 |ctx| {
                     ctx.dispatch_typed_action(AskUserQuestionViewAction::NavigatePrev);
                 },
@@ -1410,7 +1411,10 @@ impl AskUserQuestionView {
             ),
             MessageItem::text(" / "),
             MessageItem::clickable(
-                vec![MessageItem::keystroke(right_key), MessageItem::text("next")],
+                vec![
+                    MessageItem::keystroke(right_key),
+                    MessageItem::text("下一个"),
+                ],
                 |ctx| {
                     ctx.dispatch_typed_action(AskUserQuestionViewAction::NavigateNext);
                 },
@@ -1622,11 +1626,11 @@ fn render_answers(
     let mut content = Flex::column().with_cross_axis_alignment(CrossAxisAlignment::Stretch);
     for (index, question) in questions.iter().enumerate() {
         let answer = answers.and_then(|answers| answers.get(index));
-        let question_text = format!("Q：{}", question.question);
+        let question_text = format!("问：{}", question.question);
         let question_label =
             render_text_with_markdown_support(&question_text, font_size, text_color, appearance);
         let answer_text = format!(
-            "A: {}",
+            "答：{}",
             answer
                 .map(AskUserQuestionAnswerItem::display_text)
                 .unwrap_or_else(|| "已跳过".to_string())

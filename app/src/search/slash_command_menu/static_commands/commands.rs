@@ -53,7 +53,7 @@ pub static CREATE_ENVIRONMENT: LazyLock<StaticCommand> = LazyLock::new(|| Static
     auto_enter_ai_mode: false,
     argument: Some(
         Argument::optional()
-            .with_hint_text("<optional repo paths or GitHub URLs>")
+            .with_hint_text("<可选仓库路径或 GitHub URLs>")
             .with_execute_on_selection(),
     ),
 });
@@ -122,9 +122,7 @@ pub static EDIT: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
     icon_path: "bundled/svg/file-code-02.svg",
     availability: Availability::LOCAL,
     auto_enter_ai_mode: false,
-    argument: Some(
-        Argument::optional().with_hint_text("<文件路径[:行[:列]]> 或 \"@\" 搜索"),
-    ),
+    argument: Some(Argument::optional().with_hint_text("<文件路径[:行[:列]]> 或 \"@\" 搜索")),
 });
 
 pub static RENAME_TAB: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
@@ -156,7 +154,7 @@ pub static SET_TAB_COLOR: LazyLock<StaticCommand> = LazyLock::new(|| StaticComma
 });
 
 pub static FORK: LazyLock<StaticCommand> = LazyLock::new(|| {
-    let hint_text = "<optional prompt to send in forked conversation>";
+    let hint_text = "<可选：在分叉对话中发送的提示词>";
     StaticCommand {
         name: "/fork",
         description: "在新面板或新标签页中分叉当前对话",
@@ -340,7 +338,7 @@ pub static PLAN: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
     icon_path: "bundled/svg/file-06.svg",
     availability: Availability::AI_ENABLED,
     auto_enter_ai_mode: true,
-    argument: Some(Argument::optional().with_hint_text("<describe your task>")),
+    argument: Some(Argument::optional().with_hint_text("<描述你的任务>")),
 });
 
 pub const ORCHESTRATE_NAME: &str = "/orchestrate";
@@ -351,7 +349,7 @@ pub static ORCHESTRATE: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand
     icon_path: "bundled/svg/oz.svg",
     availability: Availability::LOCAL | Availability::AI_ENABLED,
     auto_enter_ai_mode: true,
-    argument: Some(Argument::optional().with_hint_text("<describe your task>")),
+    argument: Some(Argument::optional().with_hint_text("<描述你的任务>")),
 });
 
 /// If `query` starts with the given command `name` followed by a space,
@@ -373,9 +371,7 @@ pub static COMPACT: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
         | Availability::AI_ENABLED
         | Availability::NOT_CLOUD_AGENT,
     auto_enter_ai_mode: true,
-    argument: Some(
-        Argument::optional().with_hint_text("<optional custom summarization instructions>"),
-    ),
+    argument: Some(Argument::optional().with_hint_text("<可选自定义摘要说明>")),
 });
 
 pub static COMPACT_AND: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
@@ -388,7 +384,7 @@ pub static COMPACT_AND: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand
         | Availability::AI_ENABLED
         | Availability::NOT_CLOUD_AGENT,
     auto_enter_ai_mode: true,
-    argument: Some(Argument::optional().with_hint_text("<prompt to send after compaction>")),
+    argument: Some(Argument::optional().with_hint_text("<精简后发送的提示词>")),
 });
 
 pub static QUEUE: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
@@ -401,11 +397,11 @@ pub static QUEUE: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
         | Availability::AI_ENABLED
         | Availability::NOT_CLOUD_AGENT,
     auto_enter_ai_mode: true,
-    argument: Some(Argument::required().with_hint_text("<prompt to send when agent is done>")),
+    argument: Some(Argument::required().with_hint_text("<智能体完成后发送的提示词>")),
 });
 
 pub static FORK_AND_COMPACT: LazyLock<StaticCommand> = LazyLock::new(|| {
-    let hint_text = "<optional prompt to send after compaction>";
+    let hint_text = "<可选：精简后发送的提示词>";
     StaticCommand {
         name: "/fork-and-compact",
         description: "分叉当前对话并在分叉副本中精简",
@@ -433,7 +429,7 @@ pub const FORK_FROM: StaticCommand = StaticCommand {
 };
 
 pub static CONTINUE_LOCALLY: LazyLock<StaticCommand> = LazyLock::new(|| {
-    let hint_text = "<optional prompt to send in forked conversation>";
+    let hint_text = "<可选：在分叉对话中发送的提示词>";
     StaticCommand {
         name: "/continue-locally",
         description: "在本地继续此云端对话",
@@ -523,7 +519,7 @@ pub static EXPORT_TO_FILE: LazyLock<StaticCommand> = LazyLock::new(|| StaticComm
         | Availability::AI_ENABLED
         | Availability::NOT_CLOUD_AGENT,
     auto_enter_ai_mode: true,
-    argument: Some(Argument::optional().with_hint_text("<optional filename>")),
+    argument: Some(Argument::optional().with_hint_text("<可选文件名>")),
 });
 
 pub static COMMAND_REGISTRY: LazyLock<Registry> = LazyLock::new(Registry::new);

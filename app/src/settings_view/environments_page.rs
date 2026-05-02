@@ -652,10 +652,7 @@ impl EnvironmentsPageView {
                 // Check if the client_id in the result matches our pending client_id
                 if let Some(result_client_id) = &result.client_id {
                     if *result_client_id == pending_client_id {
-                        self.show_success_toast(
-                            "环境创建成功".to_string(),
-                            ctx,
-                        );
+                        self.show_success_toast("环境创建成功".to_string(), ctx);
                     }
                 }
             }
@@ -669,10 +666,7 @@ impl EnvironmentsPageView {
                 // Check if the server_id matches our pending environment
                 if let Some(server_id) = &result.server_id {
                     if server_id.uid() == pending_env_id.uid() {
-                        self.show_success_toast(
-                            "环境已删除".to_string(),
-                            ctx,
-                        );
+                        self.show_success_toast("环境已删除".to_string(), ctx);
                     }
                 }
             }
@@ -764,10 +758,7 @@ impl EnvironmentsPageView {
                 };
 
                 let Some(owner) = owner else {
-                    self.show_error_toast(
-                        "无法创建环境：尚未登录。".to_string(),
-                        ctx,
-                    );
+                    self.show_error_toast("无法创建环境：尚未登录。".to_string(), ctx);
                     return;
                 };
 
@@ -791,10 +782,7 @@ impl EnvironmentsPageView {
                 // Verify the environment still exists
                 let Some(existing_env) = CloudAmbientAgentEnvironment::get_by_id(env_id, ctx)
                 else {
-                    self.show_error_toast(
-                        "无法保存：环境已不存在。".to_string(),
-                        ctx,
-                    );
+                    self.show_error_toast("无法保存：环境已不存在。".to_string(), ctx);
                     return;
                 };
 
@@ -960,18 +948,12 @@ impl TypedActionView for EnvironmentsPageView {
             }
             EnvironmentsPageAction::ShareToTeam(env_id) => {
                 let Some(team_uid) = UserWorkspaces::as_ref(ctx).current_team_uid() else {
-                    self.show_error_toast(
-                        "无法共享环境：您当前不在任何团队中。".to_string(),
-                        ctx,
-                    );
+                    self.show_error_toast("无法共享环境：您当前不在任何团队中。".to_string(), ctx);
                     return;
                 };
 
                 let SyncId::ServerId(server_id) = *env_id else {
-                    self.show_error_toast(
-                        "无法共享环境：环境尚未同步。".to_string(),
-                        ctx,
-                    );
+                    self.show_error_toast("无法共享环境：环境尚未同步。".to_string(), ctx);
                     return;
                 };
 
@@ -1450,8 +1432,7 @@ impl EnvironmentsPageWidget {
                 icon: Icon::Github,
                 title: "快速设置",
                 badge: Some("推荐"),
-                subtitle:
-                    "选择您要使用的 GitHub 仓库，我们将为您建议基础镜像和配置",
+                subtitle: "选择您要使用的 GitHub 仓库，我们将为您建议基础镜像和配置",
                 action_button: github_button,
                 compact_action_button: github_button_compact,
                 icon_size,
@@ -1464,8 +1445,7 @@ impl EnvironmentsPageWidget {
                 icon: Icon::Terminal,
                 title: "使用智能体",
                 badge: None,
-                subtitle:
-                    "选择一个已在本地设置的项目，我们将帮助您基于它设置环境",
+                subtitle: "选择一个已在本地设置的项目，我们将帮助您基于它设置环境",
                 action_button: local_repos_button,
                 compact_action_button: local_repos_button_compact,
                 icon_size,

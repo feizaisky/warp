@@ -107,7 +107,7 @@ impl SearchItem for NotebookSearchItem {
             let warning_font_size = appearance.ui_font_size() - 4.;
             let warning_text = appearance
                 .ui_builder()
-                .span("Not visible to other users")
+                .span("其他用户不可见")
                 .with_style(UiComponentStyles {
                     font_size: Some(warning_font_size),
                     margin: Some(Coords::uniform(0.).left(4.)),
@@ -177,7 +177,7 @@ impl SearchItem for NotebookSearchItem {
     }
 
     fn accessibility_label(&self) -> String {
-        format!("Notebook: {}", self.cloud_notebook.model().title)
+        format!("笔记本：{}", self.cloud_notebook.model().title)
     }
 }
 

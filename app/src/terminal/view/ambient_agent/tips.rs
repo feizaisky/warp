@@ -44,31 +44,31 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack"),
         ),
         CloudModeTip::new(
-            "Build programmatic agents using Oz's TypeScript and Python SDKs.",
+            "以编程方式使用 Oz 的 TypeScript 和 Python SDK 构建智能体。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
-            "Set team or personal secrets for agents using the `oz secret` command.",
+            "使用 `oz secret` 命令为智能体设置团队或个人密钥。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/secrets"),
         ),
         CloudModeTip::new(
-            "View all your agent runs and their status in the Oz web app.",
+            "在 Oz Web 应用中查看所有智能体运行及其状态。",
             Some("https://oz.warp.dev"),
         ),
         CloudModeTip::new(
-            "Join any Oz cloud agent run in real-time using Agent Session Sharing.",
+            "使用智能体会话共享实时加入任意 Oz 云端智能体运行。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/viewing-cloud-agent-runs"),
         ),
         CloudModeTip::new(
-            "Set up recurring agents that run on cron schedules for automated maintenance.",
+            "设置按 cron 定时运行的周期性智能体，用于自动维护。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "创建智能体，在 Linear 中提交 issue 时自动修复 Bug。",
+            "创建智能体，在 Linear 中提交 issue 时自动修复缺陷。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/linear"),
         ),
         CloudModeTip::new(
-            "Build agents that respond to CI failures and attempt automatic fixes.",
+            "构建可响应 CI 失败并尝试自动修复的智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
@@ -76,7 +76,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://github.com/warpdotdev/oz-agent-action"),
         ),
         CloudModeTip::new(
-            "Call the Oz REST API to trigger agents from any backend service or internal tool.",
+            "调用 Oz REST API，从任意后端服务或内部工具触发智能体。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
@@ -84,19 +84,19 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/environments"),
         ),
         CloudModeTip::new(
-            "Share agent session links with your team for collaborative debugging.",
+            "与团队共享智能体会话链接，协作调试。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/viewing-cloud-agent-runs"),
         ),
         CloudModeTip::new(
-            "Use the `--share` flag with the Oz CLI to enable session sharing from anywhere.",
+            "使用 Oz CLI 的 `--share` 标志从任意位置启用会话共享。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/platform"),
         ),
         CloudModeTip::new(
-            "Fork a completed Oz cloud agent session into Warp to continue the work locally.",
+            "将已完成的 Oz 云端智能体会话分叉到 Warp 中，以便在本地继续工作。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/viewing-cloud-agent-runs"),
         ),
         CloudModeTip::new(
-            "Build internal tools that use agents to answer questions from your databases.",
+            "构建使用智能体从数据库回答问题的内部工具。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations"),
         ),
         CloudModeTip::new(
@@ -104,7 +104,7 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "Tag @Oz in Linear issues to automatically investigate and propose fixes.",
+            "在 Linear issue 中标记 @Oz，可自动调查并提出修复方案。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/linear"),
         ),
         CloudModeTip::new(
@@ -112,23 +112,23 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/platform"),
         ),
         CloudModeTip::new(
-            "Configure MCP servers to give Oz cloud agents access to GitHub, Linear, and Sentry.",
+            "配置 MCP 服务器，让 Oz 云端智能体访问 GitHub、Linear 和 Sentry。",
             Some("https://docs.warp.dev/agent-platform/capabilities/mcp"),
         ),
         CloudModeTip::new(
-            "Use `oz agent run` to kick off tasks without opening the Warp terminal.",
+            "使用 `oz agent run` 启动任务，无需打开 Warp 终端。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/platform"),
         ),
         CloudModeTip::new(
-            "View your teammates' agent runs in the Oz web app for shared visibility.",
+            "在 Oz Web 应用中查看队友的智能体运行，方便共享可见性。",
             Some("https://oz.warp.dev"),
         ),
         CloudModeTip::new(
-            "Build agents that automatically triage and label incoming GitHub issues.",
+            "构建可自动分诊并标记传入 GitHub issue 的智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
-            "Set up an agent to generate daily summaries of newly opened issues.",
+            "设置智能体，每天生成新开 issue 摘要。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
@@ -136,23 +136,23 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions"),
         ),
         CloudModeTip::new(
-            "Use `oz environment create` to define reproducible execution contexts.",
+            "使用 `oz environment create` 定义可复现的执行上下文。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/environments"),
         ),
         CloudModeTip::new(
-            "Trigger agents from webhooks to respond to production incidents.",
+            "通过 webhook 触发智能体以响应生产事故。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
-            "Build an agent that restarts services or scales deployments when alerts fire.",
+            "构建智能体，在告警触发时重启服务或扩缩容部署。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers"),
         ),
         CloudModeTip::new(
-            "Use personal secrets for credentials that should only be used by your agents.",
+            "使用个人密钥保存仅供您的智能体使用的凭据。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/secrets"),
         ),
         CloudModeTip::new(
-            "Use team secrets for shared infrastructure credentials across all agents.",
+            "使用团队密钥在所有智能体之间共享基础设施凭据。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/secrets"),
         ),
         CloudModeTip::new(
@@ -160,23 +160,23 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "Build an agent that automatically formats and lints code on a schedule.",
+            "构建按计划自动格式化和 lint 代码的智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "Use `oz schedule create` to set up cron-triggered agents.",
+            "使用 `oz schedule create` 设置 cron 触发的智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "Pause and resume scheduled agents without deleting them using `oz schedule pause`.",
+            "使用 `oz schedule pause` 暂停和恢复定时智能体，而无需删除。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/triggers/scheduled-agents"),
         ),
         CloudModeTip::new(
-            "Use `oz mcp list` to see which MCP servers are available to your agents.",
+            "使用 `oz mcp list` 查看您的智能体可用的 MCP 服务器。",
             Some("https://docs.warp.dev/agent-platform/capabilities/mcp"),
         ),
         CloudModeTip::new(
-            "Build an internal Slack bot that delegates coding tasks to Oz agents.",
+            "构建内部 Slack 机器人，将编码任务委托给 Oz 智能体。",
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack"),
         ),
         CloudModeTip::new(
@@ -184,19 +184,19 @@ pub fn get_cloud_mode_tips() -> Vec<CloudModeTip> {
             Some("https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack"),
         ),
         CloudModeTip::new(
-            "Use the Oz TypeScript SDK to build custom automation pipelines.",
+            "使用 Oz TypeScript SDK 构建自定义自动化流水线。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
-            "Use the Oz Python SDK to integrate agents into your data pipelines.",
+            "使用 Oz Python SDK 将智能体集成到您的数据流水线。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
-            "Monitor agent success rates and runtimes using the Oz API.",
+            "使用 Oz API 监控智能体成功率和运行时长。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
         CloudModeTip::new(
-            "Build a dashboard that tracks all agent activity across your team.",
+            "构建仪表板，跟踪团队中的所有智能体活动。",
             Some("https://docs.warp.dev/reference/api-and-sdk"),
         ),
     ]

@@ -258,9 +258,9 @@ impl RuleEditorView {
 
     fn render_header(&self, appearance: &Appearance) -> Box<dyn Element> {
         let title = if self.ai_fact.is_none() {
-            "Add Rule"
+            "添加规则"
         } else {
-            "Edit Rule"
+            "编辑规则"
         };
         Container::new(
             Flex::row()
@@ -333,13 +333,13 @@ impl RuleEditorView {
     fn render_form(&self, appearance: &Appearance) -> Box<dyn Element> {
         Flex::column()
             .with_child(
-                Container::new(appearance.ui_builder().span("Name").build().finish())
+                Container::new(appearance.ui_builder().span("名称").build().finish())
                     .with_margin_bottom(style::ITEM_BOTTOM_MARGIN)
                     .finish(),
             )
             .with_child(self.render_name_editor(appearance))
             .with_child(
-                Container::new(appearance.ui_builder().span("Rule").build().finish())
+                Container::new(appearance.ui_builder().span("规则").build().finish())
                     .with_margin_bottom(style::ITEM_BOTTOM_MARGIN)
                     .finish(),
             )

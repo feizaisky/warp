@@ -196,11 +196,9 @@ const RETRY_BUTTON_TOOLTIP_LABEL: &str = "重试同步";
 const SHARED_OBJECT_LIMIT_HIT_BANNER_LINE: &str =
     "升级以获取更多笔记本、工作流、共享会话和 AI 积分。";
 
-const PAYMENT_ISSUE_BANNER_LINE_1: &str =
-    "因订阅付款问题，共享对象已被限制访问。";
+const PAYMENT_ISSUE_BANNER_LINE_1: &str = "因订阅付款问题，共享对象已被限制访问。";
 
-const PAYMENT_ISSUE_BANNER_LINE_2_ADMIN: &str =
-    "请更新您的付款信息以恢复访问权限。";
+const PAYMENT_ISSUE_BANNER_LINE_2_ADMIN: &str = "请更新您的付款信息以恢复访问权限。";
 
 const PAYMENT_ISSUE_BANNER_LINE_2_ADMIN_ENTERPRISE: &str =
     "请联系 support@warp.dev 以恢复访问权限。";
@@ -2082,8 +2080,7 @@ impl DriveIndex {
     }
 
     fn render_team_space_zero_state(&self, appearance: &Appearance) -> Box<dyn Element> {
-        let hint_text =
-            "将个人工作流或笔记本拖到此处以与团队共享。";
+        let hint_text = "将个人工作流或笔记本拖到此处以与团队共享。";
         let zero_state_info = Container::new(
             appearance
                 .ui_builder()
@@ -3970,8 +3967,7 @@ impl DriveIndex {
             .with_child(close_icon_button)
             .finish();
 
-        let personal_object_limit_description =
-            "免费注册以增加存储限制并解锁更多功能。";
+        let personal_object_limit_description = "免费注册以增加存储限制并解锁更多功能。";
 
         let body_text = appearance
             .ui_builder()
@@ -4704,7 +4700,7 @@ impl DriveIndex {
                             if let Some(object_link) = object.object_link() {
                                 if let Ok(url) = Url::parse(&object_link) {
                                     menu_items.push(
-                                        MenuItemFields::new("在桌面端打开 (Open on Desktop)")
+                                        MenuItemFields::new("在桌面端打开")
                                             .with_on_select_action(
                                                 DriveIndexAction::OpenObjectLinkOnDesktop(url),
                                             )

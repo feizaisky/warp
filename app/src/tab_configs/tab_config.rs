@@ -277,14 +277,14 @@ fn resolve_pane_tree(
     quoted: &HashMap<String, String>,
 ) -> Result<PaneTemplateType, String> {
     if panes.is_empty() {
-        return Err("panes array is empty".to_string());
+        return Err("panes 数组为空".to_string());
     }
 
     let pane_map: HashMap<&str, &TabConfigPaneNode> =
         panes.iter().map(|p| (p.id.as_str(), p)).collect();
 
     if pane_map.len() != panes.len() {
-        return Err("duplicate pane IDs detected".to_string());
+        return Err("检测到重复的面板 ID".to_string());
     }
 
     let root = &panes[0];
@@ -320,11 +320,11 @@ fn resolve_pane_node(
         let children = node
             .children
             .as_ref()
-            .ok_or_else(|| format!("split node '{}' is missing 'children'", node.id))?;
+            .ok_or_else(|| format!("拆分节点 '{}' 缺少 'children'", node.id))?;
 
         if children.len() < 2 {
             return Err(format!(
-                "split node '{}' must have at least 2 children, got {}",
+                "拆分节点 '{}' 必须至少有 2 个子节点，当前为 {}",
                 node.id,
                 children.len()
             ));
@@ -334,12 +334,9 @@ fn resolve_pane_node(
         let mut auto_focus_remaining = auto_focus_first_leaf;
 
         for child_id in children {
-            let child = pane_map.get(child_id.as_str()).ok_or_else(|| {
-                format!(
-                    "split node '{}' references unknown child '{}'",
-                    node.id, child_id
-                )
-            })?;
+            let child = pane_map
+                .get(child_id.as_str())
+                .ok_or_else(|| format!("拆分节点 '{}' 引用了未知子节点 '{}'", node.id, child_id))?;
             let (child_template, did_focus) =
                 resolve_pane_node(child, pane_map, unquoted, quoted, auto_focus_remaining)?;
             if did_focus {
@@ -360,7 +357,7 @@ fn resolve_pane_node(
         let pane_type = node
             .pane_type
             .as_ref()
-            .ok_or_else(|| format!("leaf pane '{}' is missing required 'type' field", node.id))?;
+            .ok_or_else(|| format!("叶面板 '{}' 缺少必需的 'type' 字段", node.id))?;
 
         let pane_mode = match pane_type {
             TabConfigPaneType::Terminal => PaneMode::Terminal,
@@ -449,7 +446,7 @@ pub(crate) fn build_worktree_config_toml(
         param.insert("type".into(), Value::String("text".into()));
         param.insert(
             "description".into(),
-            Value::String("Worktree branch name".to_string()),
+            Value::String("工作树分支名称".to_string()),
         );
         let mut params = toml::map::Map::new();
         params.insert("worktree_branch_name".into(), Value::Table(param));

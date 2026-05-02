@@ -1299,10 +1299,7 @@ fn render_settings_button(
                 .finish();
 
             if hover_state.is_hovered() && !is_popup_open {
-                let tooltip = ui_builder
-                    .tool_tip("视图选项".to_string())
-                    .build()
-                    .finish();
+                let tooltip = ui_builder.tool_tip("视图选项".to_string()).build().finish();
                 let mut stack = Stack::new().with_child(button_container);
                 stack.add_positioned_overlay_child(
                     tooltip,
@@ -2154,7 +2151,7 @@ fn render_group_header(props: GroupHeaderProps<'_>, app: &AppContext) -> Box<dyn
     let theme = appearance.theme();
     let title = pane_group.display_title(app);
     let title = if title.is_empty() {
-        "Untitled tab".to_string()
+        "未命名标签页".to_string()
     } else {
         title
     };
@@ -4273,28 +4270,16 @@ fn subtitle_options_for_primary(
 ) -> [(VerticalTabsCompactSubtitle, &'static str); 2] {
     match primary {
         VerticalTabsPrimaryInfo::Command => [
-            (VerticalTabsCompactSubtitle::Branch, "Branch"),
-            (
-                VerticalTabsCompactSubtitle::WorkingDirectory,
-                "Working Directory",
-            ),
+            (VerticalTabsCompactSubtitle::Branch, "分支"),
+            (VerticalTabsCompactSubtitle::WorkingDirectory, "工作目录"),
         ],
         VerticalTabsPrimaryInfo::WorkingDirectory => [
-            (VerticalTabsCompactSubtitle::Branch, "Branch"),
-            (
-                VerticalTabsCompactSubtitle::Command,
-                "Command / Conversation",
-            ),
+            (VerticalTabsCompactSubtitle::Branch, "分支"),
+            (VerticalTabsCompactSubtitle::Command, "命令 / 对话"),
         ],
         VerticalTabsPrimaryInfo::Branch => [
-            (
-                VerticalTabsCompactSubtitle::Command,
-                "Command / Conversation",
-            ),
-            (
-                VerticalTabsCompactSubtitle::WorkingDirectory,
-                "Working Directory",
-            ),
+            (VerticalTabsCompactSubtitle::Command, "命令 / 对话"),
+            (VerticalTabsCompactSubtitle::WorkingDirectory, "工作目录"),
         ],
     }
 }
@@ -4336,7 +4321,7 @@ pub(super) fn render_settings_popup(
     let sub_text = theme.sub_text_color(theme.background());
     let view_as_header = Container::new(
         Text::new_inline(
-            "View as".to_string(),
+            "视图模式".to_string(),
             appearance.ui_font_family(),
             SETTINGS_POPUP_MENU_ITEM_FONT_SIZE,
         )
@@ -4395,7 +4380,7 @@ pub(super) fn render_settings_popup(
 
     let tab_item_header = Container::new(
         Text::new_inline(
-            "Tab item".to_string(),
+            "标签页项目".to_string(),
             appearance.ui_font_family(),
             SETTINGS_POPUP_MENU_ITEM_FONT_SIZE,
         )
@@ -4407,7 +4392,7 @@ pub(super) fn render_settings_popup(
     .finish();
 
     let focused_session_option = render_tab_item_mode_option(
-        "Focused session",
+        "聚焦会话",
         matches!(
             current_tab_item_mode,
             VerticalTabsTabItemMode::FocusedSession
@@ -4420,7 +4405,7 @@ pub(super) fn render_settings_popup(
 
     let summary_option = if FeatureFlag::VerticalTabsSummaryMode.is_enabled() {
         Some(render_tab_item_mode_option(
-            "Summary",
+            "摘要",
             matches!(current_tab_item_mode, VerticalTabsTabItemMode::Summary),
             state.summary_option_mouse_state.clone(),
             VerticalTabsTabItemMode::Summary,
@@ -4433,7 +4418,7 @@ pub(super) fn render_settings_popup(
 
     let density_header = Container::new(
         Text::new_inline(
-            "Density".to_string(),
+            "密度".to_string(),
             appearance.ui_font_family(),
             SETTINGS_POPUP_MENU_ITEM_FONT_SIZE,
         )
@@ -4510,7 +4495,7 @@ pub(super) fn render_settings_popup(
 
     let pane_title_header = Container::new(
         Text::new_inline(
-            "Pane title as".to_string(),
+            "窗格标题显示为".to_string(),
             appearance.ui_font_family(),
             SETTINGS_POPUP_MENU_ITEM_FONT_SIZE,
         )
@@ -4522,7 +4507,7 @@ pub(super) fn render_settings_popup(
     .finish();
 
     let command_option = render_primary_info_option(
-        "Command / Conversation",
+        "命令 / 对话",
         matches!(current_primary_info, VerticalTabsPrimaryInfo::Command),
         state.command_option_mouse_state.clone(),
         VerticalTabsPrimaryInfo::Command,
@@ -4531,7 +4516,7 @@ pub(super) fn render_settings_popup(
     );
 
     let directory_option = render_primary_info_option(
-        "Working Directory",
+        "工作目录",
         matches!(
             current_primary_info,
             VerticalTabsPrimaryInfo::WorkingDirectory
@@ -4543,7 +4528,7 @@ pub(super) fn render_settings_popup(
     );
 
     let branch_option = render_primary_info_option(
-        "Branch",
+        "分支",
         matches!(current_primary_info, VerticalTabsPrimaryInfo::Branch),
         state.branch_option_mouse_state.clone(),
         VerticalTabsPrimaryInfo::Branch,
@@ -4581,7 +4566,7 @@ pub(super) fn render_settings_popup(
 
             let subtitle_header = Container::new(
                 Text::new_inline(
-                    "Additional metadata".to_string(),
+                    "附加元数据".to_string(),
                     appearance.ui_font_family(),
                     SETTINGS_POPUP_MENU_ITEM_FONT_SIZE,
                 )
@@ -4615,7 +4600,7 @@ pub(super) fn render_settings_popup(
 
             let show_header = Container::new(
                 Text::new_inline(
-                    "Show".to_string(),
+                    "显示".to_string(),
                     appearance.ui_font_family(),
                     SETTINGS_POPUP_MENU_ITEM_FONT_SIZE,
                 )

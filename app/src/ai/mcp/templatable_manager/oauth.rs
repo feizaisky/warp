@@ -295,9 +295,7 @@ pub async fn make_authenticated_client(
             );
         }
         return Err(AuthError::AuthorizationFailed(
-            "MCP server requires OAuth authentication. Please authenticate this server in the \
-             Warp desktop app first, then try again."
-                .to_string(),
+            "MCP 服务器需要 OAuth 认证。请先在 Warp 桌面应用中认证此服务器，然后重试。".to_string(),
         ));
     }
 

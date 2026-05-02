@@ -165,13 +165,9 @@ impl CloudSetupGuideView {
         // Documentation link line.
         let docs_line = Flex::row()
             .with_child(
-                Text::new_inline(
-                    "查看",
-                    appearance.ui_font_family(),
-                    subtitle_font_size,
-                )
-                .with_color(theme.nonactive_ui_text_color().into_solid())
-                .finish(),
+                Text::new_inline("查看", appearance.ui_font_family(), subtitle_font_size)
+                    .with_color(theme.nonactive_ui_text_color().into_solid())
+                    .finish(),
             )
             .with_child(
                 appearance
@@ -354,14 +350,11 @@ impl CloudSetupGuideView {
             )),
             CREATE_ENV_CLI_CMD => Some((
                 WorkflowType::Local(
-                    Workflow::new("创建环境（CLI）", CREATE_ENV_CLI_CMD).with_arguments(
-                        vec![
-                            Argument::new("NAME", ArgumentType::Text)
-                                .with_description("环境名称"),
-                            Argument::new("DOCKER_IMAGE", ArgumentType::Text)
-                                .with_description("环境使用的 Docker 镜像"),
-                        ],
-                    ),
+                    Workflow::new("创建环境（CLI）", CREATE_ENV_CLI_CMD).with_arguments(vec![
+                        Argument::new("NAME", ArgumentType::Text).with_description("环境名称"),
+                        Argument::new("DOCKER_IMAGE", ArgumentType::Text)
+                            .with_description("环境使用的 Docker 镜像"),
+                    ]),
                 ),
                 SetupGuideStep::CreateEnvironmentCli,
             )),

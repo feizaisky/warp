@@ -47,13 +47,13 @@ const FEATURE_ITEMS: &[FeatureItem] = &[
         title: "贡献",
         description: "Warp 客户端代码现已开源。使用 /feedback 技能提交 issue 开始参与，并遵循此处的贡献指南。",
         inline_link: Some(InlineLink {
-            text: "here",
+            text: "这里",
             url: CONTRIBUTING_URL,
         }),
     },
     FeatureItem {
         icon: Icon::Oz,
-        title: "开放自动化开发 (Open Automated Development)",
+        title: "开放自动化开发",
         description: "Warp 仓库由智能体优先的工作流管理，该工作流由 Oz（我们的云端智能体编排平台）驱动。",
         inline_link: Some(InlineLink {
             text: "Oz",

@@ -135,7 +135,7 @@ pub(super) fn render_messages_received_from_agents(
 
     // Header row with icon and collapse chevron
     let header = render_requested_action_row_for_text(
-        format!("Messages received ({})", messages.len()).into(),
+        format!("已收到消息 ({})", messages.len()).into(),
         appearance.ui_font_family(),
         Some(status_icon),
         chevron,
@@ -164,9 +164,9 @@ pub(super) fn render_messages_received_from_agents(
             .collect::<Vec<_>>()
             .join(", ");
         let fields = [
-            ("From: ", sender_name.as_str()),
-            ("To: ", recipients.as_str()),
-            ("Subject: ", msg.subject.as_str()),
+            ("来自：", sender_name.as_str()),
+            ("收件人：", recipients.as_str()),
+            ("主题：", msg.subject.as_str()),
         ];
         let message_block = Container::new(render_message_fields(&fields, &msg.message_body, app))
             .with_margin_top(8.)
@@ -225,7 +225,7 @@ pub(super) fn render_send_message(
                 let status_icon = inline_action_icons::green_check_icon(appearance).finish();
                 let chevron = render_collapse_chevron(message_id, props, app);
                 let header = render_requested_action_row_for_text(
-                    format!("Sent message to {recipients}: {subject}").into(),
+                    format!("已向 {recipients} 发送消息：{subject}").into(),
                     appearance.ui_font_family(),
                     Some(status_icon),
                     chevron,
@@ -234,7 +234,7 @@ pub(super) fn render_send_message(
                     app,
                 );
 
-                let fields = [("To: ", recipients.as_str()), ("Subject: ", subject)];
+                let fields = [("收件人：", recipients.as_str()), ("主题：", subject)];
                 let body_element = Container::new(render_message_fields(&fields, message, app))
                     .with_margin_top(4.)
                     .with_margin_left(8.)
@@ -258,7 +258,7 @@ pub(super) fn render_send_message(
                     .finish();
             }
             SendMessageToAgentResult::Error(error) => {
-                let label = format!("Failed to send message to {recipients}: {error}");
+                let label = format!("向 {recipients} 发送消息失败：{error}");
                 let status_icon = inline_action_icons::red_x_icon(appearance).finish();
                 return render_requested_action_row_for_text(
                     label.into(),
@@ -275,7 +275,7 @@ pub(super) fn render_send_message(
                 .finish();
             }
             SendMessageToAgentResult::Cancelled => {
-                let label = format!("Send message to {recipients} cancelled.");
+                let label = format!("向 {recipients} 发送消息已取消。");
                 let status_icon = inline_action_icons::cancelled_icon(appearance).finish();
                 return render_requested_action_row_for_text(
                     label.into(),
@@ -301,7 +301,7 @@ pub(super) fn render_send_message(
         || status.as_ref().is_some_and(|s| s.is_queued());
 
     let label_fragments = vec![
-        FormattedTextFragment::plain_text("Sending message to "),
+        FormattedTextFragment::plain_text("正在发送消息给 "),
         FormattedTextFragment::bold(&recipients),
         FormattedTextFragment::plain_text(format!(": {subject}")),
     ];
@@ -378,7 +378,7 @@ pub(super) fn render_start_agent(
         let (label_fragments, status_icon) = match result {
             StartAgentResult::Success { .. } => (
                 vec![
-                    FormattedTextFragment::plain_text("Started agent "),
+                    FormattedTextFragment::plain_text("已启动智能体 "),
                     FormattedTextFragment::bold(name),
                     FormattedTextFragment::plain_text(start_agent_success_suffix(execution_mode)),
                 ],
@@ -396,7 +396,7 @@ pub(super) fn render_start_agent(
                 vec![
                     FormattedTextFragment::plain_text(start_agent_cancelled_prefix(execution_mode)),
                     FormattedTextFragment::bold(name),
-                    FormattedTextFragment::plain_text(" cancelled."),
+                    FormattedTextFragment::plain_text(" 已取消。"),
                 ],
                 inline_action_icons::cancelled_icon(appearance).finish(),
             ),
@@ -525,29 +525,29 @@ pub(super) fn render_start_agent(
 
 fn start_agent_success_suffix(execution_mode: &StartAgentExecutionMode) -> &'static str {
     match execution_mode {
-        StartAgentExecutionMode::Local { .. } => " locally.",
-        StartAgentExecutionMode::Remote { .. } => " remotely.",
+        StartAgentExecutionMode::Local { .. } => "（本地）。",
+        StartAgentExecutionMode::Remote { .. } => "（远程）。",
     }
 }
 
 fn start_agent_error_prefix(execution_mode: &StartAgentExecutionMode) -> &'static str {
     match execution_mode {
-        StartAgentExecutionMode::Local { .. } => "Failed to start agent ",
-        StartAgentExecutionMode::Remote { .. } => "Failed to start remote agent ",
+        StartAgentExecutionMode::Local { .. } => "启动智能体失败：",
+        StartAgentExecutionMode::Remote { .. } => "启动远程智能体失败：",
     }
 }
 
 fn start_agent_cancelled_prefix(execution_mode: &StartAgentExecutionMode) -> &'static str {
     match execution_mode {
-        StartAgentExecutionMode::Local { .. } => "Start agent ",
-        StartAgentExecutionMode::Remote { .. } => "Start remote agent ",
+        StartAgentExecutionMode::Local { .. } => "启动智能体 ",
+        StartAgentExecutionMode::Remote { .. } => "启动远程智能体 ",
     }
 }
 
 fn start_agent_in_progress_prefix(execution_mode: &StartAgentExecutionMode) -> &'static str {
     match execution_mode {
-        StartAgentExecutionMode::Local { .. } => "Starting agent ",
-        StartAgentExecutionMode::Remote { .. } => "Starting remote agent ",
+        StartAgentExecutionMode::Local { .. } => "正在启动智能体 ",
+        StartAgentExecutionMode::Remote { .. } => "正在启动远程智能体 ",
     }
 }
 

@@ -47,11 +47,11 @@ struct SecretInfo {
 impl TableFormat for SecretInfo {
     fn header() -> Vec<Cell> {
         vec![
-            Cell::new("Name"),
-            Cell::new("Scope"),
-            Cell::new("Type"),
-            Cell::new("Created"),
-            Cell::new("Updated"),
+            Cell::new("名称"),
+            Cell::new("范围"),
+            Cell::new("类型"),
+            Cell::new("创建时间"),
+            Cell::new("更新时间"),
         ]
     }
 
@@ -73,7 +73,7 @@ pub fn run(
     command: SecretCommand,
 ) -> Result<()> {
     if !FeatureFlag::WarpManagedSecrets.is_enabled() {
-        return Err(anyhow::anyhow!("This feature is not enabled"));
+        return Err(anyhow::anyhow!("此功能未启用"));
     }
 
     match command {
@@ -178,7 +178,7 @@ fn create_secret(ctx: &mut AppContext, args: CreateSecretArgs) -> Result<()> {
         },
         None => {
             let name = args.name.ok_or_else(|| {
-                anyhow::anyhow!("Secret name is required. Usage: oz secret create <NAME>")
+                anyhow::anyhow!("必须提供密钥名称。用法：oz secret create <NAME>")
             })?;
             (
                 name,
@@ -251,7 +251,7 @@ fn create_secret_with_input(
             );
             ctx.spawn(create_future, move |_, result, ctx| match result {
                 Ok(secret) => {
-                    println!("Secret '{}' created", secret.name);
+                    println!("密钥 '{}' 已创建", secret.name);
                     ctx.terminate_app(TerminationMode::ForceTerminate, None);
                 }
                 Err(err) => {
@@ -299,7 +299,7 @@ fn delete_secret(ctx: &mut AppContext, args: DeleteSecretArgs) -> Result<()> {
                 if !io::stdin().is_terminal() {
                     super::report_fatal_error(
                         anyhow::anyhow!(
-                            "Refusing to delete secret without confirmation in non-interactive mode (use --force to bypass)"
+                            "非交互模式下拒绝在未确认的情况下删除密钥（可使用 --force 跳过确认）"
                         ),
                         ctx,
                     );
@@ -307,19 +307,18 @@ fn delete_secret(ctx: &mut AppContext, args: DeleteSecretArgs) -> Result<()> {
                 }
 
                 let scope = match owner {
-                    Owner::User { .. } => "personal",
-                    Owner::Team { .. } => "team",
+                    Owner::User { .. } => "个人",
+                    Owner::Team { .. } => "团队",
                 };
 
-                let should_delete = match Confirm::new(&format!("Delete {scope} secret '{name}'?"))
+                let should_delete = match Confirm::new(&format!("删除{scope}密钥 '{name}'？"))
                     .with_default(false)
-                    .with_help_message("This action cannot be undone")
+                    .with_help_message("此操作无法撤销")
                     .prompt()
                 {
                     Ok(should_delete) => should_delete,
                     Err(InquireError::OperationCanceled | InquireError::OperationInterrupted) => {
-                        ctx
-                            .terminate_app(TerminationMode::ForceTerminate, None);
+                        ctx.terminate_app(TerminationMode::ForceTerminate, None);
                         return;
                     }
                     Err(err) => {
@@ -329,9 +328,8 @@ fn delete_secret(ctx: &mut AppContext, args: DeleteSecretArgs) -> Result<()> {
                 };
 
                 if !should_delete {
-                    println!("Deletion cancelled");
-                    ctx
-                        .terminate_app(TerminationMode::ForceTerminate, None);
+                    println!("已取消删除");
+                    ctx.terminate_app(TerminationMode::ForceTerminate, None);
                     return;
                 }
             }
@@ -339,9 +337,8 @@ fn delete_secret(ctx: &mut AppContext, args: DeleteSecretArgs) -> Result<()> {
             let delete_future = manager.delete_secret(secret_owner, name.clone());
             ctx.spawn(delete_future, move |_, result, ctx| match result {
                 Ok(()) => {
-                    println!("Secret '{name}' deleted");
-                    ctx
-                        .terminate_app(TerminationMode::ForceTerminate, None);
+                    println!("密钥 '{name}' 已删除");
+                    ctx.terminate_app(TerminationMode::ForceTerminate, None);
                 }
                 Err(err) => {
                     super::report_fatal_error(err, ctx);
@@ -415,7 +412,7 @@ fn update_secret(ctx: &mut AppContext, args: UpdateSecretArgs) -> Result<()> {
                         Some(t) => t,
                         None => {
                             super::report_fatal_error(
-                                anyhow::anyhow!("Secret '{}' not found", args.name),
+                                anyhow::anyhow!("未找到密钥 '{}'", args.name),
                                 ctx,
                             );
                             return;
@@ -438,7 +435,7 @@ fn update_secret(ctx: &mut AppContext, args: UpdateSecretArgs) -> Result<()> {
                     );
                     ctx.spawn(update_future, move |_, result, ctx| match result {
                         Ok(secret) => {
-                            println!("Secret '{}' updated", secret.name);
+                            println!("密钥 '{}' 已更新", secret.name);
                             ctx.terminate_app(TerminationMode::ForceTerminate, None);
                         }
                         Err(err) => {
@@ -456,7 +453,7 @@ fn update_secret(ctx: &mut AppContext, args: UpdateSecretArgs) -> Result<()> {
                 );
                 ctx.spawn(update_future, move |_, result, ctx| match result {
                     Ok(secret) => {
-                        println!("Secret '{}' updated", secret.name);
+                        println!("密钥 '{}' 已更新", secret.name);
                         ctx.terminate_app(TerminationMode::ForceTerminate, None);
                     }
                     Err(err) => {
@@ -512,16 +509,15 @@ fn list_secrets(
 /// Read a raw secret string from either the provided file or stdin.
 fn read_simple_secret_value(args: &ValueArgs) -> Result<Option<String>> {
     if let Some(value_file) = args.value_file.as_ref() {
-        let value = fs::read_to_string(value_file).with_context(|| {
-            format!("Failed to read secret value from: {}", value_file.display())
-        })?;
+        let value = fs::read_to_string(value_file)
+            .with_context(|| format!("无法从以下位置读取密钥值：{}", value_file.display()))?;
         if value.is_empty() {
             Ok(None)
         } else {
             Ok(Some(value))
         }
     } else if io::stdin().is_terminal() {
-        let result = Password::new("Secret value:")
+        let result = Password::new("密钥值：")
             .with_display_toggle_enabled()
             .without_confirmation()
             .prompt();
@@ -573,14 +569,14 @@ fn make_secret_value_from_gql_type(
         ManagedSecretType::AnthropicBedrockAccessKey => {
             // Bedrock access key secrets cannot be updated through the generic raw-string path.
             Err(anyhow::anyhow!(
-                "Bedrock access key secrets cannot be updated via `--value`; re-create the secret instead"
+                "Bedrock access key 密钥无法通过 `--value` 更新；请重新创建该密钥"
             ))
         }
         ManagedSecretType::AnthropicBedrockApiKey => {
             // Bedrock secrets cannot be updated through the generic raw-string path.
             // The caller should use the dedicated Bedrock creation flow instead.
             Err(anyhow::anyhow!(
-                "Bedrock API key secrets cannot be updated via `--value`; re-create the secret instead"
+                "Bedrock API key 密钥无法通过 `--value` 更新；请重新创建该密钥"
             ))
         }
     }
@@ -596,10 +592,10 @@ fn read_bedrock_secret_value(
         _ => {
             if !io::stdin().is_terminal() {
                 return Err(anyhow::anyhow!(
-                    "Bedrock secrets require --bedrock-api-key and --region in non-interactive mode"
+                    "非交互模式下 Bedrock 密钥需要 --bedrock-api-key 和 --region"
                 ));
             }
-            let result = Password::new("Bedrock API key:")
+            let result = Password::new("Bedrock API key：")
                 .with_display_toggle_enabled()
                 .without_confirmation()
                 .prompt();
@@ -619,7 +615,7 @@ fn read_bedrock_secret_value(
         _ => {
             if !io::stdin().is_terminal() {
                 return Err(anyhow::anyhow!(
-                    "Bedrock secrets require --bedrock-api-key and --region in non-interactive mode"
+                    "非交互模式下 Bedrock 密钥需要 --bedrock-api-key 和 --region"
                 ));
             }
             let result = inquire::Text::new("AWS 区域：").prompt();
@@ -652,7 +648,8 @@ fn read_bedrock_access_key_secret_value(
 ) -> Result<Option<ManagedSecretValue>> {
     // Error message used for all three required fields when running non-interactively.
     // --session-token is intentionally omitted because it is optional.
-    const NON_INTERACTIVE_REQUIRED_MSG: &str = "Bedrock access key secrets require --access-key-id, --secret-access-key, and --region in non-interactive mode";
+    const NON_INTERACTIVE_REQUIRED_MSG: &str =
+        "非交互模式下 Bedrock access key 密钥需要 --access-key-id、--secret-access-key 和 --region";
 
     let access_key_id = match access_key_id {
         Some(v) if !v.is_empty() => v,
@@ -726,7 +723,7 @@ fn read_bedrock_access_key_secret_value(
             if !io::stdin().is_terminal() {
                 return Err(anyhow::anyhow!(NON_INTERACTIVE_REQUIRED_MSG));
             }
-            match inquire::Text::new("AWS Region:").prompt() {
+            match inquire::Text::new("AWS 区域：").prompt() {
                 Ok(value) if !value.is_empty() => value,
                 Ok(_) => return Ok(None),
                 Err(InquireError::OperationCanceled | InquireError::OperationInterrupted) => {

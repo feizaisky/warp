@@ -597,26 +597,27 @@ impl WorkflowView {
                 .finish(),
             )
         } else {
-            arguments_section_row.add_child(Shrinkable::new(
+            arguments_section_row.add_child(
+                Shrinkable::new(
                     1.,
                     Container::new(
                         appearance
-                        .ui_builder()
-                        .span("填写此工作流的参数并复制到终端会话中运行")
-                        .with_soft_wrap()
-                        .with_style(UiComponentStyles {
-                            font_size: Some(EDITOR_FONT_SIZE),
-                            font_color: Some(sub_text_color),
-                            ..Default::default()
-                        })
-                        .build()
-                        .finish(),
+                            .ui_builder()
+                            .span("填写此工作流的参数并复制到终端会话中运行")
+                            .with_soft_wrap()
+                            .with_style(UiComponentStyles {
+                                font_size: Some(EDITOR_FONT_SIZE),
+                                font_color: Some(sub_text_color),
+                                ..Default::default()
+                            })
+                            .build()
+                            .finish(),
                     )
                     .with_margin_left(40.)
-                    .finish()
+                    .finish(),
                 )
-                .finish()
-                );
+                .finish(),
+            );
         }
 
         arguments_section_row.finish()

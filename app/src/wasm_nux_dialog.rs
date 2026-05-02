@@ -154,18 +154,18 @@ impl View for WasmNUXDialog {
 
         let dialog = if self.requested_download {
             Dialog::new(
-                "Open in Warp Desktop?".to_string(),
-                Some("Future links will automatically open on desktop.".to_string()),
+                "在 Warp 桌面版中打开？".to_string(),
+                Some("今后的链接将自动在桌面端打开。".to_string()),
                 dialog_styles,
             )
             .with_bottom_row_child(Self::render_dialog_button(
-                "Open in Warp",
+                "在 Warp 中打开",
                 WasmNUXDialogAction::OpenNativeAndClose,
                 &self.confirm_mouse_state,
                 appearance,
             ))
         } else if app_install_detected == &UserAppInstallStatus::NotDetected {
-            Dialog::new("Download Warp Desktop?".to_string(), None, dialog_styles)
+            Dialog::new("下载 Warp 桌面版？".to_string(), None, dialog_styles)
                 .with_child(
                     Flex::column()
                         .with_cross_axis_alignment(CrossAxisAlignment::Stretch)
@@ -173,7 +173,7 @@ impl View for WasmNUXDialog {
                         .with_child(
                             appearance
                                 .ui_builder()
-                                .span("Warp is the intelligent terminal with AI and your dev team's knowledge built-in.")
+                                .span("Warp 是内置 AI 和开发团队知识的智能终端。")
                                 .with_style(UiComponentStyles {
                                     font_weight: Some(Weight::Thin),
                                     font_color: Some(
@@ -193,7 +193,7 @@ impl View for WasmNUXDialog {
                                 appearance
                                     .ui_builder()
                                     .link(
-                                        "Learn more".to_string(),
+                                        "了解更多".to_string(),
                                         None,
                                         Some(Box::new(|ctx| {
                                             ctx.dispatch_typed_action(
@@ -211,25 +211,25 @@ impl View for WasmNUXDialog {
                         .finish(),
                 )
                 .with_bottom_row_child(Self::render_dialog_button(
-                    "Download",
+                    "下载",
                     WasmNUXDialogAction::OpenDownloadDesktopAppLink,
                     &self.download_warp_mouse_state,
                     appearance,
                 ))
         } else {
             let object_kind = match web_intent_parser::current_web_intent() {
-                Some(WebIntent::DriveObject(_)) => "Warp Drive objects",
-                Some(WebIntent::SessionView(_)) => "shared sessions",
-                _ => "Warp links",
+                Some(WebIntent::DriveObject(_)) => "Warp Drive 对象",
+                Some(WebIntent::SessionView(_)) => "共享会话",
+                _ => "Warp 链接",
             };
 
             Dialog::new(
-                format!("Always open {object_kind} on the web?"),
-                Some("You can change this at any time in settings.".to_string()),
+                format!("始终在网页端打开{object_kind}？"),
+                Some("您可以随时在设置中更改此项。".to_string()),
                 dialog_styles,
             )
             .with_bottom_row_child(Self::render_dialog_button(
-                "Yes",
+                "是",
                 WasmNUXDialogAction::SetWebAndClose,
                 &self.confirm_mouse_state,
                 appearance,

@@ -1602,10 +1602,7 @@ impl WorkflowView {
 
         // Block saving if secrets are detected in the workflow when secret redaction is enabled.
         if self.workflow_contains_secrets(ctx) {
-            self.display_error_toast(
-                "此工作流包含密钥，无法保存".to_string(),
-                ctx,
-            );
+            self.display_error_toast("此工作流包含密钥，无法保存".to_string(), ctx);
             return;
         }
 
@@ -2669,7 +2666,7 @@ impl WorkflowView {
                                         pane.display_upgrade_error(Some(team.uid), current_user_id, ctx);
                                     } else {
                                         pane.display_error_toast(
-                                            "Looks like you're out of AI credits. Contact a team admin to upgrade for more credits.".to_string(),
+                                            "看起来你的 AI 点数已用完。请联系团队管理员升级以获取更多点数。".to_string(),
                                             ctx,
                                         );
                                     }
@@ -2724,16 +2721,15 @@ impl WorkflowView {
 
         let window_id = ctx.window_id();
         let toast_link = if self.auth_state.is_anonymous_or_logged_out() {
-            ToastLink::new("Upgrade for more credits.".into())
+            ToastLink::new("升级以获取更多点数。".into())
                 .with_onclick_action(WorkspaceAction::AttemptLoginGatedAIUpgrade)
         } else {
-            ToastLink::new("Upgrade for more credits.".into()).with_href(upgrade_link)
+            ToastLink::new("升级以获取更多点数。".into()).with_href(upgrade_link)
         };
 
         crate::workspace::ToastStack::handle(ctx).update(ctx, |stack, ctx| {
             stack.add_ephemeral_toast(
-                DismissibleToast::error("Looks like you're out of AI credits.".into())
-                    .with_link(toast_link),
+                DismissibleToast::error("看起来你的 AI 点数已用完。".into()).with_link(toast_link),
                 window_id,
                 ctx,
             );

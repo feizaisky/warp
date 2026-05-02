@@ -2096,7 +2096,8 @@ impl View for GlobalSearchView {
             font_color: Some(blended_colors::text_sub(theme, theme.background())),
             ..Default::default()
         };
-        let capped_message = "结果集仅包含所有匹配项的一部分。请更具体地搜索以缩小结果范围。".to_string();
+        let capped_message =
+            "结果集仅包含所有匹配项的一部分。请更具体地搜索以缩小结果范围。".to_string();
         let capped_text = Span::new(capped_message, capped_text_styles)
             .with_soft_wrap()
             .build()
@@ -2245,12 +2246,7 @@ impl GlobalSearchView {
     }
 
     fn render_pre_search_state(&self, app: &AppContext) -> Box<dyn Element> {
-        self.render_zero_state(
-            Icon::Search,
-            "全局搜索",
-            "在当前目录中的文件中搜索。",
-            app,
-        )
+        self.render_zero_state(Icon::Search, "全局搜索", "在当前目录中的文件中搜索。", app)
     }
 
     fn render_unavailable_state(&self, app: &AppContext) -> Box<dyn Element> {

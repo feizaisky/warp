@@ -75,9 +75,7 @@ impl WarpifyFooterView {
     /// Updates the warpify button label, keybinding, and stores the current warpification mode.
     pub fn set_mode(&mut self, mode: WarpificationMode, ctx: &mut ViewContext<Self>) {
         let (label, binding_name) = match mode {
-            WarpificationMode::Ssh { .. } => {
-                ("Warpify SSH 会话", "terminal:warpify_ssh_session")
-            }
+            WarpificationMode::Ssh { .. } => ("Warpify SSH 会话", "terminal:warpify_ssh_session"),
             WarpificationMode::Subshell { .. } => ("Warpify 子 Shell", "terminal:warpify_subshell"),
         };
         self.warpify_button.update(ctx, |button, ctx| {

@@ -230,17 +230,13 @@ impl View for InactivityModalBody {
         let countdown = self.render_countdown(appearance);
 
         let header = Container::new(
-            Text::new_inline(
-                "您还在吗？",
-                appearance.ui_font_family(),
-                HEADER_FONT_SIZE,
-            )
-            .with_color(blended_colors::text_main(
-                appearance.theme(),
-                appearance.theme().background(),
-            ))
-            .with_style(Properties::default().weight(Weight::Bold))
-            .finish(),
+            Text::new_inline("您还在吗？", appearance.ui_font_family(), HEADER_FONT_SIZE)
+                .with_color(blended_colors::text_main(
+                    appearance.theme(),
+                    appearance.theme().background(),
+                ))
+                .with_style(Properties::default().weight(Weight::Bold))
+                .finish(),
         )
         .with_padding_bottom(8.)
         .finish();

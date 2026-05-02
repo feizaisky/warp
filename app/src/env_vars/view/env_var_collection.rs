@@ -86,9 +86,9 @@ const DESCRIPTION_EDITOR_CUTOFF: f32 = 30.;
 const DESCRIPTION_BOTTOM_MARGIN: f32 = 12.;
 const DIVIDER_BOTTOM_MARGIN: f32 = 4.;
 const PLACEHOLDER_FONT_SIZE: f32 = 14.;
-const VARIABLE_VALUE_PLACEHOLDER_TEXT: &str = "Value";
-const VARIABLE_DESCRIPTION_PLACEHOLDER_TEXT: &str = "Description";
-const VARIABLE_NAME_PLACEHOLDER_TEXT: &str = "Variable";
+const VARIABLE_VALUE_PLACEHOLDER_TEXT: &str = "值";
+const VARIABLE_DESCRIPTION_PLACEHOLDER_TEXT: &str = "描述";
+const VARIABLE_NAME_PLACEHOLDER_TEXT: &str = "变量";
 
 // Text input fields
 const TITLE_PLACEHOLDER_TEXT: &str = "添加标题";
@@ -106,7 +106,7 @@ pub(super) const ERROR_ALERT_MARGIN_TOP: f32 = 8.;
 pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([EditableBinding::new(
         "关闭环境变量集合",
-        "Close",
+        "关闭",
         EnvVarCollectionAction::Close,
     )
     .with_custom_action(CustomAction::CloseCurrentSession)
@@ -359,8 +359,13 @@ impl ValidationError {
     /// Create validation error from detected secret level
     fn from_secret_level(secret_level: SecretLevel) -> Self {
         let message = match secret_level {
-            SecretLevel::Enterprise => "因与企业密钥脱敏设置冲突，无法创建此环境变量，请联系团队管理员了解详情。".to_string(),
-            SecretLevel::User => "因与密钥脱敏设置冲突，无法创建此环境变量，将密钥另存为环境变量...".to_string(),
+            SecretLevel::Enterprise => {
+                "因与企业密钥脱敏设置冲突，无法创建此环境变量，请联系团队管理员了解详情。"
+                    .to_string()
+            }
+            SecretLevel::User => {
+                "因与密钥脱敏设置冲突，无法创建此环境变量，将密钥另存为环境变量...".to_string()
+            }
         };
         Self {
             secret_level,
@@ -497,7 +502,7 @@ impl EnvVarCollectionView {
             view.handle_cloud_model_event(event, ctx);
         });
 
-        let pane_configuration = ctx.add_model(|_ctx| PaneConfiguration::new("Untitled"));
+        let pane_configuration = ctx.add_model(|_ctx| PaneConfiguration::new("未命名"));
 
         let active_env_var_collection_data = ctx.add_model(ActiveEnvVarCollectionData::new);
         ctx.subscribe_to_model(
@@ -669,7 +674,14 @@ impl EnvVarCollectionView {
 
         let title = collection.title.clone().unwrap_or_default();
 
-        self.set_pane_title(if title.is_empty() { "Untitled" } else { &title }, ctx);
+        self.set_pane_title(
+            if title.is_empty() {
+                "未命名"
+            } else {
+                &title
+            },
+            ctx,
+        );
         if let Some(server_id) = env_var_collection.id.into_server() {
             self.pane_configuration.update(ctx, |pane_config, ctx| {
                 pane_config
@@ -751,9 +763,7 @@ impl EnvVarCollectionView {
                     let window_id = ctx.window_id();
                     crate::workspace::ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
-                            DismissibleToast::error(
-                                "尝试调用环境变量时发生错误".to_owned(),
-                            ),
+                            DismissibleToast::error("尝试调用环境变量时发生错误".to_owned()),
                             window_id,
                             ctx,
                         );
@@ -1595,7 +1605,11 @@ impl BackingView for EnvVarCollectionView {
         app: &AppContext,
     ) -> view::HeaderContent {
         let title = self.title_editor.as_ref(app).buffer_text(app);
-        let title = if title.is_empty() { "Untitled" } else { &title };
+        let title = if title.is_empty() {
+            "未命名"
+        } else {
+            &title
+        };
         view::HeaderContent::simple(title)
     }
 

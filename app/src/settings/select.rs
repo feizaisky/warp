@@ -14,7 +14,7 @@ define_settings_group!(SelectionSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "terminal.copy_on_select",
-        description: "Whether text is automatically copied to the clipboard when selected.",
+        description: "选中文本时是否自动复制到剪贴板。",
     },
     linux_selection_clipboard: LinuxSelectionClipboard {
         type: bool,
@@ -23,7 +23,7 @@ define_settings_group!(SelectionSettings, settings: [
         sync_to_cloud: SyncToCloud::PerPlatform(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "system.linux_selection_clipboard",
-        description: "Whether the Linux primary selection clipboard is used.",
+        description: "是否使用 Linux 主选择剪贴板。",
     },
     middle_click_paste_enabled: MiddleClickPasteEnabled {
         type: bool,
@@ -35,7 +35,7 @@ define_settings_group!(SelectionSettings, settings: [
         sync_to_cloud: SyncToCloud::PerPlatform(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "terminal.input.middle_click_paste_enabled",
-        description: "Whether middle-click pastes from the clipboard.",
+        description: "中键点击是否从剪贴板粘贴。",
     }
 ]);
 

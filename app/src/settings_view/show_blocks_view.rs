@@ -313,7 +313,7 @@ impl GetBlocksForUserRequestState {
                 pad(ui_builder.label("正在获取代码块...").build().finish())
             }
             GetBlocksForUserRequestState::Failed => pad(ui_builder
-                .label("Failed to load blocks. Please try again.")
+                .label("加载代码块失败。请重试。")
                 .build()
                 .finish()),
             GetBlocksForUserRequestState::Done(user_blocks) => {
@@ -427,7 +427,8 @@ impl ShowBlocksView {
 
             menu.set_items(
                 vec![MenuItem::Item(
-                    MenuItemFields::new("取消共享").with_on_select_action(ShowBlocksAction::Unshare),
+                    MenuItemFields::new("取消共享")
+                        .with_on_select_action(ShowBlocksAction::Unshare),
                 )],
                 ctx,
             );
@@ -560,7 +561,7 @@ impl ShowBlocksView {
                 }
                 Err(_) => {
                     ctx.emit(ShowBlocksEvent::ShowToast {
-                        message: "Failed to unshare block. Please try again.".to_string(),
+                        message: "取消共享代码块失败。请重试。".to_string(),
                         flavor: ToastFlavor::Error,
                     });
                     user_block.unshare_request_status = UnshareBlockRequestState::Failed;

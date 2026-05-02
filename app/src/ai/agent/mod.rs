@@ -675,13 +675,13 @@ impl From<&AIApiError> for RenderableAIError {
 impl Display for RenderableAIError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::QuotaLimit => write!(f, "Quota limit reached."),
+            Self::QuotaLimit => write!(f, "已达到配额上限。"),
             Self::ServerOverloaded => {
-                write!(f, "Warp is currently overloaded. Please try again later.")
+                write!(f, "Warp 当前负载过高。请稍后重试。")
             }
-            Self::InternalWarpError => write!(f, "Internal Warp error."),
+            Self::InternalWarpError => write!(f, "Warp 内部错误。"),
             Self::ContextWindowExceeded(message) => {
-                write!(f, "Context window exceeded: {message}")
+                write!(f, "已超出上下文窗口：{message}")
             }
             Self::InvalidApiKey { provider, .. } => {
                 write!(f, "Invalid API key for {provider}")

@@ -208,7 +208,8 @@ impl BuyCreditsBanner {
                 if self.banner_auto_reload_update_in_flight {
                     self.banner_auto_reload_update_in_flight = false;
                     ctx.emit(BuyCreditsBannerEvent::ShowAutoReloadError {
-                        error_message: "无法为你的团队启用自动充值。请前往“设置 > 账单与用量”后重试。",
+                        error_message:
+                            "无法为你的团队启用自动充值。请前往“设置 > 账单与用量”后重试。",
                     });
                     ctx.notify();
                 }
@@ -319,7 +320,7 @@ impl BuyCreditsBanner {
             .enumerate()
             .map(|(index, option)| {
                 let primary_text = format!(
-                    "${:.0} / {} credits",
+                    "${:.0} / {} 点额度",
                     option.price_usd_cents as f32 / 100.,
                     option.credits
                 );
@@ -404,16 +405,16 @@ impl BuyCreditsBanner {
 
         // Banner text with title and description based on admin status
         let banner_description = if has_admin_permissions {
-            "Your monthly spend limit has been reached. Increase it to continue."
+            "已达到你的月度支出上限。提高上限后可继续。"
         } else {
-            "Contact a team admin to increase monthly limit."
+            "请联系团队管理员提高月度上限。"
         };
 
         let banner_text = Flex::column()
             .with_children([
                 appearance
                     .ui_builder()
-                    .paragraph("Monthly limit reached")
+                    .paragraph("已达到月度上限")
                     .with_style(UiComponentStyles {
                         font_size: Some(14.),
                         ..Default::default()
@@ -549,7 +550,7 @@ impl BuyCreditsBanner {
         let make_banner_text = || {
             let mut banner_text_children = vec![appearance
                 .ui_builder()
-                .paragraph("Out of credits")
+                .paragraph("额度已用完")
                 .with_style(UiComponentStyles {
                     font_size: Some(14.),
                     ..Default::default()
@@ -561,11 +562,9 @@ impl BuyCreditsBanner {
             if is_at_monthly_limit || would_purchase_exceed_limit {
                 // Create formatted text with clickable hyperlink
                 let warning_text_fragments = vec![
-                    FormattedTextFragment::plain_text(
-                        "Purchasing these credits would take you over your monthly spend limit. ",
-                    ),
-                    FormattedTextFragment::hyperlink_action("Increase it", Action::ManageBilling),
-                    FormattedTextFragment::plain_text(" to continue."),
+                    FormattedTextFragment::plain_text("购买这些额度会超过你的月度支出上限。"),
+                    FormattedTextFragment::hyperlink_action("提高上限", Action::ManageBilling),
+                    FormattedTextFragment::plain_text("后可继续。"),
                 ];
 
                 let formatted_warning = FormattedTextElement::new(
@@ -593,9 +592,9 @@ impl BuyCreditsBanner {
             } else {
                 // Default message when not at limit
                 let banner_description = if has_admin_permissions {
-                    "Add more credits to your account to continue using Oz agents."
+                    "向你的账户添加更多额度以继续使用 Oz 智能体。"
                 } else {
-                    "Contact a team admin to purchase more credits to continue."
+                    "请联系团队管理员购买更多额度后继续。"
                 };
 
                 banner_text_children.push(
@@ -634,9 +633,9 @@ impl BuyCreditsBanner {
                 || would_purchase_exceed_limit;
 
             let button_text = if self.purchase_addon_credits_loading {
-                "Buying…".to_string()
+                "正在购买…".to_string()
             } else {
-                "Buy".to_string()
+                "购买".to_string()
             };
 
             let button_font_color = buy_button_disabled.then_some(

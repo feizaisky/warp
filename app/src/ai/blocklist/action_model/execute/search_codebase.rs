@@ -291,10 +291,10 @@ impl SearchCodebaseExecutor {
 
                 let error_message = match e {
                             GetRelevantFilesError::Pending => {
-                                "The current git repository is still being indexed, so search is unavailable right now. You can try again later".to_owned()
+                                "当前 git 仓库仍在索引中，因此暂时无法搜索。你可以稍后重试。".to_owned()
                             }
                             GetRelevantFilesError::CreateFailed => {
-                                "Relevant file search in the current directory is not available".to_owned()
+                                "当前目录中无法使用相关文件搜索。".to_owned()
                             }
                             GetRelevantFilesError::Missing => {
                                 "The current directory isn't within a git repository, which is necessary to search for relevant files.".to_owned()

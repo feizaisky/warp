@@ -190,8 +190,8 @@ pub(crate) async fn upload_to_target(
         body,
         None,
         UploadErrorContext {
-            transport: "Failed to upload to presigned URL",
-            failure: "Upload",
+            transport: "上传到预签名 URL 失败",
+            failure: "上传",
         },
     )
     .await
@@ -254,8 +254,8 @@ pub(crate) async fn upload_file_to_target(
         body,
         Some(file_size),
         UploadErrorContext {
-            transport: "Failed to upload artifact bytes",
-            failure: "Artifact upload",
+            transport: "上传工件字节失败",
+            failure: "工件上传",
         },
     )
     .await?;

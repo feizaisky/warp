@@ -1810,7 +1810,7 @@ impl AIBlock {
 
             if !self.action_buttons.contains_key(&action.id) {
                 let run_button = CompactibleActionButton::new(
-                    "Run".to_string(),
+                    "运行".to_string(),
                     Some(KeystrokeSource::Fixed(ENTER_KEYSTROKE.clone())),
                     ButtonSize::InlineActionHeader,
                     AIBlockAction::ExecuteRequestedAction {
@@ -1822,7 +1822,7 @@ impl AIBlock {
                 );
 
                 let cancel_button = CompactibleActionButton::new(
-                    "Cancel".to_string(),
+                    "取消".to_string(),
                     Some(KeystrokeSource::Fixed(CTRL_C_KEYSTROKE.clone())),
                     ButtonSize::InlineActionHeader,
                     AIBlockAction::CancelRequestedAction {
@@ -1898,9 +1898,9 @@ impl AIBlock {
                         other => other.clone(),
                     };
                     let command_text = if display_input.is_null() {
-                        format!("MCP Tool: {name}")
+                        format!("MCP 工具：{name}")
                     } else {
-                        format!("MCP Tool: {name} ({display_input})")
+                        format!("MCP 工具：{name}（{display_input}）")
                     };
                     self.handle_mcp_tool_stream_update(action_id, &command_text, ctx);
                 }
@@ -1923,9 +1923,8 @@ impl AIBlock {
                     action: AIAgentActionType::SuggestNewConversation { .. },
                     ..
                 } => {
-                    let start_new_conversation_button_text = "Start a new conversation".to_owned();
-                    let continue_current_conversation_button_text =
-                        "Continue current conversation".to_owned();
+                    let start_new_conversation_button_text = "开始新对话".to_owned();
+                    let continue_current_conversation_button_text = "继续当前对话".to_owned();
 
                     let server_output_id = self.model.server_output_id(ctx);
                     let accept_action = AIBlockAction::StartNewConversationButtonClicked {
@@ -5387,8 +5386,8 @@ fn set_imported_comment_button_disabled(
     handle.update(ctx, |button, ctx| {
         button.set_disabled(should_disable, ctx);
         if should_disable {
-            let tooltip = repo_path
-                .map(|path| format!("Navigate to {} to open these comments", path.display()));
+            let tooltip =
+                repo_path.map(|path| format!("请切换到 {} 以打开这些评论", path.display()));
             button.set_tooltip(tooltip, ctx);
         } else {
             button.set_tooltip(None::<String>, ctx);
@@ -6085,8 +6084,7 @@ impl TypedActionView for AIBlock {
 
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast =
-                        DismissibleToast::default(String::from("感谢您的反馈！"));
+                    let toast = DismissibleToast::default(String::from("感谢您的反馈！"));
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
 

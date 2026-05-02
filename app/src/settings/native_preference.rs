@@ -35,7 +35,7 @@ define_settings_group!(NativePreferenceSettings, settings: [
         private: false,
         storage_key: "UserNativePreference",
         toml_path: "general.user_native_preference",
-        description: "Whether to prefer the native desktop app or the web app.",
+        description: "是否优先使用原生桌面应用而不是 Web 应用。",
     },
     preference_dialog_dismissed: UserNativePreferenceDialogDismissed {
         type: bool,

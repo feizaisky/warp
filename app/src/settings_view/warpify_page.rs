@@ -122,7 +122,7 @@ impl WarpifyPageView {
         let add_added_commands_editor = ctx.add_typed_action_view(|ctx| {
             let mut input =
                 SubmittableTextInput::new(ctx).validate_on_edit(|regex| Regex::new(regex).is_ok());
-            input.set_placeholder_text("command (supports regex)", ctx);
+            input.set_placeholder_text("命令（支持正则表达式）", ctx);
             input
         });
 
@@ -133,7 +133,7 @@ impl WarpifyPageView {
 
         let add_denylisted_commands_editor = ctx.add_typed_action_view(|ctx| {
             let mut input = SubmittableTextInput::new(ctx);
-            input.set_placeholder_text("command (supports regex)", ctx);
+            input.set_placeholder_text("命令（支持正则表达式）", ctx);
             input
         });
 
@@ -144,7 +144,7 @@ impl WarpifyPageView {
 
         let add_denylisted_ssh_editor = ctx.add_typed_action_view(|ctx| {
             let mut input = SubmittableTextInput::new(ctx);
-            input.set_placeholder_text("host (supports regex)", ctx);
+            input.set_placeholder_text("主机（支持正则表达式）", ctx);
             input
         });
 
@@ -186,7 +186,7 @@ impl WarpifyPageView {
         {
             categories.push(
                 Category::new("SSH", vec![Box::new(SSHWidget::default())])
-                    .with_subtitle("Warpify your interactive SSH sessions."),
+                    .with_subtitle("Warpify 您的交互式 SSH 会话。"),
             );
         }
         PageType::new_categorized(categories, None)

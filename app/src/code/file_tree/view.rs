@@ -1574,7 +1574,7 @@ impl FileTreeView {
         let window_id = ctx.window_id();
         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
             let toast = DismissibleToast::error(String::from(
-                "Folder has too many files to display in the file explorer.",
+                "文件夹中的文件过多，无法在文件浏览器中显示。",
             ))
             .with_object_id("file_tree_exceeded_file_limit".to_string());
             toast_stack.add_ephemeral_toast(toast, window_id, ctx);
@@ -1966,7 +1966,7 @@ impl FileTreeView {
 
             if is_remote_file && mouse_state.is_hovered() {
                 let tooltip = ui_builder
-                    .tool_tip("Opening files is unavailable for remote sessions".to_string())
+                    .tool_tip("远程会话不支持打开文件".to_string())
                     .build()
                     .finish();
                 let offset = OffsetPositioning::offset_from_parent(
@@ -2696,7 +2696,7 @@ impl FileTreeView {
             )
             .with_child(
                 Text::new(
-                    "Project explorer unavailable",
+                    "项目浏览器不可用",
                     appearance.ui_font_family(),
                     appearance.ui_font_size() + 2.,
                 )

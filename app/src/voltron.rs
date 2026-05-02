@@ -90,9 +90,9 @@ pub enum VoltronItem {
 impl VoltronItem {
     pub fn as_str(&self) -> &'static str {
         match self {
-            VoltronItem::AiCommands => "A.I. Command Search",
-            VoltronItem::Workflows => "Workflows",
-            VoltronItem::History => "History Search",
+            VoltronItem::AiCommands => "AI 命令搜索",
+            VoltronItem::Workflows => "工作流",
+            VoltronItem::History => "历史搜索",
         }
     }
 }

@@ -237,8 +237,7 @@ pub(super) fn show_pr_created_toast(pr_info: &PrInfo, ctx: &mut ViewContext<GitD
     let url = pr_info.url.clone();
     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
         let link = ToastLink::new("打开 PR".to_string()).with_href(url);
-        let toast =
-            DismissibleToast::default("PR 已成功创建。".to_string()).with_link(link);
+        let toast = DismissibleToast::default("PR 已成功创建。".to_string()).with_link(link);
         toast_stack.add_ephemeral_toast(toast, window_id, ctx);
     });
 }
@@ -248,10 +247,7 @@ pub(super) fn render_body(
     branch_name: &str,
     appearance: &Appearance,
 ) -> Box<dyn Element> {
-    let base_branch = state
-        .base_branch_name
-        .as_deref()
-        .unwrap_or("默认分支");
+    let base_branch = state.base_branch_name.as_deref().unwrap_or("默认分支");
     let branch_name = format!("{branch_name} \u{2192} {base_branch}");
     Flex::column()
         .with_child(

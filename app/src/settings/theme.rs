@@ -22,7 +22,7 @@ define_settings_group!(ThemeSettings, settings: [
         private: false,
         toml_path: "appearance.themes.theme",
         max_table_depth: 0,
-        description: "The color theme.",
+        description: "颜色主题。",
     },
     use_system_theme: UseSystemTheme {
         type: bool,
@@ -32,7 +32,7 @@ define_settings_group!(ThemeSettings, settings: [
         private: false,
         storage_key: "SystemTheme",
         toml_path: "appearance.themes.system_theme",
-        description: "Whether to match the system light/dark theme.",
+        description: "是否跟随系统浅色/深色主题。",
     },
     selected_system_themes: SystemThemes {
         type: SelectedSystemThemes,
@@ -43,7 +43,7 @@ define_settings_group!(ThemeSettings, settings: [
         storage_key: "SelectedSystemThemes",
         toml_path: "appearance.themes.selected_system_themes",
         max_table_depth: 0,
-        description: "The themes to use for system light and dark modes.",
+        description: "系统浅色和深色模式使用的主题。",
     },
 ]);
 

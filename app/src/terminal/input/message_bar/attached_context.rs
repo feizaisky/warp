@@ -60,10 +60,7 @@ impl<Args: AttachedContextArgs + Copy> MessageProvider<Args> for AttachedBlocksM
         let message_text = if context_block_ids.len() == 1 {
             format!("`{}` 已附加为上下文", block_command)
         } else if context_block_ids.len() == 2 {
-            format!(
-                "`{}` 和另外 1 条命令已附加为上下文",
-                block_command
-            )
+            format!("`{}` 和另外 1 条命令已附加为上下文", block_command)
         } else {
             format!(
                 "`{}` 和另外 {} 条命令已附加为上下文",
