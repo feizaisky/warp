@@ -167,7 +167,7 @@ impl FindReferencesView {
 
                 // Guard against empty file names from malformed LSP URIs
                 let file_name = if file_name.is_empty() {
-                    "[unknown]".to_string()
+                    "[未知]".to_string()
                 } else {
                     file_name
                 };
@@ -499,9 +499,9 @@ fn render_header(
 
     // "Showing X references" title
     let title_text = if total_refs == 1 {
-        "Showing 1 reference".to_string()
+        "显示 1 个引用".to_string()
     } else {
-        format!("Showing {total_refs} references")
+        format!("显示 {total_refs} 个引用")
     };
 
     let title = Align::new(
@@ -647,7 +647,7 @@ fn render_reference_entry(
             } else {
                 // Show loading indicator when line_content is None
                 Text::new_inline(
-                    "Loading...",
+                    "加载中...",
                     appearance.monospace_font_family(),
                     appearance.monospace_font_size(),
                 )

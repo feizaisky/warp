@@ -43,8 +43,8 @@ impl ViewerRequestBody {
 
     fn role_label(&self) -> &str {
         match self.role {
-            Role::Executor => "edit",
-            _ => "view",
+            Role::Executor => "编辑",
+            _ => "查看",
         }
     }
 
@@ -66,13 +66,13 @@ impl View for ViewerRequestBody {
 
     fn render(&self, app: &AppContext) -> Box<dyn Element> {
         let appearance = Appearance::as_ref(app);
-        let header = format!("You have requested {} mode", self.role_label());
-        let text = format!("Waiting for {}...", self.display_name);
+        let header = format!("你已请求{}模式", self.role_label());
+        let text = format!("等待{}...", self.display_name);
 
         let cancel_button = appearance
             .ui_builder()
             .button(ButtonVariant::Outlined, self.mouse_state_handle.clone())
-            .with_centered_text_label(String::from("Cancel request"))
+            .with_centered_text_label(String::from("取消请求"))
             .with_style(UiComponentStyles {
                 font_size: Some(TEXT_FONT_SIZE),
                 font_weight: Some(Weight::Bold),

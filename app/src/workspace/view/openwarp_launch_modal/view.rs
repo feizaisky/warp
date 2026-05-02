@@ -45,7 +45,7 @@ const FEATURE_ITEMS: &[FeatureItem] = &[
     FeatureItem {
         icon: Icon::HeartHand,
         title: "贡献",
-        description: "Warp's client code is now open source. Get started by using the /feedback skill to open an issue, and follow the contribution guidelines here.",
+        description: "Warp 客户端代码现已开源。使用 /feedback 技能提交 issue 开始参与，并遵循此处的贡献指南。",
         inline_link: Some(InlineLink {
             text: "here",
             url: CONTRIBUTING_URL,
@@ -54,7 +54,7 @@ const FEATURE_ITEMS: &[FeatureItem] = &[
     FeatureItem {
         icon: Icon::Oz,
         title: "开放自动化开发 (Open Automated Development)",
-        description: "The Warp repo is managed by an agent-first workflow powered by Oz, our cloud agent orchestration platform.",
+        description: "Warp 仓库由智能体优先的工作流管理，该工作流由 Oz（我们的云端智能体编排平台）驱动。",
         inline_link: Some(InlineLink {
             text: "Oz",
             url: OZ_URL,
@@ -62,8 +62,8 @@ const FEATURE_ITEMS: &[FeatureItem] = &[
     },
     FeatureItem {
         icon: Icon::MessageChatSquare,
-        title: "Introducing 'auto (open-weights)'",
-        description: "We've added a new auto model that picks the best open weight model for a task, like Kimi or MiniMax.",
+        title: "全新 \"auto (开放权重)\" 模型",
+        description: "我们新增了一个 auto 模型，会为任务自动选择最佳开放权重模型，如 Kimi 或 MiniMax。",
         inline_link: None,
     },
 ];
@@ -211,7 +211,7 @@ impl OpenWarpLaunchModal {
 
     fn render_description(appearance: &Appearance) -> Box<dyn Element> {
         Text::new(
-            "You, our community, can participate in building Warp using an agent-first workflow.",
+            "您，我们的社区，可以通过智能体优先的工作流参与构建 Warp。",
             appearance.ui_font_family(),
             14.,
         )

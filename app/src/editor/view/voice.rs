@@ -72,7 +72,7 @@ impl EditorView {
     ) -> ViewHandle<FeaturePopup> {
         let voice_new_feature_popup = ctx.add_typed_action_view(|_| {
             FeaturePopup::new_feature(NewFeaturePopupLabel::FromString(
-                "Try Voice Input".to_string(),
+                "尝试语音输入".to_string(),
             ))
         });
 
@@ -330,7 +330,7 @@ impl EditorView {
                                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                                     let toast = crate::view_components::DismissibleToast::success(
                                         format!(
-                                            "Voice input is enabled. You can also press and hold the `{}` key to activate voice input (configure in Settings > AI > Voice)",
+                                            "语音输入已启用。你也可以按住 `{}` 键来激活语音输入（在设置 > AI > 语音中配置）",
                                             toggle_key.display_name()
                                         )
                                             .to_string(),
@@ -360,7 +360,7 @@ impl EditorView {
         let active_window_id = ctx.window_id();
         ToastStack::handle(ctx).update(ctx, move |toast_stack, ctx| {
             let mut toast = crate::view_components::DismissibleToast::error(String::from(
-                "Failed to start voice input (you may need to enable Microphone access)",
+                "启动语音输入失败（你可能需要启用麦克风访问权限）",
             ));
             // Set an id so the toast is shown at most once.
             toast = toast.with_object_id(MICROPHONE_ACCESS_ERROR_ID.to_string());
@@ -532,12 +532,12 @@ impl EditorView {
 
         let modifier_key = AISettings::handle(app).as_ref(app).voice_input_toggle_key;
         let tooltip_text = if mic_access_denied {
-            "Voice transcription is disabled because Microphone access was not granted.".to_string()
+            "语音转录已禁用，因为未授予麦克风访问权限。".to_string()
         } else if modifier_key == VoiceInputToggleKey::None {
-            "Voice transcription".to_string()
+            "语音转录".to_string()
         } else {
             format!(
-                "Voice transcription (hold `{}` key)",
+                "语音转录（按住 `{}` 键）",
                 modifier_key.display_name().to_lowercase()
             )
         };

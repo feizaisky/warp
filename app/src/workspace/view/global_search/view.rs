@@ -651,7 +651,7 @@ impl GlobalSearchView {
             };
 
             let mut editor = EditorView::new(options, ctx);
-            editor.set_placeholder_text("Search in files", ctx);
+            editor.set_placeholder_text("在文件中搜索", ctx);
             editor
         });
 
@@ -2065,16 +2065,16 @@ impl View for GlobalSearchView {
             .with_child(query_row);
 
         let files = self.unique_match_count();
-        let file_word = if files == 1 { "file" } else { "files" };
+        let file_word = if files == 1 { "个文件" } else { "个文件" };
 
         let message = if self.is_search_in_progress && self.total_match_count == 0 {
             "".to_string()
         } else if !self.is_search_in_progress && self.total_match_count == 0 {
-            "No results found. Review your gitignore files.".to_string()
+            "未找到结果。请检查你的 gitignore 文件。".to_string()
         } else {
             match self.total_match_count {
-                1 => format!("1 result in {files} {file_word}"),
-                n => format!("{n} results in {files} {file_word}"),
+                1 => format!("1 个结果，在 {files} {file_word}"),
+                n => format!("{n} 个结果，在 {files} {file_word}"),
             }
         };
 
@@ -2096,7 +2096,7 @@ impl View for GlobalSearchView {
             font_color: Some(blended_colors::text_sub(theme, theme.background())),
             ..Default::default()
         };
-        let capped_message = "The result set only contains a subset of all matches. Be more specific in your search to narrow down results.".to_string();
+        let capped_message = "结果集仅包含所有匹配项的一部分。请更具体地搜索以缩小结果范围。".to_string();
         let capped_text = Span::new(capped_message, capped_text_styles)
             .with_soft_wrap()
             .build()
@@ -2247,8 +2247,8 @@ impl GlobalSearchView {
     fn render_pre_search_state(&self, app: &AppContext) -> Box<dyn Element> {
         self.render_zero_state(
             Icon::Search,
-            "Global search",
-            "Search in files across your current directories.",
+            "全局搜索",
+            "在当前目录中的文件中搜索。",
             app,
         )
     }
@@ -2256,8 +2256,8 @@ impl GlobalSearchView {
     fn render_unavailable_state(&self, app: &AppContext) -> Box<dyn Element> {
         self.render_zero_state(
             Icon::AlertTriangle,
-            "Global search unavailable",
-            "Global search requries access to your local workspace. Open a new session or navigate to an active session to view.",
+            "全局搜索不可用",
+            "全局搜索需要访问本地工作区。请打开新会话或导航到活动会话以查看。",
             app,
         )
     }
@@ -2265,8 +2265,8 @@ impl GlobalSearchView {
     fn render_remote_state(&self, app: &AppContext) -> Box<dyn Element> {
         self.render_zero_state(
             Icon::AlertTriangle,
-            "Global search unavailable",
-            "Global search requires access to your local workspace, which isn't supported in remote sessions",
+            "全局搜索不可用",
+            "全局搜索需要访问本地工作区，远程会话不支持此功能",
             app,
         )
     }
@@ -2274,8 +2274,8 @@ impl GlobalSearchView {
     fn render_unsupported_session_state(&self, app: &AppContext) -> Box<dyn Element> {
         self.render_zero_state(
             Icon::AlertTriangle,
-            "Global search unavailable",
-            "Global search doesn't currently work in Git Bash or WSL.",
+            "全局搜索不可用",
+            "全局搜索目前不支持 Git Bash 或 WSL。",
             app,
         )
     }

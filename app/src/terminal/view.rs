@@ -21534,7 +21534,7 @@ impl TerminalView {
             render_hoverable_block_button(
                 icon,
                 Some(ToolbeltButtonTooltip {
-                    label: "Filter block output".to_string(),
+                    label: "过滤块输出".to_string(),
                     tool_tip_below_button,
                 }),
                 should_disable_filter_button,
@@ -21582,7 +21582,7 @@ impl TerminalView {
         render_hoverable_block_button(
             icon,
             Some(ToolbeltButtonTooltip {
-                label: "Bookmark this block to quickly scroll to it".to_string(),
+                label: "收藏此块以便快速滚动到它".to_string(),
                 tool_tip_below_button,
             }),
             false,

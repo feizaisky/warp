@@ -6533,13 +6533,13 @@ impl Workspace {
         let pane_name_target = match target {
             VerticalTabsPaneContextMenuTarget::ClickedPane(locator) => PaneNameMenuTarget {
                 locator,
-                rename_label: "Rename pane",
-                reset_label: "Reset pane name",
+                rename_label: "重命名面板",
+                reset_label: "重置面板名称",
             },
             VerticalTabsPaneContextMenuTarget::ActivePane(locator) => PaneNameMenuTarget {
                 locator,
-                rename_label: "Rename active pane",
-                reset_label: "Reset active pane name",
+                rename_label: "重命名活动面板",
+                reset_label: "重置活动面板名称",
             },
         };
         let menu_items = tab.menu_items_with_pane_name_target(
@@ -18351,7 +18351,7 @@ impl Workspace {
             AISettings::as_ref(app)
                 .is_any_ai_enabled(app)
                 .then(|| WorkspaceBannerButtonDetails {
-                    text: "Fix with Oz".to_owned(),
+                    text: "使用 Oz 修复".to_owned(),
                     action: WorkspaceAction::FixSettingsWithOz {
                         error_description: error.to_string(),
                     },
@@ -18392,11 +18392,11 @@ impl Workspace {
         Some(WorkspaceBannerFields {
             banner_type: WorkspaceBanner::Reauth,
             severity: BannerSeverity::Warning,
-            heading: Some("Your login has expired.".into()),
-            description: "Please sign in again to restore access to cloud-based features.".into(),
+            heading: Some("登录已过期。".into()),
+            description: "请重新登录以恢复云端功能的访问。".into(),
             secondary_button: None,
             button: Some(WorkspaceBannerButtonDetails {
-                text: "Sign in".into(),
+                text: "登录".into(),
                 action: WorkspaceAction::Reauth,
                 variant: BannerButtonVariant::Outlined,
                 icon: None,

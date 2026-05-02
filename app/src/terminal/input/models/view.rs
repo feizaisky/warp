@@ -76,7 +76,7 @@ static TAB_CONFIGS: LazyLock<Vec<InlineMenuTabConfig<InlineModelSelectorTab>>> =
     LazyLock::new(|| {
         let mut configs = vec![InlineMenuTabConfig {
             id: InlineModelSelectorTab::BaseAgent,
-            label: "Base".to_string(),
+            label: "基础".to_string(),
             filters: HashSet::from([QueryFilter::BaseModels]),
         }];
         if FeatureFlag::InlineMenuHeaders.is_enabled() {
@@ -187,10 +187,10 @@ impl InlineModelSelectorView {
                         cli_ctrl.as_ref(app).is_agent_in_control_or_tagged_in();
                     let message = match active_tab {
                         InlineModelSelectorTab::FullTerminalUse if main_agent_in_progress && !is_cli_agent_in_control_or_tagged_in => {
-                            Some("You're using the base agent. Full terminal use models only apply to the full terminal use agent.")
+                            Some("你正在使用基础代理。完整终端使用模型仅适用于完整终端使用代理。")
                         }
                         InlineModelSelectorTab::BaseAgent if is_cli_agent_in_control_or_tagged_in => {
-                            Some("You're using the full terminal use agent. Base models only apply to the base agent.")
+                            Some("你正在使用完整终端使用代理。基础模型仅适用于基础代理。")
                         }
                         _ => None,
                     };

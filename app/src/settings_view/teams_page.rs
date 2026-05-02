@@ -1598,7 +1598,7 @@ impl TeamsPageView {
             let actions = if current_user_has_admin_permissions {
                 vec![ItemAction {
                     icon: Icon::X,
-                    label: "Cancel invite".to_string(),
+                    label: "取消邀请".to_string(),
                     action: TeamsPageAction::DeletePendingEmailInvitation {
                         team_uid: team.uid,
                         invitee_email: email_invite.invitee_email.clone(),
@@ -1635,7 +1635,7 @@ impl TeamsPageView {
                 if current_user_has_owner_permissions && !team_member_has_owner_permissions {
                     actions.push(ItemAction {
                         icon: Icon::Users,
-                        label: "Transfer ownership".to_string(),
+                        label: "转让所有权".to_string(),
                         action: TeamsPageAction::ShowTransferOwnershipModal {
                             new_owner_email: member.email.clone(),
                             new_owner_uid: member.uid,
@@ -1652,7 +1652,7 @@ impl TeamsPageView {
                     if team_member_has_admin_permissions {
                         actions.push(ItemAction {
                             icon: Icon::ArrowDown,
-                            label: "Demote from admin".to_string(),
+                            label: "降级管理员".to_string(),
                             action: TeamsPageAction::SetTeamMemberRole {
                                 team_uid: team.uid,
                                 user_uid: member.uid,
@@ -1662,7 +1662,7 @@ impl TeamsPageView {
                     } else {
                         actions.push(ItemAction {
                             icon: Icon::ArrowUp,
-                            label: "Promote to admin".to_string(),
+                            label: "升级为管理员".to_string(),
                             action: TeamsPageAction::SetTeamMemberRole {
                                 team_uid: team.uid,
                                 user_uid: member.uid,
@@ -1676,7 +1676,7 @@ impl TeamsPageView {
                 if current_user_has_admin_permissions && !team_member_has_owner_permissions {
                     actions.push(ItemAction {
                         icon: Icon::X,
-                        label: "Remove from team".to_string(),
+                        label: "移出团队".to_string(),
                         action: TeamsPageAction::RemoveUserFromTeam {
                             user_uid: member.uid,
                             team_uid: team.uid,

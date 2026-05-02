@@ -53,7 +53,7 @@ impl CloudModeV2HistoryMenuView {
     ) -> Self {
         let tab_configs = vec![InlineMenuTabConfig {
             id: HistoryTab::Prompts,
-            label: "Prompts".to_string(),
+            label: "提示词".to_string(),
             filters: HashSet::from([QueryFilter::PromptHistory]),
         }];
         let inner = ctx.add_view(|ctx| {
@@ -138,7 +138,7 @@ impl View for CloudModeV2HistoryMenuView {
 
         let content: Box<dyn Element> = if row_count == 0 {
             let no_results_text = Text::new(
-                "No results".to_string(),
+                "无结果".to_string(),
                 appearance.ui_font_family(),
                 inline_menu_styles::font_size(appearance),
             )

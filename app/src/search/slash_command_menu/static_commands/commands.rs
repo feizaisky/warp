@@ -29,7 +29,7 @@ pub static CLOUD_AGENT: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand
 
 pub const ADD_MCP: StaticCommand = StaticCommand {
     name: "/add-mcp",
-    description: "Add new MCP server",
+    description: "添加新的 MCP 服务器",
     icon_path: "bundled/svg/dataflow.svg",
     availability: Availability::AI_ENABLED,
     auto_enter_ai_mode: false,
@@ -193,7 +193,7 @@ pub const INDEX: StaticCommand = StaticCommand {
 
 pub const INIT: StaticCommand = StaticCommand {
     name: "/init",
-    description: "Index this codebase and generate an AGENTS.md file",
+    description: "索引此代码库并生成 AGENTS.md 文件",
     icon_path: "bundled/svg/warp-2.svg",
     availability: Availability::REPOSITORY
         .union(Availability::AGENT_VIEW)
@@ -204,7 +204,7 @@ pub const INIT: StaticCommand = StaticCommand {
 
 pub const OPEN_PROJECT_RULES: StaticCommand = StaticCommand {
     name: "/open-project-rules",
-    description: "Open the project rules file (AGENTS.md)",
+    description: "打开项目规则文件 (AGENTS.md)",
     icon_path: "bundled/svg/file-code-02.svg",
     availability: Availability::REPOSITORY.union(Availability::AI_ENABLED),
     auto_enter_ai_mode: false,
@@ -213,7 +213,7 @@ pub const OPEN_PROJECT_RULES: StaticCommand = StaticCommand {
 
 pub const OPEN_MCP_SERVERS: StaticCommand = StaticCommand {
     name: "/open-mcp-servers",
-    description: "Open MCP servers",
+    description: "打开 MCP 服务器",
     icon_path: "bundled/svg/dataflow.svg",
     availability: Availability::AI_ENABLED,
     auto_enter_ai_mode: false,
@@ -222,7 +222,7 @@ pub const OPEN_MCP_SERVERS: StaticCommand = StaticCommand {
 
 pub const OPEN_SETTINGS_FILE: StaticCommand = StaticCommand {
     name: "/open-settings-file",
-    description: "Open settings file (TOML)",
+    description: "打开设置文件 (TOML)",
     icon_path: "bundled/svg/file-code-02.svg",
     availability: Availability::LOCAL,
     auto_enter_ai_mode: false,
@@ -270,7 +270,7 @@ pub const OPEN_RULES: StaticCommand = StaticCommand {
 
 pub static NEW: LazyLock<StaticCommand> = LazyLock::new(|| StaticCommand {
     name: "/new",
-    description: "Start a new conversation (alias for /agent)",
+    description: "开始新对话（/agent 的别名）",
     icon_path: "bundled/svg/new-conversation.svg",
     availability: Availability::NO_LRC_CONTROL
         | Availability::AI_ENABLED
@@ -422,7 +422,7 @@ pub static FORK_AND_COMPACT: LazyLock<StaticCommand> = LazyLock::new(|| {
 
 pub const FORK_FROM: StaticCommand = StaticCommand {
     name: "/fork-from",
-    description: "Fork conversation from a specific query",
+    description: "从指定查询分叉对话",
     icon_path: "bundled/svg/arrow-split.svg",
     availability: Availability::AGENT_VIEW
         .union(Availability::NO_LRC_CONTROL)

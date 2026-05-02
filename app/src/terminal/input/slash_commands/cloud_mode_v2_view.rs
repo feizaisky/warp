@@ -111,9 +111,9 @@ impl Section {
 
     fn header(self) -> &'static str {
         match self {
-            Self::Commands => "Commands",
-            Self::Skills => "Skills",
-            Self::Prompts => "Prompts",
+            Self::Commands => "命令",
+            Self::Skills => "技能",
+            Self::Prompts => "提示词",
         }
     }
 
@@ -893,9 +893,9 @@ impl CloudModeV2SlashCommandView {
         let theme = appearance.theme();
         let menu_bg = inline_styles::menu_background_color(app);
         let label = if self.mixer.as_ref(app).is_loading() {
-            "Loading..."
+            "加载中..."
         } else {
-            "No results"
+            "无结果"
         };
         Container::new(
             Text::new(
@@ -1184,7 +1184,7 @@ fn render_show_more_row(
     let menu_bg = inline_styles::menu_background_color(app);
     let secondary_color = theme.sub_text_color(Fill::Solid(menu_bg)).into_solid();
 
-    let label = format!("Show {hidden_count} more");
+    let label = format!("显示更多 {hidden_count} 项");
 
     let row = Hoverable::new(mouse_state, move |mouse_state| {
         let bg = if is_selected || mouse_state.is_hovered() {
