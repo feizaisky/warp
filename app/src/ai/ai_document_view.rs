@@ -143,7 +143,7 @@ impl From<PaneEvent> for AIDocumentEvent {
     }
 }
 
-pub const DEFAULT_PLANNING_DOCUMENT_TITLE: &str = "Planning document";
+pub const DEFAULT_PLANNING_DOCUMENT_TITLE: &str = "计划文档";
 
 /// Entry for the version history dropdown menu.
 struct VersionMenuEntry {
@@ -350,7 +350,7 @@ impl AIDocumentView {
             ActionButton::new("", NakedTheme)
                 .with_icon(icons::Icon::History)
                 .with_size(ButtonSize::Small)
-                .with_tooltip("Show version history")
+                .with_tooltip("显示版本历史")
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(
                         PaneHeaderAction::<AIDocumentAction, AIDocumentAction>::CustomAction(
@@ -374,9 +374,9 @@ impl AIDocumentView {
         let save_action = keybinding_name_to_keystroke(SAVE_FILE_BINDING_NAME, ctx)
             .map(|k| k.displayed())
             .unwrap_or("Click".to_string());
-        let tooltip_text = format!("This plan has changes the agent isn't aware of. {save_action} to stop the agent's current task and send the updated plan");
+        let tooltip_text = format!("此计划有智能体尚未了解的更改。{save_action} 以停止智能体当前任务并发送更新后的计划");
         let update_plan_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Update Agent", PrimaryTheme)
+            ActionButton::new("更新智能体", PrimaryTheme)
                 .with_size(ButtonSize::Small)
                 .with_tooltip(tooltip_text)
                 .with_tooltip_alignment(TooltipAlignment::Right)
@@ -392,7 +392,7 @@ impl AIDocumentView {
 
         // Create restore button
         let restore_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Restore", SecondaryTheme)
+            ActionButton::new("恢复", SecondaryTheme)
                 .with_size(ButtonSize::Small)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(
@@ -1064,7 +1064,7 @@ impl TypedActionView for AIDocumentView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::success("Link copied to clipboard".to_string()),
+                        DismissibleToast::success("链接已复制到剪贴板".to_string()),
                         window_id,
                         ctx,
                     );
@@ -1077,7 +1077,7 @@ impl TypedActionView for AIDocumentView {
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::success("Plan ID copied to clipboard".to_string()),
+                        DismissibleToast::success("计划 ID 已复制到剪贴板".to_string()),
                         window_id,
                         ctx,
                     );

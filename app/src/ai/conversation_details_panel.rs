@@ -383,7 +383,7 @@ impl ConversationDetailsData {
                 environment_id: None,
                 conversation_id: None,
             },
-            title: "Cloud agent run".to_string(),
+            title: "云端智能体运行".to_string(),
             creator: None,
             created_at: None,
             credits: None,
@@ -511,16 +511,16 @@ impl ConversationDetailsPanel {
 
         #[cfg(not(target_family = "wasm"))]
         let continue_locally_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Continue locally", PrimaryTheme)
-                .with_tooltip("Fork this conversation locally")
+            ActionButton::new("在本地继续", PrimaryTheme)
+                .with_tooltip("在本地分叉此对话")
                 .with_size(ButtonSize::Small)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(ConversationDetailsPanelAction::ContinueLocally);
                 })
         });
         let open_in_oz_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("View in Oz", SecondaryTheme)
-                .with_tooltip("View this run in the Oz web app")
+            ActionButton::new("在 Oz 中查看", SecondaryTheme)
+                .with_tooltip("在 Oz 网页应用中查看此次运行")
                 .with_size(ButtonSize::Small)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(ConversationDetailsPanelAction::OpenInOz);

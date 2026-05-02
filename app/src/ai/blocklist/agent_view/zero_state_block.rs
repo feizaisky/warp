@@ -54,7 +54,7 @@ use crate::{
 };
 
 const CLOUD_AGENT_DOCS_URL: &str = "https://docs.warp.dev/agent-platform/cloud-agents/overview";
-const OZ_UPDATES_SECTION_HEADER: &str = "What's new in Oz";
+const OZ_UPDATES_SECTION_HEADER: &str = "Oz 中的新功能";
 
 // The maximum number of Oz updates from the changelog rendered in-line in the 'What's new in Oz section'.
 const MAX_OZ_UPDATE_COUNT: usize = 4;
@@ -394,7 +394,7 @@ impl View for AgentViewZeroStateBlock {
 
         let header_props = if self.origin.is_cloud_agent() {
             HeaderProps {
-                title: "New Oz cloud agent conversation".into(),
+                title: "新建 Oz 云端智能体对话".into(),
                 description: AgentViewDescription::CloudModeWithDocsLink,
                 icon: Icon::OzCloud,
             }
@@ -410,7 +410,7 @@ impl View for AgentViewZeroStateBlock {
             }
 
             HeaderProps {
-                title: "New Oz agent conversation".into(),
+                title: "新建 Oz 智能体对话".into(),
                 description: AgentViewDescription::PlainText(vec![local_description.into()]),
                 icon: Icon::Oz,
             }
@@ -1102,7 +1102,7 @@ fn render_oz_updates(props: OzUpdatesProps<'_>, app: &AppContext) -> Option<Box<
                                 .with_child(
                                     Container::new(
                                         Text::new(
-                                            "View changelog",
+                                            "查看更新日志",
                                             appearance.ui_font_family(),
                                             appearance.monospace_font_size() - 2.,
                                         )

@@ -76,21 +76,21 @@ use super::inline_action_icons::{self, icon_size};
 /// For horizontal padding, use [`INLINE_ACTION_HORIZONTAL_PADDING`] for consistency.
 pub const REQUESTED_COMMAND_BODY_VERTICAL_PADDING: f32 = 16.;
 
-const REQUESTED_COMMAND_REJECT_LABEL: &str = "Reject";
+const REQUESTED_COMMAND_REJECT_LABEL: &str = "拒绝";
 const REQUESTED_COMMAND_ACCEPT_LABEL: &str = "Run";
 const REQUESTED_COMMAND_EDIT_LABEL: &str = "Edit";
 const REQUESTED_COMMAND_MINIMIZE_LABEL: &str = "Done";
 
-const LOADING_MESSAGE: &str = "Generating command...";
-const COMMAND_WAITING_FOR_USER_MESSAGE: &str = "OK if I run this command and read the output?";
-const MCP_TOOL_WAITING_FOR_USER_MESSAGE: &str = "OK if I call this MCP tool?";
-const MONITORING_COMMAND_MESSAGE: &str = "Agent is monitoring command...";
-const AGENT_NEEDS_INPUT_MESSAGE: &str = "Agent needs your input to continue";
-const USER_TOOK_CONTROL_COMMAND_MESSAGE: &str = "User is in control.";
-const USER_STOPPED_CLI_SUBAGENT_COMMAND_MESSAGE: &str = "Paused agent. User is in control.";
+const LOADING_MESSAGE: &str = "正在生成命令...";
+const COMMAND_WAITING_FOR_USER_MESSAGE: &str = "允许运行此命令并读取输出吗？";
+const MCP_TOOL_WAITING_FOR_USER_MESSAGE: &str = "允许调用此 MCP 工具吗？";
+const MONITORING_COMMAND_MESSAGE: &str = "智能体正在监控命令...";
+const AGENT_NEEDS_INPUT_MESSAGE: &str = "智能体需要您的输入才能继续";
+const USER_TOOK_CONTROL_COMMAND_MESSAGE: &str = "用户已接管。";
+const USER_STOPPED_CLI_SUBAGENT_COMMAND_MESSAGE: &str = "已暂停智能体。用户已接管。";
 const AGENT_REQUESTED_USER_TAKE_CONTROL_COMMAND_MESSAGE: &str = "User in control";
 const AGENT_ERRORED_COMMAND_MESSAGE: &str = "Agent ran into an issue. Take over control.";
-pub const VIEWING_COMMAND_DETAIL_MESSAGE: &str = "Viewing command detail";
+pub const VIEWING_COMMAND_DETAIL_MESSAGE: &str = "查看命令详情";
 const VIEWING_MCP_TOOL_DETAIL_MESSAGE: &str = "Viewing MCP tool call detail";
 
 const EDIT_COMMAND_ACTION_NAME: &str = "requested_command:edit";
@@ -608,7 +608,7 @@ impl RequestedCommandView {
             .with_on_select_action(RequestedCommandViewAction::Accept)
             .into_item();
 
-            let auto_item = MenuItemFields::new_with_label("Auto-approve", auto_keystroke.as_str())
+            let auto_item = MenuItemFields::new_with_label("自动批准", auto_keystroke.as_str())
                 .with_on_select_action(RequestedCommandViewAction::AcceptAndAutoExecute)
                 .into_item();
 

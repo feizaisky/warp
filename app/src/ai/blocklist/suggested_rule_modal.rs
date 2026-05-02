@@ -45,7 +45,7 @@ use warpui::{
     ViewHandle,
 };
 
-const HEADER_TEXT: &str = "Suggested rule";
+const HEADER_TEXT: &str = "建议规则";
 const MAX_EDITOR_HEIGHT: f32 = 240.;
 
 pub fn init(app: &mut AppContext) {
@@ -317,12 +317,12 @@ impl SuggestedRuleView {
         });
 
         let add_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Add rule", PrimaryTheme)
+            ActionButton::new("添加规则", PrimaryTheme)
                 .on_click(|ctx| ctx.dispatch_typed_action(SuggestedRuleDialogAction::Add))
         });
 
         let edit_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Edit rule", PrimaryTheme)
+            ActionButton::new("编辑规则", PrimaryTheme)
                 .on_click(|ctx| ctx.dispatch_typed_action(SuggestedRuleDialogAction::Edit))
         });
 

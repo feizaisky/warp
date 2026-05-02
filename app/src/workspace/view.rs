@@ -2448,7 +2448,7 @@ impl Workspace {
                         let toast = DismissibleToast::error(message)
                             .with_object_id(object_id.clone())
                             .with_link(
-                                ToastLink::new("Open file".to_string()).with_onclick_action(
+                                ToastLink::new("打开文件".to_string()).with_onclick_action(
                                     WorkspaceAction::OpenTabConfigErrorFile {
                                         path,
                                         toast_object_id: object_id,
@@ -4049,7 +4049,7 @@ impl Workspace {
                     log::error!("Failed to load conversation from server");
                     me.toast_stack.update(ctx, |view, ctx| {
                         let new_toast = DismissibleToast::error(
-                            "Failed to load conversation data.".to_string(),
+                            "加载对话数据失败。".to_string(),
                         );
                         view.add_ephemeral_toast(new_toast, ctx);
                     });
@@ -5595,7 +5595,7 @@ impl Workspace {
         if !FeatureFlag::ConfigurableToolbar.is_enabled() {
             return;
         }
-        let items = vec![MenuItemFields::new("Re-arrange toolbar items")
+        let items = vec![MenuItemFields::new("重新排列工具栏项")
             .with_on_select_action(WorkspaceAction::OpenHeaderToolbarEditor)
             .into_item()];
         self.header_toolbar_context_menu
@@ -6050,7 +6050,7 @@ impl Workspace {
 
         // 1. Agent (if AI enabled)
         if is_any_ai_enabled {
-            let mut agent_item = MenuItemFields::new("Agent")
+            let mut agent_item = MenuItemFields::new("智能体")
                 .with_on_select_action(WorkspaceAction::AddAgentTab)
                 .with_icon(icons::Icon::LayoutAlt01);
             if effective_default == DefaultSessionMode::Agent {
@@ -6066,7 +6066,7 @@ impl Workspace {
             #[cfg(target_os = "windows")]
             {
                 let is_terminal_default = effective_default == DefaultSessionMode::Terminal;
-                let mut terminal_item = MenuItemFields::new("Terminal")
+                let mut terminal_item = MenuItemFields::new("终端")
                     .with_on_select_action(WorkspaceAction::AddTerminalTab {
                         hide_homepage: false,
                     })
@@ -6103,7 +6103,7 @@ impl Workspace {
             // On other platforms, Terminal is a regular item.
             #[cfg(not(target_os = "windows"))]
             {
-                let mut terminal_item = MenuItemFields::new("Terminal")
+                let mut terminal_item = MenuItemFields::new("终端")
                     .with_on_select_action(WorkspaceAction::AddTerminalTab {
                         hide_homepage: false,
                     })
@@ -6120,7 +6120,7 @@ impl Workspace {
             && FeatureFlag::AgentView.is_enabled()
             && FeatureFlag::CloudMode.is_enabled()
         {
-            let mut cloud_item = MenuItemFields::new("Cloud Oz")
+            let mut cloud_item = MenuItemFields::new("云端 Oz")
                 .with_on_select_action(WorkspaceAction::AddAmbientAgentTab)
                 .with_icon(icons::Icon::LayoutAlt01);
             if effective_default == DefaultSessionMode::CloudAgent {
@@ -6131,7 +6131,7 @@ impl Workspace {
 
         // 3b. Local Docker Sandbox
         if FeatureFlag::LocalDockerSandbox.is_enabled() {
-            let mut docker_item = MenuItemFields::new("Local Docker Sandbox")
+            let mut docker_item = MenuItemFields::new("本地 Docker 沙盒")
                 .with_on_select_action(WorkspaceAction::AddDockerSandboxTab)
                 .with_icon(icons::Icon::Docker);
             if effective_default == DefaultSessionMode::DockerSandbox {
@@ -6191,14 +6191,14 @@ impl Workspace {
         if FeatureFlag::TabConfigs.is_enabled() {
             menu_items.push(MenuItem::Separator);
             menu_items.push(
-                MenuItemFields::new_submenu("New worktree config")
+                MenuItemFields::new_submenu("新建工作树配置")
                     .with_icon(icons::Icon::Dataflow02)
                     .into_item(),
             );
 
             // 6. New tab config — V0: opens the TOML template.
             menu_items.push(
-                MenuItemFields::new("New tab config")
+                MenuItemFields::new("新建标签页配置")
                     .with_on_select_action(WorkspaceAction::SelectNewSessionMenuItem(
                         NewSessionMenuItem::CreateNewTabConfig,
                     ))
@@ -6209,7 +6209,7 @@ impl Workspace {
 
         menu_items.push(MenuItem::Separator);
         menu_items.push(
-            MenuItemFields::new("Reopen closed session")
+            MenuItemFields::new("重新打开已关闭会话")
                 .with_on_select_action(WorkspaceAction::ReopenClosedSession)
                 .with_key_shortcut_label(reopen_closed_session_shortcut_label)
                 .with_disabled(UndoCloseStack::handle(ctx).as_ref(ctx).is_empty())
@@ -6569,24 +6569,24 @@ impl Workspace {
         if FeatureFlag::Autoupdate.is_enabled() && ChannelState::show_autoupdate_menu_items() {
             if let Some(version) = ChannelState::app_version() {
                 menu_items.push(
-                    MenuItemFields::new(format!("Current version is {version}"))
+                    MenuItemFields::new(format!("当前版本为 {version}"))
                         .with_disabled(true)
                         .into_item(),
                 );
                 match autoupdate::get_update_state(ctx) {
                     AutoupdateStage::UpdateReady { new_version, .. }
                     | AutoupdateStage::UpdatedPendingRestart { new_version } => menu_items.push(
-                        MenuItemFields::new(format!("Install update ({})", new_version.version))
+                        MenuItemFields::new(format!("安装更新 ({})", new_version.version))
                             .with_on_select_action(WorkspaceAction::ApplyUpdate)
                             .into_item(),
                     ),
                     AutoupdateStage::Updating { new_version, .. } => menu_items.push(
-                        MenuItemFields::new(format!("Updating to ({})", new_version.version))
+                        MenuItemFields::new(format!("正在更新至 ({})", new_version.version))
                             .with_disabled(true)
                             .into_item(),
                     ),
                     AutoupdateStage::UnableToUpdateToNewVersion { .. } => menu_items.push(
-                        MenuItemFields::new("Update Warp manually")
+                        MenuItemFields::new("手动更新 Warp")
                             .with_on_select_action(WorkspaceAction::DownloadNewVersion)
                             .into_item(),
                     ),
@@ -7201,7 +7201,7 @@ impl Workspace {
         self.add_tab_with_pane_layout(
             panes_layout,
             Arc::new(HashMap::new()),
-            Some("Settings".to_owned()),
+            Some("设置".to_owned()),
             ctx,
         );
     }
@@ -7628,7 +7628,7 @@ impl Workspace {
                     view.toast_stack.update(ctx, |toast_stack, ctx| {
                         let toast = DismissibleToast::success(message.to_string())
                             .with_link(
-                                ToastLink::new("Learn more".to_string()).with_href(
+                                ToastLink::new("了解更多".to_string()).with_href(
                                     "https://docs.warp.dev/reference/cli".to_string(),
                                 ),
                             );
@@ -8301,7 +8301,7 @@ impl Workspace {
                     ) =>
                 {
                     items.push(
-                        MenuItemFields::new("Update and relaunch Warp")
+                        MenuItemFields::new("更新并重启 Warp")
                             .with_on_select_action(WorkspaceAction::ApplyUpdate)
                             .with_override_text_color(appearance.theme().ansi_fg_red())
                             .into_item(),
@@ -8313,7 +8313,7 @@ impl Workspace {
                     ) =>
                 {
                     items.push(
-                        MenuItemFields::new(format!("Updating to ({})", new_version.version))
+                        MenuItemFields::new(format!("正在更新至 ({})", new_version.version))
                             .with_disabled(true)
                             .into_item(),
                     )
@@ -8324,7 +8324,7 @@ impl Workspace {
                     ) =>
                 {
                     items.push(
-                        MenuItemFields::new("Update Warp manually")
+                        MenuItemFields::new("手动更新 Warp")
                             .with_on_select_action(WorkspaceAction::DownloadNewVersion)
                             .with_override_text_color(appearance.theme().ansi_fg_red())
                             .into_item(),
@@ -8335,27 +8335,27 @@ impl Workspace {
         }
 
         items.extend([
-            MenuItemFields::new("What's new")
+            MenuItemFields::new("新功能")
                 .with_on_select_action(WorkspaceAction::ViewLatestChangelog)
                 .into_item(),
-            MenuItemFields::new("Settings")
+            MenuItemFields::new("设置")
                 .with_on_select_action(WorkspaceAction::ShowSettings)
                 .into_item(),
-            MenuItemFields::new("Keyboard shortcuts")
+            MenuItemFields::new("键盘快捷键")
                 .with_on_select_action(WorkspaceAction::ToggleKeybindingsPage)
                 .into_item(),
             MenuItem::Separator,
-            MenuItemFields::new("Documentation")
+            MenuItemFields::new("文档")
                 .with_on_select_action(WorkspaceAction::ViewUserDocs)
                 .into_item(),
-            MenuItemFields::new("Feedback")
+            MenuItemFields::new("反馈")
                 .with_on_select_action(WorkspaceAction::SendFeedback)
                 .into_item(),
         ]);
 
         #[cfg(not(target_family = "wasm"))]
         items.push(
-            MenuItemFields::new("View Warp logs")
+            MenuItemFields::new("查看 Warp 日志")
                 .with_on_select_action(WorkspaceAction::ViewLogs)
                 .into_item(),
         );
@@ -8369,7 +8369,7 @@ impl Workspace {
 
         if self.auth_state.is_anonymous_or_logged_out() {
             items.push(
-                MenuItemFields::new("Sign up")
+                MenuItemFields::new("注册")
                     .with_on_select_action(WorkspaceAction::SignupAnonymousUser)
                     .into_item(),
             );
@@ -8383,7 +8383,7 @@ impl Workspace {
 
         if is_on_paid_plan {
             items.push(
-                MenuItemFields::new("Billing and usage")
+                MenuItemFields::new("账单与用量")
                     .with_on_select_action(WorkspaceAction::ShowSettingsPage(
                         SettingsSection::BillingAndUsage,
                     ))
@@ -8391,21 +8391,21 @@ impl Workspace {
             );
         } else {
             items.push(
-                MenuItemFields::new("Upgrade")
+                MenuItemFields::new("升级")
                     .with_on_select_action(WorkspaceAction::ShowUpgrade)
                     .into_item(),
             );
         }
 
         items.push(
-            MenuItemFields::new("Invite a friend")
+            MenuItemFields::new("邀请朋友")
                 .with_on_select_action(WorkspaceAction::ShowReferralSettingsPage)
                 .into_item(),
         );
 
         if !self.auth_state.is_anonymous_or_logged_out() {
             items.push(
-                MenuItemFields::new("Log out")
+                MenuItemFields::new("退出登录")
                     .with_on_select_action(WorkspaceAction::LogOut)
                     .into_item(),
             );
@@ -8892,7 +8892,7 @@ impl Workspace {
                 );
             }
             // Items that don't get any sidecar.
-            "New tab config" => {
+            "新建标签页配置" => {
                 self.tab_config_action_sidecar_item = None;
                 if self.show_new_session_sidecar {
                     self.show_new_session_sidecar = false;
@@ -9470,9 +9470,9 @@ impl Workspace {
 
                 self.toast_stack.update(ctx, |view, ctx| {
                     let new_toast =
-                        DismissibleToast::error("Looks like you're out of AI credits.".into())
+                        DismissibleToast::error("您的 AI 积分已用完。".into())
                             .with_link(
-                                ToastLink::new("Upgrade for more credits.".into())
+                                ToastLink::new("升级以获取更多积分。".into())
                                     .with_href(upgrade_link),
                             );
                     view.add_ephemeral_toast(new_toast, ctx);
@@ -11342,7 +11342,7 @@ impl Workspace {
                     ctx.notify();
                 });
                 WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = DismissibleToast::error("Failed to load conversation.".to_owned());
+                    let toast = DismissibleToast::error("加载对话失败。".to_owned());
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
                 return;
@@ -11395,7 +11395,7 @@ impl Workspace {
             let Some(conversation) = conversation else {
                 log::warn!("Failed to load conversation {conversation_id}");
                 WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = DismissibleToast::error("Failed to load conversation.".to_owned());
+                    let toast = DismissibleToast::error("加载对话失败。".to_owned());
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
                 // Close the loading pane
@@ -11464,7 +11464,7 @@ impl Workspace {
             let Some(conversation) = conversation else {
                 log::warn!("Failed to load conversation {conversation_id}");
                 WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = DismissibleToast::error("Failed to load conversation.".to_owned());
+                    let toast = DismissibleToast::error("加载对话失败。".to_owned());
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
                 // Close the loading tab
@@ -11604,7 +11604,7 @@ impl Workspace {
                     log::error!("Conversation forking failed. {e}.");
                     WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         let toast =
-                            DismissibleToast::error("Conversation forking failed.".to_owned());
+                            DismissibleToast::error("对话分叉失败。".to_owned());
                         toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                     });
                     return;
@@ -12125,9 +12125,9 @@ impl Workspace {
                         let url = NOTIFICATIONS_TROUBLESHOOT_URL.to_string();
                         view.toast_stack.update(ctx, |toast_stack, ctx| {
                             let toast = DismissibleToast::error(
-                                "Warp doesn't have permission to send desktop notifications.".to_string(),
+                                "Warp 没有发送桌面通知的权限。".to_string(),
                             )
-                            .with_link(ToastLink::new("Troubleshoot notifications".to_string()).with_href(url));
+                            .with_link(ToastLink::new("排查通知问题".to_string()).with_href(url));
                             toast_stack.add_persistent_toast(toast, ctx);
                         });
                     }
@@ -12720,13 +12720,13 @@ impl Workspace {
                                 .find(|binding| binding.name == "workspace:view_changelog")
                                 .and_then(|binding| trigger_to_keystroke(binding.trigger));
 
-                            let mut link = ToastLink::new("View changelog".to_owned())
+                            let mut link = ToastLink::new("查看更新日志".to_owned())
                                 .with_onclick_action(WorkspaceAction::ViewLatestChangelog);
                             if let Some(keystroke) = keystroke {
                                 link = link.with_keystroke(keystroke);
                             }
 
-                            let toast = DismissibleToast::default(String::from("Warp updated!"))
+                            let toast = DismissibleToast::default(String::from("Warp 已更新！"))
                                 .with_link(link);
 
                             stack.add_ephemeral_toast(toast, ctx);
@@ -14711,7 +14711,7 @@ impl Workspace {
         if !ContextFlag::CreateNewSession.is_enabled() {
             self.toast_stack.update(ctx, |toast_stack, ctx| {
                 let toast =
-                    DismissibleToast::error("Cannot open a new terminal session".to_string());
+                    DismissibleToast::error("无法打开新的终端会话".to_string());
                 toast_stack.add_ephemeral_toast(toast, ctx);
             });
             return None;
@@ -17907,7 +17907,7 @@ impl Workspace {
                 icons::Icon::Gear,
                 &self.mouse_states.settings_icon,
                 WorkspaceAction::ShowSettings,
-                "Settings".to_string(),
+                "设置".to_string(),
                 self.cached_keybindings[SHOW_SETTINGS_KEYBINDING_NAME].clone(),
                 false,
                 false,
@@ -17948,7 +17948,7 @@ impl Workspace {
                 Some(hovered_styles),
                 None,
             )
-            .with_centered_text_label(String::from("Sign up"));
+            .with_centered_text_label(String::from("注册"));
 
         Align::new(
             button
@@ -17990,7 +17990,7 @@ impl Workspace {
                 Some(hovered_styles),
                 None,
             )
-            .with_centered_text_label(String::from("Sign up"));
+            .with_centered_text_label(String::from("注册"));
 
         Align::new(
             button
@@ -18366,7 +18366,7 @@ impl Workspace {
             description,
             secondary_button,
             button: Some(WorkspaceBannerButtonDetails {
-                text: "Open file".to_owned(),
+                text: "打开文件".to_owned(),
                 action: WorkspaceAction::OpenSettingsFile,
                 variant: BannerButtonVariant::Outlined,
                 icon: None,
@@ -20763,7 +20763,7 @@ impl TypedActionView for Workspace {
 
                 self.toast_stack.update(ctx, |view, ctx| {
                     let new_toast =
-                        DismissibleToast::success("Disabled all synchronized inputs.".to_string());
+                        DismissibleToast::success("已禁用所有同步输入。".to_string());
                     view.add_ephemeral_toast(new_toast, ctx);
                 });
                 send_telemetry_from_ctx!(TelemetryEvent::DisableInputSync, ctx);
@@ -21655,7 +21655,7 @@ impl TypedActionView for Workspace {
                 send_telemetry_from_ctx!(TelemetryEvent::ConversationListItemDeleted, ctx);
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::success("Conversation deleted".to_string()),
+                        DismissibleToast::success("对话已删除".to_string()),
                         window_id,
                         ctx,
                     );

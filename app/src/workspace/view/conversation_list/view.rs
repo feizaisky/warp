@@ -660,7 +660,7 @@ fn render_zero_state(
         .with_cross_axis_alignment(CrossAxisAlignment::Center)
         .with_spacing(4.)
         .with_child(
-            Text::new("No conversations yet", appearance.ui_font_family(), 14.)
+            Text::new("暂无对话", appearance.ui_font_family(), 14.)
                 .with_color(theme.sub_text_color(theme.background()).into_solid())
                 .with_style(Properties::default().weight(Weight::Semibold))
                 .finish(),
@@ -899,7 +899,7 @@ impl TypedActionView for ConversationListView {
                     let is_ambient_agent_conversation =
                         matches!(conversation_id, ConversationOrTaskId::TaskId(_));
 
-                    let mut delete_item = MenuItemFields::new("Delete")
+                    let mut delete_item = MenuItemFields::new("删除")
                         .with_override_text_color(Appearance::as_ref(ctx).theme().ansi_fg_red())
                         .with_on_select_action(ConversationListViewAction::DeleteFromOverflowMenu {
                             conversation_id,
@@ -907,7 +907,7 @@ impl TypedActionView for ConversationListView {
                         .with_disabled(is_ambient_agent_conversation);
                     if is_ambient_agent_conversation {
                         delete_item = delete_item
-                            .with_tooltip("Ambient agent conversations cannot be deleted");
+                            .with_tooltip("环境智能体对话无法删除");
                     }
 
                     // Check if conversation is shareable:
@@ -932,7 +932,7 @@ impl TypedActionView for ConversationListView {
                     // Only show share item if the conversation is shareable
                     let share_item = if is_shareable {
                         Some(
-                            MenuItemFields::new("Share conversation")
+                            MenuItemFields::new("共享对话")
                                 .with_on_select_action(
                                     ConversationListViewAction::OpenShareDialog { conversation_id },
                                 )
@@ -946,7 +946,7 @@ impl TypedActionView for ConversationListView {
                         // Forking from a closed ambient agent conversation is not supported at this point.
                         if !is_ambient_agent_conversation {
                             Some([
-                                MenuItemFields::new("Fork in new pane")
+                                MenuItemFields::new("在新窗格中分叉")
                                     .with_on_select_action(
                                         ConversationListViewAction::ForkConversation {
                                             conversation_id,
@@ -954,7 +954,7 @@ impl TypedActionView for ConversationListView {
                                         },
                                     )
                                     .into_item(),
-                                MenuItemFields::new("Fork in new tab")
+                                MenuItemFields::new("在新标签页中分叉")
                                     .with_on_select_action(
                                         ConversationListViewAction::ForkConversation {
                                             conversation_id,

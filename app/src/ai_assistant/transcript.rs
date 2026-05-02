@@ -507,7 +507,7 @@ impl Transcript {
             buttons.add_child(
                 SavePosition::new(
                     Container::new(appearance.ui_builder().tool_tip_on_element(
-                        "Save as workflow [Cmd + S]".to_string(),
+                        "保存为工作流 [Cmd + S]".to_string(),
                         mouse_state_handles.save_as_workflow_button_tooltip.clone(),
                         save_as_workflow_button,
                         ParentAnchor::TopRight,

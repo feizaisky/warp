@@ -88,7 +88,7 @@ impl SessionConfigModal {
         });
 
         let submit_button = ctx.add_view(|ctx| {
-            ActionButton::new("Get Warping", PrimaryTheme)
+            ActionButton::new("开始使用 (Get Warping)", PrimaryTheme)
                 .with_full_width(true)
                 .with_keybinding(
                     KeystrokeSource::Fixed(Keystroke::parse("enter").unwrap_or_default()),
@@ -166,7 +166,7 @@ impl SessionConfigModal {
         let theme = appearance.theme();
 
         let title = FormattedTextElement::from_str(
-            "Create your first tab config",
+            "创建您的第一个标签页配置",
             appearance.ui_font_family(),
             24.,
         )
@@ -175,13 +175,13 @@ impl SessionConfigModal {
         .finish();
 
         let subtitle_text = if self.show_session_type_row {
-            "Set up a reusable starting point for your tabs. \
-             Pick a repo, choose a session type, and optionally attach a worktree. \
-             Use it whenever you want to open a new tab with this setup."
+            "为您的标签页创建一个可复用的起始配置。\
+             选择一个仓库，选择会话类型，并可选择关联一个工作树。\
+             每次想以此配置打开新标签页时使用它。"
         } else {
-            "Set up a reusable starting point for your tabs. \
-             Pick a repo, optionally attach a worktree, and \
-             use it whenever you want to open a new tab with this setup."
+            "为您的标签页创建一个可复用的起始配置。\
+             选择一个仓库，可选择关联工作树，\
+             每次想以此配置打开新标签页时使用它。"
         };
         let subtitle =
             FormattedTextElement::from_str(subtitle_text, appearance.ui_font_family(), 14.)

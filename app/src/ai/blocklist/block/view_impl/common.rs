@@ -124,23 +124,23 @@ use warpui::elements::{Highlight, HighlightedRange};
 
 pub const STATUS_ICON_SIZE_DELTA: f32 = 4.;
 pub const STATUS_FOOTER_VERTICAL_PADDING: f32 = 4.;
-pub const WAITING_FOR_USER_INPUT_MESSAGE: &str = "Agent waiting for instructions...";
+pub const WAITING_FOR_USER_INPUT_MESSAGE: &str = "智能体等待指令...";
 const IMAGE_SOURCE_LINK_LINE_INDEX: usize = 1;
 
-const ERROR_APOLOGY_TEXT: &str = "I'm sorry, I couldn't complete that request.";
-const INTERNAL_WARP_ERROR: &str = "Internal Warp error.";
+const ERROR_APOLOGY_TEXT: &str = "抱歉，我无法完成该请求。";
+const INTERNAL_WARP_ERROR: &str = "Warp 内部错误。";
 
-pub const LOAD_OUTPUT_MESSAGE: &str = "Warping...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_ADJUSTING: &str = "Adjusting tasks...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_PASSIVE_CODE_GEN: &str = "Generating fix...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_CREATING_DIFF: &str = "Creating diff...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_PREPARING_QUESTION: &str = "Preparing question...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_GENERATING_PLAN: &str = "Generating plan...";
+pub const LOAD_OUTPUT_MESSAGE: &str = "正在处理...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_ADJUSTING: &str = "正在调整任务...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_PASSIVE_CODE_GEN: &str = "正在生成修复...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_CREATING_DIFF: &str = "正在创建差异...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_PREPARING_QUESTION: &str = "正在准备问题...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_GENERATING_PLAN: &str = "正在生成计划...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_UPDATING_PLAN: &str = "Updating plan...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_SUMMARIZING_CONVERSATION: &str = "Summarizing conversation...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_SUMMARIZING_TOOL_CALL_RESULT: &str =
     "Summarizing command output...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_SEARCH_CODEBASE: &str = "Searching codebase...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_SEARCH_CODEBASE: &str = "正在搜索代码库...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_READING_FILES: &str = "Reading files...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_GREP: &str = "Grepping...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_FILE_GLOB: &str = "Finding files...";
@@ -156,7 +156,7 @@ pub(crate) type ResolvedBlocklistImageSources = HashMap<String, Option<AssetSour
 
 pub const BLOCKED_ACTION_MESSAGE_FOR_WRITE_TO_LONG_RUNNING_SHELL_COMMAND: &str =
     "Can I write the following to this running command?";
-pub const BLOCKED_ACTION_MESSAGE_FOR_READING_FILES: &str = "Grant access to the following files?";
+pub const BLOCKED_ACTION_MESSAGE_FOR_READING_FILES: &str = "是否授权访问以下文件？";
 pub const BLOCKED_ACTION_MESSAGE_FOR_SEARCHING_CODEBASE: &str =
     "Grant access to the following repository?";
 pub const BLOCKED_ACTION_MESSAGE_FOR_GREP_OR_FILE_GLOB: &str =

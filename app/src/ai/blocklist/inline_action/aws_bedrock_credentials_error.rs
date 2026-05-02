@@ -60,7 +60,7 @@ impl AwsBedrockCredentialsErrorView {
     ) -> Self {
         // Run button
         let run_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Refresh AWS Credentials", PrimaryTheme)
+            ActionButton::new("刷新 AWS 凭证", PrimaryTheme)
                 .with_size(ButtonSize::InlineActionHeader)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(AwsBedrockCredentialsErrorAction::RunLoginCommand)
@@ -69,7 +69,7 @@ impl AwsBedrockCredentialsErrorView {
 
         // Configure button
         let configure_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Configure", NakedTheme)
+            ActionButton::new("配置", NakedTheme)
                 .with_size(ButtonSize::InlineActionHeader)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(AwsBedrockCredentialsErrorAction::Configure)

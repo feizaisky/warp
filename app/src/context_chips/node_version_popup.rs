@@ -77,7 +77,7 @@ impl NodeVersionPopupView {
         ctx: &mut ViewContext<Self>,
     ) -> Self {
         let install_button = ctx.add_typed_action_view(|_ctx| {
-            ActionButton::new("Install nvm", SecondaryTheme)
+            ActionButton::new("安装 nvm", SecondaryTheme)
                 .with_icon(icons::Icon::Terminal)
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(NodeVersionPopupAction::InstallNvm);
@@ -181,7 +181,7 @@ impl NodeVersionPopupView {
 
         col.add_child(
             Text::new(
-                "Install nvm to enable version switching",
+                "安装 nvm 以启用版本切换",
                 styles.ui_font_family,
                 styles.detail_font_size + 2.,
             )
@@ -193,7 +193,7 @@ impl NodeVersionPopupView {
         col.add_child(
             Container::new(
                 Text::new(
-                    "This menu helps you switch between Node.js versions — but it requires nvm to be installed.",
+                    "此菜单可帮助您切换 Node.js 版本，但需要先安装 nvm。",
                     styles.ui_font_family,
                     styles.detail_font_size,
                 )
@@ -242,7 +242,7 @@ impl NodeVersionPopupView {
         // Heading
         col.add_child(
             Text::new(
-                "No node versions installed",
+                "未安装任何 Node 版本",
                 styles.ui_font_family,
                 styles.detail_font_size + 2.,
             )
@@ -255,7 +255,7 @@ impl NodeVersionPopupView {
         col.add_child(
             Container::new(
                 Text::new(
-                    "Try installing versions with nvm",
+                    "尝试使用 nvm 安装版本",
                     styles.ui_font_family,
                     styles.detail_font_size,
                 )
@@ -286,7 +286,7 @@ impl NodeVersionPopupView {
 
         col.add_child(
             Container::new(
-                Text::new("Installed", styles.ui_font_family, styles.detail_font_size)
+                Text::new("已安装", styles.ui_font_family, styles.detail_font_size)
                     .with_style(Properties::default())
                     .with_color(styles.secondary_text_color)
                     .finish(),

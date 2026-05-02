@@ -70,7 +70,7 @@ pub struct CodexModal {
 impl CodexModal {
     pub fn new(ctx: &mut ViewContext<Self>) -> Self {
         let cta_button = ctx.add_view(|_| {
-            ActionButton::new("Use latest codex model", WhiteButtonTheme)
+            ActionButton::new("使用最新 Codex 模型", WhiteButtonTheme)
                 .with_icon(Icon::OpenAILogo)
                 .with_full_width(true)
                 .on_click(|ctx| {
@@ -122,7 +122,7 @@ impl CodexModal {
 
         // Description - first paragraph
         let description_1 = FormattedTextElement::from_str(
-            "Codex is OpenAI's most advanced agentic coding model for real-world engineering.",
+            "Codex 是 OpenAI 专为真实工程场景打造的最先进智能体编码模型。",
             appearance.ui_font_family(),
             14.,
         )
@@ -134,8 +134,8 @@ impl CodexModal {
 
         // Description - second paragraph
         let description_2 = FormattedTextElement::from_str(
-            "Use Codex directly in Oz and leverage \
-            features like in-app code review, agent session sharing and file editing.",
+            "在 Oz 中直接使用 Codex，并充分利用应用内代码审查、\
+            智能体会话共享和文件编辑等功能。",
             appearance.ui_font_family(),
             14.,
         )

@@ -50,7 +50,7 @@ pub struct PrState {
 }
 
 pub(super) fn confirm_label_for() -> &'static str {
-    "Create PR"
+    "创建 PR"
 }
 
 pub(super) fn confirm_icon_for() -> Icon {
@@ -58,7 +58,7 @@ pub(super) fn confirm_icon_for() -> Icon {
 }
 
 fn loading_label_for() -> &'static str {
-    "Creating\u{2026}"
+    "正在创建\u{2026}"
 }
 
 /// PR mode has no prerequisites beyond a branch with commits; confirm is
@@ -236,9 +236,9 @@ pub(super) fn show_pr_created_toast(pr_info: &PrInfo, ctx: &mut ViewContext<GitD
     let window_id = ctx.window_id();
     let url = pr_info.url.clone();
     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-        let link = ToastLink::new("Open PR".to_string()).with_href(url);
+        let link = ToastLink::new("打开 PR".to_string()).with_href(url);
         let toast =
-            DismissibleToast::default("PR successfully created.".to_string()).with_link(link);
+            DismissibleToast::default("PR 已成功创建。".to_string()).with_link(link);
         toast_stack.add_ephemeral_toast(toast, window_id, ctx);
     });
 }
@@ -251,7 +251,7 @@ pub(super) fn render_body(
     let base_branch = state
         .base_branch_name
         .as_deref()
-        .unwrap_or("default branch");
+        .unwrap_or("默认分支");
     let branch_name = format!("{branch_name} \u{2192} {base_branch}");
     Flex::column()
         .with_child(
@@ -268,7 +268,7 @@ fn render_changes_section(state: &PrState, appearance: &Appearance) -> Box<dyn E
     let main_color = theme.main_text_color(theme.surface_1()).into_solid();
 
     let label = Text::new(
-        "Changes",
+        "更改",
         appearance.ui_font_family(),
         appearance.ui_font_size(),
     )

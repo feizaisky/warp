@@ -155,12 +155,12 @@ pub enum TabConfigParamsModalAction {
 impl TabConfigParamsModal {
     pub fn new(ctx: &mut ViewContext<Self>) -> Self {
         let cancel_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Cancel", NakedTheme).on_click(|ctx| {
+            ActionButton::new("取消", NakedTheme).on_click(|ctx| {
                 ctx.dispatch_typed_action(TabConfigParamsModalAction::Cancel);
             })
         });
         let submit_button = ctx.add_typed_action_view(|ctx| {
-            ActionButton::new("Open Tab", PrimaryTheme)
+            ActionButton::new("打开标签页", PrimaryTheme)
                 .with_keybinding(
                     KeystrokeSource::Fixed(Keystroke::parse("enter").unwrap_or_default()),
                     ctx,
@@ -170,7 +170,7 @@ impl TabConfigParamsModal {
                 })
         });
         let submit_button_disabled =
-            ctx.add_typed_action_view(|_| ActionButton::new("Open Tab", DisabledTheme));
+            ctx.add_typed_action_view(|_| ActionButton::new("打开标签页", DisabledTheme));
         Self {
             param_fields: Vec::new(),
             pending_config: None,
@@ -288,7 +288,7 @@ impl TabConfigParamsModal {
                 TabConfigParamType::Text => {
                     let default_text = param.default.clone().unwrap_or_default();
                     let placeholder = if default_text.is_empty() {
-                        format!("Enter {name}")
+                        format!("输入 {name}")
                     } else {
                         default_text.clone()
                     };
@@ -632,7 +632,7 @@ impl View for TabConfigParamsModal {
                     form.add_child(
                         Container::new(
                             Text::new_inline(
-                                format!("Default: {default_value}"),
+                                format!("默认值：{default_value}"),
                                 appearance.ui_font_family(),
                                 appearance.ui_font_size() - 1.,
                             )

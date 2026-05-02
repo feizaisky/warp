@@ -45,7 +45,7 @@ use strum_macros::{EnumIter, IntoStaticStr};
 
 use super::enum_creation_dialog::WorkflowEnumData;
 
-const ARGUMENT_DEFAULT_VALUE_PLACEHOLDER_TEXT: &str = "Default value (optional)";
+const ARGUMENT_DEFAULT_VALUE_PLACEHOLDER_TEXT: &str = "默认值（可选）";
 const ARGUMENT_EDITOR_FONT_SIZE: f32 = 14.;
 const DROPDOWN_PADDING: f32 = 8.;
 const DROPDOWN_BORDER_RADIUS: f32 = 6.;

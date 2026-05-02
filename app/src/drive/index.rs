@@ -105,7 +105,7 @@ use warpui::{
     UpdateView, View, ViewContext, ViewHandle, WindowId,
 };
 
-const WARP_DRIVE_TITLE: &str = "Warp Drive";
+const WARP_DRIVE_TITLE: &str = "Warp 云盘";
 
 // Team zero state consts
 const HINT_HORIZONTAL_PADDING: f32 = 18.;
@@ -153,7 +153,7 @@ const HOVER_PREVIEW_Y_OFFSET: f32 = 0.;
 
 const CREATE_TEAM_ICON_WIDTH: f32 = 16.;
 const CREATE_TEAM_ICON_HEIGHT: f32 = 16.;
-const CREATE_TEAM_TEXT: &str = "Share commands & knowledge with your teammates.";
+const CREATE_TEAM_TEXT: &str = "与团队成员共享命令与知识。";
 
 const LOADING_ICON_WIDTH: f32 = 16.;
 const LOADING_ICON_HEIGHT: f32 = 16.;
@@ -167,17 +167,17 @@ const OFFLINE_BANNER_PADDING_VERTICAL: f32 = 4.;
 const FOLDER_LABEL: &str = "文件夹";
 const NOTEBOOK_LABEL: &str = "笔记本 (Notebook)";
 const WORKFLOW_LABEL: &str = "工作流";
-const AGENT_MODE_WORKFLOW_LABEL: &str = "Prompt";
+const AGENT_MODE_WORKFLOW_LABEL: &str = "提示词";
 const ENV_VAR_COLLECTION_LABEL: &str = "环境变量";
 const INDEX_FOLDER_LABEL: &str = "新建文件夹";
 const INDEX_NOTEBOOK_LABEL: &str = "新建笔记本";
 const INDEX_WORKFLOW_LABEL: &str = "新建工作流";
-const INDEX_AGENT_MODE_WORKFLOW_LABEL: &str = "New prompt";
+const INDEX_AGENT_MODE_WORKFLOW_LABEL: &str = "新建提示词";
 const INDEX_ENV_VAR_COLLECTION_LABEL: &str = "新建环境变量";
 
 const IMPORT_LABEL: &str = "导入";
-const REMOVE_LABEL: &str = "Remove";
-const OFFLINE_BANNER_TEXT: &str = "You are offline. Some files will be read only.";
+const REMOVE_LABEL: &str = "移除";
+const OFFLINE_BANNER_TEXT: &str = "您已离线。部分文件将为只读。";
 
 pub const DRIVE_INDEX_VIEW_POSITION_ID: &str = "drive_index_view_id";
 
@@ -186,26 +186,26 @@ pub const AUTOSCROLL_SPEED_MULTIPLIER: f32 = 10.;
 // Sets the distance from a border at which scroll events start to occur.
 pub const AUTOSCROLL_DETECTION_DISTANCE: f32 = 30.0;
 
-const ZERO_STATE_WORKFLOW_LABEL: &str = "Workflow";
-const ZERO_STATE_NOTEBOOK_LABEL: &str = "Notebook";
+const ZERO_STATE_WORKFLOW_LABEL: &str = "工作流";
+const ZERO_STATE_NOTEBOOK_LABEL: &str = "笔记本";
 
-const SORTING_BUTTON_TOOLTIP_LABEL: &str = "Sort by";
+const SORTING_BUTTON_TOOLTIP_LABEL: &str = "排序方式";
 
-const RETRY_BUTTON_TOOLTIP_LABEL: &str = "Retry sync";
+const RETRY_BUTTON_TOOLTIP_LABEL: &str = "重试同步";
 
 const SHARED_OBJECT_LIMIT_HIT_BANNER_LINE: &str =
-    "Upgrade for access to more notebooks, workflows, shared sessions, and AI credits.";
+    "升级以获取更多笔记本、工作流、共享会话和 AI 积分。";
 
 const PAYMENT_ISSUE_BANNER_LINE_1: &str =
     "因订阅付款问题，共享对象已被限制访问。";
 
 const PAYMENT_ISSUE_BANNER_LINE_2_ADMIN: &str =
-    "Please update your payment information to restore access.";
+    "请更新您的付款信息以恢复访问权限。";
 
 const PAYMENT_ISSUE_BANNER_LINE_2_ADMIN_ENTERPRISE: &str =
-    "Please contact support@warp.dev to restore access.";
+    "请联系 support@warp.dev 以恢复访问权限。";
 
-const PAYMENT_ISSUE_BANNER_LINE_2_NONADMIN: &str = "Please contact a team admin to restore access.";
+const PAYMENT_ISSUE_BANNER_LINE_2_NONADMIN: &str = "请联系团队管理员以恢复访问权限。";
 
 /// Struct to hold different state-related information on per-space basis.
 /// Currently, we only have 1 space (1 Team), but as we're working on personal space, and add
@@ -415,9 +415,9 @@ impl From<&DriveIndexAction> for LoginGatedFeature {
     fn from(val: &DriveIndexAction) -> LoginGatedFeature {
         use DriveIndexAction::*;
         match val {
-            OpenTeamSettingsPage => "Open Team Settings",
-            ViewPlans { .. } => "View Plans",
-            ManageBilling { .. } => "Manage Billing",
+            OpenTeamSettingsPage => "打开团队设置",
+            ViewPlans { .. } => "查看套餐",
+            ManageBilling { .. } => "管理账单",
             _ => "Unknown reason",
         }
     }
@@ -2083,7 +2083,7 @@ impl DriveIndex {
 
     fn render_team_space_zero_state(&self, appearance: &Appearance) -> Box<dyn Element> {
         let hint_text =
-            "Drag or move a personal workflow or notebook here to share it with your team.";
+            "将个人工作流或笔记本拖到此处以与团队共享。";
         let zero_state_info = Container::new(
             appearance
                 .ui_builder()
@@ -2202,9 +2202,9 @@ impl DriveIndex {
         app: &AppContext,
     ) -> Box<dyn Element> {
         let text = if UserWorkspaces::as_ref(app).num_joinable_teams() > 1 {
-            "View teams to join"
+            "查看可加入的团队"
         } else {
-            "View team to join"
+            "查看可加入的团队"
         };
 
         let join_button = Container::new(
@@ -2976,7 +2976,7 @@ impl DriveIndex {
                 if mouse_state.is_hovered() {
                     let tooltip = appearance
                         .ui_builder()
-                        .tool_tip(String::from("Syncing Warp Drive"));
+                        .tool_tip(String::from("正在同步 Warp 云盘"));
 
                     stack.add_positioned_overlay_child(
                         tooltip.build().finish(),
@@ -3958,7 +3958,7 @@ impl DriveIndex {
             .with_cross_axis_alignment(CrossAxisAlignment::Start)
             .with_main_axis_alignment(MainAxisAlignment::SpaceBetween)
             .with_child(
-                Text::new_inline("Warp Drive".to_string(), appearance.ui_font_family(), 14.)
+                Text::new_inline("Warp 云盘".to_string(), appearance.ui_font_family(), 14.)
                     .with_color(theme.main_text_color(background_color).into())
                     .with_style(Properties {
                         weight: warpui::fonts::Weight::Bold,
@@ -3971,7 +3971,7 @@ impl DriveIndex {
             .finish();
 
         let personal_object_limit_description =
-            "Sign up for free to increase your storage limit and unlock more features.";
+            "免费注册以增加存储限制并解锁更多功能。";
 
         let body_text = appearance
             .ui_builder()
@@ -4121,11 +4121,11 @@ impl DriveIndex {
             DriveObjectType::Workflow => "工作流",
             DriveObjectType::EnvVarCollection => "环境变量",
             DriveObjectType::Folder => "文件夹",
-            DriveObjectType::AgentModeWorkflow => "Agent Workflows",
-            DriveObjectType::AIFact => "AI Fact",
+            DriveObjectType::AgentModeWorkflow => "智能体工作流",
+            DriveObjectType::AIFact => "AI 规则",
             DriveObjectType::AIFactCollection => "Rules",
-            DriveObjectType::MCPServer => "MCP Server",
-            DriveObjectType::MCPServerCollection => "MCP Servers",
+            DriveObjectType::MCPServer => "MCP 服务器",
+            DriveObjectType::MCPServerCollection => "MCP 服务器",
         };
         let name_styles = UiComponentStyles {
             font_family_id: Some(appearance.ui_font_family()),
@@ -4882,7 +4882,7 @@ impl DriveIndex {
         if self.auth_state.is_anonymous_or_logged_out() {
             AuthManager::handle(ctx).update(ctx, |auth_manager, ctx| {
                 auth_manager.attempt_login_gated_feature(
-                    "Share Object",
+                    "共享对象",
                     AuthViewVariant::ShareRequirementCloseable,
                     ctx,
                 )

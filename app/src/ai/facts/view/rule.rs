@@ -49,11 +49,11 @@ use warpui::{
 use super::{is_edit_allowed, is_syncing, style, AIFact, CloudAIFact, CloudAIFactModel};
 use crate::ai::facts::AIMemory;
 
-pub const HEADER_TEXT: &str = "Rules";
-const DESCRIPTION_TEXT: &str = "Rules enhance the agent by providing structured guidelines that help maintain consistency, enforce best practices, and adapt to specific workflows, including codebases or broader tasks.";
+pub const HEADER_TEXT: &str = "规则";
+const DESCRIPTION_TEXT: &str = "规则通过提供结构化准则来增强智能体，帮助保持一致性、执行最佳实践，并适应特定工作流（包括代码库或更广泛的任务）。";
 
-const SEARCH_PLACEHOLDER_TEXT: &str = "Search rules";
-const ZERO_STATE_TEXT: &str = "Once you add a rule, it will be shown here.";
+const SEARCH_PLACEHOLDER_TEXT: &str = "搜索规则";
+const ZERO_STATE_TEXT: &str = "添加规则后，规则将显示在此处。";
 const ZERO_STATE_TEXT_PROJECT: &str =
     "Once you generate a WARP.md rules file for a project, it will appear here.";
 
@@ -260,13 +260,13 @@ impl RuleView {
         let search_bar = ctx.add_typed_action_view(|_| SearchBar::new(search_editor.clone()));
 
         let add_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Add", NakedTheme)
+            ActionButton::new("添加", NakedTheme)
                 .with_icon(Icon::Plus)
                 .on_click(|ctx| ctx.dispatch_typed_action(RuleViewAction::AddRule))
         });
 
         let initialize_button = ctx.add_typed_action_view(|_| {
-            ActionButton::new("Initialize Project", NakedTheme)
+            ActionButton::new("初始化项目", NakedTheme)
                 .with_icon(Icon::Plus)
                 .on_click(|ctx| ctx.dispatch_typed_action(RuleViewAction::InitializeProject))
         });

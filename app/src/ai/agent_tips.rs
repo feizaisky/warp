@@ -37,7 +37,7 @@ pub trait AITip: Clone {
     /// Converts the tip to formatted text fragments for rendering.
     /// Default implementation adds "Tip: " prefix and parses backtick-wrapped text as inline code.
     fn to_formatted_text(&self, _app: &AppContext) -> Vec<FormattedTextFragment> {
-        let text = format!("Tip: {}", self.description());
+        let text = format!("提示：{}", self.description());
 
         // Style backtick-wrapped text as inline code
         let parts: Vec<&str> = text.split('`').collect();
@@ -115,14 +115,14 @@ static DEFAULT_TIPS: LazyLock<Vec<AgentTip>> = LazyLock::new(|| {
             kind: AgentTipKind::General,
         },
         AgentTip {
-            description: "Store reusable workflows, notebooks, and prompts in your".to_string(),
+            description: "将可复用的工作流、笔记本和提示词存储在您的".to_string(),
             link: Some("https://docs.warp.dev/knowledge-and-collaboration/warp-drive".to_string()),
             binding_name: None,
             action: Some(WorkspaceAction::OpenWarpDrive),
             kind: AgentTipKind::WarpDrive,
         },
         AgentTip {
-            description: "Enter a new prompt to redirect the agent while it's running.".to_string(),
+            description: "输入新提示词以在智能体运行时重定向它。".to_string(),
             link: None,
             binding_name: None,
             action: None,
@@ -150,14 +150,14 @@ static DEFAULT_TIPS: LazyLock<Vec<AgentTip>> = LazyLock::new(|| {
             kind: AgentTipKind::CodebaseContext,
         },
         AgentTip {
-            description: "Add agent profiles to customize permissions and models per session.".to_string(),
+            description: "添加智能体配置以按会话自定义权限和模型。".to_string(),
             link: Some("https://docs.warp.dev/agent-platform/capabilities/agent-profiles-permissions".to_string()),
             binding_name: None,
             action: None,
             kind: AgentTipKind::General,
         },
         AgentTip {
-            description: "Right-click a block to fork the conversation from that point.".to_string(),
+            description: "右键单击块可从该位置分叉对话。".to_string(),
             link: Some("https://docs.warp.dev/agent-platform/local-agents/interacting-with-agents/conversation-forking".to_string()),
             binding_name: None,
             action: None,
@@ -318,7 +318,7 @@ static DEFAULT_TIPS: LazyLock<Vec<AgentTip>> = LazyLock::new(|| {
             kind: AgentTipKind::General,
         },
         AgentTip {
-            description: "Enable desktop notifications to get an alert when an agent needs your attention.".to_string(),
+            description: "启用桌面通知，以便在智能体需要您关注时收到提醒。".to_string(),
             link: Some("https://docs.warp.dev/agent-platform/cloud-agents/managing-cloud-agents#in-app-agent-notifications".to_string()),
             binding_name: None,
             action: None,

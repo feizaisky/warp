@@ -925,7 +925,7 @@ impl SharingDialog {
             let window_id = ctx.window_id();
             let object_name = self.targeted_object_name(ctx);
             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                let toast = DismissibleToast::default(format!("Copied link to {object_name}."));
+                let toast = DismissibleToast::default(format!("已复制 {object_name} 的链接。"));
                 toast_stack.add_ephemeral_toast(toast, window_id, ctx);
             });
         }
@@ -1790,7 +1790,7 @@ impl SharingDialog {
             .ui_builder()
             .wrappable_text(
                 format!(
-                    "Live session started at {} on {}",
+                    "实时会话已在 {} 上 {} 启动",
                     started_at.format("%l:%M%P"),
                     started_at.format("%m/%d"),
                 ),
@@ -1824,8 +1824,8 @@ impl SharingDialog {
             return None;
         }
 
-        const PREFIX: &str = "You must have full access to manage permissions. You have ";
-        const SUFFIX: &str = " access.";
+        const PREFIX: &str = "您必须拥有完全访问权限才能管理权限。您当前拥有 ";
+        const SUFFIX: &str = " 权限。";
         let access_level_start = PREFIX.chars().count();
         let access_level_end = access_level_start + access_level.name().chars().count();
 
@@ -1855,8 +1855,8 @@ impl SharingDialog {
         let owner = self.owner(app)?;
 
         let tooltip_text = match owner {
-            Subject::Team(_) => "Team objects automatically grant full permissions to team members",
-            _ => "Owners always have full permissions on their objects",
+            Subject::Team(_) => "团队对象自动授予团队成员完全权限",
+            _ => "所有者始终拥有其对象的完全权限",
         };
         let owner_access_label = render_with_detail_tooltip(
             tooltip_text,
@@ -2352,7 +2352,7 @@ impl SharingDialog {
             .with_padding_right(10.)
             .finish();
 
-        let name_text = subject.name(app).unwrap_or(Cow::Borrowed("Unknown"));
+        let name_text = subject.name(app).unwrap_or(Cow::Borrowed("未知"));
         let name_label = appearance
             .ui_builder()
             .span(name_text)

@@ -36,8 +36,8 @@ use warpui::{
     AppContext, Element, SingletonEntity,
 };
 
-const OPEN_WARP_AI_ITEM_BODY_TEXT: &str = "Ask Warp AI for command suggestions";
-const TRANSLATE_WITH_WARP_AI_ITEM_BODY_TEXT: &str = "Translate into shell command using Warp AI";
+const OPEN_WARP_AI_ITEM_BODY_TEXT: &str = "向 Warp AI 请求命令建议";
+const TRANSLATE_WITH_WARP_AI_ITEM_BODY_TEXT: &str = "使用 Warp AI 转换为 Shell 命令";
 
 #[derive(Clone, Debug)]
 pub enum WarpAISearchItem {
@@ -242,10 +242,10 @@ impl AsyncDataSource for WarpAIDataSource {
 impl DataSourceRunError for GenerateCommandsFromNaturalLanguageError {
     fn user_facing_error(&self) -> String {
         match self {
-            Self::BadPrompt => "No results found. Please try again with a more specific query.",
-            Self::AiProviderError => "Something went wrong. Please try again.",
-            Self::RateLimited => "Looks like you're out of AI credits. Please try again later.",
-            Self::Other => "Something went wrong. Please try again.",
+            Self::BadPrompt => "未找到结果。请尝试更具体的查询。",
+            Self::AiProviderError => "出现错误，请重试。",
+            Self::RateLimited => "您的 AI 积分已用完，请稍后再试。",
+            Self::Other => "出现错误，请重试。",
         }
         .to_string()
     }

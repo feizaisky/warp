@@ -99,7 +99,7 @@ const DIALOG_WIDTH: f32 = 460.;
 const AI_ASSIST_BUTTON_SIZE: f32 = 96.;
 const SCROLLBAR_WIDTH: ScrollbarWidth = ScrollbarWidth::Auto;
 
-const TITLE_PLACEHOLDER_TEXT: &str = "Untitled workflow";
+const TITLE_PLACEHOLDER_TEXT: &str = "未命名工作流";
 const DESCRIPTION_PLACEHOLDER_TEXT: &str = "添加描述";
 const COMMAND_EDITOR_PLACEHOLDER_TEXT: &str =
     "echo \"Hello {{your_name}}\" # 用花括号插入参数\n# enter a single-line command or an entire shell script";
@@ -691,7 +691,7 @@ impl WorkflowModal {
 
         // Add "Copy workflow text" to menu
         menu_items.push(
-            MenuItemFields::new("Copy workflow text")
+            MenuItemFields::new("复制工作流文本")
                 .with_on_select_action(WorkflowModalAction::CopyObjectToClipboard)
                 .with_icon(Icon::CopyMenuItem)
                 .into_item(),
@@ -1740,7 +1740,7 @@ impl WorkflowModal {
                 .finish();
 
             let button_with_tool_tip = appearance.ui_builder().tool_tip_on_element(
-                "Generate a title, descriptions, or parameters with Warp AI".to_string(),
+                "使用 Warp AI 生成标题、描述或参数".to_string(),
                 self.button_mouse_states.ai_assist_tool_tip.clone(),
                 rendered_button,
                 ParentAnchor::BottomMiddle,

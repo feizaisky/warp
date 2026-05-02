@@ -122,15 +122,15 @@ use ai::diff_validation::{
     SearchAndReplace, V4AHunk,
 };
 
-const REQUESTED_EDIT_CANCEL_LABEL: &str = "Cancel";
-const REQUESTED_EDIT_REFINE_LABEL: &str = "Refine";
-const REQUESTED_EDIT_ACCEPT_LABEL: &str = "Accept";
-const REQUESTED_EDIT_ACCEPT_AND_AUTOEXECUTE_LABEL: &str = "Auto-approve";
+const REQUESTED_EDIT_CANCEL_LABEL: &str = "取消";
+const REQUESTED_EDIT_REFINE_LABEL: &str = "优化";
+const REQUESTED_EDIT_ACCEPT_LABEL: &str = "接受";
+const REQUESTED_EDIT_ACCEPT_AND_AUTOEXECUTE_LABEL: &str = "自动批准";
 const REQUESTED_EDIT_EDIT_LABEL: &str = "Edit";
 const REQUESTED_EDIT_MINIMIZE_LABEL: &str = "Done";
-const SUGGESTED_EDIT_ACCEPT_LABEL: &str = "Accept";
-const SUGGESTED_EDIT_ACCEPT_AND_CONTINUE_LABEL: &str = "Accept and continue with agent";
-const SUGGESTED_EDIT_ITERATE_WITH_AGENT_LABEL: &str = "Iterate with agent";
+const SUGGESTED_EDIT_ACCEPT_LABEL: &str = "接受";
+const SUGGESTED_EDIT_ACCEPT_AND_CONTINUE_LABEL: &str = "接受并继续使用智能体";
+const SUGGESTED_EDIT_ITERATE_WITH_AGENT_LABEL: &str = "与智能体迭代";
 const SUGGESTED_EDIT_DISMISS_LABEL: &str = "Dismiss";
 const MAX_EDITOR_HEIGHT: f32 = 500.;
 const INLINE_EDITOR_HEIGHT: f32 = 94.;
@@ -889,7 +889,7 @@ impl CodeDiffView {
         let code_review_button = ctx.add_typed_action_view(|ctx| {
             ActionButton::new("", NakedTheme)
                 .with_icon(Icon::Diff)
-                .with_tooltip("Review changes")
+                .with_tooltip("审查变更")
                 .with_width(icon_size(ctx))
                 .with_height(icon_size(ctx))
                 .on_click(|ctx| {
@@ -901,7 +901,7 @@ impl CodeDiffView {
         let expansion_button_collapsed = ctx.add_typed_action_view(|ctx| {
             ActionButton::new("", NakedTheme)
                 .with_icon(Icon::ChevronRight)
-                .with_tooltip("Expand")
+                .with_tooltip("展开")
                 .with_width(icon_size(ctx))
                 .with_height(icon_size(ctx))
                 .on_click(|ctx| {
@@ -912,7 +912,7 @@ impl CodeDiffView {
         let expansion_button_expanded = ctx.add_typed_action_view(|ctx| {
             ActionButton::new("", NakedTheme)
                 .with_icon(Icon::ChevronDown)
-                .with_tooltip("Collapse")
+                .with_tooltip("折叠")
                 .with_width(icon_size(ctx))
                 .with_height(icon_size(ctx))
                 .on_click(|ctx| {
@@ -3146,7 +3146,7 @@ impl BackingView for CodeDiffView {
         // Code diffs should show "Requested Edit" as the title and hide the close button
         // since they are closed via accept/reject actions.
         view::HeaderContent::Standard(view::StandardHeader {
-            title: "Requested Edit".to_string(),
+            title: "请求编辑".to_string(),
             title_secondary: None,
             title_style: None,
             title_clip_config: warpui::text_layout::ClipConfig::start(),

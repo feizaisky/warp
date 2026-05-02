@@ -174,7 +174,7 @@ pub(crate) fn render_action_sidecar(
             let edit_button = appearance
                 .ui_builder()
                 .button(ButtonVariant::Outlined, mouse_states.edit_config.clone())
-                .with_centered_text_label("Edit config".into())
+                .with_centered_text_label("编辑配置".into())
                 .with_style(button_style)
                 .build()
                 .with_cursor(Cursor::PointingHand)
@@ -205,7 +205,7 @@ pub(crate) fn render_action_sidecar(
             let remove_button = appearance
                 .ui_builder()
                 .button(ButtonVariant::Outlined, mouse_states.remove_config.clone())
-                .with_centered_text_label("Remove".into())
+                .with_centered_text_label("移除".into())
                 .with_style(remove_style)
                 .with_hovered_styles(UiComponentStyles {
                     border_color: Some(theme.accent().into()),
