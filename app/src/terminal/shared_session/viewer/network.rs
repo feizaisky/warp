@@ -318,7 +318,7 @@ impl Network {
         auth_state: Arc<AuthState>,
     ) -> anyhow::Result<((impl Sink, impl Stream), UserID)> {
         let Some(join_endpoint) = connect_endpoint(format!("/sessions/join/{session_id}")) else {
-            bail!("This channel does not support session-sharing.");
+            bail!("此频道不支持会话共享。");
         };
         let user_id = Self::get_user_id(auth_client, &auth_state).await?;
         let socket = websocket::WebSocket::connect(join_endpoint, None /* protocols */).await?;
@@ -1012,16 +1012,16 @@ impl FailedToJoinReason {
     /// This error message will be displayed to the user.
     pub fn user_facing_error_message(&self) -> &str {
         match self {
-            FailedToJoinReason::Unknown => "Failed to join shared session.",
+            FailedToJoinReason::Unknown => "加入共享会话失败。",
             FailedToJoinReason::FailedToConnectToServer => {
-                "Failed to connect. Please try again later."
+                "连接失败，请稍后重试。"
             }
-            FailedToJoinReason::SessionNotFound => "Shared session not found.",
-            FailedToJoinReason::WrongPassword => "Invalid session sharing link.",
+            FailedToJoinReason::SessionNotFound => "未找到共享会话。",
+            FailedToJoinReason::WrongPassword => "共享会话链接无效。",
             FailedToJoinReason::MaxNumberOfParticipantsReached => {
-                "The maximum number of participants for this shared session has been reached."
+                "此共享会话已达到最大参与人数上限。"
             }
-            FailedToJoinReason::SessionNotAccessible => "You don't have access to this link.",
+            FailedToJoinReason::SessionNotAccessible => "您无权访问此链接。",
         }
     }
 }
@@ -1043,19 +1043,19 @@ impl From<session_sharing_protocol::viewer::FailedToJoinReason> for FailedToJoin
 pub fn session_ended_reason_string(reason: &SessionEndedReason) -> String {
     match reason {
         SessionEndedReason::InternalServerError => {
-            "Something went wrong. Please ask sharer to reshare to continue.".to_owned()
+            "出现错误，请要求分享者重新共享以继续。".to_owned()
         }
         SessionEndedReason::InactivityLimitReached => {
-            "Sharing ended due to sharer inactivity".to_owned()
+            "因分享者长时间无操作，共享已结束".to_owned()
         }
-        _ => "Session ended.".to_owned(),
+        _ => "会话已结束。".to_owned(),
     }
 }
 
 pub fn viewer_removed_reason_string(reason: &ViewerRemovedReason) -> String {
     match reason {
         ViewerRemovedReason::LostAccess => {
-            "Your access to the session was removed. Please ask sharer to reshare to continue."
+            "您的会话访问权限已被移除，请要求分享者重新共享以继续。"
                 .to_owned()
         }
     }
@@ -1065,9 +1065,9 @@ pub fn viewer_removed_reason_string(reason: &ViewerRemovedReason) -> String {
 pub fn command_execution_failure_reason_string(reason: &CommandExecutionFailureReason) -> String {
     match reason {
         CommandExecutionFailureReason::InsufficientPermissions => {
-            "Insufficient permissions. Please request edit access.".to_owned()
+            "权限不足，请申请编辑权限。".to_owned()
         }
-        _ => "Failed to execute command. Please try again.".to_owned(),
+        _ => "执行命令失败，请重试。".to_owned(),
     }
 }
 
@@ -1075,9 +1075,9 @@ pub fn command_execution_failure_reason_string(reason: &CommandExecutionFailureR
 pub fn write_to_pty_failure_reason_string(reason: &WriteToPtyFailureReason) -> String {
     match reason {
         WriteToPtyFailureReason::InsufficientPermissions => {
-            "Insufficient permissions. Please request edit access.".to_owned()
+            "权限不足，请申请编辑权限。".to_owned()
         }
-        _ => "Failed to make edit. Please try again.".to_owned(),
+        _ => "编辑失败，请重试。".to_owned(),
     }
 }
 
@@ -1085,13 +1085,13 @@ pub fn write_to_pty_failure_reason_string(reason: &WriteToPtyFailureReason) -> S
 pub fn agent_prompt_failure_reason_string(reason: &AgentPromptFailureReason) -> String {
     match reason {
         AgentPromptFailureReason::InsufficientPermissions => {
-            "Insufficient permissions. Please request edit access.".to_owned()
+            "权限不足，请申请编辑权限。".to_owned()
         }
         AgentPromptFailureReason::InvalidConversation => {
-            "Invalid conversation. Please try again.".to_owned()
+            "对话无效，请重试。".to_owned()
         }
         AgentPromptFailureReason::CommandInProgress => {
-            "A long running command is currently in progress. Please wait for it to complete before sending an agent prompt.".to_owned()
+            "当前有长时命令正在运行，请等待其完成后再发送智能体提示词。".to_owned()
         }
     }
 }
@@ -1100,9 +1100,9 @@ pub fn agent_prompt_failure_reason_string(reason: &AgentPromptFailureReason) -> 
 pub fn control_action_failure_reason_string(reason: &ControlActionFailureReason) -> String {
     match reason {
         ControlActionFailureReason::InsufficientPermissions => {
-            "Insufficient permissions. Please request edit access.".to_owned()
+            "权限不足，请申请编辑权限。".to_owned()
         }
-        _ => "Failed to perform action. Please try again.".to_owned(),
+        _ => "操作失败，请重试。".to_owned(),
     }
 }
 

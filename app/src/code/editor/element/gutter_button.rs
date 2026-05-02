@@ -71,9 +71,9 @@ impl GutterButton for AddAsContextButton {
 
     fn tooltip_text(&self) -> Option<&'static str> {
         if self.is_enabled {
-            Some("Add diff hunk as context")
+            Some("将差异块附加为上下文")
         } else {
-            Some("Save changes to attach as context.")
+            Some("保存更改以附加为上下文。")
         }
     }
 
@@ -153,9 +153,9 @@ impl GutterButton for CommentButton {
 
     fn tooltip_text(&self) -> Option<&'static str> {
         match self {
-            CommentButton::CreateNewComment => Some("Add comment on line"),
-            CommentButton::Disabled => Some("Save changes to add comment"),
-            CommentButton::AddedComment => Some("Show saved comment"),
+            CommentButton::CreateNewComment => Some("在此行添加评论"),
+            CommentButton::Disabled => Some("保存更改以添加评论"),
+            CommentButton::AddedComment => Some("显示已保存的评论"),
             CommentButton::EditorOpenedToCreateNewComment
             | CommentButton::EditorOpenedToUpdateComment => None,
         }

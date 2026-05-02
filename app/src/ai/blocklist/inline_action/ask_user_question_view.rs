@@ -1004,7 +1004,7 @@ impl AskUserQuestionView {
         let initial_text = initial_text.map(String::from);
         let input = ctx.add_view(move |ctx| {
             let input = compact_agent_input::CompactAgentInput::new(ctx);
-            input.set_placeholder_text("Type your answer and press Enter", ctx);
+            input.set_placeholder_text("输入答案并按 Enter 键", ctx);
             if let Some(initial_text) = initial_text.as_deref() {
                 input.set_text(initial_text, ctx);
             }
@@ -1185,7 +1185,7 @@ impl AskUserQuestionView {
         let current = self.session.current()?;
         let mut question_text = current.question.question.clone();
         if current.question.is_multiselect() {
-            question_text.push_str(" (select all that apply)");
+            question_text.push_str(" （请选择所有适用项）");
         }
         let has_nav_footer = self.session.has_multiple_questions();
         let container_height = ask_user_question_container_height(
@@ -1207,7 +1207,7 @@ impl AskUserQuestionView {
                 .finish(),
         );
         content.add_child(
-            HeaderConfig::new("Agent questions", app)
+            HeaderConfig::new("智能体问题", app)
                 .with_icon(yellow_stop_icon(appearance))
                 .with_corner_radius_override(CornerRadius::with_top(Radius::Pixels(8.)))
                 .render_header(app, Some(header_right.finish())),
@@ -1280,12 +1280,12 @@ impl AskUserQuestionView {
             }
             AskUserQuestionResult::Error(_) | AskUserQuestionResult::Cancelled => (
                 None,
-                "Questions skipped".to_string(),
+                "问题已跳过".to_string(),
                 inline_action_icons::reverted_icon(appearance),
             ),
             AskUserQuestionResult::SkippedByAutoApprove { .. } => (
                 None,
-                "Questions skipped due to auto-approve".to_string(),
+                "问题因自动批准而跳过".to_string(),
                 inline_action_icons::reverted_icon(appearance),
             ),
         };
@@ -1589,7 +1589,7 @@ fn ask_user_question_completion_state(
 
     if answered_count == 0 {
         AskUserQuestionCompletionState {
-            label: "Questions skipped".to_string(),
+            label: "问题已跳过".to_string(),
             status_icon: inline_action_icons::reverted_icon(appearance),
         }
     } else {
@@ -1625,14 +1625,14 @@ fn render_answers(
     let mut content = Flex::column().with_cross_axis_alignment(CrossAxisAlignment::Stretch);
     for (index, question) in questions.iter().enumerate() {
         let answer = answers.and_then(|answers| answers.get(index));
-        let question_text = format!("Q: {}", question.question);
+        let question_text = format!("Q：{}", question.question);
         let question_label =
             render_text_with_markdown_support(&question_text, font_size, text_color, appearance);
         let answer_text = format!(
             "A: {}",
             answer
                 .map(AskUserQuestionAnswerItem::display_text)
-                .unwrap_or_else(|| "Skipped".to_string())
+                .unwrap_or_else(|| "已跳过".to_string())
         );
         let answer_label =
             render_text_with_markdown_support(&answer_text, font_size, muted_color, appearance);

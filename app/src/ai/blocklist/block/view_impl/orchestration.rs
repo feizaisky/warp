@@ -39,7 +39,7 @@ use super::common::render_scrollable_collapsible_content;
 use super::output::{action_icon, Props};
 use super::WithContentItemSpacing;
 
-const GENERATING_TITLE_PLACEHOLDER: &str = "Generating title...";
+const GENERATING_TITLE_PLACEHOLDER: &str = "正在生成标题...";
 const ORCHESTRATION_COLLAPSED_MAX_HEIGHT: f32 = 200.;
 
 fn agent_display_name_from_id(
@@ -48,7 +48,7 @@ fn agent_display_name_from_id(
     app: &AppContext,
 ) -> String {
     if orchestrator_agent_id.is_some_and(|id| id == agent_id) {
-        return "Orchestrator agent".to_string();
+        return "编排智能体".to_string();
     }
     if let Some(conversation_id) = conversation_id_for_agent_id(agent_id, app) {
         if let Some(conversation) =
@@ -59,7 +59,7 @@ fn agent_display_name_from_id(
             }
         }
     }
-    "Unknown agent".to_string()
+    "未知智能体".to_string()
 }
 
 fn orchestrator_agent_id_for_conversation(

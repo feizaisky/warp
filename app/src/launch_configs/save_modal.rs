@@ -550,7 +550,7 @@ impl LaunchConfigSaveModal {
             SaveState::Success => header
                 .with_child(
                     self.render_formatted_text_line(appearance, vec![
-                        FormattedTextFragment::plain_text("Saved successfully to "),
+                        FormattedTextFragment::plain_text("已成功保存至 "),
                         FormattedTextFragment::inline_code(self.file_name.clone().unwrap_or_default()),
                         FormattedTextFragment::plain_text(".")
                     ])
@@ -657,7 +657,7 @@ impl View for LaunchConfigSaveModal {
 
     fn accessibility_contents(&self, _ctx: &AppContext) -> Option<AccessibilityContent> {
         Some(AccessibilityContent::new(
-            "Save Config Modal",
+            "保存配置弹窗",
             "Type the name of the file to which you want to save your
             current configuration of windows, tabs, and panes. Use enter to save the
             launch configuration, esc to quit the save configuration modal.",

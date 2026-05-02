@@ -144,8 +144,8 @@ const CURSOR_BLINK_INTERVAL: Duration = Duration::from_millis(500);
 const DEFAULT_TAB_SIZE: usize = 4;
 
 pub const ACCEPT_AUTOSUGGESTION_KEYBINDING_NAME: &str = "editor_view:insert_autosuggestion";
-pub const VOICE_LIMIT_HIT_TOAST_TEXT: &str = "You have hit the limit for Voice requests. Your limit will be refreshed as a part of your next cycle.";
-pub const VOICE_ERROR_TOAST_TEXT: &str = "An error occurred while processing your voice input.";
+pub const VOICE_LIMIT_HIT_TOAST_TEXT: &str = "您已达到语音请求的使用上限，将在下个计费周期重置。";
+pub const VOICE_ERROR_TOAST_TEXT: &str = "处理语音输入时发生错误。";
 
 pub const MAX_IMAGES_PER_CONVERSATION: usize = 200;
 
@@ -523,21 +523,21 @@ pub fn init(ctx: &mut AppContext) {
         // Selections
         EditableBinding::new(
             "editor_view:select_left_by_word",
-            "Select one word to the left",
+            "向左选择一个词",
             EditorAction::SelectLeftByWord,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("shift-meta-B"),
         EditableBinding::new(
             "editor_view:select_right_by_word",
-            "Select one word to the right",
+            "向右选择一个词",
             EditorAction::SelectRightByWord,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("shift-meta-F"),
         EditableBinding::new(
             "editor_view:select_left",
-            "Select one character to the left",
+            "向左选择一个字符",
             EditorAction::SelectLeft,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -548,40 +548,40 @@ pub fn init(ctx: &mut AppContext) {
         // NOTE "shift-right" exists a cross-platform keybinding for this action.
         EditableBinding::new(
             "editor_view:select_right",
-            "Select one character to the right",
+            "向右选择一个字符",
             EditorAction::SelectRight,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_mac_key_binding("shift-ctrl-F"),
-        EditableBinding::new(SELECT_UP_ACTION_NAME, "Select up", EditorAction::SelectUp)
+        EditableBinding::new(SELECT_UP_ACTION_NAME, "向上选择", EditorAction::SelectUp)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             // Set this to Mac only since otherwise it could conflict with opening the command
             // palette. NOTE `shift-up` still exists as a cross platform keybinding for this action.
             .with_mac_key_binding("shift-ctrl-P"),
         EditableBinding::new(
             SELECT_DOWN_ACTION_NAME,
-            "Select down",
+            "向下选择",
             EditorAction::SelectDown,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_mac_key_binding("shift-ctrl-N"),
         EditableBinding::new(
             "editor_view:select_all",
-            "Select all",
+            "全选",
             EditorAction::SelectAll,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_custom_action(CustomAction::SelectAll),
         EditableBinding::new(
             "editor:select_to_line_start",
-            "Select to start of line",
+            "选至行首",
             EditorAction::SelectToLineStart,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_mac_key_binding("shift-ctrl-A"),
         EditableBinding::new(
             "editor:select_to_line_end",
-            "Select to end of line",
+            "选至行尾",
             EditorAction::SelectToLineEnd,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -595,7 +595,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_key_binding("ctrl-u"),
         EditableBinding::new(
             "editor_view:add_next_occurrence",
-            "Add selection for next occurrence",
+            "为下一处匹配添加选区",
             EditorAction::AddNextOccurrence,
         )
         .with_custom_action(CustomAction::AddNextOccurrence)
@@ -605,7 +605,7 @@ pub fn init(ctx: &mut AppContext) {
         // `shift-end` is registered on all platforms for this action.
         EditableBinding::new(
             "editor_view:select_to_line_end",
-            "Select To Line End",
+            "选至行尾",
             EditorAction::SelectToLineEnd,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -613,31 +613,31 @@ pub fn init(ctx: &mut AppContext) {
         // `end` is registered on all platforms for this action.
         EditableBinding::new(
             "editor_view:select_to_line_start",
-            "Select To Line Start",
+            "选至行首",
             EditorAction::SelectToLineStart,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_mac_key_binding("cmd-shift-left"),
         // Navigation
-        EditableBinding::new("editor_view:up", "Move cursor up", EditorAction::Up)
+        EditableBinding::new("editor_view:up", "光标上移", EditorAction::Up)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_key_binding("ctrl-p"),
-        EditableBinding::new("editor_view:down", "Move cursor down", EditorAction::Down)
+        EditableBinding::new("editor_view:down", "光标下移", EditorAction::Down)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_key_binding("ctrl-n"),
-        EditableBinding::new("editor_view:left", "Move cursor left", EditorAction::Left)
+        EditableBinding::new("editor_view:left", "光标左移", EditorAction::Left)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_key_binding("ctrl-b"),
         EditableBinding::new(
             "editor_view:right",
-            "Move cursor right",
+            "光标右移",
             EditorAction::Right,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("ctrl-f"),
         EditableBinding::new(
             "editor_view:move_to_line_start",
-            "Move to start of line",
+            "移至行首",
             EditorAction::MoveToLineStart,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -646,7 +646,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("ctrl-a"),
         EditableBinding::new(
             "editor_view:move_to_line_end",
-            "Move to end of line",
+            "移至行尾",
             EditorAction::MoveToLineEnd,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -700,14 +700,14 @@ pub fn init(ctx: &mut AppContext) {
         .with_linux_or_windows_key_binding("ctrl-shift-end"),
         EditableBinding::new(
             "editor_view:move_forward_one_word",
-            "Move forward one word",
+            "向前移动一个词",
             EditorAction::MoveForwardOneWord,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_key_binding("meta-f"),
         EditableBinding::new(
             "editor_view:move_backward_one_word",
-            "Move backward one word",
+            "向后移动一个词",
             EditorAction::MoveBackwardOneWord,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -898,7 +898,7 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("ctrl-alt-shift-right"),
         EditableBinding::new(
             ACCEPT_AUTOSUGGESTION_KEYBINDING_NAME,
-            "Accept autosuggestion",
+            "接受自动建议",
             EditorAction::InsertAutosuggestion,
         )
         .with_context_predicate(
@@ -931,7 +931,7 @@ pub fn init(ctx: &mut AppContext) {
 
     ctx.register_editable_bindings([EditableBinding::new(
         "editor_view:clear_buffer",
-        "Clear command editor",
+        "清空命令编辑器",
         EditorAction::CtrlC,
     )
     .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -940,14 +940,14 @@ pub fn init(ctx: &mut AppContext) {
     ctx.register_editable_bindings([
         EditableBinding::new(
             "editor_view:add_cursor_above",
-            "Add cursor above",
+            "在上方添加光标",
             EditorAction::AddCursorAbove,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
         .with_custom_action(CustomAction::AddCursorAbove),
         EditableBinding::new(
             "editor_view:add_cursor_below",
-            "Add cursor below",
+            "在下方添加光标",
             EditorAction::AddCursorBelow,
         )
         .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
@@ -964,7 +964,7 @@ pub fn init(ctx: &mut AppContext) {
 
     ctx.register_editable_bindings([EditableBinding::new(
         "editor_view:vim_exit_insert_mode",
-        "Exit Vim insert mode",
+        "退出 Vim 插入模式",
         EditorAction::VimEscape,
     )
     .with_context_predicate(id!("EditorView") & !id!("IMEOpen") & id!("Vim"))
@@ -1687,11 +1687,11 @@ impl ImageContextOptions {
         } = self
         {
             if *unsupported_model {
-                return "Image attachment isn't supported by this model".into();
+                return "该模型不支持图片附件".into();
             }
 
             if *is_processing_attached_images {
-                return "Loading...".into();
+                return "加载中...".into();
             }
 
             if *num_images_attached >= MAX_IMAGE_COUNT_FOR_QUERY {
@@ -1708,7 +1708,7 @@ impl ImageContextOptions {
             }
         }
 
-        "Attach images".into()
+        "附加图片".into()
     }
 
     pub fn num_images_attached(&self) -> usize {
@@ -4973,7 +4973,7 @@ impl EditorView {
                             ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                                 toast_stack.add_ephemeral_toast(
                                     DismissibleToast::error(
-                                        "The selected model does not support images as context."
+                                        "所选模型不支持将图片作为上下文。"
                                             .to_string(),
                                     ),
                                     window_id,
@@ -5004,10 +5004,10 @@ impl EditorView {
                             };
 
                             let message = if num_excess_images == 1 {
-                                format!("1 image wasn't attached - {limit_reason}.")
+                                format!("1 张图片未附加——{limit_reason}。")
                             } else {
                                 format!(
-                                    "{num_excess_images} images weren't attached - {limit_reason}."
+                                    "{num_excess_images} 张图片未附加——{limit_reason}。"
                                 )
                             };
 
@@ -5079,7 +5079,7 @@ impl EditorView {
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
                         DismissibleToast::error(
-                            "The selected model does not support images as context".to_owned(),
+                            "所选模型不支持将图片作为上下文。".to_owned(),
                         ),
                         window_id,
                         ctx,
@@ -5124,7 +5124,7 @@ impl EditorView {
                         }
                         Err(e) => {
                             safe_error!(
-                                safe: ("Failed to read file: {e}"),
+                                safe: ("读取文件失败：{e}"),
                                 full: ("Failed to read file {path_str}: {e}")
                             );
                             num_read_errors += 1;
@@ -5155,9 +5155,9 @@ impl EditorView {
 
                 if num_read_errors > 0 {
                     let message = if num_read_errors == 1 && num_images_user_attached == 1 {
-                        "Image cannot be attached - failed to read file.".into()
+                        "图片无法附加——读取文件失败。".into()
                     } else if num_read_errors == 1 {
-                        "1 image wasn't attached - failed to read file.".into()
+                        "1 张图片未附加——读取文件失败。".into()
                     } else {
                         format!("{num_read_errors} images weren't attached - failed to read files.")
                     };
@@ -5194,7 +5194,7 @@ impl EditorView {
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
                         DismissibleToast::error(
-                            "The selected model does not support images as context".to_owned(),
+                            "所选模型不支持将图片作为上下文。".to_owned(),
                         ),
                         window_id,
                         ctx,
@@ -5263,12 +5263,12 @@ impl EditorView {
 
                 if num_oversized_images > 0 {
                     let message = if num_oversized_images == 1 && num_images_user_attached == 1 {
-                        "Image cannot be attached - file is too large.".into()
+                        "图片无法附加——文件过大。".into()
                     } else if num_oversized_images == 1 {
-                        "1 image wasn't attached — file is too large.".into()
+                        "1 张图片未附加——文件过大。".into()
                     } else {
                         format!(
-                            "{num_oversized_images} images weren't attached — files are too large."
+                            "{num_oversized_images} 张图片未附加——文件过大。"
                         )
                     };
 
@@ -5283,12 +5283,12 @@ impl EditorView {
 
                 if num_unprocessed_images > 0 {
                     let message = if num_unprocessed_images == 1 && num_images_user_attached == 1 {
-                        "Image cannot be attached - error processing.".into()
+                        "图片无法附加——处理出错。".into()
                     } else if num_unprocessed_images == 1 {
-                        "1 image wasn't attached - error processing.".into()
+                        "1 张图片未附加——处理出错。".into()
                     } else {
                         format!(
-                            "{num_unprocessed_images} images weren't attached - error processing."
+                            "{num_unprocessed_images} 张图片未附加——处理出错。"
                         )
                     };
 
@@ -7038,7 +7038,7 @@ impl EditorView {
             }
 
             // If we get there, then we didn't find a next occurrence.
-            log::warn!("Unable to select next occurrence");
+            log::warn!("无法选中下一处匹配");
         });
     }
 
@@ -8055,7 +8055,7 @@ impl EditorView {
             button
                 .with_tooltip_position(ButtonTooltipPosition::Above)
                 .with_tooltip(self.render_menu_button_tooltip(
-                    "Search files and directories".to_string(),
+                    "搜索文件和目录".to_string(),
                     appearance,
                 ))
                 .build()
@@ -8402,7 +8402,7 @@ impl TypedActionView for EditorView {
             | EditorAction::Backspace => ActionAccessibilityContent::Empty,
             EditorAction::Paste => {
                 ActionAccessibilityContent::Custom(AccessibilityContent::new_without_help(
-                    format!("Pasting: {}", self.clipboard_content(ctx)),
+                    format!("正在粘贴：{}", self.clipboard_content(ctx)),
                     WarpA11yRole::UserAction,
                 ))
             }

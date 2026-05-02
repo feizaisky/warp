@@ -134,7 +134,7 @@ impl ConversationUsageView {
 
         // Usage summary
         labels.push(render_section_header(
-            "USAGE SUMMARY".to_string(),
+            "使用摘要".to_string(),
             appearance,
         ));
         values.push(render_section_header("".to_string(), appearance));
@@ -144,7 +144,7 @@ impl ConversationUsageView {
         {
             let last_block_credits = self.usage_info.credits_spent_for_last_block.unwrap();
             labels.push(render_label_text(
-                "Credits spent (last response)",
+                "已消耗积分（上次响应）",
                 appearance,
             ));
             values.push(render_value_text(
@@ -152,20 +152,20 @@ impl ConversationUsageView {
                 appearance,
             ));
 
-            labels.push(render_label_text("Credits spent (total)", appearance));
+            labels.push(render_label_text("已消耗积分（总计）", appearance));
             values.push(render_value_text(
                 format_credits(self.usage_info.credits_spent),
                 appearance,
             ));
         } else {
-            labels.push(render_label_text("Credits spent", appearance));
+            labels.push(render_label_text("已消耗积分", appearance));
             values.push(render_value_text(
                 format_credits(self.usage_info.credits_spent),
                 appearance,
             ));
         }
 
-        labels.push(render_label_text("Tool calls", appearance));
+        labels.push(render_label_text("工具调用次数", appearance));
         values.push(render_value_text(
             format_value_text(self.usage_info.tool_calls, "call"),
             appearance,
@@ -263,7 +263,7 @@ impl ConversationUsageView {
             );
         }
 
-        labels.push(render_label_text("Context window used", appearance));
+        labels.push(render_label_text("已使用的上下文窗口", appearance));
         let context_usage_str =
             format!("{}%", (self.usage_info.context_window_usage * 100.).round());
         let context_window_element = Flex::row()
@@ -301,18 +301,18 @@ impl ConversationUsageView {
 
         // Tool call summary
         labels.push(render_section_header(
-            "TOOL CALL SUMMARY".to_string(),
+            "工具调用摘要".to_string(),
             appearance,
         ));
         values.push(render_section_header("".to_string(), appearance));
 
-        labels.push(render_label_text("Files changed", appearance));
+        labels.push(render_label_text("更改的文件数", appearance));
         values.push(render_value_text(
             format_value_text(self.usage_info.files_changed, "file"),
             appearance,
         ));
 
-        labels.push(render_label_text("Diffs applied", appearance));
+        labels.push(render_label_text("已应用的差异", appearance));
         let diffs_element = Flex::row()
             .with_cross_axis_alignment(CrossAxisAlignment::Center)
             .with_child(
@@ -349,7 +349,7 @@ impl ConversationUsageView {
             .finish();
         values.push(diffs_element);
 
-        labels.push(render_label_text("Commands executed", appearance));
+        labels.push(render_label_text("已执行的命令", appearance));
         values.push(render_value_text(
             format_value_text(self.usage_info.commands_executed, "command"),
             appearance,
@@ -376,12 +376,12 @@ impl ConversationUsageView {
 
                     // Section header
                     labels.push(render_section_header(
-                        "LAST RESPONSE TIME".to_string(),
+                        "上次响应时间".to_string(),
                         appearance,
                     ));
                     values.push(render_section_header("".to_string(), appearance));
 
-                    labels.push(render_label_text("Time to first token", appearance));
+                    labels.push(render_label_text("首个 token 时间", appearance));
                     values.push(render_value_text(
                         format!(
                             "{:.1} seconds",
@@ -390,7 +390,7 @@ impl ConversationUsageView {
                         appearance,
                     ));
 
-                    labels.push(render_label_text("Total agent response time", appearance));
+                    labels.push(render_label_text("智能体总响应时间", appearance));
                     values.push(render_value_text(
                         format!(
                             "{:.1} seconds",
@@ -402,7 +402,7 @@ impl ConversationUsageView {
                     if let Some(wall_ms) = timing.wall_to_wall_response_time_ms {
                         if wall_ms != 0 {
                             labels.push(render_label_text(
-                                "Total time (including tool calls)",
+                                "总时间（含工具调用）",
                                 appearance,
                             ));
                             values.push(render_value_text(

@@ -80,7 +80,7 @@ const SECTION_SPACING: f32 = 16.;
 
 // Variable rows
 pub(super) const ROW_SPACING: f32 = 8.;
-pub const EDUCATION_TEXT: &str = "Add secret or command. Warp never stores external secrets";
+pub const EDUCATION_TEXT: &str = "添加密钥或命令。Warp 不存储外部密钥";
 const VARIABLE_FONT_SIZE: f32 = 13.;
 const DESCRIPTION_EDITOR_CUTOFF: f32 = 30.;
 const DESCRIPTION_BOTTOM_MARGIN: f32 = 12.;
@@ -91,8 +91,8 @@ const VARIABLE_DESCRIPTION_PLACEHOLDER_TEXT: &str = "Description";
 const VARIABLE_NAME_PLACEHOLDER_TEXT: &str = "Variable";
 
 // Text input fields
-const TITLE_PLACEHOLDER_TEXT: &str = "Add a title";
-const DESCRIPTION_PLACEHOLDER_TEXT: &str = "Add a description";
+const TITLE_PLACEHOLDER_TEXT: &str = "添加标题";
+const DESCRIPTION_PLACEHOLDER_TEXT: &str = "添加描述";
 
 // Button spacing
 const BUTTON_CONTAINER_HORIZONTAL_MARGIN: f32 = 36.;
@@ -105,7 +105,7 @@ pub(super) const ERROR_ALERT_MARGIN_TOP: f32 = 8.;
 
 pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([EditableBinding::new(
-        "Close Env Var Collection",
+        "关闭环境变量集合",
         "Close",
         EnvVarCollectionAction::Close,
     )
@@ -359,8 +359,8 @@ impl ValidationError {
     /// Create validation error from detected secret level
     fn from_secret_level(secret_level: SecretLevel) -> Self {
         let message = match secret_level {
-            SecretLevel::Enterprise => "This environment variable cannot be created due to conflicts with your enterprise's secret redaction settings. Contact a team admin for details.".to_string(),
-            SecretLevel::User => "This environment variable cannot be created due to conflicts with your secret redaction settings. Save the secret as an environment variable (in your shell config or a .env file), or update your secret redaction settings in Settings > Privacy.".to_string(),
+            SecretLevel::Enterprise => "因与企业密钥脱敏设置冲突，无法创建此环境变量，请联系团队管理员了解详情。".to_string(),
+            SecretLevel::User => "因与密钥脱敏设置冲突，无法创建此环境变量，将密钥另存为环境变量...".to_string(),
         };
         Self {
             secret_level,
@@ -747,12 +747,12 @@ impl EnvVarCollectionView {
                         Box::new(cloud_env_var.clone()),
                     )));
                 } else {
-                    log::error!("Env var not found and could not be invoked");
+                    log::error!("未找到环境变量，无法调用");
                     let window_id = ctx.window_id();
                     crate::workspace::ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
                             DismissibleToast::error(
-                                "An error occurred while trying to invoke the env var".to_owned(),
+                                "尝试调用环境变量时发生错误".to_owned(),
                             ),
                             window_id,
                             ctx,
@@ -765,7 +765,7 @@ impl EnvVarCollectionView {
                     Box::new(env_var_collection.as_ref().clone()),
                 )))
             }
-            ActiveEnvVarCollection::None => log::warn!("No env var to invoke"),
+            ActiveEnvVarCollection::None => log::warn!("没有可调用的环境变量"),
         }
     }
 

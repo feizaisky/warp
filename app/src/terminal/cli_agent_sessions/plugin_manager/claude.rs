@@ -163,24 +163,24 @@ impl CliAgentPluginManager for ClaudeCodePluginManager {
 
 static INSTALL_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| {
     PluginInstructions {
-        title: "Install Warp Plugin for Claude Code",
-        subtitle: "Ensure that jq is installed on your machine. Then, run these commands.",
+        title: "为 Claude Code 安装 Warp 插件",
+        subtitle: "确保您的机器上已安装 jq，然后运行以下命令。",
         steps: &[
             PluginInstructionStep {
-                description: "Add the Warp plugin marketplace repository",
+                description: "添加 Warp 插件市场仓库",
                 command: "claude plugin marketplace add warpdotdev/claude-code-warp",
                 executable: true,
                 link: None,
             },
             PluginInstructionStep {
-                description: "Install the Warp plugin",
+                description: "安装 Warp 插件",
                 command: "claude plugin install warp@claude-code-warp",
                 executable: true,
                 link: None,
             },
         ],
         post_install_notes: &[
-            "Restart Claude Code to activate the plugin.",
+            "重启 Claude Code 以激活插件。",
             "There are some known issues with Claude Code's plugin system. \
              If the plugin is not found after step 1, you can try manually adding an \"extraKnownMarketplaces\" entry to ~/.claude/settings.json.",
         ],
@@ -188,29 +188,29 @@ static INSTALL_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| {
 });
 
 static UPDATE_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| PluginInstructions {
-    title: "Update Warp Plugin for Claude Code",
-    subtitle: "Run the following commands.",
+    title: "更新 Claude Code 的 Warp 插件",
+    subtitle: "运行以下命令。",
     steps: &[
         PluginInstructionStep {
-            description: "Remove the existing marketplace (if present)",
+            description: "移除现有市场（如存在）",
             command: "claude plugin marketplace remove claude-code-warp",
             executable: true,
             link: None,
         },
         PluginInstructionStep {
-            description: "Re-add the marketplace",
+            description: "重新添加市场",
             command: "claude plugin marketplace add warpdotdev/claude-code-warp",
             executable: true,
             link: None,
         },
         PluginInstructionStep {
-            description: "Install the latest plugin version",
+            description: "安装最新插件版本",
             command: "claude plugin install warp@claude-code-warp",
             executable: true,
             link: None,
         },
     ],
-    post_install_notes: &["Restart Claude Code to activate the update."],
+    post_install_notes: &["重启 Claude Code 以激活更新。"],
 });
 
 fn check_installed(claude_dir: &Path) -> bool {

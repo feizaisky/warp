@@ -124,28 +124,28 @@ impl CliAgentPluginManager for GeminiPluginManager {
 }
 
 static INSTALL_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| PluginInstructions {
-    title: "Install Warp Plugin for Gemini CLI",
-    subtitle: "Run the following command, then restart Gemini CLI.",
+    title: "为 Gemini CLI 安装 Warp 插件",
+    subtitle: "运行以下命令，然后重启 Gemini CLI。",
     steps: &[PluginInstructionStep {
-        description: "Install the Warp extension",
+        description: "安装 Warp 扩展",
         command:
             "gemini extensions install https://github.com/warpdotdev/gemini-cli-warp --consent",
         executable: true,
         link: None,
     }],
-    post_install_notes: &["Restart Gemini CLI to activate the plugin."],
+    post_install_notes: &["重启 Gemini CLI 以激活插件。"],
 });
 
 static UPDATE_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| PluginInstructions {
-    title: "Update Warp Plugin for Gemini CLI",
-    subtitle: "Run the following command, then restart Gemini CLI.",
+    title: "更新 Gemini CLI 的 Warp 插件",
+    subtitle: "运行以下命令，然后重启 Gemini CLI。",
     steps: &[PluginInstructionStep {
-        description: "Update the Warp extension",
+        description: "更新 Warp 扩展",
         command: "gemini extensions update gemini-warp",
         executable: true,
         link: None,
     }],
-    post_install_notes: &["Restart Gemini CLI to activate the update."],
+    post_install_notes: &["重启 Gemini CLI 以激活更新。"],
 });
 
 fn check_installed(extensions_dir: &Path) -> bool {

@@ -71,9 +71,9 @@ pub(crate) enum ExpirationOption {
 impl ExpirationOption {
     fn display_text(&self) -> &'static str {
         match self {
-            ExpirationOption::OneDay => "1 day",
-            ExpirationOption::ThirtyDays => "30 days",
-            ExpirationOption::NinetyDays => "90 days",
+            ExpirationOption::OneDay => "1 天",
+            ExpirationOption::ThirtyDays => "30 天",
+            ExpirationOption::NinetyDays => "90 天",
             ExpirationOption::Never => "Never",
         }
     }
@@ -380,7 +380,7 @@ impl CreateApiKeyModal {
         };
 
         let info = Text::new(
-            "This secret key is shown only once. Copy and store it securely.",
+            "此密钥仅显示一次，请复制并妥善保管。",
             appearance.ui_font_family(),
             LABEL_FONT_SIZE,
         )
@@ -550,7 +550,7 @@ impl View for CreateApiKeyModal {
                     .with_text_label(if is_pending {
                         "Creating…".to_string()
                     } else {
-                        "Create key".to_string()
+                        "创建密钥".to_string()
                     })
                     .with_style(button_style)
                     .build()
@@ -653,7 +653,7 @@ impl TypedActionView for CreateApiKeyModal {
                 let window_id = ctx.window_id();
                 crate::ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     let toast = crate::view_components::DismissibleToast::success(
-                        "Secret key copied.".to_string(),
+                        "密钥已复制。".to_string(),
                     );
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });

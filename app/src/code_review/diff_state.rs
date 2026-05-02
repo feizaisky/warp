@@ -56,7 +56,7 @@ cfg_if::cfg_if! {
 #[cfg(all(feature = "local_fs", feature = "local_tty"))]
 use crate::terminal::local_shell::LocalShellState;
 
-const UNCOMMITTED_CHANGES: &str = "Uncommitted changes";
+const UNCOMMITTED_CHANGES: &str = "未提交的更改";
 
 /// Represents a parsed unified diff header
 /// Format: @@ -old_start,old_count +new_start,new_count @@ [optional context]
@@ -730,7 +730,7 @@ impl DiffStateModel {
         let msg = if relative_paths.len() == 1 {
             format!("{app_name}: stash {}", relative_paths[0])
         } else {
-            format!("{app_name}: stash {} files", relative_paths.len())
+            format!("{app_name}: stash {} 个文件", relative_paths.len())
         };
 
         let mut stash_args = vec!["stash", "push", "-u", "-m", msg.as_str(), "--"];
@@ -756,7 +756,7 @@ impl DiffStateModel {
                     let context = if relative_paths.len() == 1 {
                         relative_paths[0].clone()
                     } else {
-                        format!("{} files", relative_paths.len())
+                        format!("{} 个文件", relative_paths.len())
                     };
                     Err(anyhow!(
                         "Failed to stash changes for {}: {}",
@@ -2866,7 +2866,7 @@ impl DiffStateModel {
 
     fn changes_vs_main_branch_label(&self) -> String {
         let main_branch_name = self.get_main_branch_name().unwrap_or("main".to_string());
-        format!("Changes vs. {main_branch_name}")
+        format!("与 {main_branch_name} 的差异")
     }
 
     fn changes_vs_head_label(&self) -> String {
@@ -2877,7 +2877,7 @@ impl DiffStateModel {
         match mode {
             DiffMode::Head => self.changes_vs_head_label(),
             DiffMode::MainBranch => self.changes_vs_main_branch_label(),
-            DiffMode::OtherBranch(branch) => format!("Changes vs. {branch}"),
+            DiffMode::OtherBranch(branch) => format!("与 {branch} 的差异"),
         }
     }
 

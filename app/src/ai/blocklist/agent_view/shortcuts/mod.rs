@@ -123,7 +123,7 @@ pub fn render_agent_shortcuts_view(
                     key: "!".to_owned(),
                     ..Default::default()
                 },
-                text: "input shell command".into(),
+                text: "输入 shell 命令".into(),
                 ..Default::default()
             },
             app,
@@ -136,7 +136,7 @@ pub fn render_agent_shortcuts_view(
                 key: "/".to_owned(),
                 ..Default::default()
             },
-            text: "for slash commands".into(),
+            text: "用于斜杠命令".into(),
             ..Default::default()
         },
         app,
@@ -148,7 +148,7 @@ pub fn render_agent_shortcuts_view(
                 key: "@".to_owned(),
                 ..Default::default()
             },
-            text: "for file paths and attaching other context".into(),
+            text: "用于文件路径和附加其他上下文".into(),
             ..Default::default()
         },
         app,
@@ -161,7 +161,7 @@ pub fn render_agent_shortcuts_view(
             shortcuts.push(render_shortcut(
                 ShortcutProps {
                     keystroke,
-                    text: "open code review".into(),
+                    text: "打开代码审查".into(),
                     ..Default::default()
                 },
                 app,
@@ -176,7 +176,7 @@ pub fn render_agent_shortcuts_view(
             shortcuts.push(render_shortcut(
                 ShortcutProps {
                     keystroke,
-                    text: "toggle conversation list".into(),
+                    text: "切换对话列表".into(),
                     ..Default::default()
                 },
                 app,
@@ -187,7 +187,7 @@ pub fn render_agent_shortcuts_view(
     shortcuts.push(render_shortcut(
         ShortcutProps {
             keystroke: Keystroke::parse(cmd_or_ctrl_shift("y")).expect("is valid keystroke"),
-            text: "search and continue conversations".into(),
+            text: "搜索并继续对话".into(),
             ..Default::default()
         },
         app,
@@ -203,7 +203,7 @@ pub fn render_agent_shortcuts_view(
     shortcuts.push(render_shortcut(
         ShortcutProps {
             keystroke: new_conversation_keystroke.clone(),
-            text: "start a new conversation".into(),
+            text: "开始新对话".into(),
             ..Default::default()
         },
         app,
@@ -216,7 +216,7 @@ pub fn render_agent_shortcuts_view(
             shortcuts.push(render_shortcut(
                 ShortcutProps {
                     keystroke,
-                    text: "toggle auto-accept".into(),
+                    text: "切换自动接受".into(),
                     ..Default::default()
                 },
                 app,
@@ -231,7 +231,7 @@ pub fn render_agent_shortcuts_view(
                 ctrl: true,
                 ..Default::default()
             },
-            text: "pause agent".into(),
+            text: "暂停智能体".into(),
             ..Default::default()
         },
         app,
@@ -243,7 +243,7 @@ pub fn render_agent_shortcuts_view(
                 key: "escape".to_owned(),
                 ..Default::default()
             },
-            text: "go back to terminal".into(),
+            text: "返回终端".into(),
             ..Default::default()
         },
         app,

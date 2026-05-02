@@ -298,7 +298,7 @@ impl SettingsImportView {
                 background: Some(appearance.theme().outline().into()),
                 ..Default::default()
             })
-            .with_centered_text_label("Reset to Warp defaults".to_owned())
+            .with_centered_text_label("恢复 Warp 默认设置".to_owned())
             .build()
             .on_click(move |ctx, _, _| {
                 ctx.dispatch_typed_action(SettingsImportAction::ResetButtonClicked);
@@ -430,11 +430,11 @@ impl SettingsImportView {
             }
             match num_prefs - theme_subtraction {
                 1 => preference_text_elements
-                    .push(self.render_secondary_text(appearance, "1 other setting")),
+                    .push(self.render_secondary_text(appearance, "另外 1 项设置")),
                 0 => (),
                 _ => preference_text_elements.push(self.render_secondary_text(
                     appearance,
-                    format!("{} other settings", num_prefs - theme_subtraction),
+                    format!("另外 {} 项设置", num_prefs - theme_subtraction),
                 )),
             }
         }

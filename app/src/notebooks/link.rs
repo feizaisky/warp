@@ -56,14 +56,14 @@ impl LinkTarget {
     pub fn secondary_action(&self) -> Option<SecondaryAction> {
         match self {
             LinkTarget::LocalDirectory { .. } => Some(SecondaryAction {
-                label: "New session".into(),
-                tooltip: Some("Open a new terminal session in this directory".into()),
+                label: "新建会话".into(),
+                tooltip: Some("在此目录中打开新的终端会话".into()),
                 accessibility_content: "Open in terminal session".into(),
             }),
             LinkTarget::LocalFile {
                 is_markdown: true, ..
             } => Some(SecondaryAction {
-                label: "Open in editor".into(),
+                label: "在编辑器中打开".into(),
                 tooltip: None,
                 accessibility_content: "Edit Markdown file".into(),
             }),
@@ -396,7 +396,7 @@ impl fmt::Display for ResolveError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             ResolveError::FileNotFound => f.write_str("File not found"),
-            ResolveError::MissingContext => f.write_str("No base directory"),
+            ResolveError::MissingContext => f.write_str("无基础目录"),
             ResolveError::Unknown => f.write_str("Broken file link"),
         }
     }

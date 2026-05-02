@@ -176,7 +176,7 @@ impl MessageProvider<TerminalMessageArgs<'_>> for ErroredBlockMessageProducer {
         Some(Message::new(vec![
             MessageItem::keystroke(keystroke),
             MessageItem::text(format!(
-                " attach `{}` output as agent context",
+                " 附加 `{}` 输出作为智能体上下文",
                 truncated_command_for_block(&block.command_to_string())
             )),
         ]))
@@ -204,7 +204,7 @@ impl MessageProvider<TerminalMessageArgs<'_>> for AgentMessageProducer {
                     key: "enter".to_owned(),
                     ..Default::default()
                 }),
-                MessageItem::text(" new conversation"),
+                MessageItem::text(" 新建对话"),
             ])
             .with_color(message_magenta(theme)),
         )
@@ -235,7 +235,7 @@ impl MessageProvider<TerminalMessageArgs<'_>> for PlanMessageProducer {
                     key: "enter".to_owned(),
                     ..Default::default()
                 }),
-                MessageItem::text(" plan with agent"),
+                MessageItem::text(" 与智能体制定计划"),
             ])
             .with_color(message_magenta(theme)),
         )
@@ -257,7 +257,7 @@ impl MessageProvider<TerminalMessageArgs<'_>> for ContinueConversationMessagePro
         let keystroke = keybinding_name_to_keystroke(commands::CONVERSATIONS.name, args.app)?;
         Some(Message::new(vec![
             MessageItem::keystroke(keystroke),
-            MessageItem::text(" to continue conversation"),
+            MessageItem::text(" 继续对话"),
         ]))
     }
 }
@@ -344,7 +344,7 @@ impl MessageProvider<TerminalMessageArgs<'_>> for DefaultMessageProducer {
         if let Some(keystroke) = keystroke {
             Some(Message::new(vec![
                 MessageItem::keystroke(keystroke),
-                MessageItem::text(" new /agent conversation"),
+                MessageItem::text(" 新建 /agent 对话"),
             ]))
         } else {
             Some(Message::new(vec![MessageItem::text(
