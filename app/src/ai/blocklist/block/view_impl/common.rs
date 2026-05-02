@@ -136,20 +136,20 @@ pub const LOAD_OUTPUT_MESSAGE_FOR_PASSIVE_CODE_GEN: &str = "正在生成修复..
 pub const LOAD_OUTPUT_MESSAGE_FOR_CREATING_DIFF: &str = "正在创建差异...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_PREPARING_QUESTION: &str = "正在准备问题...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_GENERATING_PLAN: &str = "正在生成计划...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_UPDATING_PLAN: &str = "Updating plan...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_SUMMARIZING_CONVERSATION: &str = "Summarizing conversation...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_UPDATING_PLAN: &str = "正在更新计划...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_SUMMARIZING_CONVERSATION: &str = "正在总结对话...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_SUMMARIZING_TOOL_CALL_RESULT: &str =
-    "Summarizing command output...";
+    "正在总结命令输出...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_SEARCH_CODEBASE: &str = "正在搜索代码库...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_READING_FILES: &str = "Reading files...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_GREP: &str = "Grepping...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_FILE_GLOB: &str = "Finding files...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_RUNNING_COMMAND: &str = "Executing command...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_WRITING_TO_COMMAND: &str = "Writing command input...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_READING_FILES: &str = "正在读取文件...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_GREP: &str = "正在执行 Grep...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_FILE_GLOB: &str = "正在查找文件...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_RUNNING_COMMAND: &str = "正在执行命令...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_WRITING_TO_COMMAND: &str = "正在写入命令输入...";
 pub const LOAD_OUTPUT_MESSAGE_FOR_WAITING_FOR_COMMAND_COMPLETION: &str =
-    "Waiting for command to exit...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_WEB_SEARCH: &str = "Searching the web...";
-pub const LOAD_OUTPUT_MESSAGE_FOR_FETCHING_REVIEW_COMMENTS: &str = "Fetching PR comments...";
+    "正在等待命令退出...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_WEB_SEARCH: &str = "正在搜索网页...";
+pub const LOAD_OUTPUT_MESSAGE_FOR_FETCHING_REVIEW_COMMENTS: &str = "正在获取 PR 评论...";
 
 #[cfg(feature = "local_fs")]
 pub(crate) type ResolvedBlocklistImageSources = HashMap<String, Option<AssetSource>>;
@@ -3120,7 +3120,7 @@ fn render_invalid_api_key_error(
             background: Some(internal_colors::fg_overlay_3(theme).into()),
             ..Default::default()
         })
-        .with_text_label("Edit API Keys".to_string())
+        .with_text_label("编辑 API 密钥".to_string())
         .with_cursor(Some(Cursor::PointingHand))
         .build()
         .on_click(move |ctx, _, _| {

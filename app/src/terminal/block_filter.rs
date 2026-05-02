@@ -31,7 +31,7 @@ use crate::{
 
 use super::model::find::{FindConfig, RegexDFAs};
 
-const FILTER_BLOCK_PLACEHOLDER_TEXT: &str = "Filter block output";
+const FILTER_BLOCK_PLACEHOLDER_TEXT: &str = "过滤块输出";
 
 const BLOCK_FILTER_BAR_WIDTH: f32 = 380.;
 const BLOCK_FILTER_BAR_PADDING: f32 = 4.;
@@ -49,10 +49,10 @@ const MAXIMUM_CONTEXT_LINES: u16 = 99;
 const MAXIMUM_CONTEXT_LINE_EDITOR_BUFFER_LENGTH: usize = 2;
 pub type ContextLines = u16;
 pub const DEFAULT_CONTEXT_LINES_VALUE: ContextLines = 0;
-const CONTEXT_LINE_EDITOR_TOOLTIP_LABEL: &str = "Show context lines around matches";
-const REGEX_TOOLTIP_LABEL: &str = "Regex toggle";
-const CASE_SENSITIVITY_TOOLTIP_LABEL: &str = "Case sensitive search";
-const INVERT_FILTER_TOOLTIP_LABEL: &str = "Invert filter";
+const CONTEXT_LINE_EDITOR_TOOLTIP_LABEL: &str = "显示匹配周围的上下文行";
+const REGEX_TOOLTIP_LABEL: &str = "正则表达式切换";
+const CASE_SENSITIVITY_TOOLTIP_LABEL: &str = "大小写敏感搜索";
+const INVERT_FILTER_TOOLTIP_LABEL: &str = "反转过滤";
 
 pub const BLOCK_FILTER_DOTTED_LINE_DASH: Dash = Dash {
     dash_length: 4.,
@@ -753,8 +753,8 @@ impl View for BlockFilterEditor {
 
     fn accessibility_contents(&self, _: &AppContext) -> Option<AccessibilityContent> {
         Some(AccessibilityContent::new(
-            "Type searched phrase.",
-            "Press escape to quit",
+            "输入搜索短语。",
+            "按 Esc 退出",
             WarpA11yRole::TextareaRole,
         ))
     }

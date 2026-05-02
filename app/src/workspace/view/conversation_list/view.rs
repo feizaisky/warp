@@ -52,7 +52,7 @@ use warpui::{
     ViewContext, ViewHandle, WindowId,
 };
 
-const VIEW_ALL_LABEL: &str = "View all";
+const VIEW_ALL_LABEL: &str = "查看全部";
 /// Maximum number of past items to show before the user toggles "view all".
 const INITIAL_MAX_PAST_ITEMS: usize = 10;
 

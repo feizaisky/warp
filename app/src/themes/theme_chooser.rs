@@ -122,13 +122,13 @@ impl ThemeChooserMode {
         let hint_text = match self {
             ThemeChooserMode::SystemAgnostic => appearance
                 .ui_builder()
-                .paragraph("Change your current theme.".to_string()),
+                .paragraph("更改当前主题。".to_string()),
             ThemeChooserMode::SystemLight => appearance
                 .ui_builder()
-                .paragraph("Pick a theme for when your system is in light mode.".to_string()),
+                .paragraph("选择系统处于浅色模式时使用的主题。".to_string()),
             ThemeChooserMode::SystemDark => appearance
                 .ui_builder()
-                .paragraph("Pick a theme for when your system is in dark mode.".to_string()),
+                .paragraph("选择系统处于深色模式时使用的主题。".to_string()),
         };
         hint_text
             .build()
@@ -749,7 +749,7 @@ impl ThemeChooser {
                 .with_child(
                     appearance
                         .ui_builder()
-                        .span("No matching themes!".to_string())
+                        .span("没有匹配的主题！".to_string())
                         .build()
                         .finish(),
                 )
@@ -847,7 +847,7 @@ impl View for ThemeChooser {
     fn accessibility_contents(&self, _: &AppContext) -> Option<AccessibilityContent> {
         Some(AccessibilityContent::new(
                 "Theme chooser. Unfortunately, theme chooser window isn't compatible with screen readers yet.",
-                "Press escape to close.",
+                "按 Esc 关闭。",
                 WarpA11yRole::WindowRole,
         ))
     }

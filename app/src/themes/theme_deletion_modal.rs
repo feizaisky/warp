@@ -10,7 +10,7 @@ use warpui::AppContext;
 use warpui::ViewHandle;
 use warpui::{Element, Entity, TypedActionView, View, ViewContext};
 
-const THEME_DELETION_MODAL_HEADER: &str = "Are you sure you want to delete this theme?";
+const THEME_DELETION_MODAL_HEADER: &str = "确定要删除此主题吗？";
 
 pub struct ThemeDeletionModal {
     theme_deletion_modal: ViewHandle<Modal<ThemeDeletionBody>>,

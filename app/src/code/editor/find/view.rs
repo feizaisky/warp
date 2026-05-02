@@ -48,11 +48,11 @@ const FIND_EDITOR_BORDER_WIDTH: f32 = 1.;
 const FIND_EDITOR_FONT_SIZE: f32 = 12.;
 const FIND_EDITOR_ROW_SPACING: f32 = 4.;
 
-pub const REGEX_TOGGLE_TOOLTIP: &str = "Regex toggle";
-pub const CASE_SENSITIVE_TOOLTIP: &str = "Case sensitive search";
-pub const PRESERVE_CASE_TOOLTIP: &str = "Preserve case";
-pub const FIND_PLACEHOLDER_TEXT: &str = "Find";
-pub const REPLACE_PLACEHOLDER_TEXT: &str = "Replace";
+pub const REGEX_TOGGLE_TOOLTIP: &str = "正则表达式切换";
+pub const CASE_SENSITIVE_TOOLTIP: &str = "区分大小写搜索";
+pub const PRESERVE_CASE_TOOLTIP: &str = "保留大小写";
+pub const FIND_PLACEHOLDER_TEXT: &str = "查找";
+pub const REPLACE_PLACEHOLDER_TEXT: &str = "替换";
 
 #[derive(Default)]
 struct ButtonMouseStates {

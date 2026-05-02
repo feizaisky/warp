@@ -77,9 +77,9 @@ use super::inline_action_icons::{self, icon_size};
 pub const REQUESTED_COMMAND_BODY_VERTICAL_PADDING: f32 = 16.;
 
 const REQUESTED_COMMAND_REJECT_LABEL: &str = "拒绝";
-const REQUESTED_COMMAND_ACCEPT_LABEL: &str = "Run";
-const REQUESTED_COMMAND_EDIT_LABEL: &str = "Edit";
-const REQUESTED_COMMAND_MINIMIZE_LABEL: &str = "Done";
+const REQUESTED_COMMAND_ACCEPT_LABEL: &str = "运行";
+const REQUESTED_COMMAND_EDIT_LABEL: &str = "编辑";
+const REQUESTED_COMMAND_MINIMIZE_LABEL: &str = "完成";
 
 const LOADING_MESSAGE: &str = "正在生成命令...";
 const COMMAND_WAITING_FOR_USER_MESSAGE: &str = "允许运行此命令并读取输出吗？";
@@ -88,10 +88,10 @@ const MONITORING_COMMAND_MESSAGE: &str = "智能体正在监控命令...";
 const AGENT_NEEDS_INPUT_MESSAGE: &str = "智能体需要您的输入才能继续";
 const USER_TOOK_CONTROL_COMMAND_MESSAGE: &str = "用户已接管。";
 const USER_STOPPED_CLI_SUBAGENT_COMMAND_MESSAGE: &str = "已暂停智能体。用户已接管。";
-const AGENT_REQUESTED_USER_TAKE_CONTROL_COMMAND_MESSAGE: &str = "User in control";
-const AGENT_ERRORED_COMMAND_MESSAGE: &str = "Agent ran into an issue. Take over control.";
+const AGENT_REQUESTED_USER_TAKE_CONTROL_COMMAND_MESSAGE: &str = "用户已接管";
+const AGENT_ERRORED_COMMAND_MESSAGE: &str = "智能体遇到问题。请接管控制。";
 pub const VIEWING_COMMAND_DETAIL_MESSAGE: &str = "查看命令详情";
-const VIEWING_MCP_TOOL_DETAIL_MESSAGE: &str = "Viewing MCP tool call detail";
+const VIEWING_MCP_TOOL_DETAIL_MESSAGE: &str = "查看 MCP 工具调用详情";
 
 const EDIT_COMMAND_ACTION_NAME: &str = "requested_command:edit";
 

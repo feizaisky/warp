@@ -55,12 +55,12 @@ const DESCRIPTION_TEXT: &str = "规则通过提供结构化准则来增强智能
 const SEARCH_PLACEHOLDER_TEXT: &str = "搜索规则";
 const ZERO_STATE_TEXT: &str = "添加规则后，规则将显示在此处。";
 const ZERO_STATE_TEXT_PROJECT: &str =
-    "Once you generate a WARP.md rules file for a project, it will appear here.";
+    "为项目生成 WARP.md 规则文件后，它将显示在此处。";
 
 const DISABLED_BANNER_TEXT: &str =
-    "Your rules are disabled and won't be used as context in sessions. You can ";
-const DISABLED_BANNER_LINK_TEXT: &str = "turn it back on";
-const DISABLED_BANNER_TEXT_2: &str = " anytime.";
+    "您的规则已禁用，不会在会话中作为上下文使用。您可以";
+const DISABLED_BANNER_LINK_TEXT: &str = "重新启用";
+const DISABLED_BANNER_TEXT_2: &str = "。";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RuleScope {
@@ -465,7 +465,7 @@ impl RuleView {
 
     fn render_scope_tabs(&self, appearance: &Appearance) -> Box<dyn Element> {
         let global_tab = Container::new(self.render_scope_tab(
-            "Global",
+            "全局",
             RuleScope::Global,
             appearance,
             self.global_tab_mouse_state.clone(),
@@ -473,7 +473,7 @@ impl RuleView {
         .with_padding_right(4.)
         .finish();
         let project_tab = self.render_scope_tab(
-            "Project based",
+            "项目",
             RuleScope::ProjectBased,
             appearance,
             self.project_tab_mouse_state.clone(),
@@ -693,7 +693,7 @@ impl RuleView {
             appearance
                 .ui_builder()
                 .button(ButtonVariant::Outlined, project_row.mouse_state.clone())
-                .with_text_label("Open file".to_string())
+                .with_text_label("打开文件".to_string())
                 .build()
                 .on_click(move |ctx, _, _| {
                     ctx.dispatch_typed_action(RuleViewAction::OpenFile(file_path.clone()));

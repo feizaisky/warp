@@ -505,7 +505,7 @@ impl AgentManagementView {
 
         let items = vec![
             make_status_option(
-                "All",
+                "全部",
                 AgentManagementViewAction::SetStatusFilter(StatusFilter::All),
                 None,
             ),
@@ -564,7 +564,7 @@ impl AgentManagementView {
         }
 
         let mut items = vec![MenuItem::Item(
-            MenuItemFields::new("All").with_on_select_action(DropdownAction::SelectActionAndClose(
+            MenuItemFields::new("全部").with_on_select_action(DropdownAction::SelectActionAndClose(
                 AgentManagementViewAction::SetSourceFilter(SourceFilter::All),
             )),
         )];
@@ -600,7 +600,7 @@ impl AgentManagementView {
         Self::setup_filter_menu(&mut dropdown, "创建时间 (Created on)", ctx);
 
         let items = vec![
-            MenuItem::Item(MenuItemFields::new("All").with_on_select_action(
+            MenuItem::Item(MenuItemFields::new("全部").with_on_select_action(
                 DropdownAction::SelectActionAndClose(
                     AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::All),
                 ),
@@ -634,7 +634,7 @@ impl AgentManagementView {
         Self::setup_filter_menu(&mut dropdown, "包含产物 (Has artifact)", ctx);
 
         let items = vec![
-            MenuItem::Item(MenuItemFields::new("All").with_on_select_action(
+            MenuItem::Item(MenuItemFields::new("全部").with_on_select_action(
                 DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetArtifactFilter(
                     ArtifactFilter::All,
                 )),
@@ -674,7 +674,7 @@ impl AgentManagementView {
 
         // "All" has no leading icon, matching the Status dropdown's "All" row.
         let mut items = vec![MenuItem::Item(
-            MenuItemFields::new("All").with_on_select_action(DropdownAction::SelectActionAndClose(
+            MenuItemFields::new("全部").with_on_select_action(DropdownAction::SelectActionAndClose(
                 AgentManagementViewAction::SetHarnessFilter(HarnessFilter::All),
             )),
         )];
@@ -705,7 +705,7 @@ impl AgentManagementView {
         // Keep the button compact when a specific environment ID is selected by abbreviating the
         // displayed ID. (The dropdown menu still shows the full ID.)
         dropdown.set_menu_header_text_override(|text| {
-            if matches!(text, "All" | "None") {
+            if matches!(text, "全部" | "无") {
                 return format!("Environment: {text}");
             }
 
@@ -763,14 +763,14 @@ impl AgentManagementView {
         let envs = model.get_all_environment_ids_and_names(ctx);
 
         let selected_name = match &self.filters.environment {
-            EnvironmentFilter::All => Some("All".to_string()),
-            EnvironmentFilter::NoEnvironment => Some("None".to_string()),
+            EnvironmentFilter::All => Some("全部".to_string()),
+            EnvironmentFilter::NoEnvironment => Some("无".to_string()),
             EnvironmentFilter::Specific(id) => envs.get(id).cloned(),
         };
 
         self.environment_dropdown.update(ctx, |dropdown, ctx| {
             let mut items = vec![MenuItem::Item(
-                MenuItemFields::new("All").with_on_select_action(
+                MenuItemFields::new("全部").with_on_select_action(
                     DropdownAction::SelectActionAndClose(
                         AgentManagementViewAction::SetEnvironmentFilter(EnvironmentFilter::All),
                     ),
@@ -778,7 +778,7 @@ impl AgentManagementView {
             )];
 
             items.push(MenuItem::Item(
-                MenuItemFields::new("None").with_on_select_action(
+                MenuItemFields::new("无").with_on_select_action(
                     DropdownAction::SelectActionAndClose(
                         AgentManagementViewAction::SetEnvironmentFilter(
                             EnvironmentFilter::NoEnvironment,
@@ -812,12 +812,12 @@ impl AgentManagementView {
     fn update_creator_dropdown(&mut self, ctx: &mut ViewContext<Self>) {
         let creators = AgentConversationsModel::as_ref(ctx).get_all_creators(ctx);
         let creator_filter_name = match &self.filters.creator {
-            CreatorFilter::All => "All",
+            CreatorFilter::All => "全部",
             CreatorFilter::Specific { name, .. } => name,
         };
         self.creator_dropdown.update(ctx, |dropdown, ctx| {
             let mut items = vec![MenuItem::Item(
-                MenuItemFields::new("All").with_on_select_action(
+                MenuItemFields::new("全部").with_on_select_action(
                     DropdownAction::SelectActionAndClose(
                         AgentManagementViewAction::SetCreatorFilter(CreatorFilter::All),
                     ),

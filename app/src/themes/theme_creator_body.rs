@@ -175,7 +175,7 @@ impl ThemeCreatorBody {
 
             let Some(image_extension) = image_extension else {
                 self.send_error_toast(
-                    "Failed to process selected image. Please try again with a different image."
+                    "处理所选图片失败。请尝试使用其他图片。"
                         .to_string(),
                     ctx,
                 );
@@ -211,7 +211,7 @@ impl ThemeCreatorBody {
             #[cfg(not(feature = "local_fs"))]
             log::warn!("Tried to save theme without a local filesystem.");
             if errored {
-                self.send_error_toast("Something went wrong".to_string(), ctx);            }
+                self.send_error_toast("出了点问题".to_string(), ctx);            }
         }
     }
 
@@ -273,7 +273,7 @@ impl ThemeCreatorBody {
                     },
                     Err(e) => {
                         theme_creator_body.send_error_toast(
-                            format!("Failed to process selected image due to error: {e}. Please try again with a different image."),
+                            format!("处理所选图片失败，错误：{e}。请尝试使用其他图片。"),
                             ctx,
                         );
                     }

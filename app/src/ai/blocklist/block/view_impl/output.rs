@@ -142,7 +142,7 @@ use warpui::{
     Action, AppContext, Element, ModelHandle, SingletonEntity, View, ViewHandle,
 };
 
-const BLOCKED_ACTION_MESSAGE_FOR_UPLOADING_ARTIFACT: &str = "Grant access to upload this artifact?";
+const BLOCKED_ACTION_MESSAGE_FOR_UPLOADING_ARTIFACT: &str = "允许上传此产物？";
 
 /// Data required to render the AI block output component.
 #[derive(Copy, Clone)]

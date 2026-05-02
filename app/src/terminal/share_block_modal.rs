@@ -68,7 +68,7 @@ const INNER_MARGIN: f32 = 20.;
 const MODAL_WIDTH: f32 = 862.;
 const BLOCK_TITLE_INPUT_WIDTH: f32 = 800.;
 
-const BLOCK_TITLE_PLACEHOLDER: &str = "Title (optional)";
+const BLOCK_TITLE_PLACEHOLDER: &str = "标题（可选）";
 
 // TODO(vorporeal): This is 12 in the specs, but I think our 14pt font is a bit
 // taller than 14pt?
@@ -86,7 +86,7 @@ const OUTPUT_OPTION: (&str, DisplaySetting) = ("Output", DisplaySetting::Output)
 
 /// This default title is helpful for screen readers.
 const DEFAULT_EMBED_TITLE: &str = "embedded warp block";
-const BLOCK_CREATION_FAILED_MESSAGE: &str = "Something went wrong. Please try again.";
+const BLOCK_CREATION_FAILED_MESSAGE: &str = "出现错误，请重试。";
 
 #[derive(PartialEq)]
 enum ShareRequestState {

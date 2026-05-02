@@ -153,10 +153,10 @@ const LINEAR_SCROLLING: ScrollingAcceleration = ScrollingAcceleration::Polynomia
 /// have a height that extends down to the bottom of the window when there's a horizontal scroll bar, which messes with the on-hover behavior.
 const BLOCK_HOVER_BUTTON_HEIGHT: f32 = 28.;
 
-const TAG_AGENT_FOR_ASSISTANCE_TEXT: &str = "Tag agent for assistance";
+const TAG_AGENT_FOR_ASSISTANCE_TEXT: &str = "标记智能体协助";
 
-const SAVE_AS_WORKFLOW_TEXT: &str = "Save as Workflow";
-const SAVE_AS_WORKFLOW_SECRETS_TEXT: &str = "Blocks containing secrets cannot be saved.";
+const SAVE_AS_WORKFLOW_TEXT: &str = "保存为工作流";
+const SAVE_AS_WORKFLOW_SECRETS_TEXT: &str = "包含密钥的块无法保存。";
 
 enum ScrollingAcceleration {
     Polynomial(f32),

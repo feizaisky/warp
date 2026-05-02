@@ -126,12 +126,12 @@ const REQUESTED_EDIT_CANCEL_LABEL: &str = "取消";
 const REQUESTED_EDIT_REFINE_LABEL: &str = "优化";
 const REQUESTED_EDIT_ACCEPT_LABEL: &str = "接受";
 const REQUESTED_EDIT_ACCEPT_AND_AUTOEXECUTE_LABEL: &str = "自动批准";
-const REQUESTED_EDIT_EDIT_LABEL: &str = "Edit";
-const REQUESTED_EDIT_MINIMIZE_LABEL: &str = "Done";
+const REQUESTED_EDIT_EDIT_LABEL: &str = "编辑";
+const REQUESTED_EDIT_MINIMIZE_LABEL: &str = "完成";
 const SUGGESTED_EDIT_ACCEPT_LABEL: &str = "接受";
 const SUGGESTED_EDIT_ACCEPT_AND_CONTINUE_LABEL: &str = "接受并继续使用智能体";
 const SUGGESTED_EDIT_ITERATE_WITH_AGENT_LABEL: &str = "与智能体迭代";
-const SUGGESTED_EDIT_DISMISS_LABEL: &str = "Dismiss";
+const SUGGESTED_EDIT_DISMISS_LABEL: &str = "忽略";
 const MAX_EDITOR_HEIGHT: f32 = 500.;
 const INLINE_EDITOR_HEIGHT: f32 = 94.;
 const INLINE_EDITOR_HEIGHT_EXPANDED: f32 = 400.;
@@ -1160,7 +1160,7 @@ impl CodeDiffView {
                     .unwrap_or_else(|| "file".to_string());
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                     toast_stack.add_ephemeral_toast(
-                        DismissibleToast::error(format!("Failed to revert changes to {file_name}")),
+                        DismissibleToast::error(format!("还原 {file_name} 的更改失败")),
                         window_id,
                         ctx,
                     );

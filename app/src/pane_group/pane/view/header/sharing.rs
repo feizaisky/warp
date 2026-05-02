@@ -186,10 +186,10 @@ impl<P: BackingView> PaneHeader<P> {
                 (
                     Icon::Share,
                     self.open_overlay == OpenOverlay::SharingDialog,
-                    "Share".to_string(),
+                    "分享".to_string(),
                 )
             } else {
-                (Icon::Link, false, "Copy link".to_string())
+                (Icon::Link, false, "复制链接".to_string())
             };
 
         let ui_builder = appearance.ui_builder().clone();
@@ -243,9 +243,9 @@ impl<P: BackingView> PaneHeader<P> {
         element.add_child(primary_button);
 
         if !editability.can_edit() {
-            let mut tooltip_text = String::from("Read-only");
+            let mut tooltip_text = String::from("只读");
             if matches!(editability, ContentEditability::RequiresLogin) {
-                tooltip_text.push_str(". Sign in to edit");
+                tooltip_text.push_str(". 登录后可编辑");
             }
 
             let ui_builder = appearance.ui_builder().clone();

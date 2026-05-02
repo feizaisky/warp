@@ -18,9 +18,9 @@ use warpui::{
     AppContext, Element, Entity, SingletonEntity, View, ViewContext,
 };
 
-const TITLE_EXISTING_USERS: &str = "We've updated our telemetry policy.";
-const TITLE_NEW_USERS: &str = "Help improve Warp.";
-const DESCRIPTION: &str = "We may collect certain console interactions to improve Warp's AI capabilities. You can opt out any time.";
+const TITLE_EXISTING_USERS: &str = "我们已更新遥测政策。";
+const TITLE_NEW_USERS: &str = "帮助改进 Warp。";
+const DESCRIPTION: &str = "我们可能会收集某些控制台交互数据以改进 Warp 的 AI 功能。您可以随时退出。";
 const PRIVACY_URL: &str = "https://warp.dev/privacy";
 
 #[derive(Default, Debug, Clone)]
@@ -102,7 +102,7 @@ impl View for TelemetryBanner {
                 Container::new(
                     ui_builder
                         .button(ButtonVariant::Text, self.learn_more_mouse_state.clone())
-                        .with_text_label("Learn more".into())
+                        .with_text_label("了解更多".into())
                         .with_style(UiComponentStyles {
                             height: Some(24.),
                             padding: Some(Coords {
@@ -133,7 +133,7 @@ impl View for TelemetryBanner {
                             ButtonVariant::Outlined,
                             self.privacy_settings_mouse_state.clone(),
                         )
-                        .with_text_label("Manage privacy settings".into())
+                        .with_text_label("管理隐私设置".into())
                         .with_style(UiComponentStyles {
                             ..Default::default()
                         })

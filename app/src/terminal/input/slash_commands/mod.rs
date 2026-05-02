@@ -620,7 +620,7 @@ impl Input {
                     .as_ref(ctx)
                     .active_conversation(self.terminal_view_id)
                 else {
-                    show_error_toast("No active conversation to export".to_owned(), ctx);
+                    show_error_toast("没有可导出的活跃对话".to_owned(), ctx);
                     return true;
                 };
 
@@ -822,7 +822,7 @@ impl Input {
                     .shared_session_status()
                     .is_sharer_or_viewer()
                 {
-                    show_error_toast("Session is already being shared".to_owned(), ctx);
+                    show_error_toast("会话已在共享中".to_owned(), ctx);
                     return true;
                 }
                 ctx.emit(Event::StartRemoteControl);

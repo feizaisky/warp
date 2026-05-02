@@ -92,7 +92,7 @@ const TAB_PADDING: f32 = 2.;
 
 // Keybinding constants - exported so AI document view can reuse
 pub const SAVE_FILE_BINDING_NAME: &str = "code_view:save";
-pub const SAVE_FILE_BINDING_DESCRIPTION: &str = "Save file";
+pub const SAVE_FILE_BINDING_DESCRIPTION: &str = "保存文件";
 
 pub fn init(app: &mut AppContext) {
     super::editor::view::init(app);
@@ -109,21 +109,21 @@ pub fn init(app: &mut AppContext) {
         .with_key_binding("cmdorctrl-s"),
         EditableBinding::new(
             "code_view:save_as",
-            "Save file as",
+            "另存为",
             CodeViewAction::SaveFileAs,
         )
         .with_context_predicate(text_entry.clone())
         .with_key_binding("cmdorctrl-shift-S"),
         EditableBinding::new(
             "code_view:close_all_tabs",
-            "Close all tabs",
+            "关闭所有标签页",
             CodeViewAction::CloseAll,
         )
         .with_context_predicate(id!("CodeEditorView"))
         .with_key_binding("cmdorctrl-r w"),
         EditableBinding::new(
             "code_view:close_saved_tabs",
-            "Close saved tabs",
+            "关闭已保存标签页",
             CodeViewAction::CloseSaved,
         )
         .with_context_predicate(id!("CodeEditorView"))
@@ -802,7 +802,7 @@ impl CodeView {
         let title = if let Some(file) = file {
             file.display().to_string()
         } else {
-            "Untitled".to_string()
+            "未命名".to_string()
         };
 
         self.pane_configuration.update(ctx, |pane_config, ctx| {
@@ -810,7 +810,7 @@ impl CodeView {
             if self.tab_group.len() > 1 {
                 secondary.push_str(&format!(" (+{})", self.tab_group.len() - 1));
             } else if is_new {
-                secondary.push_str(" (new)");
+                secondary.push_str(" (新建)");
             }
 
             pane_config.set_title(title, ctx);
@@ -892,7 +892,7 @@ impl CodeView {
 
     fn display_load_failure(window_id: WindowId, ctx: &mut ViewContext<Self>) {
         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-            let toast = DismissibleToast::error(String::from("Failed to load file."))
+            let toast = DismissibleToast::error(String::from("文件加载失败。"))
                 .with_object_id("failed_to_load_file".to_string());
             toast_stack.add_ephemeral_toast(toast, window_id, ctx);
         });
@@ -900,7 +900,7 @@ impl CodeView {
 
     fn display_save_failure(window_id: WindowId, ctx: &mut ViewContext<Self>) {
         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-            let toast = DismissibleToast::error(String::from("Failed to save file."))
+            let toast = DismissibleToast::error(String::from("文件保存失败。"))
                 .with_object_id("failed_to_save_file".to_string());
             toast_stack.add_ephemeral_toast(toast, window_id, ctx);
         });
@@ -908,7 +908,7 @@ impl CodeView {
 
     fn display_save_success(window_id: WindowId, ctx: &mut ViewContext<Self>) {
         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-            let toast = DismissibleToast::success(String::from("File saved."))
+            let toast = DismissibleToast::success(String::from("文件已保存。"))
                 .with_object_id("file_saved".to_string());
             toast_stack.add_ephemeral_toast(toast, window_id, ctx);
         });
@@ -1037,7 +1037,7 @@ impl CodeView {
                                     ButtonVariant::Outlined,
                                     tab.mouse_state_handles.reject_mouse_state.clone(),
                                 )
-                                .with_text_label("Reject".to_string())
+                                .with_text_label("拒绝".to_string())
                                 .build()
                                 .on_click(|ctx, _, _| {
                                     ctx.dispatch_typed_action(CodeViewAction::RejectPendingDiffs)
@@ -1055,7 +1055,7 @@ impl CodeView {
                                     ButtonVariant::Outlined,
                                     tab.mouse_state_handles.accept_mouse_state.clone(),
                                 )
-                                .with_text_label("Accept and save".to_string())
+                                .with_text_label("接受并保存".to_string())
                                 .build()
                                 .on_click(|ctx, _, _| {
                                     ctx.dispatch_typed_action(
@@ -1469,7 +1469,7 @@ impl CodeView {
             .path
             .as_ref()
             .and_then(|p| p.file_name().map(|f| f.to_string_lossy().to_string()))
-            .unwrap_or_else(|| "Untitled".to_string());
+            .unwrap_or_else(|| "未命名".to_string());
         let language_icon =
             icon_from_file_path(&file_name, appearance, ItemHighlightState::Default);
         row.add_child(
@@ -1844,7 +1844,7 @@ impl CodeView {
             .and_then(|tab| tab.path.as_ref())
             .and_then(|path| path.file_name())
             .map(|name| name.to_string_lossy().to_string())
-            .unwrap_or_else(|| "Untitled".to_string());
+            .unwrap_or_else(|| "未命名".to_string());
 
         let appearance = Appearance::as_ref(app);
         let is_pane_dragging = header_ctx.draggable_state.is_dragging();
@@ -1943,7 +1943,7 @@ impl CodeView {
         };
 
         let mut items = vec![
-            MenuItemFields::new_with_label("Close saved", &format!("{modifier_keys} U"))
+            MenuItemFields::new_with_label("关闭已保存", &format!("{modifier_keys} U"))
                 .with_on_select_action(CodeViewAction::CloseSaved)
                 .into_item(),
             MenuItemFields::toggle_pane_action(is_maximized)
@@ -1955,14 +1955,14 @@ impl CodeView {
         if let Some(path) = self.local_path(ctx) {
             items.extend([
                 MenuItem::Separator,
-                MenuItemFields::new("Copy file path")
+                MenuItemFields::new("复制文件路径")
                     .with_on_select_action(CodeViewAction::CopyFilePath)
                     .into_item(),
             ]);
 
             if is_markdown_file(&path) {
                 items.push(
-                    MenuItemFields::new("View Markdown preview")
+                    MenuItemFields::new("查看 Markdown 预览")
                         .with_on_select_action(CodeViewAction::RenderMarkdown)
                         .into_item(),
                 );

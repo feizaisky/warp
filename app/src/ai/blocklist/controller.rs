@@ -2432,7 +2432,7 @@ impl BlocklistAIController {
                         "generate_multi_agent_output stream ended without emitting StreamFinished event."
                     );
 
-                    let error_message = "Request did not successfully complete";
+                    let error_message = "请求未成功完成";
                     history_model.update(ctx, |history_model, ctx| {
                         history_model.mark_response_stream_completed_with_error(
                             RenderableAIError::Other {
@@ -2618,7 +2618,7 @@ impl BlocklistAIController {
                 });
             }
             Some(warp_multi_agent_api::response_event::stream_finished::Reason::ContextWindowExceeded(_)) => {
-                let error_message = "Input exceeded context window limit.";
+                let error_message = "输入超出上下文窗口限制。";
                 history_model.update(ctx, |history_model, ctx| {
                     history_model.mark_response_stream_completed_with_error(
                         RenderableAIError::ContextWindowExceeded(error_message.to_owned()),
@@ -2641,7 +2641,7 @@ impl BlocklistAIController {
                 });
             }
             Some(warp_multi_agent_api::response_event::stream_finished::Reason::LlmUnavailable(_)) => {
-                let error_message = "The LLM is currently unavailable.";
+                let error_message = "LLM 当前不可用。";
                 history_model.update(ctx, |history_model, ctx| {
                     history_model.mark_response_stream_completed_with_error(
                         RenderableAIError::Other {
@@ -2713,7 +2713,7 @@ impl BlocklistAIController {
                 });
             }
             Some(warp_multi_agent_api::response_event::stream_finished::Reason::MaxTokenLimit(_)) => {
-                let error_message = "Input exceeded context window limit.";
+                let error_message = "输入超出上下文窗口限制。";
                 history_model.update(ctx, |history_model, ctx| {
                     history_model.mark_response_stream_completed_with_error(
                         RenderableAIError::ContextWindowExceeded(error_message.to_owned()),
