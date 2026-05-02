@@ -38,8 +38,8 @@ use warpui::{
     ViewHandle,
 };
 
-const ONBOARDING_TEXT: &str = "Great - let's begin setting up this project! Would you like to give me permission to index this codebase? It allows me to quickly understand context and provide more targeted solutions when working in this codebase. No code is stored on Warp servers.";
-const ALREADY_SETUP_TEXT: &str = "It looks like this project has already been initialized. You can re-generate the AGENTS.md for this codebase by clicking the button below.";
+const ONBOARDING_TEXT: &str = "好的，让我们开始设置此项目！您是否允许我索引此代码库？索引可帮助我快速理解上下文，并在此代码库中提供更有针对性的解决方案。代码不会存储在 Warp 服务器上。";
+const ALREADY_SETUP_TEXT: &str = "此项目已初始化。您可以点击下方按钮重新生成此代码库的 AGENTS.md 文件。";
 // Native Warp rules file format.
 pub const FILES_TO_CHECK: [&str; 2] = ["AGENTS.md", "WARP.md"];
 // File formats that can be linked to WARP.md.
@@ -517,7 +517,7 @@ impl InitStepBlock {
         let mut button = appearance
             .ui_builder()
             .button(ButtonVariant::Outlined, mouse_state.clone())
-            .with_text_label("Re-generate AGENTS.md file".to_string());
+            .with_text_label("重新生成 AGENTS.md 文件".to_string());
         if disabled {
             button = button.disabled();
         }
@@ -677,7 +677,7 @@ impl InitStepBlock {
                                 ButtonVariant::Outlined,
                                 mouse_states.view_status_button.clone(),
                             )
-                            .with_text_label("View index status".to_string())
+                            .with_text_label("查看索引状态".to_string())
                             .build()
                             .on_click(|ctx, _, _| {
                                 ctx.dispatch_typed_action(

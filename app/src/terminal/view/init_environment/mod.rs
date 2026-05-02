@@ -18,8 +18,8 @@ use warpui::{
     AppContext, Element, Entity, SingletonEntity, TypedActionView, View, ViewContext, ViewHandle,
 };
 
-const EXPLANATION_TEXT: &str = "Would you like to create an environment for this project so you can run cloud agents in it? The agent will guide you through choosing GitHub repos, configuring a Docker image, and specifying startup commands.";
-const NO_REPOS_HELP_TEXT: &str = "If you want to create an environment with repos, rerun this command and pass in file paths or GitHub links as arguments, e.g. \"/create-environment <filepath> <GitHub URL>\".";
+const EXPLANATION_TEXT: &str = "是否要为此项目创建环境以便在其中运行云端智能体？智能体将引导您选择 GitHub 仓库、配置 Docker 镜像并指定启动命令。";
+const NO_REPOS_HELP_TEXT: &str = "如果要创建包含仓库的环境，请重新运行此命令并传入文件路径或 GitHub 链接作为参数，例如 \"/create-environment <filepath> <GitHub URL>\"。";
 
 #[derive(Debug, Clone)]
 pub enum InitEnvironmentBlockAction {

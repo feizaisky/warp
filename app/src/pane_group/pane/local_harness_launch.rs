@@ -32,11 +32,11 @@ pub(super) fn validate_local_harness_shell(shell_type: Option<ShellType>) -> Res
     match shell_type {
         Some(ShellType::Bash) | Some(ShellType::Zsh) | Some(ShellType::Fish) => Ok(()),
         Some(ShellType::PowerShell) => Err(
-            "Local child harnesses currently require bash, zsh, or fish; PowerShell is not supported."
+            "本地子容器目前需要 bash、zsh 或 fish；不支持 PowerShell。"
                 .to_string(),
         ),
         None => Err(
-            "Local child harnesses currently require a detected bash, zsh, or fish session."
+            "本地子容器目前需要检测到 bash、zsh 或 fish 会话。"
                 .to_string(),
         ),
     }
@@ -80,7 +80,7 @@ pub(super) async fn prepare_local_harness_child_launch(
     let Some(harness) = normalize_local_child_harness(&harness_type) else {
         let harness_name = harness_type.trim();
         return Err(if harness_name.is_empty() {
-            "Local child harness type is missing.".to_string()
+            "本地子容器类型缺失。".to_string()
         } else {
             format!("Unsupported local child harness '{harness_name}'.")
         });
@@ -94,7 +94,7 @@ pub(super) async fn prepare_local_harness_child_launch(
             let working_dir = startup_directory
                 .or_else(|| std::env::current_dir().ok())
                 .ok_or_else(|| {
-                    "Could not resolve a working directory for the local Claude child.".to_string()
+                    "无法为本地 Claude 子容器确定工作目录。".to_string()
                 })?;
             let claude_harness = ClaudeHarness;
             claude_harness
