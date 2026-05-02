@@ -39,7 +39,7 @@ pub static ATTACH_AS_AGENT_MODE_CONTEXT_TEXT: LazyLock<&'static str> =
     LazyLock::new(|| "附加为智能体上下文");
 
 /// Label we use for the the command palette action to create a new local Oz agent pane.
-pub static NEW_AGENT_PANE_LABEL: LazyLock<&'static str> = LazyLock::new(|| "New Agent Pane");
+pub static NEW_AGENT_PANE_LABEL: LazyLock<&'static str> = LazyLock::new(|| "新建智能体面板");
 
 /// Claude/Anthropic brand color (official brand orange #D97757).
 /// Reference: https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md

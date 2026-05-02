@@ -83,7 +83,7 @@ const FILES_ZERO_STATE_PROMPT: &str = "如何查找包含特定文本的所有�
 // The placeholder texts are prepended with a space to give them cushion from the cursor.
 const INIT_PLACEHOLDER_TEXT: &str = " Ask a question...";
 const FOLLOWUP_PLACEHOLDER_TEXT: &str = " Type a response or click one above...";
-const RESTART_BUTTON_TEXT: &str = "Restart";
+const RESTART_BUTTON_TEXT: &str = "重新开始";
 
 const ASK_AI_BLOCK_INPUT_LIMIT: usize = 100;
 
@@ -151,28 +151,28 @@ pub fn init(app: &mut AppContext) {
     app.register_fixed_bindings([FixedBinding::custom(
         CustomAction::CloseCurrentSession,
         AIAssistantAction::ClosePanel,
-        "Close Warp AI",
+        "关闭 Warp AI",
         id!("AIAssistantPanel"),
     )]);
 
     app.register_editable_bindings([
         EditableBinding::new(
             "ai_assistant_panel:focus_terminal_input",
-            "Focus Terminal Input From Warp AI",
+            "从 Warp AI 聚焦终端输入",
             AIAssistantAction::FocusTerminalInput,
         )
         .with_context_predicate(id!("AIAssistantPanel"))
         .with_key_binding(cmd_or_ctrl_shift("l")),
         EditableBinding::new(
             "ai_assistant_panel:reset_context",
-            "Restart Warp AI",
+            "重新开始 Warp AI",
             AIAssistantAction::ResetContext,
         )
         .with_context_predicate(id!("AIAssistantPanel"))
         .with_key_binding("ctrl-l"),
         EditableBinding::new(
             "ai_assistant_panel:reset_context",
-            "Restart Warp AI",
+            "重新开始 Warp AI",
             AIAssistantAction::ResetContext,
         )
         .with_context_predicate(id!("AIAssistantPanel"))

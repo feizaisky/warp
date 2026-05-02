@@ -1007,7 +1007,7 @@ impl DisplayChipMenu {
                 let (label, font_size, horizontal_padding, vertical_padding, text_color) =
                     match self.chip_menu_type {
                         ChipMenuType::Environments => (
-                            "No results",
+                            "无结果",
                             ENV_MENU_ITEM_FONT_SIZE,
                             ENV_MENU_ITEM_HORIZONTAL_PADDING,
                             ENV_MENU_ITEM_VERTICAL_PADDING,
@@ -1016,7 +1016,7 @@ impl DisplayChipMenu {
                         ChipMenuType::Directories
                         | ChipMenuType::Branches
                         | ChipMenuType::CodeReview => (
-                            "No results found",
+                            "未找到结果",
                             appearance.ui_font_size(),
                             LABEL_HORIZONTAL_PADDING,
                             LABEL_VERTICAL_PADDING * 2.0,

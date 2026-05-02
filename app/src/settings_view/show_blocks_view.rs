@@ -427,7 +427,7 @@ impl ShowBlocksView {
 
             menu.set_items(
                 vec![MenuItem::Item(
-                    MenuItemFields::new("Unshare").with_on_select_action(ShowBlocksAction::Unshare),
+                    MenuItemFields::new("取消共享").with_on_select_action(ShowBlocksAction::Unshare),
                 )],
                 ctx,
             );
@@ -695,7 +695,7 @@ impl ShowBlocksWidget {
                                                 ButtonVariant::Basic,
                                                 view.state_handles.cancel_dialog_handle.clone(),
                                             )
-                                            .with_text_label("Cancel".into())
+                                            .with_text_label("取消".into())
                                             .build()
                                             .on_click(|ctx, _, _| {
                                                 ctx.dispatch_typed_action(
@@ -713,7 +713,7 @@ impl ShowBlocksWidget {
                                                         .confirm_dialog_handle
                                                         .clone(),
                                                 )
-                                                .with_text_label("Unshare".into())
+                                                .with_text_label("取消共享".into())
                                                 .build()
                                                 .on_click(|ctx, _, _| {
                                                     ctx.dispatch_typed_action(

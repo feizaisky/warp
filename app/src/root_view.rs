@@ -3164,7 +3164,7 @@ impl RootView {
     ) {
         match event {
             WebHandoffEvent::Unsupported => {
-                log::warn!("网页身份验证跳转不可用");
+                log::warn!("Web auth handoff is unavailable");
                 if let AuthOnboardingState::WebImport(target) = &self.auth_onboarding_state {
                     self.auth_onboarding_state = match target {
                         AuthOnboardingTarget::Workspace(args) => {

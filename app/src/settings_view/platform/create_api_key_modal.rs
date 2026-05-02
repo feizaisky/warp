@@ -518,7 +518,7 @@ impl View for CreateApiKeyModal {
                 .with_color(theme.nonactive_ui_text_color().into())
                 .finish();
 
-                let name_label = Text::new("Name", appearance.ui_font_family(), LABEL_FONT_SIZE)
+                let name_label = Text::new("名称", appearance.ui_font_family(), LABEL_FONT_SIZE)
                     .with_color(theme.active_ui_text_color().into())
                     .finish();
 
@@ -530,7 +530,7 @@ impl View for CreateApiKeyModal {
                         ButtonVariant::Secondary,
                         self.cancel_button_mouse_state.clone(),
                     )
-                    .with_text_label("Cancel".to_string())
+                    .with_text_label("取消".to_string())
                     .with_style(button_style)
                     .build()
                     .on_click(move |ctx, _, _| {

@@ -100,9 +100,9 @@ impl GutterButton for RevertHunkButton {
 
     fn tooltip_text(&self) -> Option<&'static str> {
         if self.is_enabled {
-            Some("Revert diff hunk")
+            Some("还原差异块")
         } else {
-            Some("Save changes to revert")
+            Some("保存更改以还原")
         }
     }
 

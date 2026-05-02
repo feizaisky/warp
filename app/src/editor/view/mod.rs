@@ -7038,7 +7038,7 @@ impl EditorView {
             }
 
             // If we get there, then we didn't find a next occurrence.
-            log::warn!("无法选中下一处匹配");
+            log::warn!("Unable to select next occurrence");
         });
     }
 

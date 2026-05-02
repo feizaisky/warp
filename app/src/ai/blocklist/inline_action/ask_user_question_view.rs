@@ -755,7 +755,7 @@ impl AskUserQuestionView {
             ctx,
         );
         let skip_button = CompactibleActionButton::new(
-            "Skip all".to_string(),
+            "全部跳过".to_string(),
             Some(KeystrokeSource::Fixed(CTRL_C_KEYSTROKE.clone())),
             ButtonSize::InlineActionHeader,
             AskUserQuestionViewAction::SkipAll,
@@ -1240,7 +1240,7 @@ impl AskUserQuestionView {
 
     fn render_unavailable(&self, appearance: &Appearance, app: &AppContext) -> Box<dyn Element> {
         wrap_with_agent_output_item_spacing(
-            HeaderConfig::new("Questions unavailable".to_string(), app)
+            HeaderConfig::new("问题不可用".to_string(), app)
                 .with_icon(inline_action_icons::reverted_icon(appearance))
                 .render(app),
             app,
@@ -1595,15 +1595,12 @@ fn ask_user_question_completion_state(
     } else {
         let label = if answered_count == total {
             if total == 1 {
-                "Answered question".to_string()
+                "已回答问题".to_string()
             } else {
-                format!("Answered all {total} questions")
+                format!("已回答全部 {total} 个问题")
             }
         } else {
-            format!(
-                "Answered {answered_count} of {total} question{}",
-                if total == 1 { "" } else { "s" }
-            )
+            format!("已回答 {answered_count}/{total} 个问题")
         };
         AskUserQuestionCompletionState {
             label,

@@ -144,7 +144,7 @@ impl ConversationUsageView {
         {
             let last_block_credits = self.usage_info.credits_spent_for_last_block.unwrap();
             labels.push(render_label_text(
-                "已消耗积分（上次响应）",
+                "已消耗额度（上次响应）",
                 appearance,
             ));
             values.push(render_value_text(
@@ -152,13 +152,13 @@ impl ConversationUsageView {
                 appearance,
             ));
 
-            labels.push(render_label_text("已消耗积分（总计）", appearance));
+            labels.push(render_label_text("已消耗额度（总计）", appearance));
             values.push(render_value_text(
                 format_credits(self.usage_info.credits_spent),
                 appearance,
             ));
         } else {
-            labels.push(render_label_text("已消耗积分", appearance));
+            labels.push(render_label_text("已消耗额度", appearance));
             values.push(render_value_text(
                 format_credits(self.usage_info.credits_spent),
                 appearance,
@@ -187,9 +187,9 @@ impl ConversationUsageView {
 
             let label_text = if category == PRIMARY_AGENT_CATEGORY && entries_by_category.len() == 1
             {
-                "Models".to_string()
+                "模型".to_string()
             } else {
-                format!("Models ({})", token_usage_category_display_name(&category))
+                format!("模型（{}）", token_usage_category_display_name(&category))
             };
 
             // For FULL_TERMINAL_USE_CATEGORY, add an info icon with tooltip
@@ -200,7 +200,7 @@ impl ConversationUsageView {
                     .ui_builder()
                     .info_button_with_tooltip(
                         font_size * 0.85,
-                        "You can change which model is used for full terminal use in the AI settings page",
+                        "您可以在 AI 设置页面更改完整终端使用所用的模型",
                         self.full_terminal_use_tooltip_mouse_state.clone(),
                     )
                     .finish();
@@ -263,7 +263,7 @@ impl ConversationUsageView {
             );
         }
 
-        labels.push(render_label_text("已使用的上下文窗口", appearance));
+        labels.push(render_label_text("上下文窗口用量", appearance));
         let context_usage_str =
             format!("{}%", (self.usage_info.context_window_usage * 100.).round());
         let context_window_element = Flex::row()
@@ -384,7 +384,7 @@ impl ConversationUsageView {
                     labels.push(render_label_text("首个 token 时间", appearance));
                     values.push(render_value_text(
                         format!(
-                            "{:.1} seconds",
+                            "{:.1} 秒",
                             timing.time_to_first_token_ms as f64 / 1000.0
                         ),
                         appearance,
@@ -393,7 +393,7 @@ impl ConversationUsageView {
                     labels.push(render_label_text("智能体总响应时间", appearance));
                     values.push(render_value_text(
                         format!(
-                            "{:.1} seconds",
+                            "{:.1} 秒",
                             timing.total_agent_response_time_ms as f64 / 1000.0
                         ),
                         appearance,
@@ -406,7 +406,7 @@ impl ConversationUsageView {
                                 appearance,
                             ));
                             values.push(render_value_text(
-                                format!("{:.1} seconds", wall_ms as f64 / 1000.0),
+                                format!("{:.1} 秒", wall_ms as f64 / 1000.0),
                                 appearance,
                             ));
                         }
