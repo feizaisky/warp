@@ -620,7 +620,10 @@ impl CommandSearchView {
                             current_user_id,
                         )
                     } else {
-                        self.render_error_header_text("您的积分已用完。请联系团队管理员升级以获取更多积分。".to_string(), appearance)
+                        self.render_error_header_text(
+                            "您的积分已用完。请联系团队管理员升级以获取更多积分。".to_string(),
+                            appearance,
+                        )
                     }
                 } else {
                     self.render_error_header_text(message, appearance)
@@ -981,7 +984,7 @@ impl TypedActionView for CommandSearchView {
             AttemptLoginGatedUpgrade => {
                 AuthManager::handle(ctx).update(ctx, |auth_manager, ctx| {
                     auth_manager.attempt_login_gated_feature(
-                        "Upgrade AI Usage",
+                        "升级 AI 用量",
                         AuthViewVariant::RequireLoginCloseable,
                         ctx,
                     )

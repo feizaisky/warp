@@ -244,7 +244,7 @@ impl Display for SettingsSection {
             SettingsSection::Keybindings => write!(f, "键盘快捷键"),
             SettingsSection::SharedBlocks => write!(f, "共享代码块"),
             SettingsSection::MCPServers => write!(f, "MCP 服务器"),
-            SettingsSection::WarpDrive => write!(f, "Warp Drive"),
+            SettingsSection::WarpDrive => write!(f, "Warp 云盘"),
             SettingsSection::WarpAgent => write!(f, "Warp 智能体"),
             SettingsSection::AgentProfiles => write!(f, "配置文件"),
             SettingsSection::AgentMCPServers => write!(f, "MCP 服务器"),

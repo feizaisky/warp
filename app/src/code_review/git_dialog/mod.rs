@@ -296,14 +296,7 @@ fn render_file_changes_box(
     let total_deletions: usize = file_changes.iter().map(|f| f.deletions).sum();
 
     let files_text = Text::new(
-        format!(
-            "{total_files} {}",
-            if total_files == 1 {
-                "个文件"
-            } else {
-                "个文件"
-            }
-        ),
+        format!("{total_files} 个文件"),
         appearance.ui_font_family(),
         appearance.ui_font_size(),
     )

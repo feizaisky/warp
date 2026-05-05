@@ -107,13 +107,9 @@ pub fn init(app: &mut AppContext) {
         )
         .with_context_predicate(text_entry.clone())
         .with_key_binding("cmdorctrl-s"),
-        EditableBinding::new(
-            "code_view:save_as",
-            "另存为",
-            CodeViewAction::SaveFileAs,
-        )
-        .with_context_predicate(text_entry.clone())
-        .with_key_binding("cmdorctrl-shift-S"),
+        EditableBinding::new("code_view:save_as", "另存为", CodeViewAction::SaveFileAs)
+            .with_context_predicate(text_entry.clone())
+            .with_key_binding("cmdorctrl-shift-S"),
         EditableBinding::new(
             "code_view:close_all_tabs",
             "关闭所有标签页",

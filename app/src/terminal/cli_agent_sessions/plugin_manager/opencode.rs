@@ -31,27 +31,25 @@ impl CliAgentPluginManager for OpenCodePluginManager {
     }
 }
 
-static INSTALL_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| {
-    PluginInstructions {
-        title: "为 OpenCode 安装 Warp 插件",
-        subtitle:
-            "将 Warp 插件添加到您的 OpenCode 配置中，然后重启 OpenCode。",
-        steps: &[
-            PluginInstructionStep {
-                description: "打开或创建您的 opencode.json。该文件可以位于项目根目录或全局配置路径：",
-                command: "~/.config/opencode/opencode.json",
-                executable: false,
-                link: None,
-            },
-            PluginInstructionStep {
-                description: "将 \"@warp-dot-dev/opencode-warp\" 添加到顶层 JSON 对象的 \"plugin\" 数组中：",
-                command: "\"plugin\": [\"@warp-dot-dev/opencode-warp\"]",
-                executable: false,
-                link: None,
-            },
-        ],
-        post_install_notes: &["重启 OpenCode 以激活插件。"],
-    }
+static INSTALL_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| PluginInstructions {
+    title: "为 OpenCode 安装 Warp 插件",
+    subtitle: "将 Warp 插件添加到您的 OpenCode 配置中，然后重启 OpenCode。",
+    steps: &[
+        PluginInstructionStep {
+            description: "打开或创建您的 opencode.json。该文件可以位于项目根目录或全局配置路径：",
+            command: "~/.config/opencode/opencode.json",
+            executable: false,
+            link: None,
+        },
+        PluginInstructionStep {
+            description:
+                "将 \"@warp-dot-dev/opencode-warp\" 添加到顶层 JSON 对象的 \"plugin\" 数组中：",
+            command: "\"plugin\": [\"@warp-dot-dev/opencode-warp\"]",
+            executable: false,
+            link: None,
+        },
+    ],
+    post_install_notes: &["重启 OpenCode 以激活插件。"],
 });
 
 static UPDATE_INSTRUCTIONS: LazyLock<PluginInstructions> = LazyLock::new(|| {

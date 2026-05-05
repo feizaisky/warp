@@ -56,13 +56,9 @@ impl FeaturePopup {
         let background = appearance.theme().background();
         match self.badge {
             FeaturePopupBadge::New => Container::new(
-                Text::new(
-                    "新",
-                    appearance.ui_font_family(),
-                    appearance.ui_font_size(),
-                )
-                .with_color(appearance.theme().main_text_color(background).into())
-                .finish(),
+                Text::new("新", appearance.ui_font_family(), appearance.ui_font_size())
+                    .with_color(appearance.theme().main_text_color(background).into())
+                    .finish(),
             )
             .with_vertical_padding(2.)
             .with_horizontal_padding(4.)

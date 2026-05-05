@@ -1333,7 +1333,8 @@ impl ProfileModelSelector {
                     )))
                     .finish();
 
-                let tooltip_text = "选择 AI 执行配置文件 (Choose an AI execution profile)".to_owned();
+                let tooltip_text =
+                    "选择 AI 执行配置文件 (Choose an AI execution profile)".to_owned();
 
                 let tooltip = appearance.ui_builder().tool_tip(tooltip_text);
                 let mut stack = Stack::new();

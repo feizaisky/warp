@@ -158,7 +158,7 @@ async fn ensure_upload_succeeded(
         body: body.clone(),
     };
     Err(anyhow::Error::new(status_err).context(format!(
-        "{} failed with status {status}: {body}",
+        "{}失败，状态 {status}：{body}",
         error_context.failure
     )))
 }

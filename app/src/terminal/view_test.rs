@@ -782,7 +782,7 @@ fn test_insert() {
     })
 }
 
-const BODY_PREFIX: &str = "Latest output: ";
+const BODY_PREFIX: &str = "最新输出：";
 
 /// Regression test for CORE-1654. Tests the "Insert into Input" functionality from the context menu.
 #[test]
@@ -2355,7 +2355,7 @@ fn test_create_notification_shorter_than_max() {
     let actual_content =
         trigger.create_notification_content(command.to_string(), output.to_string());
 
-    let expected_title = format!("'{command}' failed after 4s");
+    let expected_title = format!("'{command}' 失败，用时 4s");
     let expected_body = format!("{BODY_PREFIX}{output}");
 
     assert_eq!(actual_content.title, expected_title);
@@ -2364,11 +2364,12 @@ fn test_create_notification_shorter_than_max() {
 
 #[test]
 fn test_create_notification_as_long_as_max() {
-    let expected_title_suffix = " finished after 4s";
-    let max_command_len = UserNotification::MAX_TITLE_LENGTH - expected_title_suffix.len() - 2;
+    let expected_title_suffix = " 已完成，用时 4s";
+    let max_command_len =
+        UserNotification::MAX_TITLE_LENGTH - expected_title_suffix.chars().count() - 2;
     let command = "a".repeat(max_command_len);
 
-    let max_output_len = UserNotification::MAX_BODY_LENGTH - BODY_PREFIX.len();
+    let max_output_len = UserNotification::MAX_BODY_LENGTH - BODY_PREFIX.chars().count();
     let output = "a".repeat(max_output_len);
 
     let command_succeeded = true;
@@ -2388,11 +2389,12 @@ fn test_create_notification_as_long_as_max() {
 
 #[test]
 fn test_create_notification_longer_than_max() {
-    let expected_title_suffix = " finished after 4s";
-    let max_command_len = UserNotification::MAX_TITLE_LENGTH - expected_title_suffix.len() - 2;
+    let expected_title_suffix = " 已完成，用时 4s";
+    let max_command_len =
+        UserNotification::MAX_TITLE_LENGTH - expected_title_suffix.chars().count() - 2;
     let command = "a".repeat(max_command_len + 1);
 
-    let max_output_len = UserNotification::MAX_BODY_LENGTH - BODY_PREFIX.len();
+    let max_output_len = UserNotification::MAX_BODY_LENGTH - BODY_PREFIX.chars().count();
     let output = "a".repeat(max_output_len + 1);
 
     let command_succeeded = true;
@@ -2415,8 +2417,9 @@ fn test_create_notification_longer_than_max() {
 
 #[test]
 fn test_create_notification_char_boundaries_respected() {
-    let expected_title_suffix = " finished after 4s";
-    let max_command_len = UserNotification::MAX_TITLE_LENGTH - expected_title_suffix.len() - 2;
+    let expected_title_suffix = " 已完成，用时 4s";
+    let max_command_len =
+        UserNotification::MAX_TITLE_LENGTH - expected_title_suffix.chars().count() - 2;
     let command = "😊".repeat(max_command_len + 1);
 
     let output = "error: failed to find directory";
@@ -2863,9 +2866,9 @@ fn test_prompt_context_menu_items_for_ps1() {
             let items = view.prompt_context_menu_items(ctx);
             let len = items.len();
             assert_eq!(len, 3);
-            assert_eq!(items[0].fields().unwrap().label(), "Copy prompt");
+            assert_eq!(items[0].fields().unwrap().label(), "复制提示词");
             assert!(items[1].is_separator());
-            assert_eq!(items[2].fields().unwrap().label(), "Edit prompt");
+            assert_eq!(items[2].fields().unwrap().label(), "编辑提示词");
             assert!(!items[2].fields().unwrap().is_disabled());
         });
     })
@@ -2914,19 +2917,16 @@ fn test_prompt_context_menu_items_for_context_chips() {
             assert_eq!(items.len(), 5);
 
             // We expect the prompt menu items to be something like the following when context chips are used:
-            // Copy prompt
+            // 复制提示词
             // ------------
             // <context chip specific actions>
             // ------------
-            // Edit prompt
-            assert_eq!(items[0].fields().unwrap().label(), "Copy prompt");
+            // 编辑提示词
+            assert_eq!(items[0].fields().unwrap().label(), "复制提示词");
             assert!(items[1].is_separator());
-            assert_eq!(
-                items[2].fields().unwrap().label(),
-                "Copy Time (12-hour format)"
-            );
+            assert_eq!(items[2].fields().unwrap().label(), "复制 时间（12 小时制）");
             assert!(items[3].is_separator());
-            assert_eq!(items[4].fields().unwrap().label(), "Edit prompt");
+            assert_eq!(items[4].fields().unwrap().label(), "编辑提示词");
             assert!(!items[4].fields().unwrap().is_disabled());
         });
     })
@@ -2960,12 +2960,12 @@ fn test_prompt_context_menu_items_for_no_context_chips() {
             assert_eq!(items.len(), 3);
 
             // We expect the prompt menu items to be something like the following when no context chips exist:
-            // Copy prompt
+            // 复制提示词
             // ------------
-            // Edit prompt
-            assert_eq!(items[0].fields().unwrap().label(), "Copy prompt");
+            // 编辑提示词
+            assert_eq!(items[0].fields().unwrap().label(), "复制提示词");
             assert!(items[1].is_separator());
-            assert_eq!(items[2].fields().unwrap().label(), "Edit prompt");
+            assert_eq!(items[2].fields().unwrap().label(), "编辑提示词");
             assert!(!items[2].fields().unwrap().is_disabled());
         });
     })
@@ -3001,8 +3001,8 @@ fn test_prompt_context_menu_items_for_agent_toolbelt_flag() {
                     .filter_map(|item| item.fields().map(|fields| fields.label()))
                     .collect::<Vec<_>>();
 
-                assert!(!labels.contains(&"Edit prompt"));
-                assert!(!labels.contains(&"Edit agent toolbelt"));
+                assert!(!labels.contains(&"编辑提示词"));
+                assert!(!labels.contains(&"编辑智能体工具带"));
             });
         }
 
@@ -3014,8 +3014,8 @@ fn test_prompt_context_menu_items_for_agent_toolbelt_flag() {
                     .iter()
                     .filter_map(|item| item.fields().map(|fields| fields.label()))
                     .collect::<Vec<_>>();
-                assert!(!labels.contains(&"Edit prompt"));
-                assert!(labels.contains(&"Edit agent toolbelt"));
+                assert!(!labels.contains(&"编辑提示词"));
+                assert!(labels.contains(&"编辑智能体工具带"));
             });
         }
     })
@@ -3723,10 +3723,10 @@ fn cli_agent_rich_input_hint_text_mentions_active_cli_agent() {
         let _cli_rich = FeatureFlag::CLIAgentRichInput.override_enabled(true);
 
         for (agent, expected_hint_text) in [
-            (CLIAgent::Claude, "Enter prompt for Claude Code..."),
-            (CLIAgent::Gemini, "Enter prompt for Gemini..."),
-            (CLIAgent::Codex, "Enter prompt for Codex..."),
-            (CLIAgent::Unknown, "Tell the agent what to build..."),
+            (CLIAgent::Claude, "输入给 Claude Code 的提示词..."),
+            (CLIAgent::Gemini, "输入给 Gemini 的提示词..."),
+            (CLIAgent::Codex, "输入给 Codex 的提示词..."),
+            (CLIAgent::Unknown, "告诉智能体要构建什么..."),
         ] {
             let terminal = open_cli_agent_rich_input_for_agent(&mut app, agent);
             terminal.read(&app, |view, ctx| {
@@ -3772,7 +3772,7 @@ fn cli_agent_rich_input_shell_mode_uses_run_commands_hint_text() {
                 .editor()
                 .as_ref(ctx)
                 .placeholder_text("");
-            assert_eq!(placeholder_text, Some("Run commands"));
+            assert_eq!(placeholder_text, Some("运行命令"));
         });
     })
 }

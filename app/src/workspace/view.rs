@@ -5262,7 +5262,7 @@ impl Workspace {
                     .unwrap_or_else(|| {
                         let title = configuration.title().trim();
                         if title.is_empty() {
-                            "Untitled pane".to_string()
+                            "未命名窗格".to_string()
                         } else {
                             title.to_string()
                         }
@@ -7618,18 +7618,18 @@ impl Workspace {
     /// Install the Warp CLI by creating a symlink in /usr/local/bin
     #[cfg(target_os = "macos")]
     fn install_cli(&mut self, ctx: &mut ViewContext<Self>) {
-        ctx.spawn(async { cli_install::install_cli() }, |view, result, ctx| {
-            match result {
+        ctx.spawn(
+            async { cli_install::install_cli() },
+            |view, result, ctx| match result {
                 Ok(_) => {
                     let command_name = ChannelState::channel().cli_command_name();
-                    let message = format!("Successfully installed the Oz CLI! You can now run '{command_name}' from the command line.");
+                    let message =
+                        format!("已成功安装 Oz CLI！现在可以在命令行运行 '{command_name}'。");
                     view.toast_stack.update(ctx, |toast_stack, ctx| {
-                        let toast = DismissibleToast::success(message.to_string())
-                            .with_link(
-                                ToastLink::new("了解更多".to_string()).with_href(
-                                    "https://docs.warp.dev/reference/cli".to_string(),
-                                ),
-                            );
+                        let toast = DismissibleToast::success(message.to_string()).with_link(
+                            ToastLink::new("了解更多".to_string())
+                                .with_href("https://docs.warp.dev/reference/cli".to_string()),
+                        );
                         toast_stack.add_ephemeral_toast(toast, ctx);
                     });
                 }
@@ -7641,8 +7641,8 @@ impl Workspace {
                         toast_stack.add_persistent_toast(toast, ctx);
                     });
                 }
-            }
-        });
+            },
+        );
     }
 
     /// Uninstall the Warp CLI by removing the symlink from /usr/local/bin
@@ -7652,14 +7652,14 @@ impl Workspace {
             async { cli_install::uninstall_cli() },
             |view, result, ctx| match result {
                 Ok(_) => {
-                    let message = "Successfully uninstalled the Oz command.";
+                    let message = "已成功卸载 Oz 命令。";
                     view.toast_stack.update(ctx, |toast_stack, ctx| {
                         let toast = DismissibleToast::success(message.to_string());
                         toast_stack.add_ephemeral_toast(toast, ctx);
                     });
                 }
                 Err(error) => {
-                    let error_message = format!("Failed to uninstall Oz command: {error}");
+                    let error_message = format!("卸载 Oz 命令失败：{error}");
                     log::error!("{error_message}");
                     view.toast_stack.update(ctx, |toast_stack, ctx| {
                         let toast = DismissibleToast::error(error_message);
@@ -8606,7 +8606,7 @@ impl Workspace {
                 .with_height(NEW_SESSION_SIDECAR_SEARCH_BOX_HEIGHT)
                 .finish()
             }),
-            Some("Search repos".to_string()),
+            Some("搜索仓库".to_string()),
         )
         .with_no_interaction_on_hover()
         .no_highlight_on_hover()
@@ -8878,7 +8878,7 @@ impl Workspace {
         };
 
         match label.as_str() {
-            "New worktree config" => {
+            "新建工作树配置" => {
                 self.tab_config_action_sidecar_item = None;
                 let auto_select_first_repo = self.new_session_dropdown_menu.read(ctx, |menu, _| {
                     menu.last_selection_source() != Some(MenuSelectionSource::Pointer)
@@ -9197,12 +9197,12 @@ impl Workspace {
             .unwrap_or_else(|| repo.to_string());
         let config_name = match worktree_branch_name {
             Some(name) if !name.is_empty() => {
-                format!("New worktree: {repo_display_name}, {name}")
+                format!("新建工作树：{repo_display_name}, {name}")
             }
             _ if !base_branch.is_empty() => {
-                format!("New worktree: {repo_display_name}, {base_branch}")
+                format!("新建工作树：{repo_display_name}, {base_branch}")
             }
-            _ => format!("New worktree: {repo_display_name}"),
+            _ => format!("新建工作树：{repo_display_name}"),
         };
 
         let filename_hint = if let Some(name) = worktree_branch_name {
@@ -10973,7 +10973,7 @@ impl Workspace {
         self.add_tab_with_pane_layout(
             Default::default(),
             Arc::new(HashMap::new()),
-            Some("Install Update".to_owned()),
+            Some("安装更新".to_owned()),
             ctx,
         );
 
@@ -12239,7 +12239,7 @@ impl Workspace {
         self.palette.update(ctx, |view, ctx| {
             view.reset(ctx);
             view.set_fixed_query_filters(
-                "Search recent repos and conversations".to_string(),
+                "搜索最近的仓库和对话".to_string(),
                 vec![QueryFilter::HistoricalConversations, QueryFilter::Repos],
                 ctx,
             );
@@ -14581,7 +14581,7 @@ impl Workspace {
             let window_id = ctx.window_id();
             WorkspaceToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                 let toast = DismissibleToast::default(
-                    "No terminal pane open. Open a new pane to attach as context.".to_owned(),
+                    "没有打开的终端窗格。请打开一个新窗格以附加为上下文。".to_owned(),
                 );
                 toast_stack.add_ephemeral_toast(toast, window_id, ctx);
             });
@@ -14681,9 +14681,7 @@ impl Workspace {
             // The active terminal exists but is busy, and the fallback behavior is
             // RequireExisting or OpenIfNone. In those cases, show a toast and no-op.
             self.toast_stack.update(ctx, |toast_stack, ctx| {
-                let mut toast = DismissibleToast::error(
-                    "A command in this session is still running.".to_string(),
-                );
+                let mut toast = DismissibleToast::error("此会话中仍有命令在运行。".to_string());
                 if let Some(id) = object_id {
                     toast = toast.with_object_id(id.uid());
                 }
@@ -14785,7 +14783,7 @@ impl Workspace {
         {
             AuthManager::handle(ctx).update(ctx, |auth_manager, ctx| {
                 auth_manager.attempt_login_gated_feature(
-                    "Run Agent Mode Workflow",
+                    "运行智能体模式工作流",
                     AuthViewVariant::RequireLoginCloseable,
                     ctx,
                 )
@@ -15838,7 +15836,7 @@ impl Workspace {
                 let command = code.trim().to_string();
                 let args_state =
                     ArgumentsState::for_command_workflow(&Default::default(), command.clone());
-                let workflow = Workflow::new("Command from Warp AI", command)
+                let workflow = Workflow::new("来自 Warp AI 的命令", command)
                     .with_arguments(args_state.arguments);
                 self.run_workflow_in_active_input(
                     &WorkflowType::AIGenerated {
@@ -16558,10 +16556,7 @@ impl Workspace {
 
         let body = appearance
             .ui_builder()
-            .wrappable_text(
-                "Ask Warp AI to explain errors, suggest commands or write scripts.".to_owned(),
-                true,
-            )
+            .wrappable_text("让 Warp AI 解释错误、建议命令或编写脚本。".to_owned(), true)
             .with_style(UiComponentStyles {
                 font_size: Some(12.),
                 font_color: Some(sub_text_color),
@@ -16644,7 +16639,7 @@ impl Workspace {
                         icons::Icon::Grid,
                         &self.mouse_states.agent_management_view_button,
                         WorkspaceAction::ToggleAgentManagementView,
-                        "Agent management panel".to_string(),
+                        "智能体管理面板".to_string(),
                         keybinding_name_to_display_string(
                             "workspace:toggle_agent_management_view",
                             ctx,
@@ -16674,7 +16669,7 @@ impl Workspace {
             if vertical_tabs_active {
                 (
                     self.vertical_tabs_panel_open,
-                    "Tabs panel",
+                    "标签页面板",
                     WorkspaceAction::ToggleVerticalTabsPanel,
                     "workspace:toggle_vertical_tabs_panel",
                     "workspace:toggle_vertical_tabs_panel",
@@ -16689,11 +16684,11 @@ impl Workspace {
                     {
                         ToolPanelView::ProjectExplorer => "项目浏览器",
                         ToolPanelView::GlobalSearch { .. } => "全局搜索",
-                        ToolPanelView::WarpDrive => "Warp Drive",
+                        ToolPanelView::WarpDrive => "Warp 云盘",
                         ToolPanelView::ConversationListView => "智能体对话",
                     }
                 } else {
-                    "Tools panel"
+                    "工具面板"
                 };
                 (
                     self.active_tab_pane_group().as_ref(ctx).left_panel_open,
@@ -16743,11 +16738,11 @@ impl Workspace {
             {
                 ToolPanelView::ProjectExplorer => "项目浏览器",
                 ToolPanelView::GlobalSearch { .. } => "全局搜索",
-                ToolPanelView::WarpDrive => "Warp Drive",
+                ToolPanelView::WarpDrive => "Warp 云盘",
                 ToolPanelView::ConversationListView => "智能体对话",
             }
         } else {
-            "Tools panel"
+            "工具面板"
         };
 
         SavePosition::new(
@@ -16904,7 +16899,7 @@ impl Workspace {
             button
                 .with_tooltip(self.render_tab_bar_icon_button_tooltip(
                     appearance,
-                    "Code review panel".to_string(),
+                    "代码审查面板".to_string(),
                     keybinding_name_to_display_string("workspace:toggle_right_panel", ctx),
                 ))
                 .build()
@@ -17331,7 +17326,7 @@ impl Workspace {
                 WorkspaceAction::ToggleNotificationMailbox {
                     select_first: false,
                 },
-                "Notifications".to_string(),
+                "通知".to_string(),
                 keybinding_name_to_display_string(TOGGLE_NOTIFICATION_MAILBOX_BINDING_NAME, ctx),
                 is_inbox_active,
                 false,
@@ -17852,7 +17847,7 @@ impl Workspace {
                 icons::Icon::Lightbulb,
                 &self.mouse_states.resource_center_icon,
                 WorkspaceAction::ToggleResourceCenter,
-                "Warp Essentials".to_string(),
+                "Warp 入门".to_string(),
                 self.cached_keybindings[TOGGLE_RESOURCE_CENTER_KEYBINDING_NAME].clone(),
                 false,
                 false,
@@ -19575,7 +19570,7 @@ impl Workspace {
                 ..Default::default()
             })),
             Arc::new(HashMap::new()),
-            Some("Introducing Oz".to_string()),
+            Some("Oz 介绍".to_string()),
             ctx,
         );
         self.oz_launch_modal.tab_pane_group_id = self
@@ -20210,6 +20205,10 @@ impl TypedActionView for Workspace {
                 }
             }
             CreateTeamWorkflow => {
+                if !NetworkStatus::as_ref(ctx).is_online() {
+                    return;
+                }
+
                 let team_uid = self.team_uid(ctx);
                 if let Some(team_uid) = team_uid {
                     let source = WorkflowOpenSource::New {
@@ -20228,6 +20227,10 @@ impl TypedActionView for Workspace {
                 }
             }
             CreatePersonalFolder => {
+                if !NetworkStatus::as_ref(ctx).is_online() {
+                    return;
+                }
+
                 self.update_warp_drive_view(ctx, |drive_panel, ctx| {
                     drive_panel.open_cloud_object_dialog(
                         DriveObjectType::Folder,
@@ -20240,6 +20243,10 @@ impl TypedActionView for Workspace {
                 ctx.notify();
             }
             CreateTeamFolder => {
+                if !NetworkStatus::as_ref(ctx).is_online() {
+                    return;
+                }
+
                 let team_uid = self.team_uid(ctx);
                 if let Some(team_uid) = team_uid {
                     self.update_warp_drive_view(ctx, |drive_panel, ctx| {
@@ -20857,7 +20864,7 @@ impl TypedActionView for Workspace {
             }
             RunAISuggestedCommand(code) => {
                 let command = code.trim().to_string();
-                let workflow = Workflow::new("Command from Oz", command);
+                let workflow = Workflow::new("来自 Oz 的命令", command);
                 self.run_workflow_in_active_input(
                     &WorkflowType::AIGenerated {
                         workflow,
@@ -20887,7 +20894,7 @@ impl TypedActionView for Workspace {
             AttemptLoginGatedAIUpgrade => {
                 AuthManager::handle(ctx).update(ctx, |auth_manager, ctx| {
                     auth_manager.attempt_login_gated_feature(
-                        "Upgrade AI Usage",
+                        "升级 AI 用量",
                         AuthViewVariant::RequireLoginCloseable,
                         ctx,
                     )

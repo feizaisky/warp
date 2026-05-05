@@ -1,3 +1,9 @@
+use std::{
+    env, fs,
+    path::PathBuf,
+    time::{SystemTime, UNIX_EPOCH},
+};
+
 use instant::Duration;
 use settings::{
     is_settings_file_enabled, set_settings_file_enabled, PrivatePreferences, PublicPreferences,
@@ -71,6 +77,58 @@ impl SettingsFileEnabledGuard {
 impl Drop for SettingsFileEnabledGuard {
     fn drop(&mut self) {
         set_settings_file_enabled(self.0);
+    }
+}
+
+struct EnvVarGuard {
+    key: &'static str,
+    previous: Option<std::ffi::OsString>,
+}
+
+impl EnvVarGuard {
+    fn set(key: &'static str, value: impl AsRef<std::ffi::OsStr>) -> Self {
+        let previous = env::var_os(key);
+        env::set_var(key, value);
+        Self { key, previous }
+    }
+}
+
+impl Drop for EnvVarGuard {
+    fn drop(&mut self) {
+        match &self.previous {
+            Some(previous) => env::set_var(self.key, previous),
+            None => env::remove_var(self.key),
+        }
+    }
+}
+
+struct DataProfileGuard {
+    _env_guard: EnvVarGuard,
+    config_dir: PathBuf,
+}
+
+impl DataProfileGuard {
+    fn new() -> Self {
+        let unique_suffix = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let profile = format!("settings-migration-test-{unique_suffix}");
+        let env_guard = EnvVarGuard::set("WARP_DATA_PROFILE", profile);
+        let config_dir = warp_core::paths::config_local_dir();
+        if config_dir.exists() {
+            fs::remove_dir_all(&config_dir).unwrap();
+        }
+        Self {
+            _env_guard: env_guard,
+            config_dir,
+        }
+    }
+}
+
+impl Drop for DataProfileGuard {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.config_dir);
     }
 }
 
@@ -244,9 +302,12 @@ fn test_migration_handles_string_setting() {
 }
 
 #[test]
+#[serial_test::serial]
 fn test_migration_does_not_rerun_when_marker_present() {
     warpui::App::test((), |mut app| async move {
         let _guard = FeatureFlag::SettingsFile.override_enabled(true);
+        let _settings_file_enabled = SettingsFileEnabledGuard::new(true);
+        let _data_profile = DataProfileGuard::new();
 
         app.update(init_test_app);
 

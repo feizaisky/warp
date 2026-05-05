@@ -120,6 +120,6 @@ fn upload_file_to_target_returns_status_and_body_for_failed_uploads() {
         mock.assert();
         assert!(err
             .to_string()
-            .contains("Artifact upload failed with status 403 Forbidden: denied"));
+            .contains("工件上传失败，状态 403 Forbidden：denied"));
     });
 }

@@ -333,12 +333,12 @@ impl IntegrationInfo {
 impl TableFormat for IntegrationInfo {
     fn header() -> Vec<Cell> {
         vec![
-            Cell::new("Provider"),
-            Cell::new("Description"),
-            Cell::new("Status"),
-            Cell::new("Environment"),
-            Cell::new("Created"),
-            Cell::new("Updated"),
+            Cell::new("提供方"),
+            Cell::new("描述"),
+            Cell::new("状态"),
+            Cell::new("环境"),
+            Cell::new("创建时间"),
+            Cell::new("更新时间"),
         ]
     }
 

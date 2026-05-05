@@ -308,13 +308,9 @@ fn render_context_window_row(
     let min = cw.min;
     let max = cw.max;
 
-    let label = Text::new(
-        "上下文窗口".to_string(),
-        appearance.ui_font_family(),
-        13.,
-    )
-    .with_color(appearance.theme().active_ui_text_color().into())
-    .finish();
+    let label = Text::new("上下文窗口".to_string(), appearance.ui_font_family(), 13.)
+        .with_color(appearance.theme().active_ui_text_color().into())
+        .finish();
     let min_label_text = min.to_string();
     let max_label_text = max.to_string();
     let desc = Text::new(
@@ -844,17 +840,12 @@ pub fn render_plan_auto_sync_toggle(
     .with_margin_right(8.)
     .finish();
 
-    let label_elem = Text::new(
-        "计划自动同步".to_string(),
-        appearance.ui_font_family(),
-        13.,
-    )
-    .with_color(appearance.theme().active_ui_text_color().into())
-    .finish();
+    let label_elem = Text::new("计划自动同步".to_string(), appearance.ui_font_family(), 13.)
+        .with_color(appearance.theme().active_ui_text_color().into())
+        .finish();
 
     let desc_elem = Text::new(
-        "该智能体创建的计划将自动添加并同步到 Warp Drive。"
-            .to_string(),
+        "该智能体创建的计划将自动添加并同步到 Warp Drive。".to_string(),
         appearance.ui_font_family(),
         11.,
     )

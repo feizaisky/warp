@@ -50,9 +50,7 @@ impl InheritanceState {
 
         match folder_name {
             Some(folder_name) => {
-                let prefix = style::detail_text("继承自 ", appearance)
-                    .build()
-                    .finish();
+                let prefix = style::detail_text("继承自 ", appearance).build().finish();
                 let source_folder = self.source_folder;
                 let folder_link = appearance
                     .ui_builder()

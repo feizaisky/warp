@@ -15,7 +15,7 @@ define_settings_group!(WarpDriveSettings, settings: [
         sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
         private: false,
         toml_path: "warp_drive.sorting_choice",
-        description: "Warp Drive 中项目的排序方式。",
+        description: "Warp 云盘中项目的排序方式。",
     },
     sharing_onboarding_block_shown: WarpDriveSharingOnboardingBlockShown {
         type: bool,

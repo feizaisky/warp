@@ -287,11 +287,11 @@ fn open_worktree_sidecar(workspace: &ViewHandle<Workspace>, app: &mut App) {
                 menu.items().iter().position(|item| {
                     matches!(
                         item,
-                        MenuItem::Item(fields) if fields.label() == "New worktree config"
+                        MenuItem::Item(fields) if fields.label() == "新建工作树配置"
                     )
                 })
             })
-            .expect("expected new worktree config item in new-session menu");
+            .expect("expected 新建工作树配置 item in new-session menu");
 
         workspace
             .new_session_dropdown_menu
@@ -385,11 +385,11 @@ fn test_worktree_sidecar_pointer_entry_does_not_select_top_repo() {
                     menu.items().iter().position(|item| {
                         matches!(
                             item,
-                            MenuItem::Item(fields) if fields.label() == "New worktree config"
+                            MenuItem::Item(fields) if fields.label() == "新建工作树配置"
                         )
                     })
                 })
-                .expect("expected new worktree config item in new-session menu");
+                .expect("expected 新建工作树配置 item in new-session menu");
 
             workspace
                 .new_session_dropdown_menu
@@ -690,8 +690,8 @@ fn reopen_closed_session_menu_item(
     menu_items: &[MenuItem<WorkspaceAction>],
 ) -> &MenuItemFields<WorkspaceAction> {
     match menu_items.last() {
-        Some(MenuItem::Item(fields)) if fields.label() == "Reopen closed session" => fields,
-        _ => panic!("expected Reopen closed session to be the last new-session menu item"),
+        Some(MenuItem::Item(fields)) if fields.label() == "重新打开已关闭会话" => fields,
+        _ => panic!("expected 重新打开已关闭会话 to be the last new-session menu item"),
     }
 }
 
@@ -1750,14 +1750,13 @@ fn test_tab_context_menu_share_session_items() {
         });
 
         // When there's a single shared session in a tab (focused), the options
-        // for sharing are "Stop sharing" and "Stop sharing all".
+        // for sharing are "停止共享" and "停止全部共享".
         workspace.read(&app, |workspace, ctx| {
             let items = workspace.tabs[1].menu_items(1, 3, ctx);
             assert!(items[0]
-                .is_approximately_same_item_as(&MenuItemFields::new("Stop sharing").into_item()));
-            assert!(items[1].is_approximately_same_item_as(
-                &MenuItemFields::new("Stop sharing all").into_item()
-            ));
+                .is_approximately_same_item_as(&MenuItemFields::new("停止共享").into_item()));
+            assert!(items[1]
+                .is_approximately_same_item_as(&MenuItemFields::new("停止全部共享").into_item()));
         });
 
         // Focus the other, non-shared pane in the tab
@@ -1771,14 +1770,13 @@ fn test_tab_context_menu_share_session_items() {
         });
 
         // When there's a single shared session in a tab (unfocused), the options
-        // for sharing are "Share session" and "Stop sharing all".
+        // for sharing are "共享会话" and "停止全部共享".
         workspace.read(&app, |workspace, ctx| {
             let items = workspace.tabs[1].menu_items(1, 3, ctx);
             assert!(items[0]
-                .is_approximately_same_item_as(&MenuItemFields::new("Share session").into_item()));
-            assert!(items[1].is_approximately_same_item_as(
-                &MenuItemFields::new("Stop sharing all").into_item()
-            ));
+                .is_approximately_same_item_as(&MenuItemFields::new("共享会话").into_item()));
+            assert!(items[1]
+                .is_approximately_same_item_as(&MenuItemFields::new("停止全部共享").into_item()));
         });
 
         // Stop sharing.
@@ -1787,11 +1785,11 @@ fn test_tab_context_menu_share_session_items() {
             workspace.stop_sharing_all_panes_in_tab(&tab, ctx);
         });
 
-        // When there's no shared sessions in a tab, the only option is "Share session".
+        // When there's no shared sessions in a tab, the only option is "共享会话".
         workspace.read(&app, |workspace, ctx| {
             let items = workspace.tabs[1].menu_items(1, 3, ctx);
             assert!(items[0]
-                .is_approximately_same_item_as(&MenuItemFields::new("Share session").into_item()));
+                .is_approximately_same_item_as(&MenuItemFields::new("共享会话").into_item()));
             assert!(items[1].is_approximately_same_item_as(&MenuItem::Separator));
         });
     });
@@ -2686,11 +2684,11 @@ fn test_unified_new_session_menu_uses_new_worktree_config_label_and_order() {
 
             assert_eq!(
                 labels.get(separator_index + 1),
-                Some(&"New worktree config".to_string())
+                Some(&"新建工作树配置".to_string())
             );
             assert_eq!(
                 labels.get(separator_index + 2),
-                Some(&"New tab config".to_string())
+                Some(&"新建标签页配置".to_string())
             );
         });
     });
@@ -2913,7 +2911,7 @@ fn test_worktree_sidecar_hides_linked_worktrees_from_repo_list() {
             let main_repo_label = main_repo.to_string_lossy().to_string();
             let linked_worktree_label = linked_worktree.to_string_lossy().to_string();
 
-            assert!(labels.iter().any(|label| label == "Search repos"));
+            assert!(labels.iter().any(|label| label == "搜索仓库"));
             assert!(labels.iter().any(|label| label == &main_repo_label));
             assert!(!labels.iter().any(|label| label == &linked_worktree_label));
         });

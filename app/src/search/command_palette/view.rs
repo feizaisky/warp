@@ -836,8 +836,7 @@ impl View {
                         ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                             toast_stack.add_ephemeral_toast(
                                 DismissibleToast::error(
-                                    "智能体监控命令时无法切换对话。"
-                                        .to_string(),
+                                    "智能体监控命令时无法切换对话。".to_string(),
                                 ),
                                 window_id,
                                 ctx,
@@ -976,9 +975,7 @@ impl View {
                 if can_start_new_conversation {
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
-                            DismissibleToast::error(
-                                "智能体监控命令时无法开始新对话。".to_string(),
-                            ),
+                            DismissibleToast::error("智能体监控命令时无法开始新对话。".to_string()),
                             window_id,
                             ctx,
                         );

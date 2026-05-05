@@ -288,7 +288,7 @@ fn test_select_line() {
                         ctx,
                     );
                     assert_eq!(a11y.value, "cccccc");
-                    assert_eq!(a11y.help, Some(", selected".to_string()));
+                    assert_eq!(a11y.help, Some(", 已选择".to_string()));
                 }
             });
             editor
@@ -389,7 +389,7 @@ fn test_clear_selections() -> Result<()> {
                 let a11y_label = editor_model
                     .delta_for_a11y(ByteOffset::from(0)..ByteOffset::from(0), true, ctx)
                     .value;
-                assert_eq!(a11y_label, "Unselected");
+                assert_eq!(a11y_label, "已取消选择");
             });
             assert_eq!(
                 view.selected_ranges(ctx),
@@ -428,7 +428,7 @@ fn test_select_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "word");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             assert_eq!(editor.selected_text(ctx), "word");
             editor.select_word(&DisplayPoint::new(0, 5), ctx);
@@ -439,7 +439,7 @@ fn test_select_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "w0rd");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             assert_eq!(editor.selected_text(ctx), "w0rd");
             editor.select_word(&DisplayPoint::new(0, 11), ctx);
@@ -450,7 +450,7 @@ fn test_select_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "word");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             assert_eq!(editor.selected_text(ctx), "word");
             editor
@@ -624,7 +624,7 @@ fn test_select_right_by_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "ord");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             editor.cursor_forward_one_word(true /* select */, ctx);
             assert_eq!(editor.selected_text(ctx), "ord word");
@@ -635,7 +635,7 @@ fn test_select_right_by_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "word");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             editor.cursor_forward_one_word(true /* select */, ctx);
             assert_eq!(editor.selected_text(ctx), "ord word");
@@ -673,7 +673,7 @@ fn test_select_left_by_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "w");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             editor.cursor_backward_one_word(true /* select */, ctx);
             assert_eq!(editor.selected_text(ctx), "word w");
@@ -684,7 +684,7 @@ fn test_select_left_by_word() {
                     ctx,
                 );
                 assert_eq!(a11y.value, "word ");
-                assert_eq!(a11y.help, Some(", selected".to_string()));
+                assert_eq!(a11y.help, Some(", 已选择".to_string()));
             });
             editor.cursor_backward_one_word(true /* select */, ctx);
             assert_eq!(editor.selected_text(ctx), "word w");

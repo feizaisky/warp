@@ -2065,7 +2065,7 @@ impl View for GlobalSearchView {
             .with_child(query_row);
 
         let files = self.unique_match_count();
-        let file_word = if files == 1 { "个文件" } else { "个文件" };
+        let file_word = "个文件";
 
         let message = if self.is_search_in_progress && self.total_match_count == 0 {
             "".to_string()

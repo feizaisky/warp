@@ -33,25 +33,22 @@ lazy_static! {
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "Whether the user has enabled or disabled notifications.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "用户是否已启用或禁用通知。", rename_all = "snake_case")]
 pub enum NotificationsMode {
     // User has not been shown notifications banner before or has seen it before but decided not to dismiss it.
-    #[schemars(description = "Notifications have not been configured yet.")]
+    #[schemars(description = "通知尚未配置。")]
     Unset,
 
     // User has asked not to be shown notifications banner again.
-    #[schemars(description = "The notifications banner has been dismissed.")]
+    #[schemars(description = "通知横幅已关闭。")]
     Dismissed,
 
     // User has enabled system notifications and wants to receive notifications.
-    #[schemars(description = "Notifications are enabled.")]
+    #[schemars(description = "通知已启用。")]
     Enabled,
 
     // User had previously enabled notifications, but has now disabled them.
-    #[schemars(description = "Notifications are disabled.")]
+    #[schemars(description = "通知已禁用。")]
     Disabled,
 }
 
@@ -70,29 +67,24 @@ pub enum NotificationsMode {
 #[derive(schemars::JsonSchema)]
 #[schemars(description = "终端事件的通知偏好设置。")]
 pub struct NotificationsSettings {
-    #[schemars(
-        description = "Whether notifications are enabled, disabled, or not yet configured."
-    )]
+    #[schemars(description = "通知是已启用、已禁用还是尚未配置。")]
     pub mode: NotificationsMode,
 
-    #[schemars(description = "Whether to notify when a long-running command completes.")]
+    #[schemars(description = "长时间运行的命令完成时是否通知。")]
     pub is_long_running_enabled: bool,
-    #[schemars(
-        with = "u64",
-        description = "Threshold in seconds for long-running command notifications."
-    )]
+    #[schemars(with = "u64", description = "触发长时间运行命令通知的秒数阈值。")]
     pub long_running_threshold: Duration,
 
     /// Legacy. To be combined with `is_needs_attention_enabled` when desktop notifs are unflagged.
-    #[schemars(description = "Whether to notify when a password prompt is detected.")]
+    #[schemars(description = "检测到密码提示时是否通知。")]
     pub is_password_prompt_enabled: bool,
 
-    #[schemars(description = "Whether to notify when an agent task completes.")]
+    #[schemars(description = "智能体任务完成时是否通知。")]
     pub is_agent_task_completed_enabled: bool,
-    #[schemars(description = "Whether to notify when a session needs attention.")]
+    #[schemars(description = "会话需要关注时是否通知。")]
     pub is_needs_attention_enabled: bool,
 
-    #[schemars(description = "Whether to play a sound with notifications.")]
+    #[schemars(description = "通知时是否播放声音。")]
     pub play_notification_sound: bool,
 }
 
@@ -187,15 +179,12 @@ pub trait ToolbarChipSelection {
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "Agent toolbar layout configuration.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "智能体工具栏布局配置。", rename_all = "snake_case")]
 pub enum AgentToolbarChipSelection {
     #[default]
-    #[schemars(description = "Use the default toolbar layout.")]
+    #[schemars(description = "使用默认工具栏布局。")]
     Default,
-    #[schemars(description = "Use a custom arrangement of toolbar items.")]
+    #[schemars(description = "使用自定义工具栏项目排列。")]
     Custom {
         left: Vec<AgentToolbarItemKind>,
         right: Vec<AgentToolbarItemKind>,
@@ -237,15 +226,12 @@ impl ToolbarChipSelection for AgentToolbarChipSelection {
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "CLI agent toolbar layout configuration.",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "CLI 智能体工具栏布局配置。", rename_all = "snake_case")]
 pub enum CLIAgentToolbarChipSelection {
     #[default]
-    #[schemars(description = "Use the default toolbar layout.")]
+    #[schemars(description = "使用默认工具栏布局。")]
     Default,
-    #[schemars(description = "Use a custom arrangement of toolbar items.")]
+    #[schemars(description = "使用自定义工具栏项目排列。")]
     Custom {
         left: Vec<AgentToolbarItemKind>,
         right: Vec<AgentToolbarItemKind>,

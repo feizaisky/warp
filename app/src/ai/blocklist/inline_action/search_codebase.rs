@@ -484,10 +484,7 @@ impl View for SearchCodebaseView {
             }
             Some(AIActionStatus::Finished(result)) if result.result.is_cancelled() => {
                 let cancelled_text = if let Some(repo_name) = &self.repo_name {
-                    format!(
-                        "在 {} 中搜索 \"{}\" 已取消",
-                        self.search_query, repo_name
-                    )
+                    format!("在 {} 中搜索 \"{}\" 已取消", self.search_query, repo_name)
                 } else {
                     format!("搜索 \"{}\" 已取消", self.search_query)
                 };
@@ -502,10 +499,7 @@ impl View for SearchCodebaseView {
                 .finish(),
             _ => {
                 let text = if let Some(repo_name) = &self.repo_name {
-                    format!(
-                        "已在代码库 {} 中搜索 \"{}\"",
-                        self.search_query, repo_name
-                    )
+                    format!("已在代码库 {} 中搜索 \"{}\"", self.search_query, repo_name)
                 } else {
                     format!("已在代码库中搜索 \"{}\"", self.search_query)
                 };

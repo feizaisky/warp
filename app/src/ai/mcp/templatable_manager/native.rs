@@ -127,35 +127,30 @@ fn error_to_user_message(error: &rmcp::RmcpError) -> String {
             format!("Failed to initialize server: {}", err)
         }
         rmcp::RmcpError::TransportCreation { error, .. } => {
-            format!("Failed to establish connection: {}", error)
+            format!("建立连接失败：{}", error)
         }
         rmcp::RmcpError::Runtime(err) => {
-            format!("Runtime error: {}", err)
+            format!("运行时错误：{}", err)
         }
         rmcp::RmcpError::Service(err) => match err {
             rmcp::ServiceError::McpError(_) => {
-                "Server returned an error. Please check server logs for details.".to_string()
+                "服务器返回错误。请查看服务器日志了解详情。".to_string()
             }
             rmcp::ServiceError::TransportSend(_) => {
-                "Failed to send data to server. Connection may have been lost.".to_string()
+                "向服务器发送数据失败。连接可能已丢失。".to_string()
             }
-            rmcp::ServiceError::TransportClosed => {
-                "Connection closed unexpectedly. The server may have crashed.".to_string()
-            }
+            rmcp::ServiceError::TransportClosed => "连接意外关闭。服务器可能已崩溃。".to_string(),
             rmcp::ServiceError::UnexpectedResponse => {
-                "Server sent an unexpected response. The server may be incompatible.".to_string()
+                "服务器返回了意外响应。服务器可能不兼容。".to_string()
             }
             rmcp::ServiceError::Cancelled { reason } => format!(
-                "Operation was cancelled with reason: {}",
-                reason.clone().unwrap_or("Unknown reason".to_string())
+                "操作已取消，原因：{}",
+                reason.clone().unwrap_or("未知原因".to_string())
             ),
             rmcp::ServiceError::Timeout { timeout } => {
-                format!(
-                    "Connection timed out after {} seconds. The server may be unresponsive.",
-                    timeout.as_secs()
-                )
+                format!("连接在 {} 秒后超时。服务器可能无响应。", timeout.as_secs())
             }
-            _ => format!("Service error: {}", err),
+            _ => format!("服务错误：{}", err),
         },
     }
 }

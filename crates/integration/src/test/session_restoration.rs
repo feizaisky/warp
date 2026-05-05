@@ -346,7 +346,7 @@ pub fn test_restore_snapshot_with_notebooks() -> Builder {
             TestStep::new("Verify that the notebook panes were restored")
                 .add_assertion(assert_pane_title(0, 0, "First Notebook"))
                 // The missing notebook should be replaced with an empty new notebook.
-                .add_assertion(assert_pane_title(0, 1, "Untitled")),
+                .add_assertion(assert_pane_title(0, 1, "未命名")),
         )
         .with_step(
             new_step_with_default_assertions_for_pane("Wait for terminal pane to bootstrap", 0, 2)
@@ -377,7 +377,7 @@ pub fn test_restore_snapshot_with_workflows() -> Builder {
         .with_step(
             TestStep::new("Verify that the workflow panes were restored")
                 .add_assertion(assert_pane_title(0, 1, "My Workflow"))
-                .add_assertion(assert_pane_title(0, 0, "Untitled")),
+                .add_assertion(assert_pane_title(0, 0, "未命名")),
         )
 }
 
@@ -528,7 +528,7 @@ pub fn test_restore_snapshot_with_settings_page() -> Builder {
         .with_step(wait_until_bootstrapped_single_pane_for_tab(0))
         .with_step(
             TestStep::new("Verify settings pane restoration")
-                .add_assertion(assert_pane_title(0, 1, "Settings"))
+                .add_assertion(assert_pane_title(0, 1, "设置"))
                 .add_assertion(move |app, window_id| {
                     // Verify the settings view exists and is on the Referrals page.
                     let settings_views: Vec<ViewHandle<SettingsView>> = app

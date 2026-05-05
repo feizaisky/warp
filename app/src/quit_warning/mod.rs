@@ -300,10 +300,8 @@ impl<'a> UnsavedStateSummary<'a> {
         };
 
         if self.total_long_running_commands > 0 {
-            let mut process_info_text = format!(
-                "您有 {} 个命令正在运行",
-                self.total_long_running_commands,
-            );
+            let mut process_info_text =
+                format!("您有 {} 个命令正在运行", self.total_long_running_commands,);
             if self.windows_with_long_running_commands > 1 {
                 let _ = write!(
                     &mut process_info_text,
@@ -330,7 +328,10 @@ impl<'a> UnsavedStateSummary<'a> {
 
         if self.unsaved_code_changes {
             if let QuitScope::EditorTab { ref file_name, .. } = self.scope {
-                info_text_lines.push(format!("您要保存对{}所做的更改吗？如果不保存，您的更改将被丢弃。", file_name.clone().unwrap_or("此文件".to_string())));
+                info_text_lines.push(format!(
+                    "您要保存对{}所做的更改吗？如果不保存，您的更改将被丢弃。",
+                    file_name.clone().unwrap_or("此文件".to_string())
+                ));
             } else {
                 info_text_lines.push(format!("您有未保存的文件更改{scope_suffix}"));
             }

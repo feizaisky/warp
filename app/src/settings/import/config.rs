@@ -80,17 +80,17 @@ pub enum SettingType {
 impl SettingType {
     pub fn get_name(&self) -> &'static str {
         match self {
-            SettingType::Theme => "Theme",
-            SettingType::OptionAsMeta => "Option as Meta",
-            SettingType::MouseAndScrollReporting => "Mouse/Scroll Reporting",
-            SettingType::Font => "Font",
-            SettingType::DefaultShell => "Default Shell",
-            SettingType::WorkingDirectory => "Working Directory",
-            SettingType::HotkeyMode => "Global hotkey",
-            SettingType::WindowSize => "Window Dimensions",
-            SettingType::CopyOnSelect => "Copy On Select",
-            SettingType::Opacity => "Window Opacity",
-            SettingType::CursorBlinking => "Cursor Blinking",
+            SettingType::Theme => "主题",
+            SettingType::OptionAsMeta => "将 Option 作为 Meta",
+            SettingType::MouseAndScrollReporting => "鼠标/滚动上报",
+            SettingType::Font => "字体",
+            SettingType::DefaultShell => "默认 Shell",
+            SettingType::WorkingDirectory => "工作目录",
+            SettingType::HotkeyMode => "全局热键",
+            SettingType::WindowSize => "窗口尺寸",
+            SettingType::CopyOnSelect => "选中即复制",
+            SettingType::Opacity => "窗口不透明度",
+            SettingType::CursorBlinking => "光标闪烁",
         }
     }
 }

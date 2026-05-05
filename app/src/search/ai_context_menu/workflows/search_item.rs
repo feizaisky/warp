@@ -178,9 +178,9 @@ impl SearchItem for WorkflowSearchItem {
 
     fn accessibility_label(&self) -> String {
         if let Some(description) = &self.workflow_description {
-            format!("Workflow: {} - {}", self.workflow_name, description)
+            format!("工作流：{} - {}", self.workflow_name, description)
         } else {
-            format!("Workflow: {}", self.workflow_name)
+            format!("工作流：{}", self.workflow_name)
         }
     }
 

@@ -137,8 +137,7 @@ impl TipsView {
             ),
             TipItem::new(
                 "分割窗格".to_string(),
-                "将标签页分割为多个窗格，打造您的理想布局。"
-                    .to_string(),
+                "将标签页分割为多个窗格，打造您的理想布局。".to_string(),
                 TipAction::SplitPane,
                 ctx,
             ),

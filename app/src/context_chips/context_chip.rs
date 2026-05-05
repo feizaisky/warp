@@ -172,11 +172,11 @@ pub enum ChipDisabledReason {
 impl ChipDisabledReason {
     pub fn tooltip_text(&self) -> String {
         match self {
-            Self::RequiresLocalSession => "Requires a local session".to_string(),
+            Self::RequiresLocalSession => "需要本地会话".to_string(),
             Self::RequiresExecutable { command } if command == "gh" => {
-                "Requires the GitHub CLI".to_string()
+                "需要 GitHub CLI".to_string()
             }
-            Self::RequiresExecutable { command } => format!("Requires the `{command}` command"),
+            Self::RequiresExecutable { command } => format!("需要 `{command}` 命令"),
         }
     }
 }

@@ -177,12 +177,12 @@ impl AvailableShell {
     /// the executable.
     fn long_name(&self) -> String {
         match &self.state.as_ref() {
-            Config::SystemDefault => "Default".to_string(),
+            Config::SystemDefault => "默认".to_string(),
             Config::KnownLocal(LocalConfig {
                 executable_path, ..
             }) => format!("{} ({})", self.short_name(), executable_path.display()),
             Config::Wsl { distro } => distro.to_string(),
-            Config::Custom(LocalConfig { command, .. }) => format!("Custom ({command})"),
+            Config::Custom(LocalConfig { command, .. }) => format!("自定义 ({command})"),
             Config::MSYS2(LocalConfig {
                 executable_path, ..
             }) => format!("{} ({})", self.short_name(), executable_path.display()),

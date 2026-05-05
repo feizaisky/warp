@@ -1174,7 +1174,7 @@ impl View for ConversationListView {
         } else if self.item_count() == 0 {
             Container::new(
                 Text::new_inline(
-                    "No matching conversations",
+                    "没有匹配的对话",
                     appearance.ui_font_family(),
                     appearance.ui_font_size(),
                 )

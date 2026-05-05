@@ -594,9 +594,11 @@ impl AgentAssistedEnvironmentModal {
         ctx.open_file_picker(
             move |paths_result, ctx| {
                 let result = paths_result.and_then(|paths| {
-                    paths.into_iter().next().map(PathBuf::from).ok_or_else(|| {
-                        FilePickerError::DialogFailed("No directory selected".to_string())
-                    })
+                    paths
+                        .into_iter()
+                        .next()
+                        .map(PathBuf::from)
+                        .ok_or_else(|| FilePickerError::DialogFailed("未选择目录".to_string()))
                 });
 
                 ctx.dispatch_typed_action_for_view(

@@ -28,9 +28,7 @@ use crate::{
 use super::{Event, OpenOverlay, PaneHeader, PaneHeaderAction};
 
 const UNSHARABLE_CONVERSATION_TOOLTIP: &str =
-    "This conversation cannot be shared because it is not \
-    stored in the cloud.\nTo sync to cloud and share, enable the setting under Settings > Privacy, \
-    and then make another request.";
+    "此对话无法共享，因为它未存储在云端。\n若要同步到云端并共享，请在“设置 > 隐私”中启用相关设置，然后再次发起请求。";
 
 /// Pane header component for sharing the pane contents.
 pub struct SharedPaneContent {

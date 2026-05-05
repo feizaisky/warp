@@ -51,18 +51,15 @@ fn child_conversation_card_data_for_success_result_returns_conversation_id_and_t
 fn start_agent_copy_uses_local_labels_for_local_children() {
     let execution_mode = StartAgentExecutionMode::local_harness("claude-code".to_string());
 
-    assert_eq!(start_agent_success_suffix(&execution_mode), " locally.");
+    assert_eq!(start_agent_success_suffix(&execution_mode), "（本地）。");
     assert_eq!(
         start_agent_error_prefix(&execution_mode),
-        "Failed to start agent "
+        "启动智能体失败："
     );
-    assert_eq!(
-        start_agent_cancelled_prefix(&execution_mode),
-        "Start agent "
-    );
+    assert_eq!(start_agent_cancelled_prefix(&execution_mode), "启动智能体 ");
     assert_eq!(
         start_agent_in_progress_prefix(&execution_mode),
-        "Starting agent "
+        "正在启动智能体 "
     );
 }
 
@@ -78,18 +75,18 @@ fn start_agent_copy_uses_remote_labels_for_remote_children() {
         title: String::new(),
     };
 
-    assert_eq!(start_agent_success_suffix(&execution_mode), " remotely.");
+    assert_eq!(start_agent_success_suffix(&execution_mode), "（远程）。");
     assert_eq!(
         start_agent_error_prefix(&execution_mode),
-        "Failed to start remote agent "
+        "启动远程智能体失败："
     );
     assert_eq!(
         start_agent_cancelled_prefix(&execution_mode),
-        "Start remote agent "
+        "启动远程智能体 "
     );
     assert_eq!(
         start_agent_in_progress_prefix(&execution_mode),
-        "Starting remote agent "
+        "正在启动远程智能体 "
     );
 }
 
@@ -116,7 +113,7 @@ fn child_conversation_card_data_for_success_result_without_available_title_uses_
             Some(ChildConversationCardData {
                 conversation_id,
                 agent_name: "Agent".to_string(),
-                title: "Generating title...".to_string(),
+                title: "正在生成标题...".to_string(),
                 status: ConversationStatus::InProgress,
             })
         );
@@ -199,7 +196,7 @@ fn agent_display_name_from_id_returns_orchestrator_label() {
         let actual = app.read(|ctx| {
             agent_display_name_from_id("orchestrator-agent-id", Some("orchestrator-agent-id"), ctx)
         });
-        assert_eq!(actual, "Orchestrator agent");
+        assert_eq!(actual, "编排智能体");
     });
 }
 
@@ -209,7 +206,7 @@ fn agent_display_name_from_id_returns_unknown_fallback() {
         app.add_singleton_model(|_| BlocklistAIHistoryModel::new_for_test());
         let actual =
             app.read(|ctx| agent_display_name_from_id("missing-agent-id", Some("other-id"), ctx));
-        assert_eq!(actual, "Unknown agent");
+        assert_eq!(actual, "未知智能体");
     });
 }
 

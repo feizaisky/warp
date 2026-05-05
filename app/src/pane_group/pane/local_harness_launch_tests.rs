@@ -52,17 +52,11 @@ fn validate_local_harness_shell_accepts_supported_shells() {
 fn validate_local_harness_shell_rejects_unsupported_shells() {
     assert_eq!(
         validate_local_harness_shell(Some(ShellType::PowerShell)),
-        Err(
-            "Local child harnesses currently require bash, zsh, or fish; PowerShell is not supported."
-                .to_string()
-        )
+        Err("本地子容器目前需要 bash、zsh 或 fish；不支持 PowerShell。".to_string())
     );
     assert_eq!(
         validate_local_harness_shell(None),
-        Err(
-            "Local child harnesses currently require a detected bash, zsh, or fish session."
-                .to_string()
-        )
+        Err("本地子容器目前需要检测到 bash、zsh 或 fish 会话。".to_string())
     );
 }
 

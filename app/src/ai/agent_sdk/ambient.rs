@@ -786,7 +786,7 @@ impl AmbientAgentRunner {
             // Title (wrapped, single cell)
             if !task.title.is_empty() {
                 let title_cell = crate::ai::agent_sdk::text_layout::render_labeled_wrapped_field(
-                    "Title",
+                    "标题",
                     &task.title,
                     MAX_LINE_WIDTH,
                 );

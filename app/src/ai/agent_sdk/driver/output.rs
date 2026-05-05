@@ -517,22 +517,19 @@ pub mod text {
 
     /// Report that the agent conversation has started. This debug ID can be reported to us for troubleshooting.
     pub fn conversation_started<W: Write>(conversation_id: &str, w: &mut W) -> io::Result<()> {
-        writeln!(
-            w,
-            "New conversation started with debug ID: {conversation_id}\n"
-        )
+        writeln!(w, "新对话已启动，调试 ID：{conversation_id}\n")
     }
 
     /// Report the run ID with a link to the Oz dashboard.
     pub fn run_started<W: Write>(run_id: &str, w: &mut W) -> io::Result<()> {
         let run_url = super::run_url(run_id);
-        writeln!(w, "Run ID: {run_id}")?;
-        writeln!(w, "Open in Oz: {run_url}\n")
+        writeln!(w, "运行 ID：{run_id}")?;
+        writeln!(w, "在 Oz 中打开：{run_url}\n")
     }
 
     /// Report that a shared session has been established.
     pub fn shared_session_established<W: Write>(join_url: &str, w: &mut W) -> io::Result<()> {
-        writeln!(w, "Sharing session at: {join_url}")
+        writeln!(w, "正在共享会话：{join_url}")
     }
 
     /// Format a list of query patterns.
@@ -553,7 +550,7 @@ pub mod text {
     ) -> io::Result<()> {
         writeln!(
             w,
-            "Created plan (title: {title}, id: {document_id}, notebook: {notebook_link})"
+            "已创建计划（标题：{title}，ID：{document_id}，笔记本：{notebook_link}）"
         )
     }
 }

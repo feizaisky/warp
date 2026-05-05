@@ -676,7 +676,7 @@ fn terminal_primary_line_falls_back_to_new_session() {
         None,
     );
 
-    assert_eq!(line.text(), "New session");
+    assert_eq!(line.text(), "新建会话");
     assert!(matches!(
         line,
         TerminalPrimaryLineData::Text {

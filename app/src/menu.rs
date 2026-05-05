@@ -637,9 +637,9 @@ impl<A: Action + Clone> MenuItemFields<A> {
 
     pub fn toggle_pane_action(is_maximized: bool) -> Self {
         Self::new(if is_maximized {
-            "Minimize pane"
+            "最小化窗格"
         } else {
-            "Maximize pane"
+            "最大化窗格"
         })
     }
 

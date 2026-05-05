@@ -40,17 +40,12 @@ impl std::fmt::Display for LoadAwsCredentialsError {
     }
 }
 
-fn aws_profile_reference_for_message(profile: &str, capitalize_first_word: bool) -> String {
+fn aws_profile_reference_for_message(profile: &str) -> String {
     let profile = profile.trim();
     if profile.is_empty() {
-        if capitalize_first_word {
-            "The default AWS profile".to_string()
-        } else {
-            "the default AWS profile".to_string()
-        }
+        "默认 AWS profile".to_string()
     } else {
-        let article = if capitalize_first_word { "The" } else { "the" };
-        format!("{article} AWS profile `{profile}`")
+        format!("AWS profile `{profile}`")
     }
 }
 
@@ -58,12 +53,12 @@ fn user_facing_aws_credentials_error_message(err: &CredentialsError, profile: &s
     match err {
         CredentialsError::CredentialsNotLoaded(_) => format!(
             "未找到 {} 的 AWS 凭据。请使用 AWS CLI 登录，或更新你的 AWS 凭据配置，然后刷新。",
-            aws_profile_reference_for_message(profile, false)
+            aws_profile_reference_for_message(profile)
         ),
         CredentialsError::ProviderTimedOut(_) => "加载 AWS 凭据超时。请刷新后重试。".to_string(),
         CredentialsError::InvalidConfiguration(_) => format!(
-            "本地 AWS 配置中的 {} 无效或不完整。请更新 AWS profile 设置和凭据，然后刷新。",
-            aws_profile_reference_for_message(profile, true)
+            "{} 在本地 AWS 配置中无效或不完整。请更新 AWS profile 设置和凭据，然后刷新。",
+            aws_profile_reference_for_message(profile)
         ),
         CredentialsError::ProviderError(_) => {
             "无法从配置的提供方加载 AWS 凭据。请刷新 AWS 登录后重试。".to_string()

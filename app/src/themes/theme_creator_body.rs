@@ -35,8 +35,7 @@ const BUTTON_FONT_SIZE: f32 = 14.;
 const BUTTON_BORDER_RADIUS: f32 = 4.;
 const BORDER_WIDTH: f32 = 1.;
 
-const MODAL_SUBHEADER: &str =
-    "根据图片（.png、.jpg）提取的颜色自动生成主题。";
+const MODAL_SUBHEADER: &str = "根据图片（.png、.jpg）提取的颜色自动生成主题。";
 const IMAGE_PICKER_BUTTON_PRE_SELECT_TEXT: &str = "选择图片";
 const IMAGE_PICKER_BUTTON_SELECTING_TEXT: &str = "选择图片中...";
 const IMAGE_PICKER_BUTTON_POST_SELECT_TEXT: &str = "选择新图片";
@@ -174,11 +173,7 @@ impl ThemeCreatorBody {
                 .and_then(|extension| extension.to_str());
 
             let Some(image_extension) = image_extension else {
-                self.send_error_toast(
-                    "处理所选图片失败。请尝试使用其他图片。"
-                        .to_string(),
-                    ctx,
-                );
+                self.send_error_toast("处理所选图片失败。请尝试使用其他图片。".to_string(), ctx);
                 return;
             };
 
@@ -211,7 +206,8 @@ impl ThemeCreatorBody {
             #[cfg(not(feature = "local_fs"))]
             log::warn!("Tried to save theme without a local filesystem.");
             if errored {
-                self.send_error_toast("出了点问题".to_string(), ctx);            }
+                self.send_error_toast("出了点问题".to_string(), ctx);
+            }
         }
     }
 
@@ -258,25 +254,23 @@ impl ThemeCreatorBody {
 
         ctx.spawn(
             InMemoryThemeOptions::new(file_stem_string.clone(), path.clone()),
-            move |theme_creator_body, theme_options, ctx| {
-                match theme_options {
-                    Ok(theme_options) => {
-                        AppearanceManager::handle(ctx).update(ctx, |appearance_manager, ctx| {
-                            appearance_manager.clear_transient_theme(ctx);
-                        });
+            move |theme_creator_body, theme_options, ctx| match theme_options {
+                Ok(theme_options) => {
+                    AppearanceManager::handle(ctx).update(ctx, |appearance_manager, ctx| {
+                        appearance_manager.clear_transient_theme(ctx);
+                    });
 
-                        theme_creator_body.theme_options = Some(theme_options);
-                        theme_creator_body.editor.update(ctx, |editor, ctx| {
-                            editor.set_buffer_text(&file_stem_string, ctx);
-                        });
-                        theme_creator_body.image_state = ThemeCreatorImageState::Uploaded;
-                    },
-                    Err(e) => {
-                        theme_creator_body.send_error_toast(
-                            format!("处理所选图片失败，错误：{e}。请尝试使用其他图片。"),
-                            ctx,
-                        );
-                    }
+                    theme_creator_body.theme_options = Some(theme_options);
+                    theme_creator_body.editor.update(ctx, |editor, ctx| {
+                        editor.set_buffer_text(&file_stem_string, ctx);
+                    });
+                    theme_creator_body.image_state = ThemeCreatorImageState::Uploaded;
+                }
+                Err(e) => {
+                    theme_creator_body.send_error_toast(
+                        format!("处理所选图片失败，错误：{e}。请尝试使用其他图片。"),
+                        ctx,
+                    );
                 }
             },
         );

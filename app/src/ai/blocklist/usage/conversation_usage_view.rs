@@ -133,20 +133,14 @@ impl ConversationUsageView {
         let mut values: Vec<Box<dyn Element>> = vec![];
 
         // Usage summary
-        labels.push(render_section_header(
-            "使用摘要".to_string(),
-            appearance,
-        ));
+        labels.push(render_section_header("使用摘要".to_string(), appearance));
         values.push(render_section_header("".to_string(), appearance));
 
         if self.display_mode == DisplayMode::Footer
             && self.usage_info.credits_spent_for_last_block.is_some()
         {
             let last_block_credits = self.usage_info.credits_spent_for_last_block.unwrap();
-            labels.push(render_label_text(
-                "已消耗额度（上次响应）",
-                appearance,
-            ));
+            labels.push(render_label_text("已消耗额度（上次响应）", appearance));
             values.push(render_value_text(
                 format_credits(last_block_credits),
                 appearance,
@@ -383,10 +377,7 @@ impl ConversationUsageView {
 
                     labels.push(render_label_text("首个 token 时间", appearance));
                     values.push(render_value_text(
-                        format!(
-                            "{:.1} 秒",
-                            timing.time_to_first_token_ms as f64 / 1000.0
-                        ),
+                        format!("{:.1} 秒", timing.time_to_first_token_ms as f64 / 1000.0),
                         appearance,
                     ));
 
@@ -401,10 +392,7 @@ impl ConversationUsageView {
 
                     if let Some(wall_ms) = timing.wall_to_wall_response_time_ms {
                         if wall_ms != 0 {
-                            labels.push(render_label_text(
-                                "总时间（含工具调用）",
-                                appearance,
-                            ));
+                            labels.push(render_label_text("总时间（含工具调用）", appearance));
                             values.push(render_value_text(
                                 format!("{:.1} 秒", wall_ms as f64 / 1000.0),
                                 appearance,

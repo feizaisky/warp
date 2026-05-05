@@ -133,11 +133,14 @@ fn test_retry_menu_item_visibility() {
         index.update(&mut app, |index, ctx| {
             let menu_items = index.menu_items(&Space::Personal, &warp_drive_item_id, ctx);
             assert_eq!(menu_items.len(), 5);
-            assert_eq!(label_for_menu_item(&menu_items[0]), "Edit");
-            assert_eq!(label_for_menu_item(&menu_items[1]), "Copy workflow text");
-            assert_eq!(label_for_menu_item(&menu_items[2]), "Share");
-            assert_eq!(label_for_menu_item(&menu_items[3]), "Duplicate");
-            assert_eq!(label_for_menu_item(&menu_items[4]), "Export");
+            assert_eq!(label_for_menu_item(&menu_items[0]), "编辑 (Edit)");
+            assert_eq!(
+                label_for_menu_item(&menu_items[1]),
+                "复制工作流文本 (Copy workflow text)"
+            );
+            assert_eq!(label_for_menu_item(&menu_items[2]), "分享 (Share)");
+            assert_eq!(label_for_menu_item(&menu_items[3]), "复制 (Duplicate)");
+            assert_eq!(label_for_menu_item(&menu_items[4]), "导出 (Export)");
         });
 
         // when the object is in error, it should show up
@@ -145,12 +148,15 @@ fn test_retry_menu_item_visibility() {
         index.update(&mut app, |index, ctx| {
             let menu_items = index.menu_items(&Space::Personal, &warp_drive_item_id, ctx);
             assert_eq!(menu_items.len(), 6);
-            assert_eq!(label_for_menu_item(&menu_items[0]), "Retry");
-            assert_eq!(label_for_menu_item(&menu_items[1]), "Edit");
-            assert_eq!(label_for_menu_item(&menu_items[2]), "Copy workflow text");
-            assert_eq!(label_for_menu_item(&menu_items[3]), "Share");
-            assert_eq!(label_for_menu_item(&menu_items[4]), "Duplicate");
-            assert_eq!(label_for_menu_item(&menu_items[5]), "Export");
+            assert_eq!(label_for_menu_item(&menu_items[0]), "重试 (Retry)");
+            assert_eq!(label_for_menu_item(&menu_items[1]), "编辑 (Edit)");
+            assert_eq!(
+                label_for_menu_item(&menu_items[2]),
+                "复制工作流文本 (Copy workflow text)"
+            );
+            assert_eq!(label_for_menu_item(&menu_items[3]), "分享 (Share)");
+            assert_eq!(label_for_menu_item(&menu_items[4]), "复制 (Duplicate)");
+            assert_eq!(label_for_menu_item(&menu_items[5]), "导出 (Export)");
         });
 
         // but if we're offline, it shouldn't show up
@@ -160,11 +166,14 @@ fn test_retry_menu_item_visibility() {
         index.update(&mut app, |index, ctx| {
             let menu_items = index.menu_items(&Space::Personal, &warp_drive_item_id, ctx);
             assert_eq!(menu_items.len(), 5);
-            assert_eq!(label_for_menu_item(&menu_items[0]), "Edit");
-            assert_eq!(label_for_menu_item(&menu_items[1]), "Copy workflow text");
-            assert_eq!(label_for_menu_item(&menu_items[2]), "Share");
-            assert_eq!(label_for_menu_item(&menu_items[3]), "Duplicate");
-            assert_eq!(label_for_menu_item(&menu_items[4]), "Export");
+            assert_eq!(label_for_menu_item(&menu_items[0]), "编辑 (Edit)");
+            assert_eq!(
+                label_for_menu_item(&menu_items[1]),
+                "复制工作流文本 (Copy workflow text)"
+            );
+            assert_eq!(label_for_menu_item(&menu_items[2]), "分享 (Share)");
+            assert_eq!(label_for_menu_item(&menu_items[3]), "复制 (Duplicate)");
+            assert_eq!(label_for_menu_item(&menu_items[4]), "导出 (Export)");
         });
     })
 }

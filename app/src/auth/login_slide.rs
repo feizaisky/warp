@@ -162,7 +162,7 @@ const AI_FEATURE_LABELS: &[&str] = &[
     "通过 Claude Code、Codex 和其他 Agent 远程控制",
     "通过 SSH 使用 Agent",
 ];
-const WARP_DRIVE_FEATURE_LABELS: &[&str] = &["Warp Drive", "会话共享"];
+const WARP_DRIVE_FEATURE_LABELS: &[&str] = &["Warp 云盘", "会话共享"];
 
 pub struct LoginSlideView {
     /// Whether AI will be enabled once onboarding is applied. Used to hide the
@@ -943,7 +943,7 @@ impl LoginSlideView {
             .finish();
 
         let body_text_str = if is_terminal {
-            "Warp Drive 可让您跨设备保存工作流和知识，并与团队共享。继续后，您将无法使用以下功能："
+            "Warp 云盘可让您跨设备保存工作流和知识，并与团队共享。继续后，您将无法使用以下功能："
         } else {
             "Warp 搭配 AI 使用体验更佳。继续后，您将无法使用以下功能："
         };

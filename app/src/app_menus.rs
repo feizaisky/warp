@@ -38,13 +38,10 @@ use warpui::{AppContext, SingletonEntity};
 
 type CheckmarkStatusGetter = dyn 'static + Fn(&mut AppContext) -> bool;
 
-const ENABLE_SHELL_DEBUG_MODE_MENU_ITEM_NAME: &str =
-    "为新会话启用 Shell 调试模式 (-x)";
-const DISABLE_SHELL_DEBUG_MODE_MENU_ITEM_NAME: &str =
-    "为新会话禁用 Shell 调试模式 (-x)";
+const ENABLE_SHELL_DEBUG_MODE_MENU_ITEM_NAME: &str = "为新会话启用 Shell 调试模式 (-x)";
+const DISABLE_SHELL_DEBUG_MODE_MENU_ITEM_NAME: &str = "为新会话禁用 Shell 调试模式 (-x)";
 const ENABLE_IN_BAND_GENERATORS_MENU_ITEM_NAME: &str = "为新会话启用内联生成器";
-const DISABLE_IN_BAND_GENERATORS_MENU_ITEM_NAME: &str =
-    "为新会话禁用内联生成器";
+const DISABLE_IN_BAND_GENERATORS_MENU_ITEM_NAME: &str = "为新会话禁用内联生成器";
 const ENABLE_PTY_RECORDING: &str = "启用 PTY 录制模式 (warp.pty.recording)";
 const DISABLE_PTY_RECORDING: &str = "禁用 PTY 录制模式 (warp.pty.recording)";
 const SHOW_BOOTSTRAP_BLOCK_MENU_ITEM_NAME: &str = "显示初始化块";
@@ -53,8 +50,7 @@ const SHOW_IN_BAND_COMMAND_BLOCKS_MENU_ITEM_NAME: &str = "显示内联命令块"
 const HIDE_IN_BAND_COMMAND_BLOCKS_MENU_ITEM_NAME: &str = "隐藏内联命令块";
 const SHOW_SSH_COMMAND_BLOCKS_MENU_ITEM_NAME: &str = "显示 Warp 化 SSH 块";
 const HIDE_SSH_COMMAND_BLOCKS_MENU_ITEM_NAME: &str = "隐藏 Warp 化 SSH 块";
-const EXPORT_DEFAULT_SETTINGS_CSV_MENU_ITEM_NAME: &str =
-    "将默认设置导出为 CSV 到主目录";
+const EXPORT_DEFAULT_SETTINGS_CSV_MENU_ITEM_NAME: &str = "将默认设置导出为 CSV 到主目录";
 
 const SETTINGS_CSV_FILE_NAME: &str = "warp_default_settings.csv";
 const MAX_RECENT_REPOS_IN_MENU: usize = 10;

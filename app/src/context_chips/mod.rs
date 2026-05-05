@@ -189,7 +189,7 @@ impl ContextChipKind {
     pub fn to_chip(&self) -> Option<ContextChip> {
         match self {
             Self::WorkingDirectory => Some(ContextChip::builtin_with_runtime_policy(
-                "Working Directory",
+                "工作目录",
                 builtins::working_directory,
                 RefreshConfig::OnDemandOnly,
                 ChipRuntimePolicy::new(
@@ -203,7 +203,7 @@ impl ContextChipKind {
                 ),
             )),
             Self::Username => Some(ContextChip::builtin_with_runtime_policy(
-                "User",
+                "用户",
                 builtins::username,
                 RefreshConfig::OnDemandOnly,
                 ChipRuntimePolicy::new(
@@ -214,7 +214,7 @@ impl ContextChipKind {
                 ),
             )),
             Self::Hostname => Some(ContextChip::builtin_with_runtime_policy(
-                "Host",
+                "主机",
                 builtins::hostname,
                 RefreshConfig::OnDemandOnly,
                 ChipRuntimePolicy::new(
@@ -225,7 +225,7 @@ impl ContextChipKind {
                 ),
             )),
             Self::VirtualEnvironment => Some(ContextChip::builtin_with_runtime_policy(
-                "Python Virtualenv",
+                "Python 虚拟环境",
                 builtins::virtual_environment,
                 RefreshConfig::OnDemandOnly,
                 ChipRuntimePolicy::new(
@@ -239,7 +239,7 @@ impl ContextChipKind {
                 ),
             )),
             Self::CondaEnvironment => Some(ContextChip::builtin_with_runtime_policy(
-                "Conda Environment",
+                "Conda 环境",
                 builtins::conda_environment,
                 RefreshConfig::OnDemandOnly,
                 ChipRuntimePolicy::new(
@@ -253,7 +253,7 @@ impl ContextChipKind {
                 ),
             )),
             Self::NodeVersion => Some(ContextChip::builtin_with_runtime_policy(
-                "Node.js Version",
+                "Node.js 版本",
                 builtins::node_version,
                 RefreshConfig::OnDemandOnly,
                 ChipRuntimePolicy::new(
@@ -267,17 +267,17 @@ impl ContextChipKind {
                 ),
             )),
             Self::Date => Some(ContextChip::builtin(
-                "Date",
+                "日期",
                 builtins::date,
                 DATE_REFRESH_CONFIG,
             )),
             Self::Time12 => Some(ContextChip::builtin(
-                "Time (12-hour format)",
+                "时间（12 小时制）",
                 builtins::time12,
                 TIME_REFRESH_CONFIG,
             )),
             Self::Time24 => Some(ContextChip::builtin(
-                "Time (24-hour format)",
+                "时间（24 小时制）",
                 builtins::time24,
                 TIME_REFRESH_CONFIG,
             )),
@@ -286,14 +286,14 @@ impl ContextChipKind {
                 None
             }
             Self::ShellGitBranch => Some(ContextChip::shell_builtin(
-                "Git Branch",
+                "Git 分支",
                 builtins::shell_git_branch(),
                 Some(builtins::shell_other_git_branches()),
                 GIT_REFRESH_CONFIG,
             )),
             Self::GitDiffStats => Some(
                 ContextChip::shell_builtin(
-                    "Git Diff Stats",
+                    "Git 差异统计",
                     builtins::shell_git_line_changes(),
                     None,
                     GIT_REFRESH_CONFIG,
@@ -318,7 +318,7 @@ impl ContextChipKind {
                 .with_suppress_on_failure()
                 .with_invalidate_on_commands(["git", "gh", "gt"]);
                 Some(ContextChip::shell_builtin_with_runtime_policy(
-                    "GitHub Pull Request",
+                    "GitHub 拉取请求",
                     generator,
                     None,
                     GIT_REFRESH_CONFIG,
@@ -326,35 +326,35 @@ impl ContextChipKind {
                 ))
             }
             Self::KubernetesContext => Some(ContextChip::shell_builtin(
-                "Kubernetes Context",
+                "Kubernetes 上下文",
                 builtins::kubernetes_current_context(),
                 None,
                 RefreshConfig::OnDemandOnly,
             )),
             Self::SvnBranch => Some(ContextChip::shell_builtin(
-                "Svn Branch",
+                "SVN 分支",
                 builtins::svn_branch_context(),
                 None,
                 RefreshConfig::OnDemandOnly,
             )),
             Self::SvnDirtyItems => Some(ContextChip::shell_builtin(
-                "Svn Uncommited File Count",
+                "SVN 未提交文件数",
                 builtins::svn_dirty_items(),
                 None,
                 RefreshConfig::OnDemandOnly,
             )),
             Self::Ssh => Some(ContextChip::builtin(
-                "Remote Login",
+                "远程登录",
                 builtins::ssh_session,
                 RefreshConfig::OnDemandOnly,
             )),
             Self::Subshell => Some(ContextChip::builtin(
-                "subshell",
+                "子 shell",
                 builtins::subshell,
                 RefreshConfig::OnDemandOnly,
             )),
             Self::AgentPlanAndTodoList => Some(ContextChip::builtin(
-                "Agent Plan and Todo List",
+                "智能体计划和待办列表",
                 |_| Some(ChipValue::Text(String::new())),
                 RefreshConfig::OnDemandOnly,
             )),

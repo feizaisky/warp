@@ -1013,9 +1013,7 @@ impl FailedToJoinReason {
     pub fn user_facing_error_message(&self) -> &str {
         match self {
             FailedToJoinReason::Unknown => "加入共享会话失败。",
-            FailedToJoinReason::FailedToConnectToServer => {
-                "连接失败，请稍后重试。"
-            }
+            FailedToJoinReason::FailedToConnectToServer => "连接失败，请稍后重试。",
             FailedToJoinReason::SessionNotFound => "未找到共享会话。",
             FailedToJoinReason::WrongPassword => "共享会话链接无效。",
             FailedToJoinReason::MaxNumberOfParticipantsReached => {
@@ -1045,9 +1043,7 @@ pub fn session_ended_reason_string(reason: &SessionEndedReason) -> String {
         SessionEndedReason::InternalServerError => {
             "出现错误，请要求分享者重新共享以继续。".to_owned()
         }
-        SessionEndedReason::InactivityLimitReached => {
-            "因分享者长时间无操作，共享已结束".to_owned()
-        }
+        SessionEndedReason::InactivityLimitReached => "因分享者长时间无操作，共享已结束".to_owned(),
         _ => "会话已结束。".to_owned(),
     }
 }
@@ -1055,8 +1051,7 @@ pub fn session_ended_reason_string(reason: &SessionEndedReason) -> String {
 pub fn viewer_removed_reason_string(reason: &ViewerRemovedReason) -> String {
     match reason {
         ViewerRemovedReason::LostAccess => {
-            "您的会话访问权限已被移除，请要求分享者重新共享以继续。"
-                .to_owned()
+            "您的会话访问权限已被移除，请要求分享者重新共享以继续。".to_owned()
         }
     }
 }
@@ -1074,9 +1069,7 @@ pub fn command_execution_failure_reason_string(reason: &CommandExecutionFailureR
 /// Converts WriteToPtyFailureReason to a user-facing string
 pub fn write_to_pty_failure_reason_string(reason: &WriteToPtyFailureReason) -> String {
     match reason {
-        WriteToPtyFailureReason::InsufficientPermissions => {
-            "权限不足，请申请编辑权限。".to_owned()
-        }
+        WriteToPtyFailureReason::InsufficientPermissions => "权限不足，请申请编辑权限。".to_owned(),
         _ => "编辑失败，请重试。".to_owned(),
     }
 }
@@ -1087,9 +1080,7 @@ pub fn agent_prompt_failure_reason_string(reason: &AgentPromptFailureReason) -> 
         AgentPromptFailureReason::InsufficientPermissions => {
             "权限不足，请申请编辑权限。".to_owned()
         }
-        AgentPromptFailureReason::InvalidConversation => {
-            "对话无效，请重试。".to_owned()
-        }
+        AgentPromptFailureReason::InvalidConversation => "对话无效，请重试。".to_owned(),
         AgentPromptFailureReason::CommandInProgress => {
             "当前有长时命令正在运行，请等待其完成后再发送智能体提示词。".to_owned()
         }

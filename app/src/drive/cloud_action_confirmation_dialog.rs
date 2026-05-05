@@ -28,7 +28,8 @@ const CANCEL_TEXT: &str = "取消";
 const DELETE_TEAM_TITLE_TEXT: &str = "确定要删除此团队吗？";
 const LEAVE_TEAM_TITLE_TEXT: &str = "确定要退出此团队吗？";
 
-const DELETE_TEAM_BODY_TEXT: &str = "删除此团队将永久删除该团队及其所有相关内容，包括计费信息或点数，且无法恢复。";
+const DELETE_TEAM_BODY_TEXT: &str =
+    "删除此团队将永久删除该团队及其所有相关内容，包括计费信息或点数，且无法恢复。";
 const LEAVE_TEAM_BODY_TEXT: &str = "您需要重新受邀才能再次加入。";
 
 const DELETE_TEAM_CONFIRM_TEXT: &str = "确认删除";

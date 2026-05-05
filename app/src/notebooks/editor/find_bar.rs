@@ -555,9 +555,9 @@ impl TypedActionView for FindBar {
                     "Disable case-sensitive search"
                 }
             }
-            FindBarAction::FocusNextMatch => "Focus next match",
-            FindBarAction::FocusPreviousMatch => "Focus previous match",
-            FindBarAction::Close => "Close find bar",
+            FindBarAction::FocusNextMatch => "聚焦下一个匹配项",
+            FindBarAction::FocusPreviousMatch => "聚焦上一个匹配项",
+            FindBarAction::Close => "关闭查找栏",
         };
         Some(AccessibilityContent::new_without_help(
             text,

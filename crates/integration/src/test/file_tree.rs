@@ -111,7 +111,7 @@ pub fn test_file_tree_open_in_new_pane() -> Builder {
                 "Right-click on sample.md and select 'Open in new pane'",
             )
             .with_right_click_on_saved_position("file_tree_item:sample.md")
-            .with_click_on_saved_position("Open in new pane"),
+            .with_click_on_saved_position("在新面板中打开"),
         )
         .with_step(
             new_step_with_default_assertions("Verify file opened in new pane")
@@ -150,7 +150,7 @@ pub fn test_file_tree_open_in_new_tab() -> Builder {
         .with_step(
             TestStep::new("Right-click on config.json and select 'Open in new tab'")
                 .with_right_click_on_saved_position("file_tree_item:config.json")
-                .with_click_on_saved_position("Open in new tab"),
+                .with_click_on_saved_position("在新标签页中打开"),
         )
         .with_step(
             TestStep::new("Verify file opened in new tab")

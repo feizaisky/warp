@@ -27,8 +27,8 @@ use crate::{
 const LABEL_FONT_SIZE: f32 = 12.;
 const METADATA_SPACING: f32 = 8.;
 const LAST_ROW_ELEMENT_SPACING: f32 = 2.;
-const TITLE_LABEL_TEXT: &str = "Title";
-const DESCRIPTION_LABEL_TEXT: &str = "Description";
+const TITLE_LABEL_TEXT: &str = "标题";
+const DESCRIPTION_LABEL_TEXT: &str = "描述";
 
 const VERTICAL_TEXT_INPUT_PADDING: f32 = 5.;
 const HORIZONTAL_TEXT_INPUT_PADDING: f32 = 10.;

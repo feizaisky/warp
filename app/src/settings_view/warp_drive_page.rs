@@ -218,7 +218,7 @@ impl SettingsWidget for WarpDriveToggleWidget {
                 .is_anonymous_or_logged_out();
 
         render_body_item::<WarpDriveSettingsPageAction>(
-            "Warp Drive".into(),
+            "Warp 云盘".into(),
             Some(AdditionalInfo {
                 mouse_state: self.info_icon_mouse_state.clone(),
                 on_click_action: Some(WarpDriveSettingsPageAction::OpenUrl(
@@ -248,7 +248,7 @@ impl SettingsWidget for WarpDriveToggleWidget {
                     }
                 })
                 .finish(),
-            Some("Warp Drive 是终端中的工作区，可用于保存工作流、笔记本、提示词和环境变量，支持个人使用或与团队共享。".into()),
+            Some("Warp 云盘是终端中的工作区，可用于保存工作流、笔记本、提示词和环境变量，支持个人使用或与团队共享。".into()),
         )
     }
 }

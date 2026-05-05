@@ -296,15 +296,15 @@ impl ProjectSlide {
         let (label, keystroke, action) = match settings {
             ProjectOnboardingSettings::Project { .. } => (
                 if theme_picker_last {
-                    "Next"
+                    "下一步"
                 } else {
-                    "Get Warping"
+                    "开始使用 Warp"
                 },
                 Keystroke::parse("enter").unwrap_or_default(),
                 ProjectSlideAction::NextClicked,
             ),
             ProjectOnboardingSettings::NoProject => (
-                "Skip",
+                "跳过",
                 Keystroke::parse("cmdorctrl-enter").unwrap_or_default(),
                 ProjectSlideAction::SkipClicked,
             ),

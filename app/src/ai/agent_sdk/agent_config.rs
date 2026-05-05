@@ -258,7 +258,7 @@ impl AgentConfigRunner {
                 // Description
                 if !variant.description.is_empty() {
                     let description_cell = super::text_layout::render_labeled_wrapped_field(
-                        "Description",
+                        "描述",
                         &variant.description,
                         MAX_LINE_WIDTH,
                     );

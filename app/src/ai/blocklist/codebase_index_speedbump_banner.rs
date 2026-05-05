@@ -18,7 +18,8 @@ use warpui::{
 };
 
 const SPEEDBUMP_HEADER: &str = "索引代码库？";
-const SPEEDBUMP_TEXT: &str = "索引可帮助智能体快速理解上下文并提供有针对性的解决方案。代码不会存储在服务器上。";
+const SPEEDBUMP_TEXT: &str =
+    "索引可帮助智能体快速理解上下文并提供有针对性的解决方案。代码不会存储在服务器上。";
 /// Uniform padding around the banner
 const PADDING: f32 = 12.;
 /// Text for the button that allows execution

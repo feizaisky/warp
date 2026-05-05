@@ -754,17 +754,16 @@ impl CategoriesView {
     }
 
     fn render_empty_list_placeholder(&self, appearance: &Appearance) -> Box<dyn Element> {
-        let no_workflows_text =
-            CategoriesView::text_label("No matching workflows found.", appearance);
+        let no_workflows_text = CategoriesView::text_label("未找到匹配的工作流。", appearance);
 
         let mut workflow_documentation_link_text =
-            Flex::row().with_child(CategoriesView::text_label("Try ", appearance));
+            Flex::row().with_child(CategoriesView::text_label("尝试 ", appearance));
 
         workflow_documentation_link_text.add_child(
             appearance
                 .ui_builder()
                 .link(
-                    "creating your own workflow".into(),
+                    "创建自己的工作流".into(),
                     Some(
                         "https://docs.warp.dev/knowledge-and-collaboration/warp-drive/workflows"
                             .into(),

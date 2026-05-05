@@ -62,7 +62,7 @@ pub fn classify_driver_error(error: &AgentDriverError) -> (AgentTaskState, TaskS
         AgentDriverError::WarpDriveSyncFailed => (
             AgentTaskState::Error,
             TaskStatusUpdate::with_error_code(
-                "Warp Drive 同步失败。请检查网络连接后重试。",
+                "Warp 云盘同步失败。请检查网络连接后重试。",
                 PlatformErrorCode::InternalError,
             ),
         ),

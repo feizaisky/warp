@@ -679,10 +679,7 @@ impl CodeEditorView {
                         Ok(n) => Some(n),
                         Err(_) => {
                             self.goto_line_dialog.update(ctx, |dialog, ctx| {
-                                dialog.set_error(
-                                    "请输入有效的列号".to_string(),
-                                    ctx,
-                                );
+                                dialog.set_error("请输入有效的列号".to_string(), ctx);
                             });
                             return;
                         }

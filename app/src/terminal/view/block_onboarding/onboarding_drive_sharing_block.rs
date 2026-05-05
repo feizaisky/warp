@@ -51,10 +51,10 @@ impl Entity for OnboardingDriveSharingBlock {
     type Event = ();
 }
 
-const TITLE_TEXT: &str = "Sharing in Warp Drive";
+const TITLE_TEXT: &str = "在 Warp Drive 中共享";
 const BODY_TEXT: &[&str] = &[
-    "You can now share drive objects, in Warp or on the web, with anyone - Warp user or not. Click Share in the Warp Drive menu or the pane header to share via link or email.",
-    "You’ll be able to modify the access permissions any time.",
+    "现在你可以在 Warp 或网页端与任何人共享 Drive 对象，无论对方是否是 Warp 用户。点击 Warp Drive 菜单或窗格标题栏中的共享，即可通过链接或邮件共享。",
+    "你随时都可以修改访问权限。",
 ];
 
 const BLOCK_PADDING: f32 = 16.;

@@ -564,9 +564,11 @@ impl AgentManagementView {
         }
 
         let mut items = vec![MenuItem::Item(
-            MenuItemFields::new("全部").with_on_select_action(DropdownAction::SelectActionAndClose(
-                AgentManagementViewAction::SetSourceFilter(SourceFilter::All),
-            )),
+            MenuItemFields::new("全部").with_on_select_action(
+                DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetSourceFilter(
+                    SourceFilter::All,
+                )),
+            ),
         )];
         for source in sources {
             items.push(MenuItem::Item(
@@ -605,21 +607,27 @@ impl AgentManagementView {
                     AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::All),
                 ),
             )),
-            MenuItem::Item(MenuItemFields::new("过去 24 小时 (Last 24 hours)").with_on_select_action(
-                DropdownAction::SelectActionAndClose(
-                    AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::Last24Hours),
+            MenuItem::Item(
+                MenuItemFields::new("过去 24 小时 (Last 24 hours)").with_on_select_action(
+                    DropdownAction::SelectActionAndClose(
+                        AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::Last24Hours),
+                    ),
                 ),
-            )),
-            MenuItem::Item(MenuItemFields::new("最近 3 天 (Past 3 days)").with_on_select_action(
-                DropdownAction::SelectActionAndClose(
-                    AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::Past3Days),
+            ),
+            MenuItem::Item(
+                MenuItemFields::new("最近 3 天 (Past 3 days)").with_on_select_action(
+                    DropdownAction::SelectActionAndClose(
+                        AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::Past3Days),
+                    ),
                 ),
-            )),
-            MenuItem::Item(MenuItemFields::new("上周 (Last week)").with_on_select_action(
-                DropdownAction::SelectActionAndClose(
-                    AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::LastWeek),
+            ),
+            MenuItem::Item(
+                MenuItemFields::new("上周 (Last week)").with_on_select_action(
+                    DropdownAction::SelectActionAndClose(
+                        AgentManagementViewAction::SetCreatedOnFilter(CreatedOnFilter::LastWeek),
+                    ),
                 ),
-            )),
+            ),
         ];
 
         dropdown.set_rich_items(items, ctx);
@@ -639,21 +647,25 @@ impl AgentManagementView {
                     ArtifactFilter::All,
                 )),
             )),
-            MenuItem::Item(MenuItemFields::new("拉取请求 (Pull Request)").with_on_select_action(
-                DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetArtifactFilter(
-                    ArtifactFilter::PullRequest,
-                )),
-            )),
+            MenuItem::Item(
+                MenuItemFields::new("拉取请求 (Pull Request)").with_on_select_action(
+                    DropdownAction::SelectActionAndClose(
+                        AgentManagementViewAction::SetArtifactFilter(ArtifactFilter::PullRequest),
+                    ),
+                ),
+            ),
             MenuItem::Item(MenuItemFields::new("计划 (Plan)").with_on_select_action(
                 DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetArtifactFilter(
                     ArtifactFilter::Plan,
                 )),
             )),
-            MenuItem::Item(MenuItemFields::new("截图 (Screenshot)").with_on_select_action(
-                DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetArtifactFilter(
-                    ArtifactFilter::Screenshot,
-                )),
-            )),
+            MenuItem::Item(
+                MenuItemFields::new("截图 (Screenshot)").with_on_select_action(
+                    DropdownAction::SelectActionAndClose(
+                        AgentManagementViewAction::SetArtifactFilter(ArtifactFilter::Screenshot),
+                    ),
+                ),
+            ),
             MenuItem::Item(MenuItemFields::new("文件 (File)").with_on_select_action(
                 DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetArtifactFilter(
                     ArtifactFilter::File,
@@ -674,9 +686,11 @@ impl AgentManagementView {
 
         // "All" has no leading icon, matching the Status dropdown's "All" row.
         let mut items = vec![MenuItem::Item(
-            MenuItemFields::new("全部").with_on_select_action(DropdownAction::SelectActionAndClose(
-                AgentManagementViewAction::SetHarnessFilter(HarnessFilter::All),
-            )),
+            MenuItemFields::new("全部").with_on_select_action(
+                DropdownAction::SelectActionAndClose(AgentManagementViewAction::SetHarnessFilter(
+                    HarnessFilter::All,
+                )),
+            ),
         )];
 
         for harness in [Harness::Oz, Harness::Claude, Harness::Gemini] {
@@ -1193,7 +1207,9 @@ impl AgentManagementView {
 
                 let window_id = ctx.window_id();
                 ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
-                    let toast = DismissibleToast::default("已复制分支名称 (Copied branch name)".to_string());
+                    let toast = DismissibleToast::default(
+                        "已复制分支名称 (Copied branch name)".to_string(),
+                    );
                     toast_stack.add_ephemeral_toast(toast, window_id, ctx);
                 });
             }
@@ -1815,11 +1831,11 @@ impl AgentManagementView {
         }
 
         if let Some(run_time) = card_data.run_time() {
-            metadata_parts.push(format!("Run time: {run_time}"));
+            metadata_parts.push(format!("运行时间：{run_time}"));
         }
 
         if let Some(usage) = card_data.display_request_usage(app) {
-            metadata_parts.push(format!("Credits used: {usage}"));
+            metadata_parts.push(format!("已用点数：{usage}"));
         }
 
         let metadata_text = metadata_parts.join(" • ");

@@ -511,8 +511,8 @@ pub fn test_open_and_close_settings() -> Builder {
             new_step_with_default_assertions("Open settings tab")
                 .with_keystrokes(&["cmdorctrl-,"])
                 .add_assertion(assert_tab_count(2))
-                .add_assertion(assert_tab_title(1, "Settings"))
-                .add_assertion(assert_pane_title(1, 0, "Settings"))
+                .add_assertion(assert_tab_title(1, "设置"))
+                .add_assertion(assert_pane_title(1, 0, "设置"))
                 .add_assertion(move |app, window_id| {
                     let settings_views: Vec<ViewHandle<SettingsView>> = app
                         .views_of_type(window_id)
@@ -1684,7 +1684,7 @@ pub fn test_open_context_menu_and_execute_command() -> Builder {
         )
         .with_step(
             new_step_with_default_assertions("Select context menu action")
-                .with_click_on_saved_position("Copy command")
+                .with_click_on_saved_position("复制命令")
                 .add_assertion(assert_clipboard_contains_string("ls".into())),
         )
 }
@@ -5750,7 +5750,7 @@ pub fn test_copy_prompt_from_block_honor_ps1_disabled() -> Builder {
         .with_steps(open_context_menu_for_selected_block())
         .with_step(
             new_step_with_default_assertions("Copy prompt copies to clipboard properly")
-                .with_click_on_saved_position("Copy prompt")
+                .with_click_on_saved_position("复制提示词")
                 .add_assertion(assert_clipboard_contains_string("~".into())),
         )
 }
@@ -5820,7 +5820,7 @@ function prompt {{
                     let input = single_input_view_for_tab(app, window_id, 0);
                     format!("prompt_area_{}", input.id())
                 })
-                .with_click_on_saved_position("Copy prompt")
+                .with_click_on_saved_position("复制提示词")
                 .add_assertion(assert_clipboard_contains_string(String::from(prompt_text))),
         )
 }
@@ -5842,7 +5842,7 @@ pub fn test_copy_prompt_from_input_honor_ps1_disabled() -> Builder {
                     let input = single_input_view_for_tab(app, window_id, 0);
                     format!("prompt_area_{}", input.id())
                 })
-                .with_click_on_saved_position("Copy prompt")
+                .with_click_on_saved_position("复制提示词")
                 .add_assertion(assert_clipboard_contains_string("~".into())),
         )
 }
@@ -5899,7 +5899,7 @@ function prompt {{
                     let input = single_input_view_for_tab(app, window_id, 0);
                     format!("prompt_area_{}", input.id())
                 })
-                .with_click_on_saved_position("Copy prompt")
+                .with_click_on_saved_position("复制提示词")
                 .add_assertion(assert_clipboard_contains_string(String::from(prompt_text))),
         )
 }

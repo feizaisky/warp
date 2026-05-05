@@ -255,14 +255,14 @@ impl From<&TeamsPageAction> for LoginGatedFeature {
     fn from(val: &TeamsPageAction) -> LoginGatedFeature {
         use TeamsPageAction::*;
         match val {
-            LeaveTeam => "Leave Team",
-            ShowDeleteTeamConfirmationDialog => "Delete Team",
-            CreateTeam => "Create Team",
-            DeletePendingEmailInvitation { .. } => "Delete Pending Email Invitation",
-            RemoveUserFromTeam { .. } => "Remove User From Team",
-            AddDomainRestrictions { .. } => "Add Domain Restrictions",
-            DeleteDomainRestriction { .. } => "Delete Domain Restriction",
-            SendEmailInvites { .. } => "Send Email Invites",
+            LeaveTeam => "离开团队",
+            ShowDeleteTeamConfirmationDialog => "删除团队",
+            CreateTeam => "创建团队",
+            DeletePendingEmailInvitation { .. } => "删除待处理邮件邀请",
+            RemoveUserFromTeam { .. } => "从团队移除用户",
+            AddDomainRestrictions { .. } => "添加域名限制",
+            DeleteDomainRestriction { .. } => "删除域名限制",
+            SendEmailInvites { .. } => "发送邮件邀请",
             GenerateUpgradeLink { .. } => "Generate Upgrade Link",
             GenerateStripeBillingPortalLink { .. } => "Generate Stripe Billing Portal Link",
             OpenAdminPanel { .. } => "Open Admin Panel",

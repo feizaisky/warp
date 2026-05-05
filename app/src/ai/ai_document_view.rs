@@ -374,7 +374,9 @@ impl AIDocumentView {
         let save_action = keybinding_name_to_keystroke(SAVE_FILE_BINDING_NAME, ctx)
             .map(|k| k.displayed())
             .unwrap_or("Click".to_string());
-        let tooltip_text = format!("此计划有智能体尚未了解的更改。{save_action} 以停止智能体当前任务并发送更新后的计划");
+        let tooltip_text = format!(
+            "此计划有智能体尚未了解的更改。{save_action} 以停止智能体当前任务并发送更新后的计划"
+        );
         let update_plan_button = ctx.add_typed_action_view(|_ctx| {
             ActionButton::new("更新智能体", PrimaryTheme)
                 .with_size(ButtonSize::Small)
@@ -966,12 +968,12 @@ impl AIDocumentView {
         let title = AIDocumentModel::as_ref(ctx)
             .get_current_document(&self.document_id)
             .map(|doc| doc.title.clone())
-            .unwrap_or_else(|| "Untitled".to_string());
+            .unwrap_or_else(|| "未命名".to_string());
 
         // Sanitize the title for use as a filename
         let sanitized_title = safe_filename(&title);
         let filename = if sanitized_title.is_empty() {
-            "Untitled.md".to_string()
+            "未命名.md".to_string()
         } else {
             format!("{sanitized_title}.md")
         };

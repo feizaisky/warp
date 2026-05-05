@@ -67,24 +67,21 @@ static STATIC_RULES: &[StaticPromptSuggestion] = &[
         name: "GIT_CHECKOUT_NEW_BRANCH",
         pattern: r"^git\s+checkout\s+-b\s+(\S+)\s*$",
         label_template: Some("为 {1} 编写功能或修复 bug"),
-        query_template:
-            "在 {1} 中实现一个功能或修复一个 bug。向我询问所需的所有细节。",
+        query_template: "在 {1} 中实现一个功能或修复一个 bug。向我询问所需的所有细节。",
     },
     // git clone <repo>: Clones a repository named <repo>.
     StaticPromptSuggestion {
         name: "GIT_CLONE",
         pattern: r"^git\s+clone\s+(\S+)\s*$",
         label_template: Some("帮我为 {1} 编写功能或修复 bug"),
-        query_template:
-            "在 {1} 中实现一个功能或修复一个 bug。向我询问所需的所有细节。",
+        query_template: "在 {1} 中实现一个功能或修复一个 bug。向我询问所需的所有细节。",
     },
     // git switch -c <branch>: Creates and switches to a new branch named <branch>.
     StaticPromptSuggestion {
         name: "GIT_SWITCH_NEW_BRANCH",
         pattern: r"^git\s+switch\s+-c\s+(\S+)\s*$",
         label_template: Some("为 {1} 编写功能或修复 bug"),
-        query_template:
-            "在 {1} 中实现一个功能或修复一个 bug。向我询问所需的所有细节。",
+        query_template: "在 {1} 中实现一个功能或修复一个 bug。向我询问所需的所有细节。",
     },
     // git push: Pushes changes to a remote repository.
     StaticPromptSuggestion {
@@ -112,40 +109,35 @@ static STATIC_RULES: &[StaticPromptSuggestion] = &[
         name: "NPX_CREATE_REACT_APP",
         pattern: r"^npx\s+create-react-app\s+(\S+)\s*$",
         label_template: Some("帮我创建一个新的 React 应用"),
-        query_template:
-            "帮我创建一个名为 {1} 的新 React 应用。向我询问所需的所有细节。",
+        query_template: "帮我创建一个名为 {1} 的新 React 应用。向我询问所需的所有细节。",
     },
     // npx create-next-app <project>: Creates a new Next.js app called <project>.
     StaticPromptSuggestion {
         name: "NPX_CREATE_NEXT_APP",
         pattern: r"^npx\s+create-next-app\s+(\S+)\s*$",
         label_template: Some("帮我创建一个新的 Next.js 应用"),
-        query_template:
-            "帮我创建一个名为 {1} 的新 Next.js 应用。向我询问所需的所有细节。",
+        query_template: "帮我创建一个名为 {1} 的新 Next.js 应用。向我询问所需的所有细节。",
     },
     // cargo new <project>: Creates a new Rust package named <project>.
     StaticPromptSuggestion {
         name: "CARGO_NEW_PROJECT",
         pattern: r"^cargo\s+new\s+(\S+)\s*$",
         label_template: Some("帮我为 {1} 启动一个 Rust 项目"),
-        query_template:
-            "帮我为 {1} 启动一个 Rust 项目。向我询问所需的所有细节。",
+        query_template: "帮我为 {1} 启动一个 Rust 项目。向我询问所需的所有细节。",
     },
     // poetry new <project>: Creates a new Poetry-based Python project named <project>.
     StaticPromptSuggestion {
         name: "POETRY_NEW_PROJECT",
         pattern: r"^poetry\s+new\s+(\S+)\s*$",
         label_template: Some("帮我为 {1} 启动一个 Poetry 项目"),
-        query_template:
-            "帮我为 {1} 启动一个 Poetry 项目。向我询问所需的所有细节。",
+        query_template: "帮我为 {1} 启动一个 Poetry 项目。向我询问所需的所有细节。",
     },
     // django-admin startproject <project>: Creates a new Django project named <project>.
     StaticPromptSuggestion {
         name: "DJANGO_START_PROJECT",
         pattern: r"^django-admin\s+startproject\s+(\S+)\s*$",
         label_template: Some("帮我为 {1} 启动一个 Django 项目"),
-        query_template:
-            "帮我为 {1} 启动一个 Django 项目。向我询问所需的所有细节。",
+        query_template: "帮我为 {1} 启动一个 Django 项目。向我询问所需的所有细节。",
     },
     // rails new <app>: Creates a new Rails app named <app>.
     StaticPromptSuggestion {
@@ -159,8 +151,7 @@ static STATIC_RULES: &[StaticPromptSuggestion] = &[
         name: "JAVA_PROJECT_INIT",
         pattern: r"^(gradle\s+init|mvn\s+archetype:generate)\s*$",
         label_template: Some("帮我启动一个 Gradle/Maven 项目"),
-        query_template:
-            "帮我启动一个 Gradle/Maven 项目。向我询问所需的所有细节。",
+        query_template: "帮我启动一个 Gradle/Maven 项目。向我询问所需的所有细节。",
     },
     // go mod init <module>: Initializes a new Go module named <module>.
     StaticPromptSuggestion {
@@ -181,8 +172,7 @@ static STATIC_RULES: &[StaticPromptSuggestion] = &[
         name: "TERRAFORM_INIT",
         pattern: r"^terraform\s+init\s*$",
         label_template: Some("帮我启动一个 Terraform 配置"),
-        query_template:
-            "帮我启动一个 Terraform 配置。向我询问所需的所有细节。",
+        query_template: "帮我启动一个 Terraform 配置。向我询问所需的所有细节。",
     },
     // prisma init: Initializes Prisma in the current project.
     StaticPromptSuggestion {

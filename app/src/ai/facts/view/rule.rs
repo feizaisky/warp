@@ -54,11 +54,9 @@ const DESCRIPTION_TEXT: &str = "规则通过提供结构化准则来增强智能
 
 const SEARCH_PLACEHOLDER_TEXT: &str = "搜索规则";
 const ZERO_STATE_TEXT: &str = "添加规则后，规则将显示在此处。";
-const ZERO_STATE_TEXT_PROJECT: &str =
-    "为项目生成 WARP.md 规则文件后，它将显示在此处。";
+const ZERO_STATE_TEXT_PROJECT: &str = "为项目生成 WARP.md 规则文件后，它将显示在此处。";
 
-const DISABLED_BANNER_TEXT: &str =
-    "您的规则已禁用，不会在会话中作为上下文使用。您可以";
+const DISABLED_BANNER_TEXT: &str = "您的规则已禁用，不会在会话中作为上下文使用。您可以";
 const DISABLED_BANNER_LINK_TEXT: &str = "重新启用";
 const DISABLED_BANNER_TEXT_2: &str = "。";
 
@@ -727,12 +725,12 @@ impl RuleView {
         let formatted_name = match name {
             Some(name) => {
                 if name.is_empty() {
-                    "Untitled".to_string()
+                    "未命名".to_string()
                 } else {
                     name
                 }
             }
-            None => "Untitled".to_string(),
+            None => "未命名".to_string(),
         };
         // Truncate content to 3 lines
         let formatted_content = if content.split("\n").count() > 3 {

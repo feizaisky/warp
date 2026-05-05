@@ -819,7 +819,7 @@ impl AgentSlide {
         let title_color = internal_colors::text_main(theme, background_for_text);
         let subtitle_color = internal_colors::text_sub(theme, background_for_text);
 
-        let title_el = Text::new("Set by Team Workspace", ui_font_family, 14.0)
+        let title_el = Text::new("由团队工作区设置", ui_font_family, 14.0)
             .with_color(title_color)
             .with_style(Properties {
                 weight: Weight::Normal,
@@ -828,18 +828,14 @@ impl AgentSlide {
             .with_line_height_ratio(1.0)
             .finish();
 
-        let subtitle_el = Text::new(
-            "自主权设置由所属团队工作区统一配置。",
-            ui_font_family,
-            12.0,
-        )
-        .with_color(subtitle_color)
-        .with_style(Properties {
-            weight: Weight::Normal,
-            ..Default::default()
-        })
-        .with_line_height_ratio(1.0)
-        .finish();
+        let subtitle_el = Text::new("自主权设置由所属团队工作区统一配置。", ui_font_family, 12.0)
+            .with_color(subtitle_color)
+            .with_style(Properties {
+                weight: Weight::Normal,
+                ..Default::default()
+            })
+            .with_line_height_ratio(1.0)
+            .finish();
 
         let content = Flex::column()
             .with_cross_axis_alignment(CrossAxisAlignment::Start)
@@ -1039,32 +1035,24 @@ impl AgentSlide {
         let ui_font_family = appearance.ui_font_family();
 
         // Primary "heading" line: bolder, full-contrast.
-        let title = Text::new(
-            "升级以使用高级模型。",
-            ui_font_family,
-            13.0,
-        )
-        .with_color(internal_colors::text_main(theme, background_for_text))
-        .with_style(Properties {
-            weight: Weight::Medium,
-            ..Default::default()
-        })
-        .with_line_height_ratio(1.2)
-        .finish();
+        let title = Text::new("升级以使用高级模型。", ui_font_family, 13.0)
+            .with_color(internal_colors::text_main(theme, background_for_text))
+            .with_style(Properties {
+                weight: Weight::Medium,
+                ..Default::default()
+            })
+            .with_line_height_ratio(1.2)
+            .finish();
 
         // Secondary subtext: muted, normal weight.
-        let subtitle = Text::new(
-            "顶尖模型需要付费套餐。",
-            ui_font_family,
-            12.0,
-        )
-        .with_color(internal_colors::text_sub(theme, background_for_text))
-        .with_style(Properties {
-            weight: Weight::Normal,
-            ..Default::default()
-        })
-        .with_line_height_ratio(1.2)
-        .finish();
+        let subtitle = Text::new("顶尖模型需要付费套餐。", ui_font_family, 12.0)
+            .with_color(internal_colors::text_sub(theme, background_for_text))
+            .with_style(Properties {
+                weight: Weight::Normal,
+                ..Default::default()
+            })
+            .with_line_height_ratio(1.2)
+            .finish();
 
         let text_col = Flex::column()
             .with_main_axis_size(MainAxisSize::Min)

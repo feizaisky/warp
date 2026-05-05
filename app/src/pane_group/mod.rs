@@ -1857,14 +1857,10 @@ impl PaneGroup {
                 };
                 Ok((PaneData::new(pane_id), focus))
             }
-            LeafContents::CodeReview(_) => {
-                Err(anyhow::anyhow!("Code review panes are no longer supported"))
-            }
+            LeafContents::CodeReview(_) => Err(anyhow::anyhow!("代码审查窗格已不再受支持")),
             LeafContents::ExecutionProfileEditor => {
                 // We don't yet support restoring execution profile editor panes.
-                Err(anyhow::anyhow!(
-                    "Can't restore execution profile editor panes"
-                ))
+                Err(anyhow::anyhow!("无法恢复执行配置编辑器窗格"))
             }
             LeafContents::NetworkLog => {
                 // Network log panes are intentionally not restored. Two

@@ -177,11 +177,11 @@ impl ThirdPartySlide {
         let card = render_toggle_card(
             appearance,
             ToggleCardSpec {
-                title: "CLI agent toolbar",
+                title: "CLI 智能体工具栏",
                 is_expanded: is_selected,
                 is_left_selected: cli_toolbar_enabled,
-                left_label: "Enabled",
-                right_label: "Disabled",
+                left_label: "已启用",
+                right_label: "已禁用",
                 card_mouse_state: self.cli_toolbar_card_mouse_state.clone(),
                 on_expand: Box::new(|ctx, _, _| {
                     ctx.dispatch_typed_action(ThirdPartySlideAction::SelectSettingCard {
@@ -225,11 +225,11 @@ impl ThirdPartySlide {
         let card = render_toggle_card(
             appearance,
             ToggleCardSpec {
-                title: "Notifications",
+                title: "通知",
                 is_expanded: is_selected,
                 is_left_selected: show_agent_notifications,
-                left_label: "Enabled",
-                right_label: "Disabled",
+                left_label: "已启用",
+                right_label: "已禁用",
                 card_mouse_state: self.notifications_card_mouse_state.clone(),
                 on_expand: Box::new(|ctx, _, _| {
                     ctx.dispatch_typed_action(ThirdPartySlideAction::SelectSettingCard {

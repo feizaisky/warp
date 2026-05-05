@@ -1061,7 +1061,7 @@ impl ConversationDetailsPanel {
         let oz_link = appearance
             .ui_builder()
             .link(
-                "Open in Oz".to_string(),
+                "在 Oz 中打开".to_string(),
                 Some(skill_url),
                 None,
                 self.mouse_states.skill_link.clone(),
@@ -1097,7 +1097,7 @@ impl ConversationDetailsPanel {
                 let source_link = appearance
                     .ui_builder()
                     .link(
-                        "Open in GitHub".to_string(),
+                        "在 GitHub 中打开".to_string(),
                         Some(github_url),
                         None,
                         self.mouse_states.skill_source_link.clone(),
@@ -1168,7 +1168,7 @@ impl ConversationDetailsPanel {
         let ui_font_size = appearance.ui_font_size();
 
         let header_text = Text::new(
-            "Environment setup commands".to_string(),
+            "环境设置命令".to_string(),
             appearance.ui_font_family(),
             ui_font_size,
         )
@@ -1233,7 +1233,7 @@ impl ConversationDetailsPanel {
 
         // Section header
         let header = Text::new(
-            "Environment details".to_string(),
+            "环境详情".to_string(),
             appearance.ui_font_family(),
             ui_font_size,
         )
@@ -1389,7 +1389,7 @@ impl ConversationDetailsPanel {
         let theme = appearance.theme();
 
         let label_text = Text::new(
-            "Credits used".to_string(),
+            "已用点数".to_string(),
             appearance.ui_font_family(),
             appearance.ui_font_size(),
         )
@@ -1679,7 +1679,7 @@ impl View for ConversationDetailsPanel {
                 if let Some(directory) = directory {
                     content.add_child(
                         Container::new(self.render_field_with_copy(
-                            "Directory",
+                            "目录",
                             directory,
                             ConversationDetailsPanelAction::CopyDirectory,
                             CopyButtonKind::Directory,
@@ -1694,7 +1694,7 @@ impl View for ConversationDetailsPanel {
                 if let Some(id) = conversation_id {
                     content.add_child(
                         Container::new(self.render_field_with_copy(
-                            "Conversation ID",
+                            "对话 ID",
                             id,
                             ConversationDetailsPanelAction::CopyConversationId,
                             CopyButtonKind::ConversationId,
@@ -1712,7 +1712,7 @@ impl View for ConversationDetailsPanel {
                 if let Some(directory) = directory {
                     content.add_child(
                         Container::new(self.render_field_with_copy(
-                            "Directory",
+                            "目录",
                             directory,
                             ConversationDetailsPanelAction::CopyDirectory,
                             CopyButtonKind::Directory,
@@ -1726,7 +1726,7 @@ impl View for ConversationDetailsPanel {
                 if let Some(task_id) = task_id {
                     content.add_child(
                         Container::new(self.render_field_with_copy(
-                            "Run ID",
+                            "运行 ID",
                             &task_id.to_string(),
                             ConversationDetailsPanelAction::CopyRunId,
                             CopyButtonKind::RunId,
@@ -1753,13 +1753,9 @@ impl View for ConversationDetailsPanel {
             Some(CreditsInfo::LocalConversation(credits)) => {
                 let formatted = format!("{credits:.1}");
                 content.add_child(
-                    Container::new(self.render_simple_field(
-                        "Credits used",
-                        &formatted,
-                        appearance,
-                    ))
-                    .with_margin_bottom(FIELD_SPACING)
-                    .finish(),
+                    Container::new(self.render_simple_field("已用点数", &formatted, appearance))
+                        .with_margin_bottom(FIELD_SPACING)
+                        .finish(),
                 );
             }
             None => {}
@@ -1768,7 +1764,7 @@ impl View for ConversationDetailsPanel {
         if let Some(duration) = self.data.run_time {
             let formatted = human_readable_precise_duration(duration);
             content.add_child(
-                Container::new(self.render_simple_field("Run time", &formatted, appearance))
+                Container::new(self.render_simple_field("运行时间", &formatted, appearance))
                     .with_margin_bottom(FIELD_SPACING)
                     .finish(),
             );

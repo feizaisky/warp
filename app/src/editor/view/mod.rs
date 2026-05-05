@@ -648,11 +648,11 @@ pub fn init(ctx: &mut AppContext) {
         .with_mac_key_binding("ctrl-e"),
         // Match the behavior of both VSCode and Intellij by using `cmd-left/right` on Mac and
         // `home/end` on Windows and Linux. See https://www.jetbrains.com/help/idea/reference-keymap-win-default.html#caret_navigation.
-        EditableBinding::new("editor_view:home", "Home", EditorAction::Home)
+        EditableBinding::new("editor_view:home", "移至行首", EditorAction::Home)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_mac_key_binding("cmd-left")
             .with_linux_or_windows_key_binding("home"),
-        EditableBinding::new("editor_view:end", "End", EditorAction::End)
+        EditableBinding::new("editor_view:end", "移至行尾", EditorAction::End)
             .with_context_predicate(id!("EditorView") & !id!("IMEOpen"))
             .with_mac_key_binding("cmd-right")
             .with_linux_or_windows_key_binding("end"),

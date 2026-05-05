@@ -117,16 +117,10 @@ pub struct CloudAgentComputerUseState {
 impl ComputerUsePermission {
     pub fn description(&self) -> &'static str {
         match self {
-            ComputerUsePermission::Never => {
-                "Computer use tools are disabled and will not be available to the Agent."
-            }
-            ComputerUsePermission::AlwaysAsk => {
-                "Require explicit approval before the Agent uses computer use tools."
-            }
-            ComputerUsePermission::AlwaysAllow => {
-                "Give the Agent full autonomy to use computer use tools without approval."
-            }
-            ComputerUsePermission::Unknown => "Unknown setting.",
+            ComputerUsePermission::Never => "计算机使用工具已停用，智能体无法使用。",
+            ComputerUsePermission::AlwaysAsk => "智能体使用计算机工具前需要明确批准。",
+            ComputerUsePermission::AlwaysAllow => "允许智能体无需批准即可自主使用计算机工具。",
+            ComputerUsePermission::Unknown => "未知设置。",
         }
     }
 
@@ -444,9 +438,9 @@ impl StringModel for AIExecutionProfile {
     fn display_name(&self) -> String {
         // Handles case where default profile was previously created and named "Untitled"
         if self.is_default_profile {
-            "Default".to_string()
+            "默认".to_string()
         } else if self.name.trim().is_empty() {
-            "Untitled".to_string()
+            "未命名".to_string()
         } else {
             self.name.clone()
         }

@@ -201,10 +201,7 @@ enum QuakeModeMoveTrigger {
     schemars::JsonSchema,
     settings_value::SettingsValue,
 )]
-#[schemars(
-    description = "快捷键窗口吸附的屏幕边缘。",
-    rename_all = "snake_case"
-)]
+#[schemars(description = "快捷键窗口吸附的屏幕边缘。", rename_all = "snake_case")]
 pub enum QuakeModePinPosition {
     #[default]
     Top,

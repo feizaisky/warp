@@ -199,9 +199,7 @@ fn resolve_standard_action(action: StandardAction) -> StandardMenuItemProperties
         StandardAction::Minimize => make("最小化", "performMiniaturize:", cmd, "m"),
         StandardAction::Zoom => make("缩放", "performZoom:", none, ""),
         StandardAction::BringAllToFront => make("全部前置", "arrangeInFront:", none, ""),
-        StandardAction::ToggleFullScreen => {
-            make("切换全屏", "toggleFullScreen:", cmd | ctrl, "f")
-        }
+        StandardAction::ToggleFullScreen => make("切换全屏", "toggleFullScreen:", cmd | ctrl, "f"),
         StandardAction::Paste => make("粘贴", "paste:", none, ""),
     }
 }

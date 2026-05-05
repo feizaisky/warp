@@ -23,7 +23,7 @@ use warpui::windowing::state::ApplicationStage;
 use warpui::windowing::WindowManager;
 use warpui::{async_assert, UpdateModel};
 
-use crate::util::skip_if_powershell_core_2303;
+use crate::util::{gcloud_iap_ssh_prereqs_available, skip_if_powershell_core_2303};
 
 use super::{new_builder, Builder};
 
@@ -62,6 +62,7 @@ macro_rules! generate_can_bootstrap_remote_subshell_for_shell {
                 .set_should_run_test(|| {
                     let (starter, _) = current_shell_starter_and_version();
                     starter.shell_type() != ShellType::PowerShell
+                        && gcloud_iap_ssh_prereqs_available()
                 })
                 .with_user_defaults(HashMap::from([(
                     AddedSubshellCommands::storage_key().to_owned(),

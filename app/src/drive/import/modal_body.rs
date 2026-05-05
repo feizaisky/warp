@@ -140,9 +140,7 @@ impl ImportModalBody {
                 } => {
                     let result = match server_id {
                         Some(id) => UploadResult::Success(id.clone()),
-                        None => {
-                            UploadResult::Error("文件夹上传到服务器失败".to_string())
-                        }
+                        None => UploadResult::Error("文件夹上传到服务器失败".to_string()),
                     };
 
                     state.mark_folder_synced(result, *folder_id);

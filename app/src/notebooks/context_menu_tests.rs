@@ -64,10 +64,10 @@ fn standard_menu_items<'a>(items: impl IntoIterator<Item = &'a str>) -> Vec<&'a 
     let mut items: Vec<_> = items.into_iter().collect();
     items.extend([
         "----",
-        "Split pane right",
-        "Split pane left",
-        "Split pane down",
-        "Split pane up",
+        "向右分割窗格",
+        "向左分割窗格",
+        "向下分割窗格",
+        "向上分割窗格",
     ]);
     items
 }
@@ -88,7 +88,7 @@ fn test_rich_text_actions() {
             notebook.context_menu().show_context_menu(source, ctx);
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
-                standard_menu_items(["Paste"])
+                standard_menu_items(["粘贴"])
             );
         });
 
@@ -108,7 +108,7 @@ fn test_rich_text_actions() {
             notebook.context_menu().show_context_menu(source, ctx);
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
-                standard_menu_items(["Cut", "Copy", "Paste"])
+                standard_menu_items(["剪切", "复制", "粘贴"])
             );
         });
 
@@ -124,7 +124,7 @@ fn test_rich_text_actions() {
             notebook.context_menu().show_context_menu(source, ctx);
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
-                standard_menu_items(["Copy"])
+                standard_menu_items(["复制"])
             );
         })
     });
@@ -146,7 +146,7 @@ fn test_plain_text_actions() {
             notebook.context_menu().show_context_menu(source, ctx);
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
-                standard_menu_items(["Paste"]),
+                standard_menu_items(["粘贴"]),
             );
         });
 
@@ -164,7 +164,7 @@ fn test_plain_text_actions() {
             notebook.context_menu().show_context_menu(source, ctx);
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
-                standard_menu_items(["Cut", "Copy", "Paste"]),
+                standard_menu_items(["剪切", "复制", "粘贴"]),
             );
         });
 
@@ -180,7 +180,7 @@ fn test_plain_text_actions() {
             notebook.context_menu().show_context_menu(source, ctx);
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
-                standard_menu_items(["Copy"])
+                standard_menu_items(["复制"])
             );
         })
     });
@@ -217,14 +217,14 @@ fn test_split_pane_actions() {
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
                 vec![
-                    "Paste",
+                    "粘贴",
                     "----",
-                    "Split pane right",
-                    "Split pane left",
-                    "Split pane down",
-                    "Split pane up",
-                    "Maximize pane",
-                    "Close pane"
+                    "向右分割窗格",
+                    "向左分割窗格",
+                    "向下分割窗格",
+                    "向上分割窗格",
+                    "最大化窗格",
+                    "关闭窗格"
                 ]
             );
         });
@@ -244,12 +244,12 @@ fn test_split_pane_actions() {
             assert_eq!(
                 notebook.context_menu().item_names(ctx),
                 vec![
-                    "Paste",
+                    "粘贴",
                     "----",
-                    "Split pane right",
-                    "Split pane left",
-                    "Split pane down",
-                    "Split pane up",
+                    "向右分割窗格",
+                    "向左分割窗格",
+                    "向下分割窗格",
+                    "向上分割窗格",
                 ]
             );
         });

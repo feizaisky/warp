@@ -193,7 +193,7 @@ mod full_text_searcher {
         SimpleFullTextSearcher, DEFAULT_MEMORY_BUDGET, SCORE_CONVERSION_FACTOR,
     };
     use crate::util::bindings::CommandBinding;
-    use fuzzy_match::FuzzyMatchResult;
+    use fuzzy_match::{match_indices_case_insensitive, FuzzyMatchResult};
     use std::collections::HashMap;
     use std::sync::Arc;
     use warpui::keymap::{BindingId, DescriptionContext};
@@ -232,6 +232,30 @@ mod full_text_searcher {
 
             // Execute the full-text search
             let matched_bindings = self.searcher.search_id(search_term)?;
+            if matched_bindings.is_empty() && !search_term.is_ascii() {
+                return Ok(self
+                    .all_bindings
+                    .values()
+                    .filter_map(|binding| {
+                        if is_excluded_binding(binding) {
+                            return None;
+                        }
+
+                        match_indices_case_insensitive(
+                            binding
+                                .description
+                                .in_context(DescriptionContext::Default)
+                                .to_lowercase()
+                                .as_str(),
+                            search_term,
+                        )
+                        .map(|match_result| {
+                            MatchedBinding::new(match_result, binding.clone()).into()
+                        })
+                    })
+                    .collect());
+            }
+
             Ok(matched_bindings
                 .into_iter()
                 .filter_map(|match_result| {

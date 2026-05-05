@@ -365,7 +365,7 @@ pub fn init(app: &mut AppContext) {
         .with_mac_key_binding("ctrl-a"),
         EditableBinding::new(
             "editor_view:home",
-            "Home",
+            "移至行首",
             CodeEditorViewAction::MoveToLineStart,
         )
         .with_context_predicate(text_entry.clone())
@@ -380,7 +380,7 @@ pub fn init(app: &mut AppContext) {
         .with_mac_key_binding("ctrl-e"),
         EditableBinding::new(
             "editor_view:end",
-            "End",
+            "移至行尾",
             CodeEditorViewAction::MoveToLineEnd,
         )
         .with_context_predicate(text_entry.clone())

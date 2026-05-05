@@ -169,7 +169,7 @@ fn render_deleted_state(
         .with_main_axis_size(MainAxisSize::Max)
         .with_child(
             Text::new(
-                cached_title.unwrap_or_else(|| "Deleted conversation".to_string()),
+                cached_title.unwrap_or_else(|| "已删除的对话".to_string()),
                 appearance.ui_font_family(),
                 appearance.monospace_font_size(),
             )
@@ -180,7 +180,7 @@ fn render_deleted_state(
             })
             .finish(),
         )
-        .with_child(render_subtext("Deleted".to_string(), appearance))
+        .with_child(render_subtext("已删除".to_string(), appearance))
         .finish();
 
     render_block_container(
@@ -262,9 +262,7 @@ impl View for AgentViewEntryBlock {
                 Shrinkable::new(
                     1.,
                     Text::new(
-                        conversation
-                            .title()
-                            .unwrap_or("未命名对话".to_string()),
+                        conversation.title().unwrap_or("未命名对话".to_string()),
                         appearance.ui_font_family(),
                         appearance.monospace_font_size(),
                     )
@@ -294,9 +292,9 @@ impl View for AgentViewEntryBlock {
         let is_open_elsewhere = is_active && !is_active_in_this_pane;
 
         let subtext = if is_open_elsewhere {
-            Some("Open in different pane")
+            Some("已在其他窗格打开")
         } else if self.is_restored {
-            Some("Restored")
+            Some("已恢复")
         } else if !self.is_new
             && !matches!(
                 self.origin,

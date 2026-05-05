@@ -149,7 +149,7 @@ impl StringModel for EnvVarCollection {
     type CloudObjectType = CloudEnvVarCollection;
 
     fn model_type_name(&self) -> &'static str {
-        "Environment variables"
+        "环境变量"
     }
 
     fn should_enforce_revisions() -> bool {

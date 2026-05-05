@@ -218,7 +218,7 @@ impl View for WasmNUXDialog {
                 ))
         } else {
             let object_kind = match web_intent_parser::current_web_intent() {
-                Some(WebIntent::DriveObject(_)) => "Warp Drive 对象",
+                Some(WebIntent::DriveObject(_)) => "Warp 云盘对象",
                 Some(WebIntent::SessionView(_)) => "共享会话",
                 _ => "Warp 链接",
             };

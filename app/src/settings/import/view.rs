@@ -422,9 +422,9 @@ impl SettingsImportView {
                 .any(|setting| setting.setting_type == SettingType::Theme)
             {
                 if num_prefs == 1 {
-                    preference_text_elements.push(self.render_secondary_text(appearance, "Theme"));
+                    preference_text_elements.push(self.render_secondary_text(appearance, "主题"));
                 } else {
-                    preference_text_elements.push(self.render_secondary_text(appearance, "Theme,"));
+                    preference_text_elements.push(self.render_secondary_text(appearance, "主题，"));
                 }
                 theme_subtraction = 1;
             }
@@ -970,8 +970,8 @@ impl View for SettingsImportView {
             })
             .with_button_vertical_offset(DROPDOWN_VERTICAL_PADDING);
 
-        const WELCOME_TEXT: &str = "Select a settings profile to import:";
-        const LOADING_TEXT: &str = "Looking for settings to import...";
+        const WELCOME_TEXT: &str = "选择要导入的设置配置：";
+        const LOADING_TEXT: &str = "正在查找可导入的设置...";
 
         let mut display_new_session_text = false;
 
@@ -994,13 +994,9 @@ impl View for SettingsImportView {
 
         if display_new_session_text {
             new_session_setting_text = Container::new(
-                Text::new(
-                    "Some settings will take effect when you open a new session.",
-                    font_family,
-                    font_size,
-                )
-                .with_color(font_color.into_solid())
-                .finish(),
+                Text::new("部分设置将在打开新会话后生效。", font_family, font_size)
+                    .with_color(font_color.into_solid())
+                    .finish(),
             )
             .with_margin_bottom(14.)
             .with_horizontal_margin(DROPDOWN_HORIZONTAL_MARGIN)

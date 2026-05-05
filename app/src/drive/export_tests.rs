@@ -359,7 +359,7 @@ fn test_export_untitled_notebook() {
             CloudObjectTypeAndId::from_id_and_type(notebook_id, ObjectType::Notebook),
             &mut app,
         );
-        let expected_path = exporter.path("Untitled.md", None, &app);
+        let expected_path = exporter.path("未命名.md", None, &app);
 
         // The export should succeed.
         assert_eq!(

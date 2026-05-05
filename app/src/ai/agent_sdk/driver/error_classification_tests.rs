@@ -111,8 +111,8 @@ fn share_session_disabled_gets_feature_not_available() {
         update.error_code,
         Some(PlatformErrorCode::FeatureNotAvailable)
     );
-    assert!(update.message.contains("not enabled"));
-    assert!(update.message.contains("--share flag"));
+    assert!(update.message.contains("未启用"));
+    assert!(update.message.contains("--share 标志"));
 }
 
 #[test]
@@ -122,7 +122,7 @@ fn share_session_timeout_gets_internal_error() {
     });
     assert_eq!(state, AgentTaskState::Error);
     assert_eq!(update.error_code, Some(PlatformErrorCode::InternalError));
-    assert!(update.message.contains("timed out"));
+    assert!(update.message.contains("超时"));
 }
 
 #[test]

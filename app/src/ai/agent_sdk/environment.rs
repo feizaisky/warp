@@ -1138,14 +1138,14 @@ impl TableFormat for EnvironmentInfo {
     fn header() -> Vec<Cell> {
         vec![
             Cell::new("ID"),
-            Cell::new("Name"),
-            Cell::new("Description"),
-            Cell::new("Base image"),
-            Cell::new("Git repos"),
-            Cell::new("Setup commands"),
-            Cell::new("Creator"),
-            Cell::new("Last edited"),
-            Cell::new("Scope"),
+            Cell::new("名称"),
+            Cell::new("描述"),
+            Cell::new("基础镜像"),
+            Cell::new("Git 仓库"),
+            Cell::new("设置命令"),
+            Cell::new("创建者"),
+            Cell::new("最后编辑"),
+            Cell::new("范围"),
         ]
     }
 

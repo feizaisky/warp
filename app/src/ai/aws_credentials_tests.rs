@@ -13,7 +13,7 @@ fn maps_credentials_not_loaded_to_user_message() {
 
     assert_eq!(
         message,
-        "AWS credentials were not found for the AWS profile `sandbox`. Log in with the AWS CLI or update your AWS credentials configuration, then refresh."
+        "未找到 AWS profile `sandbox` 的 AWS 凭据。请使用 AWS CLI 登录，或更新你的 AWS 凭据配置，然后刷新。"
     );
 }
 
@@ -26,7 +26,7 @@ fn maps_invalid_configuration_to_user_message() {
 
     assert_eq!(
         message,
-        "The AWS profile `readonly` is invalid or incomplete in your local AWS configuration. Update your AWS profile settings and credentials, then refresh."
+        "AWS profile `readonly` 在本地 AWS 配置中无效或不完整。请更新 AWS profile 设置和凭据，然后刷新。"
     );
 }
 
@@ -37,10 +37,7 @@ fn maps_provider_timeout_to_user_message() {
         "sandbox",
     );
 
-    assert_eq!(
-        message,
-        "Timed out while loading AWS credentials. Refresh and try again."
-    );
+    assert_eq!(message, "加载 AWS 凭据超时。请刷新后重试。");
 }
 
 #[test]
@@ -52,7 +49,7 @@ fn maps_provider_error_to_user_message() {
 
     assert_eq!(
         message,
-        "Unable to load AWS credentials from your configured provider. Refresh your AWS login and try again."
+        "无法从配置的提供方加载 AWS 凭据。请刷新 AWS 登录后重试。"
     );
 }
 
@@ -65,6 +62,6 @@ fn maps_unhandled_error_to_user_message() {
 
     assert_eq!(
         message,
-        "Unexpected error while loading AWS credentials. Refresh your AWS login and try again."
+        "加载 AWS 凭据时发生意外错误。请刷新 AWS 登录后重试。"
     );
 }

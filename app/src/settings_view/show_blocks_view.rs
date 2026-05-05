@@ -168,7 +168,7 @@ impl UserOwnedBlock {
         if self.unshare_request_status == UnshareBlockRequestState::InFlight {
             appearance
                 .ui_builder()
-                .label("Deleting...")
+                .label("正在删除...")
                 .with_style(
                     UiComponentStyles::default()
                         .set_font_family_id(appearance.monospace_font_family())
@@ -803,7 +803,7 @@ impl SettingsWidget for ShowBlocksWidget {
             );
         }
 
-        let header = render_page_title("Shared blocks", HEADER_FONT_SIZE, appearance);
+        let header = render_page_title("共享代码块", HEADER_FONT_SIZE, appearance);
         let col = Flex::column()
             .with_child(Container::new(header).with_margin_bottom(24.).finish())
             .with_child(Expanded::new(1., stack.finish()).finish());

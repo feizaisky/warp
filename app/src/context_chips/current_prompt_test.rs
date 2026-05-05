@@ -100,7 +100,7 @@ fn test_context_menu_items() {
                 })
                 .collect_vec();
 
-            assert_eq!(menu_items, vec!["Copy Working Directory"]);
+            assert_eq!(menu_items, vec!["复制 工作目录"]);
         })
     });
 }

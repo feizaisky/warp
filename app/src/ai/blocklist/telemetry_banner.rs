@@ -20,7 +20,8 @@ use warpui::{
 
 const TITLE_EXISTING_USERS: &str = "我们已更新遥测政策。";
 const TITLE_NEW_USERS: &str = "帮助改进 Warp。";
-const DESCRIPTION: &str = "我们可能会收集某些控制台交互数据以改进 Warp 的 AI 功能。您可以随时退出。";
+const DESCRIPTION: &str =
+    "我们可能会收集某些控制台交互数据以改进 Warp 的 AI 功能。您可以随时退出。";
 const PRIVACY_URL: &str = "https://warp.dev/privacy";
 
 #[derive(Default, Debug, Clone)]

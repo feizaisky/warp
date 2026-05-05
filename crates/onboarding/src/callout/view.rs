@@ -66,7 +66,7 @@ fn get_universal_input_callout_options(
             step: StepStatus::new(0, 2),
             left_button: None,
             right_button: ButtonOptions {
-                text: "Next",
+                text: "下一步",
                 action: OnboardingCalloutViewAction::NextClicked,
                 keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
             },
@@ -78,7 +78,7 @@ fn get_universal_input_callout_options(
             step: StepStatus::new(1, 2),
             left_button: if has_project {
                 Some(ButtonOptions {
-                    text: "Skip",
+                    text: "跳过",
                     action: OnboardingCalloutViewAction::SkipClicked,
                     keystroke: Some(Keystroke::parse("delete").unwrap_or_default()),
                 })
@@ -111,7 +111,7 @@ fn get_agent_modality_callout_options(
 
     match state {
         AgentModalityCalloutState::MeetTerminalInput => {
-            let title: &'static str  = if has_project || intention == OnboardingIntention::Terminal {
+            let title: &'static str = if has_project || intention == OnboardingIntention::Terminal {
                 "认识你的终端输入框"
             } else {
                 "认识更新后的终端输入框"
@@ -119,14 +119,14 @@ fn get_agent_modality_callout_options(
             Some(CalloutOptions {
                 title,
                 text: format!(
-                    "Run commands from the terminal, or use {} or {} to start or send to a local or cloud agent respectively.",
+                    "你可以在终端中运行命令，也可以分别使用 {} 或 {} 启动本地智能体，或发送给云智能体。",
                     keybindings.submit_to_local_agent,
                     keybindings.submit_to_cloud_agent
                 ),
                 step: StepStatus::new(0, total_steps),
                 left_button: None,
                 right_button: ButtonOptions {
-                    text: "Next",
+                    text: "下一步",
                     action: OnboardingCalloutViewAction::NextClicked,
                     keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
                 },
@@ -181,7 +181,7 @@ fn get_agent_modality_callout_options(
             step: StepStatus::new(2, total_steps),
             left_button: None,
             right_button: ButtonOptions {
-                text: "Next",
+                text: "下一步",
                 action: OnboardingCalloutViewAction::NextClicked,
                 keystroke: Some(Keystroke::parse("enter").unwrap_or_default()),
             },

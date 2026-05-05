@@ -2503,13 +2503,13 @@ impl TypedPane<'_> {
     fn kind_label(&self) -> &'static str {
         match self {
             TypedPane::Terminal(_) => "终端",
-            TypedPane::Code(_) => "Code",
-            TypedPane::CodeDiff => "Code Diff",
-            TypedPane::File => "File",
+            TypedPane::Code(_) => "代码",
+            TypedPane::CodeDiff => "代码差异",
+            TypedPane::File => "文件",
             TypedPane::Notebook { .. } => "笔记本 (Notebook)",
             TypedPane::Workflow { .. } => "工作流",
             TypedPane::Settings => "设置",
-            TypedPane::EnvVarCollection => "Environment Variables",
+            TypedPane::EnvVarCollection => "环境变量",
             TypedPane::EnvironmentManagement => "Environments",
             TypedPane::AIFact => "Rules",
             TypedPane::AIDocument => "Plan",

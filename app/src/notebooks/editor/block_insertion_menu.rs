@@ -246,7 +246,7 @@ impl RichTextEditorView {
             let title = model
                 .get_notebook(id)
                 .map(|notebook| notebook.model().title.clone())
-                .unwrap_or_else(|| "Untitled".to_string());
+                .unwrap_or_else(|| "未命名".to_string());
             let link = model
                 .get_by_uid(&CloudObjectTypeAndId::Notebook(*id).uid())
                 .and_then(|object| object.object_link());
@@ -313,12 +313,7 @@ impl RichTextEditorView {
             border_color: Some(appearance.theme().surface_3().into()),
             ..Default::default()
         })
-        .with_tooltip(move || {
-            ui_builder
-                .tool_tip("插入块".to_string())
-                .build()
-                .finish()
-        })
+        .with_tooltip(move || ui_builder.tool_tip("插入块".to_string()).build().finish())
         // Position the tooltip above the insertion button to ensure they don't overlap if the
         // button is towards the bottom of the screen.
         .with_tooltip_position(ButtonTooltipPosition::Above)

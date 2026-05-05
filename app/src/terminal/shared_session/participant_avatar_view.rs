@@ -582,12 +582,7 @@ pub fn render_viewer_role_button(
     let ui_builder = appearance.ui_builder().clone();
     let mut stack = Stack::new();
     let button = icon_button(appearance, icon, false, mouse_state_handle.clone())
-        .with_tooltip(move || {
-            ui_builder
-                .tool_tip("更改角色".to_string())
-                .build()
-                .finish()
-        })
+        .with_tooltip(move || ui_builder.tool_tip("更改角色".to_string()).build().finish())
         .build()
         .on_click(|ctx, _, _| {
             // We have to dispatch a pane header action because the button is rendered in the pane header.

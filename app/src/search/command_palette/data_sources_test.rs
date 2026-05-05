@@ -253,7 +253,7 @@ fn test_drive_data_source_correctly_filters_workflow_filter() {
             // Expect only the workflow result to be included
             assert_eq!(results.len(), 1);
 
-            assert!(results[0].accessibility_label().starts_with("Workflow:"));
+            assert!(results[0].accessibility_label().starts_with("工作流："));
         });
     })
 }
@@ -302,7 +302,7 @@ fn test_drive_data_source_correctly_filters_notebook_filter() {
             // Expect only the workflow result to be included
             assert_eq!(results.len(), 1);
 
-            assert!(results[0].accessibility_label().starts_with("Notebook:"));
+            assert!(results[0].accessibility_label().starts_with("笔记本："));
         });
     })
 }

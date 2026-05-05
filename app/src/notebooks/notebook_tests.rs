@@ -285,7 +285,7 @@ echo hello
             assert!(
                 events.contains(&NotebookEvent::RunWorkflow {
                     workflow: Arc::new(WorkflowType::Notebook(Workflow::new(
-                        "Command from Test Notebook",
+                        "来自 Test Notebook 的命令",
                         "echo hello"
                     ))),
                     source: WorkflowSource::Notebook {
@@ -927,7 +927,7 @@ fn test_untitled_notebook() {
         });
 
         notebook.read(&app, |notebook, ctx| {
-            assert_eq!(notebook.title(ctx), "Untitled");
+            assert_eq!(notebook.title(ctx), "未命名");
         });
 
         notebook.update(&mut app, |notebook, ctx| {

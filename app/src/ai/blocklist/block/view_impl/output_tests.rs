@@ -15,7 +15,7 @@ fn format_upload_artifact_text_includes_request_details() {
 
     assert_eq!(
         text,
-        "Upload artifact: reports/daily.txt\nDescription: Daily summary"
+        "上传 artifact：reports/daily.txt\n描述：Daily summary"
     );
 }
 
@@ -37,7 +37,7 @@ fn format_upload_artifact_text_includes_success_summary() {
 
     assert_eq!(
         text,
-        "Upload artifact: reports/daily.txt\nDescription: Daily summary\nStatus: uploaded artifact artifact-123\nUploaded file: reports/daily.txt"
+        "上传 artifact：reports/daily.txt\n描述：Daily summary\n状态：已上传 artifact artifact-123\n已上传文件：reports/daily.txt"
     );
 }
 
@@ -56,10 +56,10 @@ fn format_upload_artifact_text_includes_terminal_status() {
     );
     assert_eq!(
         error_text,
-        "Upload artifact: reports/daily.txt\nStatus: upload failed: permission denied"
+        "上传 artifact：reports/daily.txt\n状态：上传失败：permission denied"
     );
 
     let cancelled_text =
         format_upload_artifact_text(&request, Some(&UploadArtifactResult::Cancelled));
-    assert_eq!(cancelled_text, "Upload artifact: reports/daily.txt");
+    assert_eq!(cancelled_text, "上传 artifact：reports/daily.txt");
 }

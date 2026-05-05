@@ -78,7 +78,7 @@ pub fn wait_until_bootstrapped_pane(tab_index: usize, pane_index: usize) -> Test
 }
 
 pub fn open_context_menu_for_selected_block() -> Vec<TestStep> {
-    let mut steps = open_command_palette_and_run_action("Open Block Context Menu");
+    let mut steps = open_command_palette_and_run_action("打开块上下文菜单");
     let last = steps.pop().expect("steps should not be empty");
     steps.push(last.add_assertion(assert_context_menu_is_open(true)));
     steps

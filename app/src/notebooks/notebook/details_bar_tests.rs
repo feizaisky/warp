@@ -34,8 +34,8 @@ fn test_editor_display_name() {
         });
 
         app.read(|ctx| {
-            // If there's no known editor, default to "Other user";
-            assert_eq!(&editor_display_name(None, ctx), "Other user");
+            // If there's no known editor, default to "其他用户";
+            assert_eq!(&editor_display_name(None, ctx), "其他用户");
 
             // If the editor doesn't have a profile, default to their email.
             assert_eq!(

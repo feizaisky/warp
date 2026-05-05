@@ -2196,13 +2196,9 @@ impl DriveIndex {
     fn render_join_discoverable_team_section(
         &self,
         appearance: &Appearance,
-        app: &AppContext,
+        _app: &AppContext,
     ) -> Box<dyn Element> {
-        let text = if UserWorkspaces::as_ref(app).num_joinable_teams() > 1 {
-            "查看可加入的团队"
-        } else {
-            "查看可加入的团队"
-        };
+        let text = "查看可加入的团队";
 
         let join_button = Container::new(
             appearance
@@ -2613,8 +2609,7 @@ impl DriveIndex {
                         appearance
                             .ui_builder()
                             .wrappable_text(
-                                "Items in the trash will be deleted forever after 30 days."
-                                    .to_string(),
+                                "废纸篓中的项目将在 30 天后永久删除。".to_string(),
                                 true,
                             )
                             .with_style(UiComponentStyles {
@@ -4644,7 +4639,7 @@ impl DriveIndex {
                                 match space {
                                     Space::Personal | Space::Shared => None,
                                     Space::Team { .. } => Some(
-                                        MenuItemFields::new(format!("Move to {}", space.name(app)))
+                                        MenuItemFields::new(format!("移动到 {}", space.name(app)))
                                             .with_on_select_action(DriveIndexAction::MoveObject {
                                                 cloud_object_type_and_id: *cloud_object_type_and_id,
                                                 new_space: *space,

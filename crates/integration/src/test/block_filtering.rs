@@ -92,7 +92,7 @@ pub fn test_block_filtering_context_menu() -> Builder {
         )
         .with_step(
             new_step_with_default_assertions("Select context menu action")
-                .with_click_on_saved_position("Toggle block filter")
+                .with_click_on_saved_position("切换块过滤")
                 .add_named_assertion("Assert that block filter is open", |app, window_id| {
                     let terminal_view = single_terminal_view_for_tab(app, window_id, 0);
                     terminal_view.read(app, |view, _ctx| {
@@ -122,7 +122,7 @@ pub fn test_block_filtering_toggle_filter() -> Builder {
         )
         .with_step(
             new_step_with_default_assertions("Toggle block filter off")
-                .with_click_on_saved_position("Toggle block filter")
+                .with_click_on_saved_position("切换块过滤")
                 .add_named_assertion(
                     "Assert that the block filter editor is not open",
                     |app, window_id| {
@@ -156,7 +156,7 @@ pub fn test_block_filtering_toggle_filter() -> Builder {
         )
         .with_step(
             new_step_with_default_assertions("Toggle block filter on")
-                .with_click_on_saved_position("Toggle block filter")
+                .with_click_on_saved_position("切换块过滤")
                 .add_named_assertion(
                     "Assert that block filter is applied",
                     SimpleTestCase::assert_filter_is_applied(),

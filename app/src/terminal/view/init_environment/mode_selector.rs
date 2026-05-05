@@ -338,8 +338,8 @@ impl EnvironmentSetupModeSelector {
         let remote_github_option = self.render_option(
             0,
             Icon::Github,
-            "Quick setup",
-            "Select the GitHub repositories you'd like to work with and we'll suggest a base image and config",
+            "快速设置",
+            "选择要使用的 GitHub 仓库，我们会推荐基础镜像和配置",
             true,
             self.remote_github_mouse_state.clone(),
             EnvironmentSetupModeSelectorAction::SelectRemoteGitHub,
@@ -349,8 +349,8 @@ impl EnvironmentSetupModeSelector {
         let local_repos_option = self.render_option(
             1,
             Icon::Terminal,
-            "Use the agent",
-            "Choose a locally set up project and we'll help you set up an environment based on it",
+            "使用智能体",
+            "选择一个已在本地设置好的项目，我们会帮你基于它设置环境",
             false,
             self.local_repos_mouse_state.clone(),
             EnvironmentSetupModeSelectorAction::SelectLocalRepositories,

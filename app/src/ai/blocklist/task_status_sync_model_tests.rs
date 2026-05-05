@@ -38,7 +38,7 @@ fn quota_limit_is_failed_with_insufficient_credits() {
         classify_renderable_error(&RenderableAIError::QuotaLimit),
         AgentTaskState::Failed,
         Some(PlatformErrorCode::InsufficientCredits),
-        Some("credits"),
+        Some("点数"),
     );
 }
 
@@ -48,7 +48,7 @@ fn server_overloaded_is_error_with_resource_unavailable() {
         classify_renderable_error(&RenderableAIError::ServerOverloaded),
         AgentTaskState::Error,
         Some(PlatformErrorCode::ResourceUnavailable),
-        Some("overloaded"),
+        Some("负载过高"),
     );
 }
 
@@ -58,7 +58,7 @@ fn internal_warp_error_is_error() {
         classify_renderable_error(&RenderableAIError::InternalWarpError),
         AgentTaskState::Error,
         Some(PlatformErrorCode::InternalError),
-        Some("internal error"),
+        Some("内部错误"),
     );
 }
 
@@ -68,7 +68,7 @@ fn context_window_exceeded_is_failed() {
         classify_renderable_error(&RenderableAIError::ContextWindowExceeded("too big".into())),
         AgentTaskState::Failed,
         Some(PlatformErrorCode::InternalError),
-        Some("Context window exceeded"),
+        Some("已超出上下文窗口"),
     );
 }
 

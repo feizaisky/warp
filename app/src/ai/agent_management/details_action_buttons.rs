@@ -116,7 +116,7 @@ impl ConversationActionButtonsRow {
         let open_button = ctx.add_typed_action_view(|_| {
             Self::make_action_button(
                 Icon::LinkExternal,
-                "Open conversation",
+                "打开对话",
                 None,
                 AgentDetailsAction::Open,
             )

@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::Builder;
+use crate::{util::gcloud_iap_ssh_prereqs_available, Builder};
 use regex::Regex;
 use settings::Setting as _;
 use warp::{
@@ -170,6 +170,7 @@ macro_rules! generate_can_bootstrap_legacy_ssh_test_for_shell {
                     }
                     let (starter, _) = current_shell_starter_and_version();
                     starter.shell_type() != ShellType::PowerShell
+                        && gcloud_iap_ssh_prereqs_available()
                 })
                 .with_step(wait_until_bootstrapped_single_pane_for_tab(0))
                 .with_step(setup_gcloud_sdk())
@@ -230,6 +231,7 @@ macro_rules! generate_can_bootstrap_tmux_ssh_test_for_shell {
                     }
                     let (starter, _) = current_shell_starter_and_version();
                     starter.shell_type() != ShellType::PowerShell
+                        && gcloud_iap_ssh_prereqs_available()
                 })
                 .with_step(wait_until_bootstrapped_single_pane_for_tab(0))
                 .with_step(setup_gcloud_sdk());
@@ -261,6 +263,7 @@ macro_rules! generate_long_running_block_ssh_test_for_shell {
                 .set_should_run_test(|| {
                     let (starter, _) = current_shell_starter_and_version();
                     starter.shell_type() != ShellType::PowerShell
+                        && gcloud_iap_ssh_prereqs_available()
                 })
                 .with_step(wait_until_bootstrapped_single_pane_for_tab(0))
                 .with_step(setup_gcloud_sdk())
@@ -308,7 +311,7 @@ pub fn test_ssh_with_shell_override() -> Builder {
         // TODO(CORE-2333) PowerShell has no SSH wrapper.
         .set_should_run_test(|| {
             let (starter, _) = current_shell_starter_and_version();
-            starter.shell_type() != ShellType::PowerShell
+            starter.shell_type() != ShellType::PowerShell && gcloud_iap_ssh_prereqs_available()
         })
         .with_user_defaults(HashMap::from([(
             StartupShellOverride::storage_key().to_owned(),

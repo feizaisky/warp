@@ -739,7 +739,7 @@ mod tests {
 
         assert!(!argument.is_optional);
         assert!(!argument.should_execute_on_selection);
-        assert_eq!(argument.hint_text, Some("<tab name>"));
+        assert_eq!(argument.hint_text, Some("<标签页名称>"));
     }
 
     #[cfg(not(target_family = "wasm"))]
@@ -763,10 +763,7 @@ mod tests {
             .expect("expected /continue-locally to declare an argument");
         assert!(argument.is_optional);
         assert!(!argument.should_execute_on_selection);
-        assert_eq!(
-            argument.hint_text,
-            Some("<optional prompt to send in forked conversation>")
-        );
+        assert_eq!(argument.hint_text, Some("<可选：在分叉对话中发送的提示词>"));
     }
 
     #[test]

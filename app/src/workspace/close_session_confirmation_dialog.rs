@@ -131,11 +131,8 @@ impl View for CloseSessionConfirmationDialog {
 
         let dialog = Container::new(
             Dialog::new(
-                "Close session?".into(),
-                Some(
-                    "You are about to close a session that is currently being shared. Closing it will end sharing for everyone."
-                        .into(),
-                ),
+                "关闭会话？".into(),
+                Some("你即将关闭一个正在共享的会话。关闭后，所有人的共享都会结束。".into()),
                 UiComponentStyles {
                     width: Some(460.),
                     padding: Some(Coords::uniform(24.)),
@@ -146,7 +143,7 @@ impl View for CloseSessionConfirmationDialog {
             .with_bottom_row_child(cancel_button)
             .with_bottom_row_child(close_session_button)
             .build()
-            .finish()
+            .finish(),
         )
         .with_margin_top(35.)
         .finish();

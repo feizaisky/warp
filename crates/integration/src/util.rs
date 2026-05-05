@@ -1,3 +1,4 @@
+use command::blocking::Command;
 use itertools::Itertools as _;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -230,6 +231,33 @@ pub fn per_shell_output(
 pub fn skip_if_powershell_core_2303() -> bool {
     let (starter, _) = current_shell_starter_and_version();
     !matches!(starter.shell_type(), ShellType::PowerShell)
+}
+
+pub fn gcloud_iap_ssh_prereqs_available() -> bool {
+    let mut command = Command::new("gcloud");
+    if let Some(config_dir) = original_home_gcloud_config_dir() {
+        command.env("CLOUDSDK_CONFIG", config_dir);
+    }
+
+    let Ok(output) = command
+        .args([
+            "auth",
+            "list",
+            "--filter=status:ACTIVE",
+            "--format=value(account)",
+        ])
+        .output()
+    else {
+        return false;
+    };
+
+    output.status.success() && !String::from_utf8_lossy(&output.stdout).trim().is_empty()
+}
+
+fn original_home_gcloud_config_dir() -> Option<PathBuf> {
+    std::env::var_os("ORIGINAL_HOME")
+        .or_else(|| std::env::var_os("HOME"))
+        .map(|home| PathBuf::from(home).join(".config/gcloud"))
 }
 
 /// Gets the name of the system user for which the test binary is running.

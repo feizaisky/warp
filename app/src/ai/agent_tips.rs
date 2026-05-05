@@ -418,7 +418,7 @@ impl WorkspaceAction {
     pub fn display_text(&self) -> Option<String> {
         match self {
             WorkspaceAction::OpenPalette { .. } => Some("打开命令面板".to_string()),
-            WorkspaceAction::OpenWarpDrive => Some("Warp Drive".to_string()),
+            WorkspaceAction::OpenWarpDrive => Some("Warp 云盘".to_string()),
             WorkspaceAction::ToggleRightPanel => Some("显示差异视图".to_string()),
             _ => None,
         }
@@ -434,8 +434,7 @@ pub fn get_agent_tips(ctx: &AppContext) -> Vec<AgentTip> {
         && AISettings::as_ref(ctx).is_voice_input_enabled(ctx)
     {
         tips.push(AgentTip {
-            description: "按住 <keybinding> 直接向智能体语音输入提示词。"
-                .to_string(),
+            description: "按住 <keybinding> 直接向智能体语音输入提示词。".to_string(),
             link: Some(
                 "https://docs.warp.dev/agent-platform/local-agents/interacting-with-agents/voice"
                     .to_string(),

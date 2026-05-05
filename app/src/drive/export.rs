@@ -250,8 +250,7 @@ impl ExportManager {
                         .with_onclick_action(WorkspaceAction::OpenInExplorer { path: root_dir });
                 }
                 toast_stack.add_ephemeral_toast(
-                    DismissibleToast::success("已完成导出对象".to_string())
-                        .with_link(toast_link),
+                    DismissibleToast::success("已完成导出对象".to_string()).with_link(toast_link),
                     window_id,
                     ctx,
                 );

@@ -1761,7 +1761,7 @@ pub fn init(app: &mut AppContext) {
         FixedBinding::custom(
             CustomAction::History,
             InputAction::Up,
-            "Show History",
+            "显示历史记录",
             // We need to ensure the workflow info box is not open as the "up" arrow
             // key is used to navigate the environment variables dropdown.
             // Same goes with the LLM menu.
@@ -1778,14 +1778,14 @@ pub fn init(app: &mut AppContext) {
 
     app.register_editable_bindings([EditableBinding::new(
         "input:insert_network_logging_workflow",
-        "Show Warp network log",
+        "显示 Warp 网络日志",
         WorkspaceAction::OpenNetworkLogPane,
     )
     .with_enabled(|| ContextFlag::NetworkLogConsole.is_enabled())]);
 
     app.register_editable_bindings([EditableBinding::new(
         "input:clear_screen",
-        "Clear screen",
+        "清屏",
         InputAction::ClearScreen,
     )
     .with_context_predicate(id!("Input"))
@@ -1793,8 +1793,8 @@ pub fn init(app: &mut AppContext) {
 
     app.register_editable_bindings([EditableBinding::new(
         "workspace:edit_prompt",
-        BindingDescription::new("Edit Prompt")
-            .with_custom_description(bindings::MAC_MENUS_CONTEXT, "Edit Prompt"),
+        BindingDescription::new("编辑提示词")
+            .with_custom_description(bindings::MAC_MENUS_CONTEXT, "编辑提示词"),
         WorkspaceAction::OpenPromptEditor {
             open_source: PromptEditorOpenSource::CommandPalette,
         },
@@ -5763,7 +5763,7 @@ impl Input {
             .map(|session| match session.agent {
                 CLIAgent::Unknown => Cow::Borrowed(CLI_AGENT_RICH_INPUT_HINT_TEXT),
                 _ => Cow::Owned(format!(
-                    "Enter prompt for {}...",
+                    "输入给 {} 的提示词...",
                     session.agent.display_name()
                 )),
             })

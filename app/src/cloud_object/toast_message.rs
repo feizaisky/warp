@@ -20,87 +20,99 @@ impl CloudObjectToastMessage {
 
         match (object.object_type(), operation, success_type) {
             // We should only show toasts for creates initiated by the user, not by the system
-            (_, ObjectOperation::Create { initiated_by: InitiatedBy::User }, OperationSuccessType::Success) => {
+            (
+                _,
+                ObjectOperation::Create {
+                    initiated_by: InitiatedBy::User,
+                },
+                OperationSuccessType::Success,
+            ) => {
                 let containing_object_name = object.containing_object_name(app);
-                Some(format!("{object_name} saved to {containing_object_name}"))
+                Some(format!("{object_name} 已保存到 {containing_object_name}"))
             }
             // notebooks intentionally do not have an update message, as they are updated
             // as the user types and so toasts would be VERY noisy
-            (
-                ObjectType::Notebook,
-                ObjectOperation::Update,
-                OperationSuccessType::Success,
-            ) => None,
+            (ObjectType::Notebook, ObjectOperation::Update, OperationSuccessType::Success) => None,
             (_, ObjectOperation::Update, OperationSuccessType::Success) => {
-                Some(format!("{object_name} updated"))
+                Some(format!("{object_name} 已更新"))
             }
-            (_, ObjectOperation::MoveToFolder, OperationSuccessType::Success) | (_, ObjectOperation::MoveToDrive, OperationSuccessType::Success) => {
+            (_, ObjectOperation::MoveToFolder, OperationSuccessType::Success)
+            | (_, ObjectOperation::MoveToDrive, OperationSuccessType::Success) => {
                 let containing_object_name = object.containing_object_name(app);
-                Some(format!("{object_name} moved to {containing_object_name}"))
+                Some(format!("{object_name} 已移动到 {containing_object_name}"))
             }
             (_, ObjectOperation::Trash, OperationSuccessType::Success) => {
-                Some(format!("{object_name} trashed"))
+                Some(format!("{object_name} 已移到废纸篓"))
             }
             (_, ObjectOperation::Untrash, OperationSuccessType::Success) => {
-                Some(format!("{object_name} restored"))
+                Some(format!("{object_name} 已恢复"))
             }
             (_, ObjectOperation::Leave, OperationSuccessType::Success) => {
-                Some(format!("Left {object_name}"))
+                Some(format!("已离开 {object_name}"))
             }
-            (_, ObjectOperation::Create { initiated_by: InitiatedBy::User }, OperationSuccessType::Failure) => {
-                Some(format!("Failed to create {object_name_lowercase}"))
-            }
-            (_, ObjectOperation::Create { initiated_by: InitiatedBy::User }, OperationSuccessType::Denied(message)) => {
-                Some(message.to_string())
-            }
+            (
+                _,
+                ObjectOperation::Create {
+                    initiated_by: InitiatedBy::User,
+                },
+                OperationSuccessType::Failure,
+            ) => Some(format!("创建 {object_name_lowercase} 失败")),
+            (
+                _,
+                ObjectOperation::Create {
+                    initiated_by: InitiatedBy::User,
+                },
+                OperationSuccessType::Denied(message),
+            ) => Some(message.to_string()),
             (_, ObjectOperation::Update, OperationSuccessType::Failure) => {
-                Some(format!("Failed to update {object_name_lowercase}"))
+                Some(format!("更新 {object_name_lowercase} 失败"))
             }
-            (_, ObjectOperation::MoveToFolder, OperationSuccessType::Failure) | (_, ObjectOperation::MoveToDrive, OperationSuccessType::Failure) => {
-                Some(format!("Failed to move {object_name_lowercase}"))
+            (_, ObjectOperation::MoveToFolder, OperationSuccessType::Failure)
+            | (_, ObjectOperation::MoveToDrive, OperationSuccessType::Failure) => {
+                Some(format!("移动 {object_name_lowercase} 失败"))
             }
             (_, ObjectOperation::Trash, OperationSuccessType::Failure) => {
-                Some(format!("Failed to trash {object_name_lowercase}"))
+                Some(format!("将 {object_name_lowercase} 移到废纸篓失败"))
             }
             (_, ObjectOperation::Untrash, OperationSuccessType::Failure) => {
-                Some(format!("Failed to restore {object_name_lowercase}"))
+                Some(format!("恢复 {object_name_lowercase} 失败"))
             }
             // We should only show deletion failure toasts for user-initiated deletions.
-            (_, ObjectOperation::Delete { initiated_by: InitiatedBy::User }, OperationSuccessType::Failure) => {
-                Some(format!("Failed to delete {object_name_lowercase}"))
-            }
+            (
+                _,
+                ObjectOperation::Delete {
+                    initiated_by: InitiatedBy::User,
+                },
+                OperationSuccessType::Failure,
+            ) => Some(format!("删除 {object_name_lowercase} 失败")),
             (_, ObjectOperation::Leave, OperationSuccessType::Failure) => {
-                Some(format!("Failed to leave {object_name}"))
+                Some(format!("离开 {object_name} 失败"))
+            }
+            (ObjectType::Workflow, ObjectOperation::Update, OperationSuccessType::Rejection) => {
+                Some("无法保存此工作流，因为你编辑期间发生了其他更改。".to_string())
             }
             (
-                ObjectType::Workflow,
+                ObjectType::GenericStringObject(GenericStringObjectFormat::Json(
+                    JsonObjectType::EnvVarCollection,
+                )),
                 ObjectOperation::Update,
                 OperationSuccessType::Rejection,
-            ) => {
-                Some("This workflow could not be saved because changes were made while you were editing.".to_string())
-            }
+            ) => Some("无法保存环境变量，因为你编辑期间发生了其他更改。".to_string()),
             (
-                ObjectType::GenericStringObject(GenericStringObjectFormat::Json(JsonObjectType::EnvVarCollection)),
+                ObjectType::GenericStringObject(GenericStringObjectFormat::Json(
+                    JsonObjectType::AIFact,
+                )),
                 ObjectOperation::Update,
                 OperationSuccessType::Rejection,
-            ) => {
-                Some("Environment variables could not be saved because changes were made while you were editing.".to_string())
-            }
-            (
-                ObjectType::GenericStringObject(GenericStringObjectFormat::Json(JsonObjectType::AIFact)),
-                ObjectOperation::Update,
-                OperationSuccessType::Rejection,
-            ) => {
-                Some("Rule could not be saved because changes were made while you were editing.".to_string())
-            }
+            ) => Some("无法保存规则，因为你编辑期间发生了其他更改。".to_string()),
             (_, ObjectOperation::TakeEditAccess, OperationSuccessType::Failure) => {
-                Some(format!("Failed to start editing {object_name_lowercase}"))
+                Some(format!("开始编辑 {object_name_lowercase} 失败"))
             }
             (_, ObjectOperation::UpdatePermissions, OperationSuccessType::Success) => {
-                Some(format!("Successfully updated permissions for {object_name_lowercase}"))
+                Some(format!("已成功更新 {object_name_lowercase} 的权限"))
             }
             (_, ObjectOperation::UpdatePermissions, OperationSuccessType::Failure) => {
-                Some(format!("Failed to update permissions for {object_name_lowercase}"))
+                Some(format!("更新 {object_name_lowercase} 的权限失败"))
             }
             _ => None,
         }
@@ -112,9 +124,9 @@ impl CloudObjectToastMessage {
         success_type: &OperationSuccessType,
     ) -> Option<String> {
         let count_objects_message = match num_objects {
-            1 => "1 object".to_string(),
+            1 => "1 个对象".to_string(),
             n => {
-                format!("{n} objects")
+                format!("{n} 个对象")
             }
         };
         match (operation, success_type) {
@@ -124,15 +136,15 @@ impl CloudObjectToastMessage {
                     initiated_by: InitiatedBy::User,
                 },
                 OperationSuccessType::Success,
-            ) => Some(format!("{count_objects_message} deleted forever")),
-            (ObjectOperation::EmptyTrash, OperationSuccessType::Success) => Some(format!(
-                "Trash emptied: {count_objects_message} deleted forever"
-            )),
+            ) => Some(format!("{count_objects_message}已永久删除")),
+            (ObjectOperation::EmptyTrash, OperationSuccessType::Success) => {
+                Some(format!("废纸篓已清空：{count_objects_message}已永久删除"))
+            }
             (ObjectOperation::EmptyTrash, OperationSuccessType::Failure) => {
-                Some("Failed to empty trash".to_string())
+                Some("清空废纸篓失败".to_string())
             }
             (ObjectOperation::EmptyTrash, OperationSuccessType::Rejection) => {
-                Some("No objects in trash to empty".to_string())
+                Some("废纸篓中没有可清空的对象".to_string())
             }
             _ => None,
         }

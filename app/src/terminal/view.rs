@@ -15126,17 +15126,9 @@ impl TerminalView {
                     .active_block()
                     .is_active_and_long_running();
 
-                let copy_commands_str = if is_single_selection {
-                    "复制命令"
-                } else {
-                    "复制命令"
-                };
+                let copy_commands_str = "复制命令";
                 let copy_str = "复制";
-                let find_str = if is_single_selection {
-                    "在块中查找"
-                } else {
-                    "在块中查找"
-                };
+                let find_str = "在块中查找";
                 let scroll_to_top_str = if is_single_selection {
                     "滚动到块顶部"
                 } else {

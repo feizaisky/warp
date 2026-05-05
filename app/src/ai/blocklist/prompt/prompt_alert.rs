@@ -42,8 +42,7 @@ const COMPARE_PLANS_TEXT: &str = "比较套餐";
 const CONTACT_SUPPORT_TEXT: &str = "联系支持";
 const NON_ADMIN_CONTACT_ADMIN_TEXT: &str = "，请联系团队管理员";
 const NON_ADMIN_ASK_ADMIN_TO_ENABLE_OVERAGES_TEXT: &str = "，请让团队管理员启用超出限额使用";
-const NON_ADMIN_ASK_ADMIN_TO_INCREASE_OVERAGES_TEXT: &str =
-    "，请让团队管理员提高超出限额上限";
+const NON_ADMIN_ASK_ADMIN_TO_INCREASE_OVERAGES_TEXT: &str = "，请让团队管理员提高超出限额上限";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PromptAlertAction {

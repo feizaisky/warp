@@ -268,9 +268,9 @@ pub enum GlobalHotkeyMode {
 impl GlobalHotkeyMode {
     pub fn as_dropdown_label(&self) -> &str {
         match self {
-            Self::Disabled => "Disabled",
-            Self::QuakeMode => "Dedicated hotkey window",
-            Self::ActivationHotkey => "Show/hide all windows",
+            Self::Disabled => "已禁用",
+            Self::QuakeMode => "专用快捷键窗口",
+            Self::ActivationHotkey => "显示/隐藏所有窗口",
         }
     }
 }

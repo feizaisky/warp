@@ -60,7 +60,7 @@ fn returns_failure_placeholder_for_screenshot_load_errors() {
     .expect("expected failure placeholder");
 
     assert!(matches!(image.source, LightboxImageSource::Loading));
-    assert_eq!(image.description.as_deref(), Some("Failed to load"));
+    assert_eq!(image.description.as_deref(), Some("加载失败"));
 }
 
 #[test]
@@ -102,7 +102,7 @@ fn file_button_label_falls_back_to_filepath_basename() {
 
 #[test]
 fn file_button_label_falls_back_to_generic_label() {
-    assert_eq!(file_button_label("", ""), "File");
+    assert_eq!(file_button_label("", ""), "文件");
 }
 
 #[test]
