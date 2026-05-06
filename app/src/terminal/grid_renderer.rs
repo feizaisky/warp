@@ -925,6 +925,23 @@ fn render_cell(
         cell_colors.background_color,
         ctx,
     );
+    // For WIDE_CHAR cells, also extend the background to cover the following
+    // WIDE_CHAR_SPACER column. The spacer is skipped by the main loop and
+    // would otherwise leave a transparent gap that visually clips the right
+    // half of the wide glyph (especially obvious with reverse video).
+    if cell.flags.intersects(Flags::WIDE_CHAR) {
+        let spacer_col = (col + 1).min(grid.columns().saturating_sub(1));
+        cached_background_color = maybe_draw_background(
+            cached_background_color,
+            grid_origin,
+            cell_size,
+            spacer_col,
+            offset_row,
+            grid.columns() - 1,
+            cell_colors.background_color,
+            ctx,
+        );
+    }
 
     let glyph_offset = cell_size * vec2f(col as f32, offset_row as f32);
 
@@ -1350,6 +1367,24 @@ fn render_grid_with_ligatures<'a>(
                 cell_colors.background_color,
                 ctx,
             );
+            // For WIDE_CHAR cells, also extend the background to cover the
+            // following WIDE_CHAR_SPACER column. The spacer is skipped by the
+            // main loop and would otherwise leave a transparent gap that
+            // visually clips the right half of the wide glyph (especially
+            // obvious with reverse video).
+            if cell.flags.intersects(Flags::WIDE_CHAR) {
+                let spacer_col = (col + 1).min(grid.columns().saturating_sub(1));
+                cached_background_color = maybe_draw_background(
+                    cached_background_color,
+                    grid_origin,
+                    cell_size,
+                    spacer_col,
+                    offset_row,
+                    grid.columns() - 1,
+                    cell_colors.background_color,
+                    ctx,
+                );
+            }
 
             let glyph_offset = cell_size * vec2f(col as f32, offset_row as f32);
             if first_cell_in_link {
