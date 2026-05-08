@@ -1,3 +1,5 @@
+pub mod migration;
+
 use std::collections::HashMap;
 use std::path::Path;
 

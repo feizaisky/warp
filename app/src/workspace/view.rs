@@ -3492,6 +3492,9 @@ impl Workspace {
                 self.sync_panel_positions_from_config(ctx);
                 ctx.notify();
             }
+            TabSettingsChangedEvent::GroupOpenedFilesIntoTabs { .. } => {
+                ctx.notify();
+            }
         }
     }
 
