@@ -130,6 +130,9 @@ mod tests {
         let pane = PaneId::dummy_pane_id();
         model.record_pane_for_path(PathBuf::from("/repo/a.rs"), pane, Some(0));
         model.forget_path(&PathBuf::from("/repo/a.rs"));
-        assert_eq!(model.find_pane_and_tab_for(&PathBuf::from("/repo/a.rs")), None);
+        assert_eq!(
+            model.find_pane_and_tab_for(&PathBuf::from("/repo/a.rs")),
+            None
+        );
     }
 }

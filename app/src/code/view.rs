@@ -595,7 +595,10 @@ impl CodeView {
                 };
 
                 me.open_or_focus_existing(Some(path.to_path_buf()), Some(line_col), ctx);
-                if let Some(editor) = me.tab_at(me.active_tab_index()).map(|tab| tab.editor_view()) {
+                if let Some(editor) = me
+                    .tab_at(me.active_tab_index())
+                    .map(|tab| tab.editor_view())
+                {
                     editor.update(ctx, |editor, ctx| {
                         editor.cursor_at(Point::new(line_1based as u32, *column as u32), ctx);
                     });
@@ -652,6 +655,9 @@ impl CodeView {
 
     pub fn local_path(&self, ctx: &AppContext) -> Option<PathBuf> {
         self.tab_at(self.active_tab_index).and_then(|t| {
+            if t.content().is_markdown() {
+                return t.path();
+            }
             t.editor_view().as_ref(ctx).file_id().and_then(|file_id| {
                 GlobalBufferModel::as_ref(ctx)
                     .file_path(file_id)
@@ -860,9 +866,9 @@ impl CodeView {
     /// Set the title of the pane, which is the file path.
     fn set_title(&self, _unsaved_changes: bool, ctx: &mut ViewContext<Self>) {
         let file = self.local_path(ctx);
-        let is_new = self
-            .tab_at(self.active_tab_index)
-            .is_some_and(|t| t.editor_view().as_ref(ctx).is_new_file());
+        let is_new = self.tab_at(self.active_tab_index).is_some_and(|t| {
+            !t.content().is_markdown() && t.editor_view().as_ref(ctx).is_new_file()
+        });
 
         let title = if let Some(file) = file {
             file.display().to_string()
@@ -1008,6 +1014,9 @@ impl CodeView {
     }
 
     fn has_unsaved_changes(tab: &TabData, ctx: &AppContext) -> bool {
+        if tab.content().is_markdown() {
+            return false;
+        }
         let local_editor = tab.editor_view().as_ref(ctx);
         local_editor.has_unsaved_changes(ctx)
     }
@@ -1021,6 +1030,9 @@ impl CodeView {
     /// This is needed after save_as operations to keep the paths in sync.
     fn sync_active_tab_path(&mut self, ctx: &mut ViewContext<Self>) {
         if let Some(tab) = self.tab_group.get_mut(self.active_tab_index) {
+            if tab.content().is_markdown() {
+                return;
+            }
             let new_path = tab
                 .editor_view()
                 .as_ref(ctx)
@@ -2102,9 +2114,7 @@ impl View for CodeView {
                 TabContent::Code(view) => match self.source {
                     CodeSource::AIAction { .. } => Flex::column()
                         .with_child(self.render_request_edit_action_header(tab, app))
-                        .with_child(
-                            Shrinkable::new(1., ChildView::new(view).finish()).finish(),
-                        )
+                        .with_child(Shrinkable::new(1., ChildView::new(view).finish()).finish())
                         .finish(),
                     _ => ChildView::new(view).finish(),
                 },

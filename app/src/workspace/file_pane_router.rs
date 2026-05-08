@@ -11,11 +11,17 @@ pub enum FileKind {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum RouteAction {
     /// Focus the existing tab inside a CodeView container.
-    FocusExistingTab { container_pane_id: u64, tab_index: usize },
+    FocusExistingTab {
+        container_pane_id: u64,
+        tab_index: usize,
+    },
     /// Focus an existing lone (non-container) file pane that already shows the path.
     FocusExistingLone { pane_id: u64 },
     /// Append the file as a new tab into an existing container.
-    AppendToContainer { container_pane_id: u64, kind: FileKind },
+    AppendToContainer {
+        container_pane_id: u64,
+        kind: FileKind,
+    },
     /// Promote a lone file pane (Markdown FilePane or single-tab CodePane) into a
     /// container that holds both the original content and the new file.
     PromoteLoneToContainer { lone_pane_id: u64, kind: FileKind },
@@ -38,16 +44,25 @@ pub fn route(ctx: &dyn RouteContext, path: &Path, kind: FileKind) -> RouteAction
         return RouteAction::CreateNewSplitPane { kind };
     }
     if let Some((container, idx)) = ctx.find_tab_for(path) {
-        return RouteAction::FocusExistingTab { container_pane_id: container, tab_index: idx };
+        return RouteAction::FocusExistingTab {
+            container_pane_id: container,
+            tab_index: idx,
+        };
     }
     if let Some(pid) = ctx.find_lone_pane_for(path) {
         return RouteAction::FocusExistingLone { pane_id: pid };
     }
     if let Some(c) = ctx.find_focused_or_first_container() {
-        return RouteAction::AppendToContainer { container_pane_id: c, kind };
+        return RouteAction::AppendToContainer {
+            container_pane_id: c,
+            kind,
+        };
     }
     if let Some(lone) = ctx.find_most_recently_focused_lone_file_pane() {
-        return RouteAction::PromoteLoneToContainer { lone_pane_id: lone, kind };
+        return RouteAction::PromoteLoneToContainer {
+            lone_pane_id: lone,
+            kind,
+        };
     }
     RouteAction::CreateNewContainer { kind }
 }
@@ -84,7 +99,9 @@ fn pane_id_to_u64(p: PaneId) -> u64 {
     // EntityId is internally a `usize` and Displays as the bare number.
     // Round-trip via Display keeps us decoupled from the `pub(crate)`
     // accessors in warpui_core without exposing them publicly.
-    format!("{}", p.creation_order_id()).parse::<u64>().unwrap_or(0)
+    format!("{}", p.creation_order_id())
+        .parse::<u64>()
+        .unwrap_or(0)
 }
 
 #[cfg(feature = "local_fs")]
@@ -125,9 +142,7 @@ impl<'a> RouteContext for WorkspaceRouteContext<'a> {
 
     fn find_focused_or_first_container(&self) -> Option<u64> {
         let focused = self.active_pane_group.focused_pane_id(self.app_ctx);
-        if focused.is_code_pane()
-            && !self.active_pane_group.is_pane_hidden_for_close(focused)
-        {
+        if focused.is_code_pane() && !self.active_pane_group.is_pane_hidden_for_close(focused) {
             return Some(pane_id_to_u64(focused));
         }
         // Fall back to the first visible code pane.
@@ -168,19 +183,43 @@ mod tests {
     }
 
     impl RouteContext for StubCtx {
-        fn grouping_enabled(&self) -> bool { self.grouping }
-        fn find_tab_for(&self, _: &Path) -> Option<(u64, usize)> { self.existing_tab }
-        fn find_lone_pane_for(&self, _: &Path) -> Option<u64> { self.existing_lone }
-        fn find_focused_or_first_container(&self) -> Option<u64> { self.container }
-        fn find_most_recently_focused_lone_file_pane(&self) -> Option<u64> { self.recent_lone }
+        fn grouping_enabled(&self) -> bool {
+            self.grouping
+        }
+        fn find_tab_for(&self, _: &Path) -> Option<(u64, usize)> {
+            self.existing_tab
+        }
+        fn find_lone_pane_for(&self, _: &Path) -> Option<u64> {
+            self.existing_lone
+        }
+        fn find_focused_or_first_container(&self) -> Option<u64> {
+            self.container
+        }
+        fn find_most_recently_focused_lone_file_pane(&self) -> Option<u64> {
+            self.recent_lone
+        }
     }
 
-    fn p() -> PathBuf { PathBuf::from("/tmp/foo.md") }
+    fn p() -> PathBuf {
+        PathBuf::from("/tmp/foo.md")
+    }
 
     #[test]
     fn off_creates_split_pane() {
-        let r = route(&StubCtx { grouping: false, ..Default::default() }, &p(), FileKind::Markdown);
-        assert_eq!(r, RouteAction::CreateNewSplitPane { kind: FileKind::Markdown });
+        let r = route(
+            &StubCtx {
+                grouping: false,
+                ..Default::default()
+            },
+            &p(),
+            FileKind::Markdown,
+        );
+        assert_eq!(
+            r,
+            RouteAction::CreateNewSplitPane {
+                kind: FileKind::Markdown
+            }
+        );
     }
 
     #[test]
@@ -194,7 +233,10 @@ mod tests {
         };
         assert_eq!(
             route(&ctx, &p(), FileKind::Code),
-            RouteAction::FocusExistingTab { container_pane_id: 42, tab_index: 3 }
+            RouteAction::FocusExistingTab {
+                container_pane_id: 42,
+                tab_index: 3
+            }
         );
     }
 
@@ -214,28 +256,47 @@ mod tests {
 
     #[test]
     fn append_when_container_exists() {
-        let ctx = StubCtx { grouping: true, container: Some(7), ..Default::default() };
+        let ctx = StubCtx {
+            grouping: true,
+            container: Some(7),
+            ..Default::default()
+        };
         assert_eq!(
             route(&ctx, &p(), FileKind::Markdown),
-            RouteAction::AppendToContainer { container_pane_id: 7, kind: FileKind::Markdown }
+            RouteAction::AppendToContainer {
+                container_pane_id: 7,
+                kind: FileKind::Markdown
+            }
         );
     }
 
     #[test]
     fn promote_lone_when_no_container() {
-        let ctx = StubCtx { grouping: true, recent_lone: Some(11), ..Default::default() };
+        let ctx = StubCtx {
+            grouping: true,
+            recent_lone: Some(11),
+            ..Default::default()
+        };
         assert_eq!(
             route(&ctx, &p(), FileKind::Code),
-            RouteAction::PromoteLoneToContainer { lone_pane_id: 11, kind: FileKind::Code }
+            RouteAction::PromoteLoneToContainer {
+                lone_pane_id: 11,
+                kind: FileKind::Code
+            }
         );
     }
 
     #[test]
     fn create_new_when_workspace_empty() {
-        let ctx = StubCtx { grouping: true, ..Default::default() };
+        let ctx = StubCtx {
+            grouping: true,
+            ..Default::default()
+        };
         assert_eq!(
             route(&ctx, &p(), FileKind::Code),
-            RouteAction::CreateNewContainer { kind: FileKind::Code }
+            RouteAction::CreateNewContainer {
+                kind: FileKind::Code
+            }
         );
     }
 }

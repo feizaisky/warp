@@ -312,6 +312,12 @@ integration_tests! {
     test_file_tree_non_openable_files,
     test_file_tree_nested_file_opening,
 
+    test_opens_first_file_as_single_tab_container,
+    test_second_file_creates_second_tab_same_container,
+    test_markdown_file_joins_same_container,
+    test_repeat_open_focuses_existing_tab,
+    test_close_last_tab_destroys_container,
+
     // Go to Line tests
     test_goto_line_dialog_open_close,
     test_goto_line_jumps_to_line,

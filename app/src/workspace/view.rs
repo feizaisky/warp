@@ -7273,11 +7273,11 @@ impl Workspace {
         additional_paths: &[PathBuf],
         ctx: &mut ViewContext<Self>,
     ) {
-        use crate::workspace::file_pane_router::{
-            route, RouteAction, WorkspaceRouteContext,
-        };
+        use crate::workspace::file_pane_router::{route, RouteAction, WorkspaceRouteContext};
 
-        let grouping = *TabSettings::as_ref(ctx).group_opened_files_into_tabs.value();
+        let grouping = *TabSettings::as_ref(ctx)
+            .group_opened_files_into_tabs
+            .value();
         let pane_group_handle = self.active_tab_pane_group().clone();
         let opened_files_handle = crate::code::opened_files::OpenedFilesModel::handle(ctx);
 
@@ -7303,12 +7303,7 @@ impl Workspace {
                 container_pane_id,
                 tab_index,
             } => {
-                self.focus_pane_and_tab_by_u64(
-                    container_pane_id,
-                    tab_index,
-                    line_col,
-                    ctx,
-                );
+                self.focus_pane_and_tab_by_u64(container_pane_id, tab_index, line_col, ctx);
             }
             RouteAction::FocusExistingLone { pane_id } => {
                 self.focus_pane_by_u64(pane_id, ctx);
@@ -7386,12 +7381,7 @@ impl Workspace {
         self.active_tab_pane_group()
             .as_ref(ctx)
             .pane_ids()
-            .find(|pid| {
-                format!("{}", pid.creation_order_id())
-                    .parse::<u64>()
-                    .ok()
-                    == Some(raw)
-            })
+            .find(|pid| format!("{}", pid.creation_order_id()).parse::<u64>().ok() == Some(raw))
     }
 
     #[cfg(feature = "local_fs")]
@@ -11398,7 +11388,9 @@ impl Workspace {
             // Check if we can add the new file to an existing code pane (when using split pane
             // layout).
             if layout == EditorLayout::SplitPane
-                && *TabSettings::as_ref(ctx).group_opened_files_into_tabs.value()
+                && *TabSettings::as_ref(ctx)
+                    .group_opened_files_into_tabs
+                    .value()
             {
                 let code_view = self
                     .active_tab_pane_group()
@@ -13923,8 +13915,9 @@ impl Workspace {
                         TabBarHoverIndex::OverTab(workspace_tab_index) => {
                             #[cfg(not(target_family = "wasm"))]
                             {
-                                let prefers_tabbed_editor_view =
-                                    *TabSettings::as_ref(ctx).group_opened_files_into_tabs.value();
+                                let prefers_tabbed_editor_view = *TabSettings::as_ref(ctx)
+                                    .group_opened_files_into_tabs
+                                    .value();
 
                                 let target_pane_group =
                                     self.get_pane_group_view(workspace_tab_index);
@@ -14063,8 +14056,9 @@ impl Workspace {
                 hidden_pane_preview_direction,
             } => {
                 #[cfg(feature = "local_fs")]
-                let prefers_tabbed_editor_view =
-                    *TabSettings::as_ref(ctx).group_opened_files_into_tabs.value();
+                let prefers_tabbed_editor_view = *TabSettings::as_ref(ctx)
+                    .group_opened_files_into_tabs
+                    .value();
 
                 #[cfg(not(feature = "local_fs"))]
                 let prefers_tabbed_editor_view = false;

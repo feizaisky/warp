@@ -2,6 +2,8 @@ use std::borrow::Cow;
 
 use warpui::{App, AssetProvider, View, ViewHandle, WindowId};
 
+pub use crate::code::view::CodeViewAction;
+
 pub mod agent_mode;
 pub mod assertions;
 pub mod block;

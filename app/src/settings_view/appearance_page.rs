@@ -4612,9 +4612,7 @@ impl SettingsWidget for GroupOpenedFilesIntoTabsWidget {
                 .check(*tab_settings.group_opened_files_into_tabs)
                 .build()
                 .on_click(move |ctx, _, _| {
-                    ctx.dispatch_typed_action(
-                        AppearancePageAction::ToggleGroupOpenedFilesIntoTabs,
-                    );
+                    ctx.dispatch_typed_action(AppearancePageAction::ToggleGroupOpenedFilesIntoTabs);
                 })
                 .finish(),
             Some("打开多个文件时将它们归入同一个标签容器，而不是为每个文件创建独立面板。".into()),

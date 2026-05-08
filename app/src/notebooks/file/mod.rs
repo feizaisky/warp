@@ -34,9 +34,7 @@ use crate::{
     menu::{MenuItem, MenuItemFields},
     notebooks::editor::{model::NotebooksEditorModel, rich_text_styles},
     pane_group::{
-        focus_state::PaneFocusHandle,
-        pane::view,
-        BackingView, PaneConfiguration, PaneEvent,
+        focus_state::PaneFocusHandle, pane::view, BackingView, PaneConfiguration, PaneEvent,
     },
     safe_warn, send_telemetry_from_ctx,
     server::telemetry::{NotebookActionEvent, NotebookTelemetryMetadata, TelemetryEvent},

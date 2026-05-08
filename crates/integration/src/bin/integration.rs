@@ -426,6 +426,13 @@ fn register_tests() -> HashMap<&'static str, BoxedBuilderFn> {
     register_test!(test_file_tree_non_openable_files);
     register_test!(test_file_tree_nested_file_opening);
 
+    // File preview tabs tests
+    register_test!(test_opens_first_file_as_single_tab_container);
+    register_test!(test_second_file_creates_second_tab_same_container);
+    register_test!(test_markdown_file_joins_same_container);
+    register_test!(test_repeat_open_focuses_existing_tab);
+    register_test!(test_close_last_tab_destroys_container);
+
     // Go to Line tests
     register_test!(test_goto_line_dialog_open_close);
     register_test!(test_goto_line_jumps_to_line);
