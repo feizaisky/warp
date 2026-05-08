@@ -5,6 +5,7 @@ pub mod bonus_grant_notification_model;
 mod cli_install;
 mod close_session_confirmation_dialog;
 pub mod delete_conversation_confirmation_dialog;
+pub mod file_pane_router;
 mod global_actions;
 pub mod header_toolbar_editor;
 pub mod header_toolbar_item;
