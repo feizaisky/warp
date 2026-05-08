@@ -806,7 +806,7 @@ impl CodeView {
         self.jump_to_line_col_in_tab(self.active_tab_index, line_col, ctx);
     }
 
-    fn jump_to_line_col_in_tab(
+    pub(crate) fn jump_to_line_col_in_tab(
         &self,
         tab_index: usize,
         line_col: LineAndColumnArg,

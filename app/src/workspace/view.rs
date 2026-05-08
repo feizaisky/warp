@@ -77,6 +77,7 @@ use crate::default_terminal::DefaultTerminal;
 use crate::notebooks::CloudNotebook;
 use crate::notification::NotificationContext;
 use crate::pane_group::pane::ActionOrigin;
+use crate::pane_group::pane::PaneContent;
 use crate::projects::ProjectManagementModel;
 use crate::settings_view::mcp_servers_page::MCPServersSettingsPage;
 use crate::terminal::enable_auto_reload_modal::{
@@ -5741,9 +5742,14 @@ impl Workspace {
 
         match target {
             FileTarget::MarkdownViewer(layout) => {
-                let session = self.get_active_session(ctx);
-
-                self.open_file_notebook(path.clone(), session, layout, ctx);
+                self.dispatch_open_file(
+                    path,
+                    crate::workspace::file_pane_router::FileKind::Markdown,
+                    line_col,
+                    code_source,
+                    layout,
+                    ctx,
+                );
             }
             FileTarget::EnvEditor => {
                 let editor_value: Option<String> = self
@@ -7245,6 +7251,358 @@ impl Workspace {
                         ctx,
                     );
                 });
+            }
+        }
+    }
+
+    /// Single dispatch entry point for "user opened a file" flows. Computes a
+    /// `RouteAction` via the pure `FilePaneRouter`, then routes the call into
+    /// the corresponding helper. This replaces the scattered
+    /// `if grouping_on { .. } else { .. }` branches that used to live in
+    /// `open_code` / `add_tab_for_new_code_file` / `open_file_with_target`'s
+    /// markdown arm.
+    #[cfg(feature = "local_fs")]
+    fn dispatch_open_file(
+        &mut self,
+        path: PathBuf,
+        kind: crate::workspace::file_pane_router::FileKind,
+        line_col: Option<LineAndColumnArg>,
+        code_source: CodeSource,
+        target_layout: EditorLayout,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        use crate::workspace::file_pane_router::{
+            route, RouteAction, WorkspaceRouteContext,
+        };
+
+        let grouping = *TabSettings::as_ref(ctx).group_opened_files_into_tabs.value();
+        let pane_group_handle = self.active_tab_pane_group().clone();
+        let opened_files_handle = crate::code::opened_files::OpenedFilesModel::handle(ctx);
+
+        let action = {
+            let pane_group = pane_group_handle.as_ref(ctx);
+            let opened_files = opened_files_handle.as_ref(ctx);
+            let route_ctx = WorkspaceRouteContext {
+                grouping,
+                active_pane_group: pane_group,
+                opened_files,
+                app_ctx: ctx,
+            };
+            route(&route_ctx, &path, kind.clone())
+        };
+
+        match action {
+            RouteAction::FocusExistingTab {
+                container_pane_id,
+                tab_index,
+            } => {
+                self.focus_pane_and_tab_by_u64(
+                    container_pane_id,
+                    tab_index,
+                    line_col,
+                    ctx,
+                );
+            }
+            RouteAction::FocusExistingLone { pane_id } => {
+                self.focus_pane_by_u64(pane_id, ctx);
+            }
+            RouteAction::AppendToContainer {
+                container_pane_id,
+                kind,
+            } => {
+                self.append_into_container_by_u64(
+                    container_pane_id,
+                    path,
+                    kind,
+                    line_col,
+                    ctx,
+                );
+            }
+            RouteAction::PromoteLoneToContainer { lone_pane_id, kind } => {
+                self.promote_lone_to_container_by_u64(
+                    lone_pane_id,
+                    path,
+                    kind,
+                    line_col,
+                    code_source,
+                    target_layout,
+                    ctx,
+                );
+            }
+            RouteAction::CreateNewContainer { kind } => {
+                self.create_new_container_with_first_tab(
+                    path,
+                    kind,
+                    line_col,
+                    code_source,
+                    target_layout,
+                    ctx,
+                );
+            }
+            RouteAction::CreateNewSplitPane { kind } => {
+                self.legacy_create_new_split_pane(
+                    path,
+                    kind,
+                    line_col,
+                    code_source,
+                    target_layout,
+                    ctx,
+                );
+            }
+        }
+    }
+
+    /// Convert a u64 produced by the router (PaneId::creation_order_id parsed
+    /// from Display) back to a `PaneId` by scanning the active pane group.
+    #[cfg(feature = "local_fs")]
+    fn pane_id_from_u64(&self, raw: u64, ctx: &AppContext) -> Option<PaneId> {
+        self.active_tab_pane_group()
+            .as_ref(ctx)
+            .pane_ids()
+            .find(|pid| {
+                format!("{}", pid.creation_order_id())
+                    .parse::<u64>()
+                    .ok()
+                    == Some(raw)
+            })
+    }
+
+    #[cfg(feature = "local_fs")]
+    fn focus_pane_and_tab_by_u64(
+        &mut self,
+        raw: u64,
+        tab_index: usize,
+        line_col: Option<LineAndColumnArg>,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        let Some(pane_id) = self.pane_id_from_u64(raw, ctx) else {
+            return;
+        };
+        let code_view = self
+            .active_tab_pane_group()
+            .as_ref(ctx)
+            .code_view_from_pane_id(pane_id, ctx);
+        if let Some(code_view) = code_view {
+            code_view.update(ctx, |view, ctx| {
+                view.set_active_tab_index(tab_index, ctx);
+                if let Some(lc) = line_col {
+                    view.jump_to_line_col_in_tab(tab_index, lc, ctx);
+                }
+            });
+        }
+        self.active_tab_pane_group().update(ctx, |pg, ctx| {
+            pg.focus_pane(pane_id, true, ctx);
+        });
+    }
+
+    #[cfg(feature = "local_fs")]
+    fn focus_pane_by_u64(&mut self, raw: u64, ctx: &mut ViewContext<Self>) {
+        let Some(pane_id) = self.pane_id_from_u64(raw, ctx) else {
+            return;
+        };
+        self.active_tab_pane_group().update(ctx, |pg, ctx| {
+            pg.focus_pane(pane_id, true, ctx);
+        });
+    }
+
+    #[cfg(feature = "local_fs")]
+    fn append_into_container_by_u64(
+        &mut self,
+        raw: u64,
+        path: PathBuf,
+        kind: crate::workspace::file_pane_router::FileKind,
+        line_col: Option<LineAndColumnArg>,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        use crate::workspace::file_pane_router::FileKind;
+        let Some(pane_id) = self.pane_id_from_u64(raw, ctx) else {
+            return;
+        };
+        let code_view = self
+            .active_tab_pane_group()
+            .as_ref(ctx)
+            .code_view_from_pane_id(pane_id, ctx);
+        if let Some(code_view) = code_view {
+            code_view.update(ctx, |view, ctx| match kind {
+                FileKind::Code => {
+                    view.open_or_focus_existing(Some(path), line_col, ctx);
+                }
+                FileKind::Markdown => {
+                    view.open_markdown_tab(path, ctx);
+                }
+            });
+        }
+        self.active_tab_pane_group().update(ctx, |pg, ctx| {
+            pg.focus_pane(pane_id, true, ctx);
+        });
+    }
+
+    /// Promote a lone pane to a container. The "easy" case is when the lone
+    /// pane is itself a `CodePane` (one tab) — we just append onto it. For a
+    /// lone Markdown `FilePane` we'd need to swap the leaf in the tree, which
+    /// requires a `PaneGroup::replace_pane` API that doesn't exist today.
+    /// Fall back to the legacy split for that case and leave a TODO.
+    #[cfg(feature = "local_fs")]
+    fn promote_lone_to_container_by_u64(
+        &mut self,
+        raw: u64,
+        path: PathBuf,
+        kind: crate::workspace::file_pane_router::FileKind,
+        line_col: Option<LineAndColumnArg>,
+        code_source: CodeSource,
+        target_layout: EditorLayout,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        let Some(pane_id) = self.pane_id_from_u64(raw, ctx) else {
+            return;
+        };
+        // If the lone pane is already a CodePane (single-tab container), just
+        // append to it like AppendToContainer.
+        let code_view = self
+            .active_tab_pane_group()
+            .as_ref(ctx)
+            .code_view_from_pane_id(pane_id, ctx);
+        if code_view.is_some() {
+            self.append_into_container_by_u64(raw, path, kind, line_col, ctx);
+            return;
+        }
+        // Otherwise the lone pane is a Markdown FilePane. Promoting it to a
+        // CodeView container (with the original markdown as tab 0 and the new
+        // file as tab 1) requires a PaneGroup::replace_pane API that does not
+        // exist in this codebase. Until that lands, fall back to the legacy
+        // split-pane behavior so the new file is at least visible.
+        // TODO(file-preview-tabs): implement true promotion via replace_pane.
+        self.legacy_create_new_split_pane(
+            path,
+            kind,
+            line_col,
+            code_source,
+            target_layout,
+            ctx,
+        );
+    }
+
+    #[cfg(feature = "local_fs")]
+    fn create_new_container_with_first_tab(
+        &mut self,
+        path: PathBuf,
+        kind: crate::workspace::file_pane_router::FileKind,
+        line_col: Option<LineAndColumnArg>,
+        code_source: CodeSource,
+        target_layout: EditorLayout,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        use crate::workspace::file_pane_router::FileKind;
+        // Build a CodePane (container) with the first tab pre-populated.
+        // For Code tabs we use the standard CodePane::new ctor; for Markdown
+        // we create an empty CodePane (via a Code source) and immediately add
+        // a markdown tab to it. Note: the empty seed tab is replaced by the
+        // markdown tab through open_markdown_tab's append behavior, but for
+        // a pure markdown "first tab" we want only the markdown — so we use
+        // `CodeSource::FileTree { path }` for the seed and then convert it.
+        match kind {
+            FileKind::Code => {
+                let pane = CodePane::new(code_source, line_col, ctx);
+                self.add_code_pane_via_layout(pane, target_layout, ctx);
+            }
+            FileKind::Markdown => {
+                // Create an empty CodePane (no source) then immediately add
+                // the markdown tab. We use CodeSource::New so no editor tab is
+                // created at construction.
+                let pane = CodePane::new(
+                    CodeSource::New {
+                        default_directory: None,
+                    },
+                    None,
+                    ctx,
+                );
+                let pane_view_id = pane.id();
+                self.add_code_pane_via_layout(pane, target_layout, ctx);
+                if let Some(code_view) = self
+                    .active_tab_pane_group()
+                    .as_ref(ctx)
+                    .code_view_from_pane_id(pane_view_id, ctx)
+                {
+                    code_view.update(ctx, |view, ctx| {
+                        view.open_markdown_tab(path, ctx);
+                    });
+                }
+            }
+        }
+    }
+
+    /// Add a CodePane using either NewTab or SplitPane layout.
+    #[cfg(feature = "local_fs")]
+    fn add_code_pane_via_layout(
+        &mut self,
+        pane: CodePane,
+        layout: EditorLayout,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        match layout {
+            EditorLayout::NewTab => {
+                let new_tab_placement_setting = TabSettings::as_ref(ctx).new_tab_placement;
+                let new_idx = match new_tab_placement_setting {
+                    NewTabPlacement::AfterAllTabs => self.tab_count(),
+                    NewTabPlacement::AfterCurrentTab => self.active_tab_index + 1,
+                };
+                self.add_tab_from_existing_pane(Box::new(pane), new_idx, ctx);
+            }
+            EditorLayout::SplitPane => {
+                self.active_tab_pane_group().update(ctx, |pg, ctx| {
+                    pg.add_pane_with_direction(Direction::Right, pane, true, ctx);
+                });
+            }
+        }
+    }
+
+    /// Add a FilePane using either NewTab or SplitPane layout.
+    #[cfg(feature = "local_fs")]
+    fn add_file_pane_via_layout(
+        &mut self,
+        pane: FilePane,
+        layout: EditorLayout,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        match layout {
+            EditorLayout::NewTab => {
+                let new_tab_placement_setting = TabSettings::as_ref(ctx).new_tab_placement;
+                let new_idx = match new_tab_placement_setting {
+                    NewTabPlacement::AfterAllTabs => self.tab_count(),
+                    NewTabPlacement::AfterCurrentTab => self.active_tab_index + 1,
+                };
+                self.add_tab_from_existing_pane(Box::new(pane), new_idx, ctx);
+            }
+            EditorLayout::SplitPane => {
+                self.active_tab_pane_group().update(ctx, |pg, ctx| {
+                    pg.add_pane_with_direction(Direction::Right, pane, true, ctx);
+                });
+            }
+        }
+    }
+
+    /// Legacy "create a brand new split pane per open" behavior. Preserves the
+    /// pre-router behavior when the grouping setting is OFF.
+    #[cfg(feature = "local_fs")]
+    fn legacy_create_new_split_pane(
+        &mut self,
+        path: PathBuf,
+        kind: crate::workspace::file_pane_router::FileKind,
+        line_col: Option<LineAndColumnArg>,
+        code_source: CodeSource,
+        target_layout: EditorLayout,
+        ctx: &mut ViewContext<Self>,
+    ) {
+        use crate::workspace::file_pane_router::FileKind;
+        match kind {
+            FileKind::Code => {
+                let pane = CodePane::new(code_source, line_col, ctx);
+                let _ = self.add_code_pane_via_layout(pane, target_layout, ctx);
+            }
+            FileKind::Markdown => {
+                let session = self.get_active_session(ctx);
+                let pane = FilePane::new(Some(path), session, None, ctx);
+                let _ = self.add_file_pane_via_layout(pane, target_layout, ctx);
             }
         }
     }
