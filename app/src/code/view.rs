@@ -202,9 +202,25 @@ struct TabDataMouseStateHandles {
 }
 
 #[derive(Clone)]
+pub enum TabContent {
+    Code(ViewHandle<LocalCodeEditorView>),
+    #[cfg(feature = "local_fs")]
+    Markdown(ViewHandle<crate::notebooks::file::FileNotebookView>),
+}
+
+impl TabContent {
+    pub fn is_markdown(&self) -> bool {
+        #[cfg(feature = "local_fs")]
+        return matches!(self, TabContent::Markdown(_));
+        #[cfg(not(feature = "local_fs"))]
+        return false;
+    }
+}
+
+#[derive(Clone)]
 pub struct TabData {
     path: Option<PathBuf>,
-    editor_view: ViewHandle<LocalCodeEditorView>,
+    content: TabContent,
     mouse_state_handles: TabDataMouseStateHandles,
     preview: bool,
 }
@@ -219,6 +235,20 @@ pub enum PendingSaveIntent {
 impl TabData {
     pub fn path(&self) -> Option<PathBuf> {
         self.path.clone()
+    }
+
+    pub fn content(&self) -> &TabContent {
+        &self.content
+    }
+
+    /// Backward-compat accessor for code editors only. Panics on Markdown tabs —
+    /// callers must check first via `content().is_markdown()`.
+    pub fn editor_view(&self) -> &ViewHandle<LocalCodeEditorView> {
+        match &self.content {
+            TabContent::Code(v) => v,
+            #[cfg(feature = "local_fs")]
+            TabContent::Markdown(_) => panic!("editor_view() called on a Markdown tab"),
+        }
     }
 }
 
@@ -565,7 +595,7 @@ impl CodeView {
                 };
 
                 me.open_or_focus_existing(Some(path.to_path_buf()), Some(line_col), ctx);
-                if let Some(editor) = me.tab_at(me.active_tab_index()).map(|tab| &tab.editor_view) {
+                if let Some(editor) = me.tab_at(me.active_tab_index()).map(|tab| tab.editor_view()) {
                     editor.update(ctx, |editor, ctx| {
                         editor.cursor_at(Point::new(line_1based as u32, *column as u32), ctx);
                     });
@@ -590,7 +620,7 @@ impl CodeView {
 
         TabData {
             path,
-            editor_view: code_editor,
+            content: TabContent::Code(code_editor),
             mouse_state_handles: Default::default(),
             preview,
         }
@@ -615,14 +645,14 @@ impl CodeView {
     /// Gets the selected text from the active tab's editor, if any.
     pub fn selected_text(&self, ctx: &AppContext) -> Option<String> {
         self.tab_at(self.active_tab_index).and_then(|tab| {
-            let editor = tab.editor_view.as_ref(ctx).editor();
+            let editor = tab.editor_view().as_ref(ctx).editor();
             editor.as_ref(ctx).selected_text(ctx)
         })
     }
 
     pub fn local_path(&self, ctx: &AppContext) -> Option<PathBuf> {
         self.tab_at(self.active_tab_index).and_then(|t| {
-            t.editor_view.as_ref(ctx).file_id().and_then(|file_id| {
+            t.editor_view().as_ref(ctx).file_id().and_then(|file_id| {
                 GlobalBufferModel::as_ref(ctx)
                     .file_path(file_id)
                     .map(|p| p.to_path_buf())
@@ -636,7 +666,7 @@ impl CodeView {
 
     pub fn focus(&self, ctx: &mut ViewContext<Self>) {
         if let Some(tab) = self.tab_at(self.active_tab_index) {
-            ctx.focus(&tab.editor_view);
+            ctx.focus(&tab.editor_view());
         }
     }
 
@@ -748,7 +778,7 @@ impl CodeView {
         };
 
         let position = ScrollPosition::LineAndColumn(line_col);
-        tab.editor_view.update(ctx, |editor, ctx| {
+        tab.editor_view().update(ctx, |editor, ctx| {
             editor.set_pending_scroll(position, ctx);
         });
     }
@@ -780,7 +810,7 @@ impl CodeView {
 
             // For GlobalBuffer path, set_pending_scroll handles the case where the file
             // hasn't finished loading yet by deferring the scroll until FileLoaded.
-            tab.editor_view.update(ctx, |editor, ctx| {
+            tab.editor_view().update(ctx, |editor, ctx| {
                 editor.set_pending_scroll(scroll_position, ctx);
             });
         }
@@ -793,7 +823,7 @@ impl CodeView {
         let file = self.local_path(ctx);
         let is_new = self
             .tab_at(self.active_tab_index)
-            .is_some_and(|t| t.editor_view.as_ref(ctx).is_new_file());
+            .is_some_and(|t| t.editor_view().as_ref(ctx).is_new_file());
 
         let title = if let Some(file) = file {
             file.display().to_string()
@@ -826,7 +856,7 @@ impl CodeView {
         let result = self
             .tab_at(index)
             .map(|tab| {
-                tab.editor_view
+                tab.editor_view()
                     .update(ctx, |code_diff, ctx| code_diff.save_local(ctx))
             })
             .unwrap_or_else(|| Err(ImmediateSaveError::NoActiveFileTab));
@@ -863,7 +893,7 @@ impl CodeView {
     ) -> SaveStatus {
         if let Some(tab) = self.tab_at(index) {
             let view_handle = ctx.handle().clone();
-            tab.editor_view.update(ctx, |editor, ctx| match callback {
+            tab.editor_view().update(ctx, |editor, ctx| match callback {
                 Some(cb) => {
                     editor.save_as(
                         Some(Box::new(move |outcome, ctx| {
@@ -939,7 +969,7 @@ impl CodeView {
     }
 
     fn has_unsaved_changes(tab: &TabData, ctx: &AppContext) -> bool {
-        let local_editor = tab.editor_view.as_ref(ctx);
+        let local_editor = tab.editor_view().as_ref(ctx);
         local_editor.has_unsaved_changes(ctx)
     }
 
@@ -953,7 +983,7 @@ impl CodeView {
     fn sync_active_tab_path(&mut self, ctx: &mut ViewContext<Self>) {
         if let Some(tab) = self.tab_group.get_mut(self.active_tab_index) {
             let new_path = tab
-                .editor_view
+                .editor_view()
                 .as_ref(ctx)
                 .file_path()
                 .map(|p| p.to_path_buf());
@@ -1074,7 +1104,7 @@ impl CodeView {
 
     pub fn close_overlays(&mut self, ctx: &mut ViewContext<Self>) {
         for tab in self.tab_group.iter() {
-            tab.editor_view.update(ctx, |editor, ctx| {
+            tab.editor_view().update(ctx, |editor, ctx| {
                 editor.close_find_bar(false, ctx);
             })
         }
@@ -1292,7 +1322,7 @@ impl CodeView {
         for tab in self.tab_group.iter_mut() {
             if tab.path.as_ref().is_some_and(|path| path == old_path) {
                 tab.path = Some(new_path.to_path_buf());
-                tab.editor_view.update(ctx, |editor, ctx| {
+                tab.editor_view().update(ctx, |editor, ctx| {
                     let was_unsaved = editor.has_unsaved_changes(ctx);
 
                     // Remap the buffer from old_path to new_path via GlobalBufferModel,
@@ -2023,10 +2053,10 @@ impl View for CodeView {
                 CodeSource::AIAction { .. } => Flex::column()
                     .with_child(self.render_request_edit_action_header(tab, app))
                     .with_child(
-                        Shrinkable::new(1., ChildView::new(&tab.editor_view).finish()).finish(),
+                        Shrinkable::new(1., ChildView::new(&tab.editor_view()).finish()).finish(),
                     )
                     .finish(),
-                _ => ChildView::new(&tab.editor_view).finish(),
+                _ => ChildView::new(&tab.editor_view()).finish(),
             }
         } else {
             Empty::new().finish()
@@ -2055,7 +2085,7 @@ impl TypedActionView for CodeView {
 
                 // Accepts the diff and marks it complete.
                 if let Some(tab) = self.tab_at(self.active_tab_index) {
-                    tab.editor_view.update(ctx, |code_diff, ctx| {
+                    tab.editor_view().update(ctx, |code_diff, ctx| {
                         code_diff.accept_diff(ctx);
                     });
                 }
@@ -2077,7 +2107,7 @@ impl TypedActionView for CodeView {
                 }
 
                 if let Some(tab) = self.tab_at(self.active_tab_index) {
-                    tab.editor_view.update(ctx, |code_diff, ctx| {
+                    tab.editor_view().update(ctx, |code_diff, ctx| {
                         code_diff.reject_diff(ctx);
                     });
                 }
