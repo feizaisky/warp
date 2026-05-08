@@ -155,8 +155,6 @@ use crate::auth::auth_override_warning_modal::{
 };
 use crate::auth::auth_state::AuthState;
 use crate::auth::auth_view_modal::{AuthRedirectPayload, AuthView, AuthViewEvent, AuthViewVariant};
-#[cfg(feature = "local_fs")]
-use crate::code::editor_management::CodeManager;
 use crate::code::editor_management::CodeSource;
 use crate::code_review::telemetry_event::CodeReviewPaneEntrypoint;
 use crate::drive::export::ExportManager;
@@ -5748,6 +5746,8 @@ impl Workspace {
                     line_col,
                     code_source,
                     layout,
+                    false,
+                    &[],
                     ctx,
                 );
             }
@@ -7269,6 +7269,8 @@ impl Workspace {
         line_col: Option<LineAndColumnArg>,
         code_source: CodeSource,
         target_layout: EditorLayout,
+        preview: bool,
+        additional_paths: &[PathBuf],
         ctx: &mut ViewContext<Self>,
     ) {
         use crate::workspace::file_pane_router::{
@@ -7288,6 +7290,11 @@ impl Workspace {
                 opened_files,
                 app_ctx: ctx,
             };
+            // NOTE(file-preview-tabs Task 28): We rely solely on the router's
+            // `find_tab_for` for dedup. The legacy off-grouping branch in
+            // `open_code` used CodeManager's per-tab locator index as a separate
+            // dedup step; with the unified router both grouping-on and -off
+            // paths use the same scan over PaneGroup state.
             route(&route_ctx, &path, kind.clone())
         };
 
@@ -7312,43 +7319,63 @@ impl Workspace {
             } => {
                 self.append_into_container_by_u64(
                     container_pane_id,
-                    path,
+                    path.clone(),
                     kind,
                     line_col,
+                    preview,
                     ctx,
                 );
             }
             RouteAction::PromoteLoneToContainer { lone_pane_id, kind } => {
                 self.promote_lone_to_container_by_u64(
                     lone_pane_id,
-                    path,
+                    path.clone(),
                     kind,
                     line_col,
-                    code_source,
+                    code_source.clone(),
                     target_layout,
+                    preview,
                     ctx,
                 );
             }
             RouteAction::CreateNewContainer { kind } => {
                 self.create_new_container_with_first_tab(
-                    path,
+                    path.clone(),
                     kind,
                     line_col,
-                    code_source,
+                    code_source.clone(),
                     target_layout,
+                    preview,
                     ctx,
                 );
             }
             RouteAction::CreateNewSplitPane { kind } => {
                 self.legacy_create_new_split_pane(
-                    path,
+                    path.clone(),
                     kind,
                     line_col,
-                    code_source,
+                    code_source.clone(),
                     target_layout,
+                    preview,
                     ctx,
                 );
             }
+        }
+
+        // Route any additional paths individually so they land in the same
+        // container the primary path produced. They never participate in
+        // preview semantics and don't carry a line/col jump.
+        for extra in additional_paths {
+            self.dispatch_open_file(
+                extra.clone(),
+                kind.clone(),
+                None,
+                code_source.clone(),
+                target_layout,
+                false,
+                &[],
+                ctx,
+            );
         }
     }
 
@@ -7412,6 +7439,7 @@ impl Workspace {
         path: PathBuf,
         kind: crate::workspace::file_pane_router::FileKind,
         line_col: Option<LineAndColumnArg>,
+        preview: bool,
         ctx: &mut ViewContext<Self>,
     ) {
         use crate::workspace::file_pane_router::FileKind;
@@ -7425,16 +7453,24 @@ impl Workspace {
         if let Some(code_view) = code_view {
             code_view.update(ctx, |view, ctx| match kind {
                 FileKind::Code => {
-                    view.open_or_focus_existing(Some(path), line_col, ctx);
+                    if preview {
+                        view.open_in_preview_or_promote_and_jump(path, line_col, ctx);
+                    } else {
+                        view.open_or_focus_existing(Some(path), line_col, ctx);
+                    }
                 }
                 FileKind::Markdown => {
+                    // Markdown tabs have no preview concept; ignore the flag.
                     view.open_markdown_tab(path, ctx);
                 }
             });
         }
-        self.active_tab_pane_group().update(ctx, |pg, ctx| {
-            pg.focus_pane(pane_id, true, ctx);
-        });
+        // Skip focus for preview opens (matches legacy open_code semantics).
+        if !preview {
+            self.active_tab_pane_group().update(ctx, |pg, ctx| {
+                pg.focus_pane(pane_id, true, ctx);
+            });
+        }
     }
 
     /// Promote a lone pane to a container. The "easy" case is when the lone
@@ -7451,6 +7487,7 @@ impl Workspace {
         line_col: Option<LineAndColumnArg>,
         code_source: CodeSource,
         target_layout: EditorLayout,
+        preview: bool,
         ctx: &mut ViewContext<Self>,
     ) {
         let Some(pane_id) = self.pane_id_from_u64(raw, ctx) else {
@@ -7463,7 +7500,7 @@ impl Workspace {
             .as_ref(ctx)
             .code_view_from_pane_id(pane_id, ctx);
         if code_view.is_some() {
-            self.append_into_container_by_u64(raw, path, kind, line_col, ctx);
+            self.append_into_container_by_u64(raw, path, kind, line_col, preview, ctx);
             return;
         }
         // Otherwise the lone pane is a Markdown FilePane. Promoting it to a
@@ -7478,6 +7515,7 @@ impl Workspace {
             line_col,
             code_source,
             target_layout,
+            preview,
             ctx,
         );
     }
@@ -7490,6 +7528,7 @@ impl Workspace {
         line_col: Option<LineAndColumnArg>,
         code_source: CodeSource,
         target_layout: EditorLayout,
+        preview: bool,
         ctx: &mut ViewContext<Self>,
     ) {
         use crate::workspace::file_pane_router::FileKind;
@@ -7502,8 +7541,12 @@ impl Workspace {
         // `CodeSource::FileTree { path }` for the seed and then convert it.
         match kind {
             FileKind::Code => {
-                let pane = CodePane::new(code_source, line_col, ctx);
-                self.add_code_pane_via_layout(pane, target_layout, ctx);
+                let pane = if preview {
+                    CodePane::new_preview(code_source, ctx)
+                } else {
+                    CodePane::new(code_source, line_col, ctx)
+                };
+                self.add_code_pane_via_layout(pane, target_layout, preview, ctx);
             }
             FileKind::Markdown => {
                 // Create an empty CodePane (no source) then immediately add
@@ -7517,7 +7560,8 @@ impl Workspace {
                     ctx,
                 );
                 let pane_view_id = pane.id();
-                self.add_code_pane_via_layout(pane, target_layout, ctx);
+                // Markdown ignores preview semantics.
+                self.add_code_pane_via_layout(pane, target_layout, false, ctx);
                 if let Some(code_view) = self
                     .active_tab_pane_group()
                     .as_ref(ctx)
@@ -7537,6 +7581,7 @@ impl Workspace {
         &mut self,
         pane: CodePane,
         layout: EditorLayout,
+        preview: bool,
         ctx: &mut ViewContext<Self>,
     ) {
         match layout {
@@ -7550,7 +7595,12 @@ impl Workspace {
             }
             EditorLayout::SplitPane => {
                 self.active_tab_pane_group().update(ctx, |pg, ctx| {
-                    pg.add_pane_with_direction(Direction::Right, pane, true, ctx);
+                    pg.add_pane_with_direction(
+                        Direction::Right,
+                        pane,
+                        !preview, /* focus_new_pane */
+                        ctx,
+                    );
                 });
             }
         }
@@ -7591,13 +7641,18 @@ impl Workspace {
         line_col: Option<LineAndColumnArg>,
         code_source: CodeSource,
         target_layout: EditorLayout,
+        preview: bool,
         ctx: &mut ViewContext<Self>,
     ) {
         use crate::workspace::file_pane_router::FileKind;
         match kind {
             FileKind::Code => {
-                let pane = CodePane::new(code_source, line_col, ctx);
-                let _ = self.add_code_pane_via_layout(pane, target_layout, ctx);
+                let pane = if preview {
+                    CodePane::new_preview(code_source, ctx)
+                } else {
+                    CodePane::new(code_source, line_col, ctx)
+                };
+                let _ = self.add_code_pane_via_layout(pane, target_layout, preview, ctx);
             }
             FileKind::Markdown => {
                 let session = self.get_active_session(ctx);
@@ -7664,86 +7719,25 @@ impl Workspace {
             ctx
         );
 
-        let grouping_on = *TabSettings::as_ref(ctx).group_opened_files_into_tabs.value();
-
-        if grouping_on {
-            let code_view = self
-                .active_tab_pane_group()
-                .as_ref(ctx)
-                .code_panes(ctx)
-                .find(|(pane_id, _)| {
-                    !self
-                        .active_tab_pane_group()
-                        .as_ref(ctx)
-                        .is_pane_hidden_for_close(*pane_id)
-                });
-            // If the tabbed editor view is enabled and there is an existing CodeView, we should group the newly opened file into this view.
-            if let (Some(path), Some((pane_id, code_view))) = (source.path(), code_view) {
-                code_view.update(ctx, |code_view, ctx| {
-                    if preview {
-                        code_view.open_in_preview_or_promote_and_jump(path, line_col, ctx);
-                    } else {
-                        code_view.open_or_focus_existing(Some(path), line_col, ctx);
-                    }
-                    for extra in additional_paths {
-                        code_view.open_or_focus_existing(Some(extra.clone()), None, ctx);
-                    }
-                });
-                // Only focus the pane for non-preview opens
-                if !preview {
-                    self.active_tab_pane_group().update(ctx, |pane_group, ctx| {
-                        pane_group.focus_pane(pane_id, true, ctx);
-                    });
-                }
-                return;
-            }
-        } else {
-            // When grouping is off, avoid opening duplicate code panes for the same file in the
-            // current pane group. Instead, focus the existing pane and jump.
-            if let Some(path) = source.path() {
-                let pane_group_id = self.active_tab_pane_group().id();
-                let existing_locator = CodeManager::handle(ctx).read(ctx, |manager, _| {
-                    manager.get_locator_for_path_in_tab(pane_group_id, path.as_path())
-                });
-
-                if let Some(locator) = existing_locator {
-                    self.active_tab_pane_group().update(ctx, |pane_group, ctx| {
-                        pane_group.focus_pane_by_id(locator.pane_id, ctx);
-
-                        if let Some(code_view) =
-                            pane_group.code_view_from_pane_id(locator.pane_id, ctx)
-                        {
-                            code_view.update(ctx, |code_view, ctx| {
-                                if preview {
-                                    code_view.open_in_preview_or_promote_and_jump(
-                                        path.clone(),
-                                        line_col,
-                                        ctx,
-                                    );
-                                } else {
-                                    code_view.open_or_focus_existing(
-                                        Some(path.clone()),
-                                        line_col,
-                                        ctx,
-                                    );
-                                }
-
-                                for extra in additional_paths {
-                                    code_view.open_or_focus_existing(
-                                        Some(extra.clone()),
-                                        None,
-                                        ctx,
-                                    );
-                                }
-                            });
-                        }
-                    });
-
-                    return;
-                }
-            }
+        // Path-based opens flow through the unified router. The router
+        // (`find_tab_for`) replaces both the grouping-on lookup and the
+        // legacy CodeManager-based dedup that the off-grouping branch did.
+        if let Some(path) = source.path() {
+            self.dispatch_open_file(
+                path,
+                crate::workspace::file_pane_router::FileKind::Code,
+                line_col,
+                source,
+                layout,
+                preview,
+                additional_paths,
+                ctx,
+            );
+            return;
         }
 
+        // Path-less open (e.g., scratch / new file from CodeSource::New):
+        // the router has no key to dedup on, so keep legacy behavior.
         let pane = if preview {
             CodePane::new_preview(source, ctx)
         } else {
