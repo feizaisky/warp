@@ -672,6 +672,9 @@ impl CodeView {
 
     pub fn focus(&self, ctx: &mut ViewContext<Self>) {
         if let Some(tab) = self.tab_at(self.active_tab_index) {
+            if tab.content().is_markdown() {
+                return;
+            }
             ctx.focus(&tab.editor_view());
         }
     }
