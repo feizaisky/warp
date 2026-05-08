@@ -54,10 +54,10 @@ use crate::window_settings::{
 };
 use crate::workspace::header_toolbar_editor::HeaderToolbarInlineEditor;
 use crate::workspace::tab_settings::{
-    DirectoryTabColor, PreserveActiveTabColor, ShowCodeReviewButton, ShowIndicatorsButton,
-    ShowVerticalTabPanelInRestoredWindows, TabCloseButtonPosition, TabSettings,
-    TabSettingsChangedEvent, UseLatestUserPromptAsConversationTitleInTabNames, UseVerticalTabs,
-    WorkspaceDecorationVisibility,
+    DirectoryTabColor, GroupOpenedFilesIntoTabs, PreserveActiveTabColor, ShowCodeReviewButton,
+    ShowIndicatorsButton, ShowVerticalTabPanelInRestoredWindows, TabCloseButtonPosition,
+    TabSettings, TabSettingsChangedEvent, UseLatestUserPromptAsConversationTitleInTabNames,
+    UseVerticalTabs, WorkspaceDecorationVisibility,
 };
 use crate::workspace::WorkspaceAction;
 use crate::{editor::EditorView, themes::theme_chooser::ThemeChooserMode};
@@ -459,6 +459,7 @@ pub enum AppearancePageAction {
     ToggleTabIndicators,
     ToggleShowCodeReviewButton,
     TogglePreserveActiveTabColor,
+    ToggleGroupOpenedFilesIntoTabs,
     ToggleVerticalTabs,
     ToggleShowVerticalTabPanelInRestoredWindows,
     ToggleUseLatestUserPromptAsConversationTitleInTabNames,
@@ -598,6 +599,7 @@ impl TypedActionView for AppearanceSettingsPageView {
             ToggleTabIndicators => self.toggle_tab_indicators(ctx),
             ToggleShowCodeReviewButton => self.toggle_show_code_review_button(ctx),
             TogglePreserveActiveTabColor => self.toggle_preserve_active_tab_color(ctx),
+            ToggleGroupOpenedFilesIntoTabs => self.toggle_group_opened_files_into_tabs(ctx),
             ToggleVerticalTabs => self.toggle_vertical_tabs(ctx),
             ToggleShowVerticalTabPanelInRestoredWindows => {
                 self.toggle_show_vertical_tab_panel_in_restored_windows(ctx)
@@ -1384,6 +1386,7 @@ impl AppearanceSettingsPageView {
             tab_settings_widgets.push(Box::new(TabCloseButtonPositionWidget::default()));
         }
         tab_settings_widgets.push(Box::new(PreserveActiveTabColorWidget::default()));
+        tab_settings_widgets.push(Box::new(GroupOpenedFilesIntoTabsWidget::default()));
 
         if FeatureFlag::VerticalTabs.is_enabled() {
             tab_settings_widgets.push(Box::new(VerticalTabsWidget::default()));
@@ -2317,6 +2320,20 @@ impl AppearanceSettingsPageView {
 
         ctx.update_model(&tab_settings, move |tab_settings, ctx| {
             report_if_error!(tab_settings.use_vertical_tabs.set_value(new_value, ctx));
+        });
+    }
+
+    fn toggle_group_opened_files_into_tabs(&mut self, ctx: &mut ViewContext<Self>) {
+        let tab_settings = TabSettings::handle(ctx);
+        let new_value = !*tab_settings
+            .as_ref(ctx)
+            .group_opened_files_into_tabs
+            .value();
+
+        ctx.update_model(&tab_settings, move |tab_settings, ctx| {
+            report_if_error!(tab_settings
+                .group_opened_files_into_tabs
+                .set_value(new_value, ctx));
         });
     }
 
@@ -4554,6 +4571,53 @@ impl SettingsWidget for PreserveActiveTabColorWidget {
                 })
                 .finish(),
             None,
+        )
+    }
+}
+
+#[derive(Default)]
+struct GroupOpenedFilesIntoTabsWidget {
+    switch_state: SwitchStateHandle,
+}
+
+impl SettingsWidget for GroupOpenedFilesIntoTabsWidget {
+    type View = AppearanceSettingsPageView;
+
+    fn search_terms(&self) -> &str {
+        "group opened files tabs tabbed editor"
+    }
+
+    fn render(
+        &self,
+        view: &Self::View,
+        appearance: &Appearance,
+        app: &AppContext,
+    ) -> Box<dyn Element> {
+        let tab_settings = TabSettings::as_ref(app);
+
+        render_body_item::<AppearancePageAction>(
+            "将打开的文件归入标签页".into(),
+            None,
+            LocalOnlyIconState::for_setting(
+                GroupOpenedFilesIntoTabs::storage_key(),
+                GroupOpenedFilesIntoTabs::sync_to_cloud(),
+                &mut view.local_only_icon_tooltip_states.borrow_mut(),
+                app,
+            ),
+            ToggleState::Enabled,
+            appearance,
+            appearance
+                .ui_builder()
+                .switch(self.switch_state.clone())
+                .check(*tab_settings.group_opened_files_into_tabs)
+                .build()
+                .on_click(move |ctx, _, _| {
+                    ctx.dispatch_typed_action(
+                        AppearancePageAction::ToggleGroupOpenedFilesIntoTabs,
+                    );
+                })
+                .finish(),
+            Some("打开多个文件时将它们归入同一个标签容器，而不是为每个文件创建独立面板。".into()),
         )
     }
 }

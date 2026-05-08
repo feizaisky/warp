@@ -18,16 +18,12 @@ use crate::{
     util::file::external_editor::{
         settings::{
             EditorChoice, EditorLayout, OpenCodePanelsFileEditor, OpenFileEditor, OpenFileLayout,
-            PreferMarkdownViewer, PreferTabbedEditorView,
+            PreferMarkdownViewer,
         },
         EditorSettings, SUPPORTED_EDITORS,
     },
     view_components::{Dropdown, DropdownItem},
 };
-
-const TABBED_FILE_VIEWER_TOGGLE_HEADER: &str = "将文件合并到单个编辑器面板";
-const TABBED_FILE_VIEWER_TOGGLE_DESCRIPTION: &str =
-    "开启此设置后，在同一标签页中打开的文件将自动合并到单个编辑器面板。";
 
 #[derive(Debug, Clone)]
 pub enum ExternalEditorAction {
@@ -35,7 +31,6 @@ pub enum ExternalEditorAction {
     SetCodePanelsEditor(EditorChoice),
     SetLayout(EditorLayout),
     TogglePreferMarkdownViewer,
-    ToggleTabbedEditorView,
     OpenUrl(String),
 }
 
@@ -43,7 +38,6 @@ pub struct ExternalEditorView {
     editor_dropdown: ViewHandle<Dropdown<ExternalEditorAction>>,
     code_panels_editor_dropdown: ViewHandle<Dropdown<ExternalEditorAction>>,
     layout_dropdown: ViewHandle<Dropdown<ExternalEditorAction>>,
-    tabbed_editor_view_mouse_state: SwitchStateHandle,
     prefer_markdown_viewer_switch: SwitchStateHandle,
     markdown_viewer_mouse_state: MouseStateHandle,
     local_only_icon_states: RefCell<HashMap<String, MouseStateHandle>>,
@@ -110,7 +104,6 @@ impl ExternalEditorView {
             editor_dropdown,
             code_panels_editor_dropdown,
             layout_dropdown,
-            tabbed_editor_view_mouse_state: Default::default(),
             prefer_markdown_viewer_switch: Default::default(),
             markdown_viewer_mouse_state: Default::default(),
             local_only_icon_states: Default::default(),
@@ -246,25 +239,6 @@ impl ExternalEditorView {
             ctx
         );
     }
-
-    /// Handles [`ExternalEditorAction::TogglePreferTabbedEditorView`] by updating the tabbed file viewer preference.
-    fn toggle_prefer_tabbed_editor_view(&mut self, ctx: &mut ViewContext<Self>) {
-        let new_value = EditorSettings::handle(ctx).update(ctx, |settings, ctx| {
-            let new_value = settings
-                .prefer_tabbed_editor_view
-                .toggle_and_save_value(ctx);
-            report_if_error!(new_value);
-            new_value.unwrap_or(PreferTabbedEditorView::default_value())
-        });
-
-        send_telemetry_from_ctx!(
-            TelemetryEvent::FeaturesPageAction {
-                action: "ToggleTabbedEditorView".to_string(),
-                value: new_value.to_string()
-            },
-            ctx
-        );
-    }
 }
 
 impl Entity for ExternalEditorView {
@@ -329,35 +303,6 @@ impl View for ExternalEditorView {
             .with_child(code_panels_editor)
             .with_child(default_layout);
 
-        if FeatureFlag::TabbedEditorView.is_enabled() {
-            column.add_child(render_body_item::<ExternalEditorAction>(
-                TABBED_FILE_VIEWER_TOGGLE_HEADER.into(),
-                None,
-                LocalOnlyIconState::for_setting(
-                    PreferTabbedEditorView::storage_key(),
-                    PreferTabbedEditorView::sync_to_cloud(),
-                    &mut self.local_only_icon_states.borrow_mut(),
-                    app,
-                ),
-                ToggleState::Enabled,
-                appearance,
-                appearance
-                    .ui_builder()
-                    .switch(self.tabbed_editor_view_mouse_state.clone())
-                    .check(
-                        *EditorSettings::as_ref(app)
-                            .prefer_tabbed_editor_view
-                            .value(),
-                    )
-                    .build()
-                    .on_click(|ctx, _, _| {
-                        ctx.dispatch_typed_action(ExternalEditorAction::ToggleTabbedEditorView);
-                    })
-                    .finish(),
-                Some(TABBED_FILE_VIEWER_TOGGLE_DESCRIPTION.into()),
-            ));
-        }
-
         column.add_child(render_body_item::<ExternalEditorAction>(
             "默认在 Warp Markdown 查看器中打开 Markdown 文件".to_string(),
             Some(AdditionalInfo {
@@ -404,9 +349,6 @@ impl TypedActionView for ExternalEditorView {
             ExternalEditorAction::SetLayout(layout) => self.set_layout(layout, ctx),
             ExternalEditorAction::TogglePreferMarkdownViewer => {
                 self.toggle_prefer_markdown_viewer(ctx)
-            }
-            ExternalEditorAction::ToggleTabbedEditorView => {
-                self.toggle_prefer_tabbed_editor_view(ctx);
             }
             ExternalEditorAction::OpenUrl(url) => {
                 ctx.open_url(url.as_str());
