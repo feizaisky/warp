@@ -729,6 +729,45 @@ impl CodeView {
         }
     }
 
+    /// Open the given Markdown file as a new tab in this `CodeView`, or focus the
+    /// existing tab if one is already open for the same path.
+    ///
+    /// Body rendering for Markdown tabs is wired up separately (Task 9). This
+    /// method is purely the data-layer constructor: it adds a `TabContent::Markdown`
+    /// tab and activates it.
+    #[cfg(feature = "local_fs")]
+    pub fn open_markdown_tab(&mut self, path: PathBuf, ctx: &mut ViewContext<Self>) {
+        let path_opt = Some(path.clone());
+        if let Some(existing_index) = self.focus_existing_tab_if_present(&path_opt, ctx) {
+            self.set_active_tab_index(existing_index, ctx);
+            return;
+        }
+
+        // Mirror FilePane::new's behavior: prefer the active local session if available,
+        // otherwise the FileNotebookView will wait for one to become active.
+        let session = ActiveSession::as_ref(ctx)
+            .session(ctx.window_id())
+            .filter(|session| session.is_local());
+
+        let notebook_view = ctx.add_typed_action_view(|ctx| {
+            let mut view = crate::notebooks::file::FileNotebookView::new(ctx);
+            view.open_local(path.clone(), session, ctx);
+            view
+        });
+
+        let tab = TabData {
+            path: Some(path),
+            content: TabContent::Markdown(notebook_view),
+            mouse_state_handles: TabDataMouseStateHandles::default(),
+            preview: false,
+        };
+        self.tab_group.push(tab);
+        self.active_tab_index = self.tab_group.len() - 1;
+        self.update_tab_bar_state(ctx);
+        self.update_markdown_mode_segmented_control(ctx);
+        ctx.notify();
+    }
+
     pub fn open_or_focus_existing(
         &mut self,
         path: Option<PathBuf>,
