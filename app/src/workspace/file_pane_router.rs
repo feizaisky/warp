@@ -52,6 +52,107 @@ pub fn route(ctx: &dyn RouteContext, path: &Path, kind: FileKind) -> RouteAction
     RouteAction::CreateNewContainer { kind }
 }
 
+// ----------------------------------------------------------------------------
+// Workspace adapter
+// ----------------------------------------------------------------------------
+//
+// Bridges the pure `RouteContext` trait above to Warp's real workspace state
+// (PaneGroup + OpenedFilesModel + AppContext). Task 10 will construct this in
+// the open-file flow; for now it is unused (compiler may warn dead_code).
+//
+// NOTE: Several pane-id <-> u64 hops use `EntityId`'s Display impl (which
+// formats the underlying `usize`) parsed back into `u64`. This is stable for
+// the lifetime of the process and keeps the pure router agnostic of warp's
+// EntityId type without leaking it through the trait. If a richer "focus
+// history" API becomes available we should swap the recency proxy below.
+
+#[cfg(feature = "local_fs")]
+use crate::pane_group::{pane::PaneId, PaneGroup};
+
+#[cfg(feature = "local_fs")]
+#[allow(dead_code)]
+pub struct WorkspaceRouteContext<'a> {
+    pub grouping: bool,
+    pub active_pane_group: &'a PaneGroup,
+    pub opened_files: &'a crate::code::opened_files::OpenedFilesModel,
+    pub app_ctx: &'a warpui::AppContext,
+}
+
+#[cfg(feature = "local_fs")]
+#[allow(dead_code)]
+fn pane_id_to_u64(p: PaneId) -> u64 {
+    // EntityId is internally a `usize` and Displays as the bare number.
+    // Round-trip via Display keeps us decoupled from the `pub(crate)`
+    // accessors in warpui_core without exposing them publicly.
+    format!("{}", p.creation_order_id()).parse::<u64>().unwrap_or(0)
+}
+
+#[cfg(feature = "local_fs")]
+impl<'a> RouteContext for WorkspaceRouteContext<'a> {
+    fn grouping_enabled(&self) -> bool {
+        self.grouping
+    }
+
+    fn find_tab_for(&self, path: &Path) -> Option<(u64, usize)> {
+        for (pane_id, code_view) in self.active_pane_group.code_panes(self.app_ctx) {
+            if self.active_pane_group.is_pane_hidden_for_close(pane_id) {
+                continue;
+            }
+            let view = code_view.as_ref(self.app_ctx);
+            let count = view.tab_count();
+            for idx in 0..count {
+                if let Some(tab) = view.tab_at(idx) {
+                    if tab.path().as_deref() == Some(path) {
+                        return Some((pane_id_to_u64(pane_id), idx));
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    fn find_lone_pane_for(&self, path: &Path) -> Option<u64> {
+        for (pane_id, file_view) in self.active_pane_group.file_panes(self.app_ctx) {
+            if self.active_pane_group.is_pane_hidden_for_close(pane_id) {
+                continue;
+            }
+            if file_view.as_ref(self.app_ctx).local_path().as_deref() == Some(path) {
+                return Some(pane_id_to_u64(pane_id));
+            }
+        }
+        None
+    }
+
+    fn find_focused_or_first_container(&self) -> Option<u64> {
+        let focused = self.active_pane_group.focused_pane_id(self.app_ctx);
+        if focused.is_code_pane()
+            && !self.active_pane_group.is_pane_hidden_for_close(focused)
+        {
+            return Some(pane_id_to_u64(focused));
+        }
+        // Fall back to the first visible code pane.
+        self.active_pane_group
+            .code_panes(self.app_ctx)
+            .find(|(pid, _)| !self.active_pane_group.is_pane_hidden_for_close(*pid))
+            .map(|(pid, _)| pane_id_to_u64(pid))
+    }
+
+    fn find_most_recently_focused_lone_file_pane(&self) -> Option<u64> {
+        // APPROXIMATION: there is no per-pane focus-history API on PaneGroup
+        // today. We use creation order (highest EntityId among visible file
+        // panes) as a proxy for "most recently created" lone file pane, which
+        // matches the common case where the just-opened markdown preview is
+        // the candidate for promotion. Replace with a real focus-history
+        // lookup if/when one becomes available.
+        self.active_pane_group
+            .file_panes(self.app_ctx)
+            .filter(|(pid, _)| !self.active_pane_group.is_pane_hidden_for_close(*pid))
+            .map(|(pid, _)| pid)
+            .max_by_key(|pid| pid.creation_order_id())
+            .map(pane_id_to_u64)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

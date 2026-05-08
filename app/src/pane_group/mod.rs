@@ -2134,6 +2134,15 @@ impl PaneGroup {
             .map(move |pane| (pane.id(), pane.file_view(app)))
     }
 
+    /// Iterate over the file (markdown) notebook panes in this pane group.
+    pub fn file_panes<'a>(
+        &'a self,
+        app: &'a AppContext,
+    ) -> impl Iterator<Item = (PaneId, ViewHandle<FileNotebookView>)> + 'a {
+        self.panes_of::<FilePane>()
+            .map(move |pane| (pane.id(), pane.file_view(app)))
+    }
+
     pub fn ai_document_panes(&self) -> impl Iterator<Item = PaneId> + '_ {
         self.panes_of::<AIDocumentPane>().map(|pane| pane.id())
     }
