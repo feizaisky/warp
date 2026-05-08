@@ -1885,8 +1885,18 @@ impl CodeView {
             None,
         );
 
+        let mut right_controls = Flex::row()
+            .with_main_axis_alignment(MainAxisAlignment::End)
+            .with_cross_axis_alignment(CrossAxisAlignment::Center)
+            .with_main_axis_size(MainAxisSize::Min);
+
+        if let Some(segmented) = &self.markdown_mode_segmented_control {
+            right_controls.add_child(ChildView::new(segmented).finish());
+        }
+        right_controls.add_child(Align::new(buttons).finish());
+
         header_row.add_child(
-            Container::new(Align::new(buttons).finish())
+            Container::new(right_controls.finish())
                 .with_padding_right(4.)
                 .with_border(
                     Border::bottom(TAB_BAR_BORDER_HEIGHT).with_border_fill(theme.outline()),
@@ -2088,14 +2098,18 @@ impl View for CodeView {
     fn render(&self, app: &AppContext) -> Box<dyn Element> {
         let tab = self.tab_at(self.active_tab_index);
         let body = if let Some(tab) = tab {
-            match self.source {
-                CodeSource::AIAction { .. } => Flex::column()
-                    .with_child(self.render_request_edit_action_header(tab, app))
-                    .with_child(
-                        Shrinkable::new(1., ChildView::new(&tab.editor_view()).finish()).finish(),
-                    )
-                    .finish(),
-                _ => ChildView::new(&tab.editor_view()).finish(),
+            match tab.content() {
+                TabContent::Code(view) => match self.source {
+                    CodeSource::AIAction { .. } => Flex::column()
+                        .with_child(self.render_request_edit_action_header(tab, app))
+                        .with_child(
+                            Shrinkable::new(1., ChildView::new(view).finish()).finish(),
+                        )
+                        .finish(),
+                    _ => ChildView::new(view).finish(),
+                },
+                #[cfg(feature = "local_fs")]
+                TabContent::Markdown(view) => ChildView::new(view).finish(),
             }
         } else {
             Empty::new().finish()

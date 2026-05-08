@@ -11,7 +11,7 @@ use warpui::clipboard::ClipboardContent;
 use warpui::{
     accessibility::{AccessibilityContent, WarpA11yRole},
     elements::{
-        Align, Container, CrossAxisAlignment, DispatchEventResult, Empty, EventHandler, Flex,
+        Align, Container, CrossAxisAlignment, DispatchEventResult, EventHandler, Flex,
         MainAxisAlignment, MainAxisSize, MouseStateHandle, ParentElement, SavePosition, Shrinkable,
         Stack, Text,
     },
@@ -36,10 +36,6 @@ use crate::{
     pane_group::{
         focus_state::PaneFocusHandle,
         pane::view,
-        pane::view::header::components::{
-            render_pane_header_buttons, render_pane_header_title_text, render_three_column_header,
-            CenteredHeaderEdgeWidth,
-        },
         BackingView, PaneConfiguration, PaneEvent,
     },
     safe_warn, send_telemetry_from_ctx,
@@ -64,7 +60,6 @@ use super::{
 use crate::code::editor_management::CodeSource;
 #[cfg(feature = "local_fs")]
 use crate::util::openable_file_type::FileTarget;
-use warp_core::ui::icons::ICON_DIMENSIONS;
 use warp_editor::model::CoreEditorModel;
 #[cfg(feature = "local_fs")]
 use warp_files::{FileModel, FileModelEvent};
@@ -564,19 +559,6 @@ impl FileNotebookView {
         self.links.clone()
     }
 
-    #[cfg(feature = "local_fs")]
-    fn is_markdown_file(&self) -> bool {
-        self.file_state
-            .local_path()
-            .map(is_markdown_file)
-            .unwrap_or(false)
-    }
-
-    #[cfg(not(feature = "local_fs"))]
-    fn is_markdown_file(&self) -> bool {
-        false
-    }
-
     fn update_editor_display_mode(&mut self, ctx: &mut ViewContext<Self>) {
         match self.markdown_display_mode {
             MarkdownDisplayMode::Rendered => {
@@ -992,69 +974,23 @@ impl BackingView for FileNotebookView {
     ) -> view::HeaderContent {
         let title = self.pane_configuration.as_ref(app).title().to_owned();
 
-        if self.is_markdown_file() {
-            // For markdown files we use a custom header
-            // so that the title stays centered identically in both rendered and raw (CodeView) modes.
-            let appearance = Appearance::as_ref(app);
-            let is_pane_dragging = ctx.draggable_state.is_dragging();
-
-            let mut right_row = Flex::row()
-                .with_main_axis_alignment(MainAxisAlignment::End)
-                .with_cross_axis_alignment(CrossAxisAlignment::Center)
-                .with_main_axis_size(MainAxisSize::Min);
-
-            right_row.add_child(ChildView::new(&self.display_mode_segmented_control).finish());
-
-            let show_close_button = self
-                .focus_handle
-                .as_ref()
-                .is_some_and(|h| h.is_in_split_pane(app));
-
-            right_row.add_child(render_pane_header_buttons::<FileNotebookAction, ()>(
-                ctx,
-                appearance,
-                show_close_button,
-                None,
-                None,
-            ));
-
-            let button_count = show_close_button as u32 + ctx.has_overflow_items as u32;
-            let buttons_width = button_count as f32 * ICON_DIMENSIONS;
-
-            let title_text = render_pane_header_title_text(
-                title,
-                appearance,
-                warpui::text_layout::ClipConfig::start(),
-            );
-
-            view::HeaderContent::Custom {
-                element: render_three_column_header(
-                    Empty::new().finish(),
-                    title_text,
-                    right_row.finish(),
-                    CenteredHeaderEdgeWidth {
-                        min: buttons_width,
-                        max: 220.0,
-                    },
-                    ctx.header_left_inset,
-                    is_pane_dragging,
-                ),
-                has_custom_draggable_behavior: false,
-            }
-        } else {
-            // Non-markdown files: use the standard header.
-            view::HeaderContent::Standard(view::StandardHeader {
-                title,
-                title_secondary: None,
-                title_style: None,
-                title_clip_config: warpui::text_layout::ClipConfig::start(),
-                title_max_width: None,
-                left_of_title: None,
-                right_of_title: None,
-                left_of_overflow: None,
-                options: Default::default(),
-            })
-        }
+        // Note: previously this method rendered a custom three-column header for
+        // Markdown files that included the rendered/raw `MarkdownToggleView`. The
+        // toggle has been lifted into the parent `CodeView` container header so it
+        // tracks the active tab (see `code/view.rs`). Always render the standard
+        // header here.
+        let _ = ctx;
+        view::HeaderContent::Standard(view::StandardHeader {
+            title,
+            title_secondary: None,
+            title_style: None,
+            title_clip_config: warpui::text_layout::ClipConfig::start(),
+            title_max_width: None,
+            left_of_title: None,
+            right_of_title: None,
+            left_of_overflow: None,
+            options: Default::default(),
+        })
     }
 
     fn set_focus_handle(&mut self, focus_handle: PaneFocusHandle, _ctx: &mut ViewContext<Self>) {
