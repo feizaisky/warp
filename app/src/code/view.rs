@@ -2516,8 +2516,19 @@ impl BackingView for CodeView {
         }
     }
 
-    fn set_focus_handle(&mut self, focus_handle: PaneFocusHandle, _ctx: &mut ViewContext<Self>) {
+    fn set_focus_handle(&mut self, focus_handle: PaneFocusHandle, ctx: &mut ViewContext<Self>) {
+        // Subscribe to the pane group's focus model so the tab strip re-renders
+        // when this pane gains or loses focus (active-tab accent + bottom border
+        // colors depend on it).
+        let focus_state = focus_handle.focus_state_handle().clone();
         self.focus_handle = Some(focus_handle);
+        ctx.subscribe_to_model(&focus_state, |me, _, event, ctx| {
+            if let Some(handle) = &me.focus_handle {
+                if handle.is_affected(event) {
+                    ctx.notify();
+                }
+            }
+        });
     }
 }
 
