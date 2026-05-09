@@ -270,6 +270,9 @@ pub struct CodeView {
     window_id: WindowId,
     drag_position: Option<TabBarDragPosition>,
     markdown_mode_segmented_control: Option<ViewHandle<MarkdownToggleView>>,
+    /// Mouse state for the tab strip's window-focus dimming overlay. Lets the
+    /// dimming clear if the window regains focus while the user is hovering.
+    header_dimming_mouse_state: MouseStateHandle,
 }
 
 impl CodeView {
@@ -286,6 +289,7 @@ impl CodeView {
             window_id,
             drag_position: None,
             markdown_mode_segmented_control: None,
+            header_dimming_mouse_state: MouseStateHandle::default(),
         }
     }
 
@@ -1643,12 +1647,16 @@ impl CodeView {
         tab_data: &TabData,
         index: usize,
         is_active: bool,
+        is_pane_focused: bool,
         is_hovered: bool,
         has_unsaved_changes: bool,
         appearance: &Appearance,
     ) -> Box<dyn Element> {
         let theme = appearance.theme();
-        let text_color = if is_active {
+        // When the pane is unfocused, fall back to the subdued text color even
+        // for the active tab so the active highlight only "pops" when this
+        // pane is the focus target.
+        let text_color = if is_active && is_pane_focused {
             blended_colors::text_main(theme, theme.surface_1())
         } else {
             blended_colors::text_sub(theme, theme.surface_1())
@@ -1838,6 +1846,18 @@ impl CodeView {
         let appearance = Appearance::as_ref(app);
         let theme = appearance.theme();
         let is_pane_dragging = header_ctx.draggable_state.is_dragging();
+        let is_pane_focused = self
+            .focus_handle
+            .as_ref()
+            .map_or(false, |h| h.is_focused(app));
+        // Border color used to mark the active tab: the brand accent when this
+        // pane is focused, the muted outline color otherwise so the user can
+        // still tell which tab is active in a non-focused pane.
+        let active_tab_accent = if is_pane_focused {
+            theme.accent()
+        } else {
+            theme.outline()
+        };
 
         let mut header_row = Flex::row()
             .with_main_axis_alignment(MainAxisAlignment::Start)
@@ -1868,24 +1888,39 @@ impl CodeView {
                 tab_data.mouse_state_handles.tab_handle.clone(),
                 |tab_handle| {
                     let mut stack = Stack::new();
-                    let container = Container::new(
-                        Container::new(Self::render_tab_internal(
-                            tab_data,
-                            index,
-                            is_active,
-                            tab_handle.is_hovered(),
-                            Self::has_unsaved_changes(tab_data, app),
-                            appearance,
-                        ))
-                        .with_horizontal_margin(TAB_HORIZONTAL_MARGIN)
-                        .with_padding(Padding::uniform(TAB_PADDING))
-                        .finish(),
-                    )
-                    .with_border(
+                    let inner = Container::new(Self::render_tab_internal(
+                        tab_data,
+                        index,
+                        is_active,
+                        is_pane_focused,
+                        tab_handle.is_hovered(),
+                        Self::has_unsaved_changes(tab_data, app),
+                        appearance,
+                    ))
+                    .with_horizontal_margin(TAB_HORIZONTAL_MARGIN)
+                    .with_padding(Padding::uniform(TAB_PADDING));
+                    let inner = if is_active {
+                        // Tint the active tab so it visually merges with the
+                        // editor surface below; muted (surface_2) when the pane
+                        // is in the background so the focus pane is obvious.
+                        let active_bg = if is_pane_focused {
+                            theme.surface_1()
+                        } else {
+                            theme.surface_2()
+                        };
+                        inner.with_background(active_bg)
+                    } else {
+                        inner
+                    };
+                    let container = Container::new(inner.finish()).with_border(if is_active {
+                        Border::new(TAB_BAR_BORDER_HEIGHT)
+                            .with_border_fill(active_tab_accent)
+                            .with_sides(false, false, true, true)
+                    } else {
                         Border::new(TAB_BAR_BORDER_HEIGHT)
                             .with_border_fill(theme.outline())
-                            .with_sides(false, false, !is_active, true),
-                    );
+                            .with_sides(false, false, true, true)
+                    });
 
                     // Renders a border to the left/right of a tab being dragged over to display the intended drop position.
                     let border = match &self.drag_position {
@@ -2032,7 +2067,17 @@ impl CodeView {
                 .finish(),
         );
 
-        header_row.finish()
+        // When the OS window isn't focused, overlay a translucent dimming
+        // rect across the tab strip — same treatment Warp uses on the main
+        // workspace tab bar so the editor pane matches the rest of the chrome.
+        crate::ui_components::window_focus_dimming::WindowFocusDimming::apply_panel_header_dimming(
+            header_row.finish(),
+            self.header_dimming_mouse_state.clone(),
+            34.,
+            theme.background().into(),
+            self.window_id,
+            app,
+        )
     }
 
     /// Renders the header for the single-tab (or empty) case with a centered title.
