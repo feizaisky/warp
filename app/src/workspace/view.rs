@@ -3490,7 +3490,8 @@ impl Workspace {
                 self.sync_panel_positions_from_config(ctx);
                 ctx.notify();
             }
-            TabSettingsChangedEvent::GroupOpenedFilesIntoTabs { .. } => {
+            TabSettingsChangedEvent::GroupOpenedFilesIntoTabs { .. }
+            | TabSettingsChangedEvent::PreviewOpenedFilesInTabs { .. } => {
                 ctx.notify();
             }
         }
@@ -5709,6 +5710,7 @@ impl Workspace {
         _target: FileTarget,
         _line_col: Option<LineAndColumnArg>,
         _code_source: CodeSource,
+        _preview: bool,
         _ctx: &mut ViewContext<Self>,
     ) {
     }
@@ -5720,6 +5722,7 @@ impl Workspace {
         target: FileTarget,
         line_col: Option<LineAndColumnArg>,
         code_source: CodeSource,
+        preview: bool,
         ctx: &mut ViewContext<Self>,
     ) {
         // Handle directories for CodeEditor(NewTab) target by opening a new terminal tab
@@ -5745,7 +5748,7 @@ impl Workspace {
                     line_col,
                     code_source,
                     layout,
-                    false,
+                    preview,
                     &[],
                     ctx,
                 );
@@ -5803,8 +5806,7 @@ impl Workspace {
                 crate::util::file::open_file_path_in_external_editor(line_col, path.clone(), ctx);
             }
             FileTarget::CodeEditor(layout) => {
-                let open_as_preview = false;
-                self.open_code(code_source, layout, line_col, open_as_preview, &[], ctx);
+                self.open_code(code_source, layout, line_col, preview, &[], ctx);
             }
             FileTarget::ExternalEditor(editor) => {
                 crate::util::file::open_file_path_with_editor(
@@ -5836,12 +5838,14 @@ impl Workspace {
                 path,
                 target,
                 line_col,
+                preview,
             } => {
                 self.open_file_with_target(
                     path.clone(),
                     target.clone(),
                     *line_col,
                     CodeSource::FileTree { path: path.clone() },
+                    *preview,
                     ctx,
                 );
             }
@@ -5894,6 +5898,7 @@ impl Workspace {
                         range_start: None,
                         range_end: None,
                     },
+                    false,
                     ctx,
                 );
             }
@@ -6445,6 +6450,7 @@ impl Workspace {
                 range_start: None,
                 range_end: None,
             },
+            false,
             ctx,
         );
     }
@@ -6481,6 +6487,7 @@ impl Workspace {
                         range_start: None,
                         range_end: None,
                     },
+                    false,
                     ctx,
                 );
             }
@@ -7449,8 +7456,11 @@ impl Workspace {
                     }
                 }
                 FileKind::Markdown => {
-                    // Markdown tabs have no preview concept; ignore the flag.
-                    view.open_markdown_tab(path, ctx);
+                    if preview {
+                        view.open_markdown_preview_or_promote(path, ctx);
+                    } else {
+                        view.open_markdown_tab(path, ctx);
+                    }
                 }
             });
         }
@@ -7541,8 +7551,12 @@ impl Workspace {
                 // Build a markdown-only CodePane directly so we never flash the
                 // empty "untitled" editor tab that a CodeSource::New seed would
                 // produce.
-                let pane = CodePane::new_markdown(path, ctx);
-                self.add_code_pane_via_layout(pane, target_layout, false, ctx);
+                let pane = if preview {
+                    CodePane::new_markdown_preview(path, ctx)
+                } else {
+                    CodePane::new_markdown(path, ctx)
+                };
+                self.add_code_pane_via_layout(pane, target_layout, preview, ctx);
             }
         }
     }
@@ -9279,6 +9293,7 @@ impl Workspace {
                         range_start: None,
                         range_end: None,
                     },
+                    false,
                     ctx,
                 );
             }
@@ -14336,6 +14351,7 @@ impl Workspace {
                         range_start: None,
                         range_end: None,
                     },
+                    false,
                     ctx,
                 );
             }
@@ -20208,6 +20224,7 @@ impl TypedActionView for Workspace {
                             range_start: None,
                             range_end: None,
                         },
+                        false,
                         ctx,
                     );
                 }
@@ -20259,6 +20276,7 @@ impl TypedActionView for Workspace {
                             range_start: None,
                             range_end: None,
                         },
+                        false,
                         ctx,
                     );
                 }

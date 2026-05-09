@@ -56,6 +56,7 @@ use crate::util::openable_file_type::{is_file_content_binary, EditorLayout, File
 use crate::util::openable_file_type::{
     resolve_file_target_to_open_in_warp, resolve_file_target_with_editor_choice,
 };
+use crate::workspace::tab_settings::TabSettings;
 use crate::{
     appearance::Appearance,
     menu::{Menu, MenuItem, MenuItemFields},
@@ -2228,10 +2229,19 @@ impl FileTreeView {
             ctx
         );
 
+        let preview = editor_layout.is_none()
+            && matches!(
+                target,
+                FileTarget::CodeEditor(_) | FileTarget::MarkdownViewer(_)
+            )
+            && *TabSettings::as_ref(ctx).group_opened_files_into_tabs
+            && *TabSettings::as_ref(ctx).preview_opened_files_in_tabs;
+
         ctx.emit(FileTreeEvent::OpenFile {
             path: path.to_path_buf(),
             target,
             line_col: None,
+            preview,
         });
     }
 
@@ -2879,6 +2889,7 @@ pub enum FileTreeEvent {
         path: PathBuf,
         target: FileTarget,
         line_col: Option<LineAndColumnArg>,
+        preview: bool,
     },
     #[cfg_attr(not(feature = "local_fs"), allow(dead_code))]
     FileRenamed {

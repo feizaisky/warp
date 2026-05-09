@@ -54,10 +54,11 @@ use crate::window_settings::{
 };
 use crate::workspace::header_toolbar_editor::HeaderToolbarInlineEditor;
 use crate::workspace::tab_settings::{
-    DirectoryTabColor, GroupOpenedFilesIntoTabs, PreserveActiveTabColor, ShowCodeReviewButton,
-    ShowIndicatorsButton, ShowVerticalTabPanelInRestoredWindows, TabCloseButtonPosition,
-    TabSettings, TabSettingsChangedEvent, UseLatestUserPromptAsConversationTitleInTabNames,
-    UseVerticalTabs, WorkspaceDecorationVisibility,
+    DirectoryTabColor, GroupOpenedFilesIntoTabs, PreserveActiveTabColor, PreviewOpenedFilesInTabs,
+    ShowCodeReviewButton, ShowIndicatorsButton, ShowVerticalTabPanelInRestoredWindows,
+    TabCloseButtonPosition, TabSettings, TabSettingsChangedEvent,
+    UseLatestUserPromptAsConversationTitleInTabNames, UseVerticalTabs,
+    WorkspaceDecorationVisibility,
 };
 use crate::workspace::WorkspaceAction;
 use crate::{editor::EditorView, themes::theme_chooser::ThemeChooserMode};
@@ -460,6 +461,7 @@ pub enum AppearancePageAction {
     ToggleShowCodeReviewButton,
     TogglePreserveActiveTabColor,
     ToggleGroupOpenedFilesIntoTabs,
+    TogglePreviewOpenedFilesInTabs,
     ToggleVerticalTabs,
     ToggleShowVerticalTabPanelInRestoredWindows,
     ToggleUseLatestUserPromptAsConversationTitleInTabNames,
@@ -600,6 +602,7 @@ impl TypedActionView for AppearanceSettingsPageView {
             ToggleShowCodeReviewButton => self.toggle_show_code_review_button(ctx),
             TogglePreserveActiveTabColor => self.toggle_preserve_active_tab_color(ctx),
             ToggleGroupOpenedFilesIntoTabs => self.toggle_group_opened_files_into_tabs(ctx),
+            TogglePreviewOpenedFilesInTabs => self.toggle_preview_opened_files_in_tabs(ctx),
             ToggleVerticalTabs => self.toggle_vertical_tabs(ctx),
             ToggleShowVerticalTabPanelInRestoredWindows => {
                 self.toggle_show_vertical_tab_panel_in_restored_windows(ctx)
@@ -1387,6 +1390,7 @@ impl AppearanceSettingsPageView {
         }
         tab_settings_widgets.push(Box::new(PreserveActiveTabColorWidget::default()));
         tab_settings_widgets.push(Box::new(GroupOpenedFilesIntoTabsWidget::default()));
+        tab_settings_widgets.push(Box::new(PreviewOpenedFilesInTabsWidget::default()));
 
         if FeatureFlag::VerticalTabs.is_enabled() {
             tab_settings_widgets.push(Box::new(VerticalTabsWidget::default()));
@@ -2333,6 +2337,28 @@ impl AppearanceSettingsPageView {
         ctx.update_model(&tab_settings, move |tab_settings, ctx| {
             report_if_error!(tab_settings
                 .group_opened_files_into_tabs
+                .set_value(new_value, ctx));
+        });
+    }
+
+    fn toggle_preview_opened_files_in_tabs(&mut self, ctx: &mut ViewContext<Self>) {
+        let tab_settings = TabSettings::handle(ctx);
+        if !*tab_settings
+            .as_ref(ctx)
+            .group_opened_files_into_tabs
+            .value()
+        {
+            return;
+        }
+
+        let new_value = !*tab_settings
+            .as_ref(ctx)
+            .preview_opened_files_in_tabs
+            .value();
+
+        ctx.update_model(&tab_settings, move |tab_settings, ctx| {
+            report_if_error!(tab_settings
+                .preview_opened_files_in_tabs
                 .set_value(new_value, ctx));
         });
     }
@@ -4616,6 +4642,51 @@ impl SettingsWidget for GroupOpenedFilesIntoTabsWidget {
                 })
                 .finish(),
             Some("打开多个文件时将它们归入同一个标签容器，而不是为每个文件创建独立面板。".into()),
+        )
+    }
+}
+
+#[derive(Default)]
+struct PreviewOpenedFilesInTabsWidget {
+    switch_state: SwitchStateHandle,
+}
+
+impl SettingsWidget for PreviewOpenedFilesInTabsWidget {
+    type View = AppearanceSettingsPageView;
+
+    fn search_terms(&self) -> &str {
+        "preview opened files tabs single tab vscode project explorer"
+    }
+
+    fn render(
+        &self,
+        view: &Self::View,
+        appearance: &Appearance,
+        app: &AppContext,
+    ) -> Box<dyn Element> {
+        let tab_settings = TabSettings::as_ref(app);
+
+        render_body_item::<AppearancePageAction>(
+            "单击文件时只保留一个预览标签页".into(),
+            None,
+            LocalOnlyIconState::for_setting(
+                PreviewOpenedFilesInTabs::storage_key(),
+                PreviewOpenedFilesInTabs::sync_to_cloud(),
+                &mut view.local_only_icon_tooltip_states.borrow_mut(),
+                app,
+            ),
+            (*tab_settings.group_opened_files_into_tabs).into(),
+            appearance,
+            appearance
+                .ui_builder()
+                .switch(self.switch_state.clone())
+                .check(*tab_settings.preview_opened_files_in_tabs)
+                .build()
+                .on_click(move |ctx, _, _| {
+                    ctx.dispatch_typed_action(AppearancePageAction::TogglePreviewOpenedFilesInTabs);
+                })
+                .finish(),
+            Some("开启后，在项目浏览器左键单击文件会复用当前预览标签；再单击其他文件会替换它。右键“在新标签页中打开”和“在新面板中打开”不受影响。".into()),
         )
     }
 }

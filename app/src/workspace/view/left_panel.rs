@@ -86,6 +86,7 @@ pub enum LeftPanelEvent {
         path: PathBuf,
         target: FileTarget,
         line_col: Option<LineAndColumnArg>,
+        preview: bool,
     },
     NewConversationInNewTab,
     ShowDeleteConfirmationDialog {
@@ -731,6 +732,7 @@ impl LeftPanelView {
                     path: path.clone(),
                     target,
                     line_col: Some(line_col),
+                    preview: false,
                 });
             }
         }
@@ -759,11 +761,13 @@ impl LeftPanelView {
                 path,
                 target,
                 line_col,
+                preview,
             } => {
                 ctx.emit(LeftPanelEvent::OpenFileWithTarget {
                     path: path.clone(),
                     target: target.clone(),
                     line_col: *line_col,
+                    preview: *preview,
                 });
             }
             FileTreeEvent::CDToDirectory { path } => {

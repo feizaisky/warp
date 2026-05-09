@@ -59,6 +59,16 @@ impl CodePane {
         Self::from_view(view, ctx)
     }
 
+    #[cfg(feature = "local_fs")]
+    pub fn new_markdown_preview<V: View>(
+        path: std::path::PathBuf,
+        ctx: &mut ViewContext<V>,
+    ) -> Self {
+        let view =
+            ctx.add_typed_action_view(move |ctx| CodeView::new_for_markdown_preview(path, ctx));
+        Self::from_view(view, ctx)
+    }
+
     pub fn file_view(&self, ctx: &AppContext) -> ViewHandle<CodeView> {
         self.view.as_ref(ctx).child(ctx)
     }

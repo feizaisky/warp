@@ -320,6 +320,16 @@ impl CodeView {
         view
     }
 
+    /// Construct a CodeView whose only initial tab is a Markdown preview tab.
+    #[cfg(feature = "local_fs")]
+    pub fn new_for_markdown_preview(path: PathBuf, ctx: &mut ViewContext<Self>) -> Self {
+        let source = CodeSource::FileTree { path: path.clone() };
+        let mut view = Self::new_internal(source, ctx);
+        view.open_markdown_preview_or_promote(path, ctx);
+        view.update_markdown_mode_segmented_control(ctx);
+        view
+    }
+
     #[cfg(feature = "local_fs")]
     fn update_markdown_mode_segmented_control(&mut self, ctx: &mut ViewContext<Self>) {
         let path = self
@@ -794,10 +804,36 @@ impl CodeView {
             return;
         }
 
-        let tab = self.build_markdown_tab_data(path, ctx);
+        let tab = self.build_markdown_tab_data(path, false, ctx);
         self.tab_group.push(tab);
         self.active_tab_index = self.tab_group.len() - 1;
         self.update_tab_bar_state(ctx);
+        self.update_markdown_mode_segmented_control(ctx);
+        ctx.notify();
+    }
+
+    #[cfg(feature = "local_fs")]
+    pub fn open_markdown_preview_or_promote(&mut self, path: PathBuf, ctx: &mut ViewContext<Self>) {
+        let path_opt = Some(path.clone());
+        if let Some(existing_index) = self.focus_existing_tab_if_present(&path_opt, ctx) {
+            self.set_active_tab_index(existing_index, ctx);
+            self.promote_if_preview(ctx);
+            return;
+        }
+
+        let tab = self.build_markdown_tab_data(path.clone(), true, ctx);
+        if let Some((preview_index, _)) = self.preview_tab() {
+            self.tab_group[preview_index] = tab;
+            GlobalBufferModel::handle(ctx).update(ctx, |model, ctx| {
+                model.remove_deallocated_buffers(ctx);
+            });
+            self.set_active_tab_index(preview_index, ctx);
+        } else {
+            self.tab_group.push(tab);
+            self.active_tab_index = self.tab_group.len() - 1;
+            self.update_tab_bar_state(ctx);
+        }
+
         self.update_markdown_mode_segmented_control(ctx);
         ctx.notify();
     }
@@ -806,7 +842,12 @@ impl CodeView {
     /// `path`. Wires RunWorkflow forwarding so "run in terminal" buttons in
     /// the rendered markdown reach the surrounding workspace.
     #[cfg(feature = "local_fs")]
-    fn build_markdown_tab_data(&mut self, path: PathBuf, ctx: &mut ViewContext<Self>) -> TabData {
+    fn build_markdown_tab_data(
+        &mut self,
+        path: PathBuf,
+        preview: bool,
+        ctx: &mut ViewContext<Self>,
+    ) -> TabData {
         // Mirror FilePane::new's behavior: prefer the active local session if available,
         // otherwise the FileNotebookView will wait for one to become active.
         let session = ActiveSession::as_ref(ctx)
@@ -838,7 +879,7 @@ impl CodeView {
             path: Some(path),
             content: TabContent::Markdown(notebook_view),
             mouse_state_handles: TabDataMouseStateHandles::default(),
-            preview: false,
+            preview,
         }
     }
 
@@ -879,7 +920,7 @@ impl CodeView {
         let Some(path) = tab.path() else {
             return;
         };
-        let new_tab = self.build_markdown_tab_data(path, ctx);
+        let new_tab = self.build_markdown_tab_data(path, false, ctx);
         if let Some(slot) = self.tab_group.get_mut(self.active_tab_index) {
             *slot = new_tab;
         }

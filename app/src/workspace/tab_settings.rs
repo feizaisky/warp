@@ -480,6 +480,15 @@ define_settings_group!(TabSettings, settings: [
         toml_path: "appearance.tabs.group_opened_files_into_tabs",
         description: "Whether to group opened files into tabs.",
     },
+    preview_opened_files_in_tabs: PreviewOpenedFilesInTabs {
+        type: bool,
+        default: false,
+        supported_platforms: SupportedPlatforms::ALL,
+        sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
+        private: false,
+        toml_path: "appearance.tabs.preview_opened_files_in_tabs",
+        description: "Whether files opened from the project explorer should reuse one preview tab.",
+    },
     use_vertical_tabs: UseVerticalTabs {
         type: bool,
         default: false,
