@@ -19,7 +19,7 @@ use warp_util::standardized_path::StandardizedPath;
 use repo_metadata::repositories::DetectedRepositories;
 use warp_core::send_telemetry_from_ctx;
 use warpui::elements::{
-    AcceptedByDropTarget, Align, Clipped, ConstrainedBox, Container, Dismiss, Draggable,
+    AcceptedByDropTarget, Align, Border, Clipped, ConstrainedBox, Container, Dismiss, Draggable,
     DraggableState, Empty, FormattedTextElement, MainAxisAlignment, Percentage, Rect, SavePosition,
     Scrollable, Shrinkable,
 };
@@ -257,6 +257,10 @@ pub struct FileTreeView {
     is_active: bool,
     /// Identifier of the currently selected item
     selected_item: Option<FileTreeIdentifier>,
+    /// Identifier of the file that is currently open in the active editor.
+    /// Tracked separately from `selected_item` so the highlight survives
+    /// when the user keyboard-navigates to a different row in the tree.
+    open_file_id: Option<FileTreeIdentifier>,
     /// State for the UniformList
     list_state: UniformListState,
     /// Scroll state handle for the NewScrollable wrapper
@@ -687,6 +691,7 @@ impl FileTreeView {
             #[cfg(feature = "local_fs")]
             is_active: false,
             selected_item: None,
+            open_file_id: None,
             list_state: UniformListState::new(),
             scroll_state: ScrollStateHandle::default(),
             view_handle: ctx.handle(),
@@ -788,6 +793,10 @@ impl FileTreeView {
                     root: repository_root.clone(),
                     index,
                 };
+                // Remember which row corresponds to the currently-open file
+                // so the row keeps its accent indicator even after the user
+                // keyboard-navigates the selection elsewhere in the tree.
+                self.open_file_id = Some(id.clone());
                 self.select_id(&id, ctx);
             }
         }
@@ -1933,6 +1942,7 @@ impl FileTreeView {
         };
 
         let is_selected = self.selected_item.as_ref() == Some(id);
+        let is_open_in_editor = self.open_file_id.as_ref() == Some(id);
         let is_expanded = self.is_item_expanded(&id.root, item);
         let render_state = item.to_render_state(is_expanded, appearance);
         let is_remote_file = root_dir.is_remote() && matches!(item, FileTreeItem::File { .. });
@@ -2059,7 +2069,18 @@ impl FileTreeView {
             .with_keep_original_visible(true)
             .finish();
 
-        SavePosition::new(draggable, item_position_id.as_str()).finish()
+        let positioned = SavePosition::new(draggable, item_position_id.as_str()).finish();
+
+        // Show a left-edge accent bar for the file currently open in the
+        // active editor — but defer to the keyboard "selected" highlight when
+        // both apply, so the two indicators don't pile up on the same row.
+        if is_open_in_editor && !is_selected {
+            Container::new(positioned)
+                .with_border(Border::left(2.).with_border_fill(appearance.theme().accent()))
+                .finish()
+        } else {
+            positioned
+        }
     }
 
     fn selected_item_std_path(&self) -> Option<StandardizedPath> {
