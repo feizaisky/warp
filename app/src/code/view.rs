@@ -19,6 +19,7 @@ use crate::terminal::cli_agent::{
     build_selection_line_range_prompt, build_selection_substring_prompt,
 };
 use crate::terminal::view::CliAgentRouting;
+use crate::workflows::{WorkflowSource, WorkflowType};
 use crate::workspace::util::get_context_target_terminal_view;
 use crate::workspace::TabBarDropTargetData;
 use crate::{code::EditorTabBarDropTargetData, pane_group::pane::ActionOrigin};
@@ -28,6 +29,7 @@ use pathfinder_geometry::rect::RectF;
 use pathfinder_geometry::vector::vec2f;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
+use std::sync::Arc;
 use warp_core::channel::{Channel, ChannelState};
 use warp_core::features::FeatureFlag;
 use warp_core::ui::appearance::Appearance;
@@ -190,6 +192,13 @@ pub enum CodeViewEvent {
     OpenLspLogs {
         log_path: PathBuf,
     },
+    /// Forwarded from a Markdown tab's FileNotebookView when the user clicks
+    /// "run in terminal" on a shell code block.
+    #[cfg(feature = "local_fs")]
+    RunWorkflow {
+        workflow: Arc<WorkflowType>,
+        source: WorkflowSource,
+    },
 }
 
 #[derive(Default, Clone)]
@@ -295,6 +304,18 @@ impl CodeView {
         view
     }
 
+    /// Construct a CodeView whose only initial tab is a Markdown preview of
+    /// `path`. Skips the empty "untitled" code-editor tab that `CodeView::new`
+    /// would create when handed a path-less source.
+    #[cfg(feature = "local_fs")]
+    pub fn new_for_markdown(path: PathBuf, ctx: &mut ViewContext<Self>) -> Self {
+        let source = CodeSource::FileTree { path: path.clone() };
+        let mut view = Self::new_internal(source, ctx);
+        view.open_markdown_tab(path, ctx);
+        view.update_markdown_mode_segmented_control(ctx);
+        view
+    }
+
     #[cfg(feature = "local_fs")]
     fn update_markdown_mode_segmented_control(&mut self, ctx: &mut ViewContext<Self>) {
         let path = self
@@ -313,22 +334,35 @@ impl CodeView {
             return;
         }
 
+        // Initial mode reflects the active tab's actual content variant so
+        // the toggle visual matches what the user sees.
+        let active_mode = if self
+            .tab_at(self.active_tab_index)
+            .is_some_and(|t| t.content().is_markdown())
+        {
+            MarkdownDisplayMode::Rendered
+        } else {
+            MarkdownDisplayMode::Raw
+        };
+
         if self.markdown_mode_segmented_control.is_none() {
-            let handle = ctx.add_typed_action_view(|ctx| {
-                MarkdownToggleView::new(MarkdownDisplayMode::Raw, ctx)
-            });
+            let handle = ctx.add_typed_action_view(|ctx| MarkdownToggleView::new(active_mode, ctx));
 
             ctx.subscribe_to_view(&handle, |view, _, event, ctx| {
                 let MarkdownToggleEvent::ModeSelected(mode) = event;
                 match mode {
-                    MarkdownDisplayMode::Rendered => {
-                        view.handle_action(&CodeViewAction::RenderMarkdown, ctx);
-                    }
-                    MarkdownDisplayMode::Raw => {}
+                    MarkdownDisplayMode::Rendered => view.swap_active_tab_to_markdown(ctx),
+                    MarkdownDisplayMode::Raw => view.swap_active_tab_to_code(ctx),
                 }
             });
 
             self.markdown_mode_segmented_control = Some(handle);
+        } else if let Some(handle) = self.markdown_mode_segmented_control.clone() {
+            // Keep the toggle's selected mode in sync with the active tab's
+            // current variant (e.g. after a swap or tab change).
+            handle.update(ctx, |toggle, ctx| {
+                toggle.set_selected_mode(active_mode, ctx)
+            });
         }
 
         ctx.notify();
@@ -673,11 +707,13 @@ impl CodeView {
     }
 
     pub fn focus(&self, ctx: &mut ViewContext<Self>) {
-        if let Some(editor) = self
-            .tab_at(self.active_tab_index)
-            .and_then(|tab| tab.editor_view())
-        {
-            ctx.focus(editor);
+        let Some(tab) = self.tab_at(self.active_tab_index) else {
+            return;
+        };
+        match tab.content() {
+            TabContent::Code(view) => ctx.focus(view),
+            #[cfg(feature = "local_fs")]
+            TabContent::Markdown(view) => ctx.focus(view),
         }
     }
 
@@ -754,26 +790,95 @@ impl CodeView {
             return;
         }
 
+        let tab = self.build_markdown_tab_data(path, ctx);
+        self.tab_group.push(tab);
+        self.active_tab_index = self.tab_group.len() - 1;
+        self.update_tab_bar_state(ctx);
+        self.update_markdown_mode_segmented_control(ctx);
+        ctx.notify();
+    }
+
+    /// Build a `TabData` whose content is a `FileNotebookView` rendering of
+    /// `path`. Wires RunWorkflow forwarding so "run in terminal" buttons in
+    /// the rendered markdown reach the surrounding workspace.
+    #[cfg(feature = "local_fs")]
+    fn build_markdown_tab_data(&mut self, path: PathBuf, ctx: &mut ViewContext<Self>) -> TabData {
         // Mirror FilePane::new's behavior: prefer the active local session if available,
         // otherwise the FileNotebookView will wait for one to become active.
         let session = ActiveSession::as_ref(ctx)
             .session(ctx.window_id())
             .filter(|session| session.is_local());
 
+        let notebook_path = path.clone();
         let notebook_view = ctx.add_typed_action_view(|ctx| {
             let mut view = crate::notebooks::file::FileNotebookView::new(ctx);
-            view.open_local(path.clone(), session, ctx);
+            view.open_local(notebook_path, session, ctx);
             view
         });
 
-        let tab = TabData {
+        // Forward "run in terminal" / RunWorkflow clicks from the notebook
+        // viewer up through CodeView so the surrounding CodePane can route
+        // them to the workspace.
+        ctx.subscribe_to_view(&notebook_view, |_view, _, event, ctx| {
+            if let crate::notebooks::file::FileNotebookEvent::RunWorkflow { workflow, source } =
+                event
+            {
+                ctx.emit(CodeViewEvent::RunWorkflow {
+                    workflow: workflow.clone(),
+                    source: *source,
+                });
+            }
+        });
+
+        TabData {
             path: Some(path),
             content: TabContent::Markdown(notebook_view),
             mouse_state_handles: TabDataMouseStateHandles::default(),
             preview: false,
+        }
+    }
+
+    /// Swap the active tab's content from Markdown rendering to a raw code
+    /// editor (or no-op if it's already a code tab). Driven by the
+    /// "渲染结果 / 原始内容" toggle.
+    #[cfg(feature = "local_fs")]
+    pub fn swap_active_tab_to_code(&mut self, ctx: &mut ViewContext<Self>) {
+        let Some(tab) = self.tab_at(self.active_tab_index) else {
+            return;
         };
-        self.tab_group.push(tab);
-        self.active_tab_index = self.tab_group.len() - 1;
+        if !tab.content().is_markdown() {
+            return;
+        }
+        let Some(path) = tab.path() else {
+            return;
+        };
+        let preview = tab.preview;
+        let new_tab = self.build_tab_data(Some(path), preview, ctx);
+        if let Some(slot) = self.tab_group.get_mut(self.active_tab_index) {
+            *slot = new_tab;
+        }
+        self.update_tab_bar_state(ctx);
+        self.update_markdown_mode_segmented_control(ctx);
+        ctx.notify();
+    }
+
+    /// Inverse of `swap_active_tab_to_code`: replace a code-editor tab over
+    /// a markdown file with the rendered Markdown viewer.
+    #[cfg(feature = "local_fs")]
+    pub fn swap_active_tab_to_markdown(&mut self, ctx: &mut ViewContext<Self>) {
+        let Some(tab) = self.tab_at(self.active_tab_index) else {
+            return;
+        };
+        if tab.content().is_markdown() {
+            return;
+        }
+        let Some(path) = tab.path() else {
+            return;
+        };
+        let new_tab = self.build_markdown_tab_data(path, ctx);
+        if let Some(slot) = self.tab_group.get_mut(self.active_tab_index) {
+            *slot = new_tab;
+        }
         self.update_tab_bar_state(ctx);
         self.update_markdown_mode_segmented_control(ctx);
         ctx.notify();

@@ -77,7 +77,6 @@ use crate::default_terminal::DefaultTerminal;
 use crate::notebooks::CloudNotebook;
 use crate::notification::NotificationContext;
 use crate::pane_group::pane::ActionOrigin;
-use crate::pane_group::pane::PaneContent;
 use crate::projects::ProjectManagementModel;
 use crate::settings_view::mcp_servers_page::MCPServersSettingsPage;
 use crate::terminal::enable_auto_reload_modal::{
@@ -7539,28 +7538,11 @@ impl Workspace {
                 self.add_code_pane_via_layout(pane, target_layout, preview, ctx);
             }
             FileKind::Markdown => {
-                // Create an empty CodePane (no source) then immediately add
-                // the markdown tab. We use CodeSource::New so no editor tab is
-                // created at construction.
-                let pane = CodePane::new(
-                    CodeSource::New {
-                        default_directory: None,
-                    },
-                    None,
-                    ctx,
-                );
-                let pane_view_id = pane.id();
-                // Markdown ignores preview semantics.
+                // Build a markdown-only CodePane directly so we never flash the
+                // empty "untitled" editor tab that a CodeSource::New seed would
+                // produce.
+                let pane = CodePane::new_markdown(path, ctx);
                 self.add_code_pane_via_layout(pane, target_layout, false, ctx);
-                if let Some(code_view) = self
-                    .active_tab_pane_group()
-                    .as_ref(ctx)
-                    .code_view_from_pane_id(pane_view_id, ctx)
-                {
-                    code_view.update(ctx, |view, ctx| {
-                        view.open_markdown_tab(path, ctx);
-                    });
-                }
             }
         }
     }

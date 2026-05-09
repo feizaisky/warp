@@ -50,6 +50,15 @@ impl CodePane {
         Self::from_view(view, ctx)
     }
 
+    /// Build a CodePane whose first (and only) tab is a Markdown preview of
+    /// `path`. Avoids the empty editor tab that `CodePane::new` would create
+    /// when seeded with `CodeSource::New`.
+    #[cfg(feature = "local_fs")]
+    pub fn new_markdown<V: View>(path: std::path::PathBuf, ctx: &mut ViewContext<V>) -> Self {
+        let view = ctx.add_typed_action_view(move |ctx| CodeView::new_for_markdown(path, ctx));
+        Self::from_view(view, ctx)
+    }
+
     pub fn file_view(&self, ctx: &AppContext) -> ViewHandle<CodeView> {
         self.view.as_ref(ctx).child(ctx)
     }
@@ -162,6 +171,16 @@ impl PaneContent for CodePane {
                 }
                 #[cfg(target_family = "wasm")]
                 CodeViewEvent::OpenLspLogs { .. } => {}
+                #[cfg(feature = "local_fs")]
+                CodeViewEvent::RunWorkflow { workflow, source } => {
+                    ctx.emit(crate::pane_group::Event::RunWorkflow {
+                        workflow: workflow.clone(),
+                        workflow_source: *source,
+                        workflow_selection_source:
+                            crate::workflows::WorkflowSelectionSource::Notebook,
+                        argument_override: None,
+                    });
+                }
             },
         );
 
