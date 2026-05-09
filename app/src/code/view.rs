@@ -241,13 +241,13 @@ impl TabData {
         &self.content
     }
 
-    /// Backward-compat accessor for code editors only. Panics on Markdown tabs —
-    /// callers must check first via `content().is_markdown()`.
-    pub fn editor_view(&self) -> &ViewHandle<LocalCodeEditorView> {
+    /// Returns the local code editor view, or `None` for non-code tabs
+    /// (e.g. Markdown previews, which have no editor).
+    pub fn editor_view(&self) -> Option<&ViewHandle<LocalCodeEditorView>> {
         match &self.content {
-            TabContent::Code(v) => v,
+            TabContent::Code(v) => Some(v),
             #[cfg(feature = "local_fs")]
-            TabContent::Markdown(_) => panic!("editor_view() called on a Markdown tab"),
+            TabContent::Markdown(_) => None,
         }
     }
 }
@@ -597,7 +597,7 @@ impl CodeView {
                 me.open_or_focus_existing(Some(path.to_path_buf()), Some(line_col), ctx);
                 if let Some(editor) = me
                     .tab_at(me.active_tab_index())
-                    .map(|tab| tab.editor_view())
+                    .and_then(|tab| tab.editor_view())
                 {
                     editor.update(ctx, |editor, ctx| {
                         editor.cursor_at(Point::new(line_1based as u32, *column as u32), ctx);
@@ -648,17 +648,19 @@ impl CodeView {
     /// Gets the selected text from the active tab's editor, if any.
     pub fn selected_text(&self, ctx: &AppContext) -> Option<String> {
         self.tab_at(self.active_tab_index).and_then(|tab| {
-            let editor = tab.editor_view().as_ref(ctx).editor();
+            let editor = tab.editor_view()?.as_ref(ctx).editor();
             editor.as_ref(ctx).selected_text(ctx)
         })
     }
 
     pub fn local_path(&self, ctx: &AppContext) -> Option<PathBuf> {
         self.tab_at(self.active_tab_index).and_then(|t| {
-            if t.content().is_markdown() {
+            // For non-code tabs (e.g. Markdown previews) fall back to the
+            // tab's recorded path since there is no editor file_id.
+            let Some(editor) = t.editor_view() else {
                 return t.path();
-            }
-            t.editor_view().as_ref(ctx).file_id().and_then(|file_id| {
+            };
+            editor.as_ref(ctx).file_id().and_then(|file_id| {
                 GlobalBufferModel::as_ref(ctx)
                     .file_path(file_id)
                     .map(|p| p.to_path_buf())
@@ -671,11 +673,11 @@ impl CodeView {
     }
 
     pub fn focus(&self, ctx: &mut ViewContext<Self>) {
-        if let Some(tab) = self.tab_at(self.active_tab_index) {
-            if tab.content().is_markdown() {
-                return;
-            }
-            ctx.focus(&tab.editor_view());
+        if let Some(editor) = self
+            .tab_at(self.active_tab_index)
+            .and_then(|tab| tab.editor_view())
+        {
+            ctx.focus(editor);
         }
     }
 
@@ -824,9 +826,13 @@ impl CodeView {
         let Some(tab) = self.tab_group.get(tab_index) else {
             return;
         };
+        let Some(editor) = tab.editor_view() else {
+            // Markdown previews don't support line/column jumps.
+            return;
+        };
 
         let position = ScrollPosition::LineAndColumn(line_col);
-        tab.editor_view().update(ctx, |editor, ctx| {
+        editor.update(ctx, |editor, ctx| {
             editor.set_pending_scroll(position, ctx);
         });
     }
@@ -858,9 +864,11 @@ impl CodeView {
 
             // For GlobalBuffer path, set_pending_scroll handles the case where the file
             // hasn't finished loading yet by deferring the scroll until FileLoaded.
-            tab.editor_view().update(ctx, |editor, ctx| {
-                editor.set_pending_scroll(scroll_position, ctx);
-            });
+            if let Some(editor) = tab.editor_view() {
+                editor.update(ctx, |editor, ctx| {
+                    editor.set_pending_scroll(scroll_position, ctx);
+                });
+            }
         }
 
         self.set_active_tab_index(active_tab_index, ctx);
@@ -869,9 +877,10 @@ impl CodeView {
     /// Set the title of the pane, which is the file path.
     fn set_title(&self, _unsaved_changes: bool, ctx: &mut ViewContext<Self>) {
         let file = self.local_path(ctx);
-        let is_new = self.tab_at(self.active_tab_index).is_some_and(|t| {
-            !t.content().is_markdown() && t.editor_view().as_ref(ctx).is_new_file()
-        });
+        let is_new = self
+            .tab_at(self.active_tab_index)
+            .and_then(|t| t.editor_view())
+            .is_some_and(|editor| editor.as_ref(ctx).is_new_file());
 
         let title = if let Some(file) = file {
             file.display().to_string()
@@ -903,11 +912,9 @@ impl CodeView {
         // Other errors could be returned asynchronously via the FileModelEvent::FailedToSave event.
         let result = self
             .tab_at(index)
-            .map(|tab| {
-                tab.editor_view()
-                    .update(ctx, |code_diff, ctx| code_diff.save_local(ctx))
-            })
-            .unwrap_or_else(|| Err(ImmediateSaveError::NoActiveFileTab));
+            .and_then(|tab| tab.editor_view())
+            .map(|editor| editor.update(ctx, |code_diff, ctx| code_diff.save_local(ctx)))
+            .unwrap_or(Err(ImmediateSaveError::NoActiveFileTab));
 
         // This will only return an error immediately if there is a failure in the sync part of the call.
         // Other errors could be returned asynchronously via the FileModelEvent::FailedToSave event.
@@ -939,9 +946,9 @@ impl CodeView {
         callback: Option<SaveCallback>,
         ctx: &mut ViewContext<Self>,
     ) -> SaveStatus {
-        if let Some(tab) = self.tab_at(index) {
+        if let Some(editor) = self.tab_at(index).and_then(|tab| tab.editor_view()) {
             let view_handle = ctx.handle().clone();
-            tab.editor_view().update(ctx, |editor, ctx| match callback {
+            editor.update(ctx, |editor, ctx| match callback {
                 Some(cb) => {
                     editor.save_as(
                         Some(Box::new(move |outcome, ctx| {
@@ -1017,11 +1024,8 @@ impl CodeView {
     }
 
     fn has_unsaved_changes(tab: &TabData, ctx: &AppContext) -> bool {
-        if tab.content().is_markdown() {
-            return false;
-        }
-        let local_editor = tab.editor_view().as_ref(ctx);
-        local_editor.has_unsaved_changes(ctx)
+        tab.editor_view()
+            .is_some_and(|editor| editor.as_ref(ctx).has_unsaved_changes(ctx))
     }
 
     /// Check whether there are unsaved changes and reset the pane title accordingly.
@@ -1033,14 +1037,11 @@ impl CodeView {
     /// This is needed after save_as operations to keep the paths in sync.
     fn sync_active_tab_path(&mut self, ctx: &mut ViewContext<Self>) {
         if let Some(tab) = self.tab_group.get_mut(self.active_tab_index) {
-            if tab.content().is_markdown() {
+            let Some(editor) = tab.editor_view() else {
+                // Markdown tabs can't be saved-as; nothing to sync.
                 return;
-            }
-            let new_path = tab
-                .editor_view()
-                .as_ref(ctx)
-                .file_path()
-                .map(|p| p.to_path_buf());
+            };
+            let new_path = editor.as_ref(ctx).file_path().map(|p| p.to_path_buf());
             tab.path = new_path;
         }
     }
@@ -1158,9 +1159,11 @@ impl CodeView {
 
     pub fn close_overlays(&mut self, ctx: &mut ViewContext<Self>) {
         for tab in self.tab_group.iter() {
-            tab.editor_view().update(ctx, |editor, ctx| {
-                editor.close_find_bar(false, ctx);
-            })
+            if let Some(editor) = tab.editor_view() {
+                editor.update(ctx, |editor, ctx| {
+                    editor.close_find_bar(false, ctx);
+                });
+            }
         }
     }
 
@@ -1376,7 +1379,12 @@ impl CodeView {
         for tab in self.tab_group.iter_mut() {
             if tab.path.as_ref().is_some_and(|path| path == old_path) {
                 tab.path = Some(new_path.to_path_buf());
-                tab.editor_view().update(ctx, |editor, ctx| {
+                let Some(editor) = tab.editor_view() else {
+                    // Markdown tabs have no editor buffer to remap; the path
+                    // update above is sufficient.
+                    continue;
+                };
+                editor.update(ctx, |editor, ctx| {
                     let was_unsaved = editor.has_unsaved_changes(ctx);
 
                     // Remap the buffer from old_path to new_path via GlobalBufferModel,
@@ -2150,8 +2158,11 @@ impl TypedActionView for CodeView {
                 }
 
                 // Accepts the diff and marks it complete.
-                if let Some(tab) = self.tab_at(self.active_tab_index) {
-                    tab.editor_view().update(ctx, |code_diff, ctx| {
+                if let Some(editor) = self
+                    .tab_at(self.active_tab_index)
+                    .and_then(|tab| tab.editor_view())
+                {
+                    editor.update(ctx, |code_diff, ctx| {
                         code_diff.accept_diff(ctx);
                     });
                 }
@@ -2172,8 +2183,11 @@ impl TypedActionView for CodeView {
                     return;
                 }
 
-                if let Some(tab) = self.tab_at(self.active_tab_index) {
-                    tab.editor_view().update(ctx, |code_diff, ctx| {
+                if let Some(editor) = self
+                    .tab_at(self.active_tab_index)
+                    .and_then(|tab| tab.editor_view())
+                {
+                    editor.update(ctx, |code_diff, ctx| {
                         code_diff.reject_diff(ctx);
                     });
                 }
